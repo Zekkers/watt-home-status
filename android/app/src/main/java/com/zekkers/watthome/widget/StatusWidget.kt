@@ -1,6 +1,7 @@
 package com.zekkers.watthome.widget
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -9,7 +10,9 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalSize
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.provideContent
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
@@ -24,11 +27,14 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.data.HomeStatus
+import com.zekkers.watthome.data.PowerUpLayout
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusRepository
 import com.zekkers.watthome.worker.StatusRefreshScheduler
 
 class StatusWidget : GlanceAppWidget() {
+    override val sizeMode: SizeMode = SizeMode.Exact
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
@@ -49,6 +55,15 @@ class StatusWidget : GlanceAppWidget() {
 @Composable
 private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
     val hasCurve = StatusFormatter.hasTodayCurve(status)
+    val density = Resources.getSystem().displayMetrics.density
+    val innerWidth = LocalSize.current.width.value - 24f
+    val clock = PowerUpLayout.clock(status?.nextPowerUp)
+    val clockMode = PowerUpLayout.wide(
+        powerUp = status?.nextPowerUp,
+        availableDp = innerWidth,
+        timeSp = 12f,
+        density = density
+    )
     Column(
         modifier = GlanceModifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,
@@ -87,10 +102,11 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
             style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
             maxLines = 1
         )
-        Text(
-            text = StatusFormatter.powerUpSpokenWindow(status?.nextPowerUp),
-            style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
-            maxLines = 1
+        PowerUpClockBlock(
+            clock = clock,
+            mode = clockMode,
+            fontSize = 12.sp,
+            showBolt = false
         )
         Spacer(GlanceModifier.height(6.dp))
         Image(

@@ -46,6 +46,10 @@ object SparklineRenderer {
             drawGrid(canvas, plot.top, plot.width(), plot.height(), plot.left)
             return bitmap
         }
+        if (fillSlot && hasSoc) {
+            drawSoc(canvas, soc, plot.left, plot.top, plot.bottom, plot.width())
+            return bitmap
+        }
         if (hasSoc && hasWatts) {
             val socBottom = plot.top + plot.height() * 0.82f
             val wattsTop = plot.top + plot.height() * 0.86f

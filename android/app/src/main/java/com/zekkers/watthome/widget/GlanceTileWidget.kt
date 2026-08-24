@@ -1,6 +1,7 @@
 package com.zekkers.watthome.widget
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -9,37 +10,44 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalSize
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.provideContent
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.ContentScale
+import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
+import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusRepository
+import com.zekkers.watthome.data.WidgetTextMeasure
 import com.zekkers.watthome.worker.StatusRefreshScheduler
 
 class GlanceTileWidget : GlanceAppWidget() {
+    override val sizeMode: SizeMode = SizeMode.Exact
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
         val density = context.resources.displayMetrics.density
         val curve = SparklineRenderer.renderToday(
             status = status,
-            widthPx = (240 * density).toInt().coerceAtLeast(160),
-            heightPx = (170 * density).toInt().coerceAtLeast(120),
+            widthPx = (180 * density).toInt().coerceAtLeast(120),
+            heightPx = (200 * density).toInt().coerceAtLeast(120),
             fillSlot = true
         )
         provideContent {
-            WidgetCard {
+            WidgetCard(radius = 16.dp, padding = 8.dp) {
                 GlanceTileContent(status, curve)
             }
         }
@@ -50,28 +58,46 @@ class GlanceTileWidget : GlanceAppWidget() {
 private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
     val hasCurve = StatusFormatter.hasTodayCurve(status)
     val savings = StatusFormatter.savingsWidgetLine(status?.lastSavings)
+    val density = Resources.getSystem().displayMetrics.density
+    val innerWidth = LocalSize.current.width.value - 16f
+    val showSavings = savings != null &&
+        WidgetTextMeasure.fits(savings, 11f, innerWidth, density)
     Column(
         modifier = GlanceModifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,
         horizontalAlignment = Alignment.Start
     ) {
-        SessionHeader(status)
-        Spacer(GlanceModifier.height(6.dp))
-        Image(
-            provider = ImageProvider(curve),
-            contentDescription = "Today’s battery",
-            contentScale = ContentScale.FillBounds,
-            modifier = GlanceModifier.fillMaxWidth().defaultWeight()
-        )
-        if (!hasCurve) {
-            Spacer(GlanceModifier.height(4.dp))
-            Text(
-                text = "waiting for today’s curve",
-                style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
-                maxLines = 1
+        Row(
+            modifier = GlanceModifier.fillMaxWidth().defaultWeight(),
+            verticalAlignment = Alignment.Top
+        ) {
+            BatterySocStack(
+                status = status,
+                modifier = GlanceModifier.padding(end = 8.dp),
+                fillBoltCorner = false
             )
+            Column(
+                modifier = GlanceModifier.defaultWeight().fillMaxSize(),
+                verticalAlignment = Alignment.Top,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Image(
+                    provider = ImageProvider(curve),
+                    contentDescription = "Today’s battery",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = GlanceModifier.fillMaxWidth().defaultWeight()
+                )
+                if (!hasCurve) {
+                    Spacer(GlanceModifier.height(4.dp))
+                    Text(
+                        text = "waiting for today’s curve",
+                        style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
+                        maxLines = 1
+                    )
+                }
+            }
         }
-        if (savings != null) {
+        if (showSavings && savings != null) {
             Spacer(GlanceModifier.height(4.dp))
             Text(
                 text = savings,
