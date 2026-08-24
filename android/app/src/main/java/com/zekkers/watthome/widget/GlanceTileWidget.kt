@@ -47,14 +47,14 @@ class GlanceTileWidget : GlanceAppWidget() {
 @Composable
 private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
     val hasCurve = StatusFormatter.hasTodayCurve(status)
-    val savings = StatusFormatter.savingsBatchLine(status?.lastSavings)
+    val savings = StatusFormatter.savingsWidgetLine(status?.lastSavings)
     Column(modifier = GlanceModifier.fillMaxSize()) {
         SessionHeader(status)
         Spacer(GlanceModifier.height(8.dp))
         Image(
             provider = ImageProvider(curve),
             contentDescription = "Today’s battery",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Fit,
             modifier = GlanceModifier.fillMaxWidth().defaultWeight()
         )
         if (!hasCurve) {
@@ -66,12 +66,12 @@ private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
             )
         }
         if (savings != null) {
-            Spacer(GlanceModifier.height(6.dp))
+            Spacer(GlanceModifier.height(4.dp))
             Text(
                 text = savings,
                 style = TextStyle(
                     color = ColorProvider(Solar, Solar),
-                    fontSize = 14.sp,
+                    fontSize = 11.sp,
                     fontWeight = FontWeight.Medium
                 ),
                 maxLines = 1

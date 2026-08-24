@@ -35,8 +35,8 @@ class StatusWidget : GlanceAppWidget() {
         val density = context.resources.displayMetrics.density
         val curve = SparklineRenderer.renderToday(
             status = status,
-            widthPx = (280 * density).toInt().coerceAtLeast(180),
-            heightPx = (70 * density).toInt().coerceAtLeast(48)
+            widthPx = (260 * density).toInt().coerceAtLeast(180),
+            heightPx = (90 * density).toInt().coerceAtLeast(64)
         )
         provideContent {
             WidgetCard {
@@ -92,7 +92,7 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
         Image(
             provider = ImageProvider(curve),
             contentDescription = "Today’s battery",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Fit,
             modifier = GlanceModifier.fillMaxWidth().defaultWeight()
         )
         if (!hasCurve) {

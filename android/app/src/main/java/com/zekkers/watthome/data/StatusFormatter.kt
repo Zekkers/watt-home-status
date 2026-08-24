@@ -104,6 +104,12 @@ object StatusFormatter {
         return if (sessions != null) "$pounds · $sessions" else pounds
     }
 
+    fun savingsWidgetLine(savings: LastSavings?): String? {
+        val pounds = savingsPounds(savings) ?: return null
+        val count = sessionCount.find(savings?.windowLabel.orEmpty())?.groupValues?.get(1)
+        return if (count != null) "$pounds · $count sess" else pounds
+    }
+
     fun savingsDetailLine(savings: LastSavings?): String? {
         val pounds = savingsPounds(savings) ?: return null
         val window = savings?.windowLabel?.takeIf { it.isNotBlank() }

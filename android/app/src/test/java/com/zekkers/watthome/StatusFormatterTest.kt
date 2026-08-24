@@ -136,6 +136,8 @@ class StatusFormatterTest {
         assertEquals("£36.95 · 9 sessions", line)
         assertFalse(line!!.contains("£4.10"))
         assertFalse(line.contains("£4.11"))
+        assertEquals("£36.95 · 9 sess", StatusFormatter.savingsWidgetLine(status.lastSavings))
+        assertFalse(StatusFormatter.savingsWidgetLine(status.lastSavings)!!.contains("sessi"))
         assertNull(StatusFormatter.savingsPounds(HomeStatusParser.parse("""{"last_savings":{"window_label":"9 sessions"}}""").lastSavings))
         assertEquals("£1.00", StatusFormatter.savingsPounds(HomeStatusParser.parse("""{"last_savings":{"gbp":1}}""").lastSavings))
     }

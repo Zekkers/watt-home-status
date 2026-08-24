@@ -15,7 +15,8 @@ import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
 
 class BatteryWidget : WattGlanceWidget() {
-    override val cardPadding = 4.dp
+    override val cardPadding = 2.dp
+    override val cardRadius = 14.dp
 
     @Composable
     override fun Content(status: HomeStatus?) {
@@ -27,7 +28,7 @@ class BatteryWidget : WattGlanceWidget() {
             ) {
                 SocToken(
                     percent = status?.socPercent,
-                    numberSize = 28.sp,
+                    numberSize = 34.sp,
                     percentSize = 16.sp
                 )
             }
@@ -39,7 +40,7 @@ class BatteryWidget : WattGlanceWidget() {
                     Image(
                         provider = ImageProvider(R.drawable.ic_power_up_badge),
                         contentDescription = "Power Up",
-                        modifier = GlanceModifier.size(14.dp)
+                        modifier = GlanceModifier.size(12.dp)
                     )
                 }
             }

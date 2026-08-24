@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -172,8 +173,8 @@ private fun TodayCurveCard(status: HomeStatus?) {
                 contentDescription = "Today’s battery",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(110.dp),
-                contentScale = ContentScale.FillBounds
+                    .aspectRatio(260f / 90f),
+                contentScale = ContentScale.Fit
             )
             if (!hasCurve) {
                 Spacer(Modifier.height(6.dp))

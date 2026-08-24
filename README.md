@@ -39,13 +39,13 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | Huge SOC as `63%` on one line. Bolt when `next_power_up.opted_in` is true. |
-| **Watt Home · Battery + session** | 2×1 | SOC on the left; Power Up as two lines (`12:00` then `14:00`) or **No Power Up**. |
-| **Watt Home · Glance** | 2×2 | SOC + Power Up, today’s SOC curve from `soc_series`, optional signed battery-W strip, and £ when `last_savings.gbp` is present. |
-| **Watt Home · Overview** | ~3×2 | Overnight slot, 16:00 target, solar W, last action, curve, updated time. |
+| **Watt Home · Battery** | 1×1 | SOC fills the tile (`63%`) on one line. Bolt when `opted_in`. |
+| **Watt Home · Battery + session** | 2×1 | SOC on the left; Power Up as one line (`12:00–14:00`) and a single bolt when opted in. No weather overlay. |
+| **Watt Home · Glance** | 2×2 | SOC + one-line Power Up, today’s SOC curve, optional signed W strip, and `£36.95 · 9 sess` when gbp is present. |
+| **Watt Home · Overview** | ~3×2 | Overnight slot, 16:00 target, solar W, last action, same-aspect curve, updated time. |
 | **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
 
-Glance always keeps a graph slot. It prefers `soc_series` (`{t, soc}`) as today’s battery curve on a 00:00–24:00 axis, so the overnight 02:00 charge bump is visible. `battery_w_series` (`{t, w}`, w>0 charge / w<0 discharge) is an optional signed sparkline with a zero line. Missing or empty arrays stay empty — no invented points. Results £ shows when `gbp` is present (batch Power Up credit, not a single session).
+Glance always keeps a graph slot. It prefers `soc_series` (`{t, soc}`) as today’s battery curve on a 00:00–24:00 axis, letterboxed to the same 2×2 plot aspect so a wide Overview does not squash or stretch the shape. `battery_w_series` is an optional signed sparkline with a zero line. Missing extras stay hidden — no invented points. Widget savings is one line (`£36.95 · 9 sess`), never a mid-word ellipsis.
 
 WorkManager refreshes the JSON about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). Android may stretch that toward 15–30 minutes to save battery.
 

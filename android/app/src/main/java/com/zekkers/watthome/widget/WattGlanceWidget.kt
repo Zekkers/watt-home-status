@@ -30,12 +30,13 @@ internal val SolarSoft = Color(0xFFFFE082)
 
 abstract class WattGlanceWidget : GlanceAppWidget() {
     protected open val cardPadding: Dp = 12.dp
+    protected open val cardRadius: Dp = 20.dp
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
         provideContent {
-            WidgetCard(padding = cardPadding) {
+            WidgetCard(radius = cardRadius, padding = cardPadding) {
                 Content(status)
             }
         }
