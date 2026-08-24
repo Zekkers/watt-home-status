@@ -184,6 +184,9 @@ class StatusFormatterTest {
         assertEquals("12am - 1am", StatusFormatter.powerUpSpokenWindow(
             HomeStatusParser.parse("""{"next_power_up":{"from":"00:00","to":"01:00"}}""").nextPowerUp
         ))
+        assertEquals("12pm", StatusFormatter.twelveHourClock(noon.nextPowerUp?.from))
+        assertEquals("2pm", StatusFormatter.twelveHourClock(noon.nextPowerUp?.to))
+        assertNull(StatusFormatter.powerUpSpokenWindowOrNull(null))
     }
 
     @Test
