@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-24T16:37:01+01:00",
+  "updated": "2026-08-24T17:02:26+01:00",
   "soc_percent": 63,
   "solar_w": 957,
   "battery_w": -106,
@@ -29,7 +29,7 @@
     "code": "clear",
     "label": "clear"
   },
-  "last_action": "published today battery series",
+  "last_action": "wrote Power Up charge 12:00\u201314:00 on CH2414G328",
   "battery_w_series": [
     {
       "t": "2026-08-24T00:02:58+01:00",
