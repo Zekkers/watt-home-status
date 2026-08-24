@@ -40,8 +40,15 @@ internal fun SocToken(
 }
 
 @Composable
-internal fun PowerUpTimes(powerUp: PowerUp?) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+internal fun PowerUpTimes(
+    powerUp: PowerUp?,
+    modifier: GlanceModifier = GlanceModifier
+) {
+    Row(
+        modifier = modifier,
+        horizontalAlignment = Alignment.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Text(
             text = StatusFormatter.powerUpSpokenWindow(powerUp),
             style = TextStyle(
@@ -55,7 +62,7 @@ internal fun PowerUpTimes(powerUp: PowerUp?) {
             Image(
                 provider = ImageProvider(R.drawable.ic_power_up_badge),
                 contentDescription = "Power Up",
-                modifier = GlanceModifier.padding(start = 4.dp).size(12.dp)
+                modifier = GlanceModifier.padding(start = 6.dp).size(PowerUpBoltSize)
             )
         }
     }
@@ -67,7 +74,7 @@ internal fun SessionHeader(status: HomeStatus?) {
         modifier = GlanceModifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = GlanceModifier.defaultWeight()) {
+        Column {
             SocToken(status?.socPercent, numberSize = 26.sp)
             Text(
                 text = "battery",
@@ -75,6 +82,9 @@ internal fun SessionHeader(status: HomeStatus?) {
                 maxLines = 1
             )
         }
-        PowerUpTimes(status?.nextPowerUp)
+        PowerUpTimes(
+            powerUp = status?.nextPowerUp,
+            modifier = GlanceModifier.defaultWeight()
+        )
     }
 }

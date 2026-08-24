@@ -60,12 +60,15 @@ object StatusFormatter {
         }
     }
 
-    fun powerUpSpokenWindow(powerUp: PowerUp?): String {
-        if (powerUp == null) return "No Power Up"
+    fun powerUpSpokenWindowOrNull(powerUp: PowerUp?): String? {
+        if (powerUp == null) return null
         val from = twelveHourClock(powerUp.from)
         val to = twelveHourClock(powerUp.to)
-        return if (from != null && to != null) "$from - $to" else "No Power Up"
+        return if (from != null && to != null) "$from - $to" else null
     }
+
+    fun powerUpSpokenWindow(powerUp: PowerUp?): String =
+        powerUpSpokenWindowOrNull(powerUp) ?: "No Power Up"
 
     fun twelveHourClock(raw: String?): String? {
         val clock = displayClock(raw) ?: return null
