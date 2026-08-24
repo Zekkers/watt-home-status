@@ -36,16 +36,30 @@ object HomeStatusParser {
             lastAction = obj.string("last_action"),
             weatherTomorrow = parseWeather(obj["weather_tomorrow"]),
             batteryW = obj.double("battery_w"),
-            batteryWSeries = parseNamedSeries(obj["battery_w_series"], preferSoc = false),
-            socSeries = parseNamedSeries(obj["soc_series"], preferSoc = true),
+            batteryWSeries = parseBatteryWSeries(obj["battery_w_series"]),
+            socSeries = parseSocSeries(obj["soc_series"]),
             lastSavings = parseLastSavings(obj["last_savings"])
         )
     }
 
-    private fun parseNamedSeries(element: JsonElement?, preferSoc: Boolean): List<BatterySample> {
-        return parseSeriesArray(element, preferSoc).sortedBy { sample ->
-            History.timestamp(sample.t) ?: OffsetDateTime.MIN
-        }
+    private fun parseBatteryWSeries(element: JsonElement?): List<BatterySample> {
+        val array = element as? JsonArray ?: return emptyList()
+        return array.mapNotNull { item ->
+            val point = item as? JsonObject ?: return@mapNotNull null
+            val t = point.string("t") ?: return@mapNotNull null
+            val w = point.double("w") ?: return@mapNotNull null
+            BatterySample(t = t, w = w)
+        }.sortedBy { History.timestamp(it.t) ?: OffsetDateTime.MIN }
+    }
+
+    private fun parseSocSeries(element: JsonElement?): List<BatterySample> {
+        val array = element as? JsonArray ?: return emptyList()
+        return array.mapNotNull { item ->
+            val point = item as? JsonObject ?: return@mapNotNull null
+            val t = point.string("t") ?: return@mapNotNull null
+            val soc = point.double("soc") ?: return@mapNotNull null
+            BatterySample(t = t, soc = soc)
+        }.sortedBy { History.timestamp(it.t) ?: OffsetDateTime.MIN }
     }
 
     private fun parseOvernight(element: JsonElement?): Overnight? {
@@ -100,38 +114,6 @@ object HomeStatusParser {
             label = obj.string("label")
         )
         return if (weather.code == null && weather.label == null) null else weather
-    }
-
-    private fun parseSeriesArray(element: JsonElement?, preferSoc: Boolean? = null): List<BatterySample> {
-        val array = element as? JsonArray ?: return emptyList()
-        return array.mapNotNull { item ->
-            when (item) {
-                is JsonObject -> {
-                    val t = item.string("t") ?: item.string("time") ?: item.string("ts") ?: item.string("at")
-                    val watts = item.double("w")
-                        ?: item.double("battery_w")
-                        ?: item.double("watts")
-                        ?: item.double("power_w")
-                    val soc = item.double("soc")
-                        ?: item.double("soc_percent")
-                        ?: item.double("percent")
-                        ?: item.double("battery_soc")
-                    if (watts == null && soc == null) null else BatterySample(t = t, w = watts, soc = soc)
-                }
-                is JsonPrimitive -> {
-                    val value = item.doubleOrNull
-                        ?: item.intOrNull?.toDouble()
-                        ?: item.contentOrNull?.toDoubleOrNull()
-                        ?: return@mapNotNull null
-                    when (preferSoc) {
-                        true -> BatterySample(soc = value)
-                        false -> BatterySample(w = value)
-                        null -> if (value in 0.0..100.0) BatterySample(soc = value) else BatterySample(w = value)
-                    }
-                }
-                else -> null
-            }
-        }
     }
 
     private object History {

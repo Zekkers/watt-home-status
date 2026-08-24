@@ -19,7 +19,7 @@ class BatteryWidget : WattGlanceWidget() {
 
     @Composable
     override fun Content(status: HomeStatus?) {
-        val showBadge = StatusFormatter.hasPowerUp(status?.nextPowerUp)
+        val showBadge = StatusFormatter.optedInPowerUp(status?.nextPowerUp)
         Box(modifier = GlanceModifier.fillMaxSize()) {
             Box(
                 modifier = GlanceModifier.fillMaxSize(),

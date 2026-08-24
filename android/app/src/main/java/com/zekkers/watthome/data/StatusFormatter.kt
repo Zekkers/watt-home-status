@@ -91,6 +91,8 @@ object StatusFormatter {
 
     fun hasPowerUp(powerUp: PowerUp?): Boolean = powerUp != null
 
+    fun optedInPowerUp(powerUp: PowerUp?): Boolean = powerUp?.optedIn == true
+
     fun savingsPounds(savings: LastSavings?): String? {
         val amount = savings?.gbp ?: return null
         return String.format(Locale.UK, "£%.2f", amount)

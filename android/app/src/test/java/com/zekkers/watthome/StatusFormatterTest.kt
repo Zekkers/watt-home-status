@@ -97,6 +97,8 @@ class StatusFormatterTest {
         assertEquals("14:00", StatusFormatter.powerUpEndLine(status.nextPowerUp))
         assertEquals("Power Up 12–14", StatusFormatter.powerUpLine(status.nextPowerUp))
         assertTrue(StatusFormatter.hasPowerUp(status.nextPowerUp))
+        assertTrue(StatusFormatter.optedInPowerUp(status.nextPowerUp))
+        assertEquals("partly_cloudy", status.weatherTomorrow?.code)
         assertEquals("Partly cloudy", status.weatherTomorrow?.label)
         assertEquals(-320.0, status.batteryW)
         assertEquals(2, status.batteryWSeries.size)
@@ -118,7 +120,11 @@ class StatusFormatterTest {
         assertEquals("14:00", status.nextPowerUp?.to)
         assertEquals("12:00–14:00", StatusFormatter.powerUpWindow(status.nextPowerUp))
         assertTrue(StatusFormatter.hasPowerUp(status.nextPowerUp))
+        assertFalse(StatusFormatter.optedInPowerUp(status.nextPowerUp))
         assertNull(HomeStatusParser.parse("""{"next_power_up":null}""").nextPowerUp)
+        val skipped = HomeStatusParser.parse("""{"next_power_up":{"from":"12:00","to":"14:00","date":"2026-08-25","opted_in":false}}""")
+        assertTrue(StatusFormatter.hasPowerUp(skipped.nextPowerUp))
+        assertFalse(StatusFormatter.optedInPowerUp(skipped.nextPowerUp))
     }
 
     @Test
@@ -130,6 +136,8 @@ class StatusFormatterTest {
         assertEquals("£36.95 · 9 sessions", line)
         assertFalse(line!!.contains("£4.10"))
         assertFalse(line.contains("£4.11"))
+        assertNull(StatusFormatter.savingsPounds(HomeStatusParser.parse("""{"last_savings":{"window_label":"9 sessions"}}""").lastSavings))
+        assertEquals("£1.00", StatusFormatter.savingsPounds(HomeStatusParser.parse("""{"last_savings":{"gbp":1}}""").lastSavings))
     }
 
     @Test
@@ -192,8 +200,15 @@ class StatusFormatterTest {
         assertEquals(-106.0, liveShape.batteryWSeries.last().w)
         assertEquals(3, liveShape.socSeries.size)
         assertEquals(13.0, liveShape.socSeries.first().soc)
+        assertEquals(21.0, liveShape.socSeries[1].soc)
         assertEquals(63.0, liveShape.socSeries.last().soc)
         assertTrue(StatusFormatter.hasTodayCurve(liveShape))
+
+        val aliases = HomeStatusParser.parse(
+            """{"battery_w_series":[{"time":"2026-08-24T10:00:00+01:00","watts":200},{"t":"2026-08-24T11:00:00+01:00","w":-80}]}"""
+        )
+        assertEquals(1, aliases.batteryWSeries.size)
+        assertEquals(-80.0, aliases.batteryWSeries.single().w)
 
         val wattsOnly = HomeStatusParser.parse(
             """{"battery_w_series":[{"t":"2026-08-24T10:00:00+01:00","w":200},{"t":"2026-08-24T11:00:00+01:00","w":-80}]}"""
