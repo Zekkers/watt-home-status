@@ -3,7 +3,6 @@ package com.zekkers.watthome.widget
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
@@ -14,6 +13,7 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Column
+import androidx.glance.layout.ContentScale
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
@@ -31,32 +31,40 @@ class GlanceTileWidget : GlanceAppWidget() {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
         val density = context.resources.displayMetrics.density
-        val sparkline = SparklineRenderer.render(
-            series = status?.batteryWSeries.orEmpty(),
-            widthPx = (240 * density).toInt().coerceAtLeast(160),
-            heightPx = (56 * density).toInt().coerceAtLeast(40)
+        val curve = SparklineRenderer.renderToday(
+            status = status,
+            widthPx = (260 * density).toInt().coerceAtLeast(180),
+            heightPx = (90 * density).toInt().coerceAtLeast(64)
         )
         provideContent {
             WidgetCard {
-                GlanceTileContent(status, sparkline)
+                GlanceTileContent(status, curve)
             }
         }
     }
 }
 
 @Composable
-private fun GlanceTileContent(status: HomeStatus?, sparkline: Bitmap?) {
+private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
+    val hasCurve = StatusFormatter.hasTodayCurve(status)
+    val savings = StatusFormatter.savingsBatchLine(status?.lastSavings)
     Column(modifier = GlanceModifier.fillMaxSize()) {
-        BatterySessionContent(status)
-        if (sparkline != null) {
-            Spacer(GlanceModifier.height(8.dp))
-            Image(
-                provider = ImageProvider(sparkline),
-                contentDescription = "Battery power",
-                modifier = GlanceModifier.fillMaxWidth().height(44.dp)
+        SessionHeader(status)
+        Spacer(GlanceModifier.height(8.dp))
+        Image(
+            provider = ImageProvider(curve),
+            contentDescription = "Today’s battery",
+            contentScale = ContentScale.FillBounds,
+            modifier = GlanceModifier.fillMaxWidth().defaultWeight()
+        )
+        if (!hasCurve) {
+            Spacer(GlanceModifier.height(4.dp))
+            Text(
+                text = "waiting for today’s curve",
+                style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
+                maxLines = 1
             )
         }
-        val savings = StatusFormatter.savingsBatchLine(status?.lastSavings)
         if (savings != null) {
             Spacer(GlanceModifier.height(6.dp))
             Text(
@@ -65,16 +73,8 @@ private fun GlanceTileContent(status: HomeStatus?, sparkline: Bitmap?) {
                     color = ColorProvider(Solar, Solar),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium
-                )
-            )
-        } else if (status?.batteryW != null) {
-            Spacer(GlanceModifier.height(6.dp))
-            Text(
-                text = StatusFormatter.signedWatts(status.batteryW),
-                style = TextStyle(
-                    color = ColorProvider(Color.White, Color.White),
-                    fontSize = 12.sp
-                )
+                ),
+                maxLines = 1
             )
         }
     }

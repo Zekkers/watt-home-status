@@ -17,6 +17,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/Theme.WattHome">
             <intent-filter>
@@ -28,7 +29,8 @@
         <receiver
             android:name=".widget.BatteryWidgetReceiver"
             android:exported="true"
-            android:label="@string/widget_label_battery">
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -40,7 +42,8 @@
         <receiver
             android:name=".widget.BatterySessionWidgetReceiver"
             android:exported="true"
-            android:label="@string/widget_label_session">
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -52,7 +55,8 @@
         <receiver
             android:name=".widget.GlanceTileWidgetReceiver"
             android:exported="true"
-            android:label="@string/widget_label_glance">
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -64,7 +68,8 @@
         <receiver
             android:name=".widget.StatusWidgetReceiver"
             android:exported="true"
-            android:label="@string/widget_label_overview">
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -76,7 +81,8 @@
         <receiver
             android:name=".widget.StripWidgetReceiver"
             android:exported="true"
-            android:label="@string/widget_label_strip">
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

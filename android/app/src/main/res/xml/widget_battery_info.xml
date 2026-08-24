@@ -6,6 +6,7 @@
     android:minHeight="40dp"
     android:minResizeWidth="40dp"
     android:minResizeHeight="40dp"
+    android:previewImage="@drawable/widget_preview_battery"
     android:previewLayout="@layout/widget_preview_battery"
     android:resizeMode="none"
     android:targetCellWidth="1"

@@ -4,6 +4,7 @@
     android:initialLayout="@layout/glance_default_loading_layout"
     android:minWidth="180dp"
     android:minHeight="110dp"
+    android:previewImage="@drawable/widget_preview_overview"
     android:previewLayout="@layout/widget_preview"
     android:resizeMode="horizontal|vertical"
     android:targetCellWidth="3"

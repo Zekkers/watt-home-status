@@ -1,13 +1,9 @@
 <resources>
     <string name="app_name">Watt Home</string>
-    <string name="widget_label_battery">Battery</string>
-    <string name="widget_label_session">Battery + session</string>
-    <string name="widget_label_glance">Glance</string>
-    <string name="widget_label_overview">Overview</string>
-    <string name="widget_label_strip">Strip</string>
-    <string name="widget_battery_description">Large battery percent. Bolt when a Power Up is set.</string>
-    <string name="widget_session_description">Battery percent and Power Up from–to, with tomorrow’s weather.</string>
-    <string name="widget_glance_description">Battery, Power Up, sparkline and Power Up results £.</string>
-    <string name="widget_overview_description">Overnight slot, 16:00 target, solar and last action.</string>
-    <string name="widget_strip_description">Percent, Power Up window, weather and Power Up results £ in a dock strip.</string>
+    <string name="widget_label">Watt Home</string>
+    <string name="widget_battery_description">Watt Home · Battery</string>
+    <string name="widget_session_description">Watt Home · Battery + session</string>
+    <string name="widget_glance_description">Watt Home · Glance</string>
+    <string name="widget_overview_description">Watt Home · Overview</string>
+    <string name="widget_strip_description">Watt Home · Strip</string>
 </resources>

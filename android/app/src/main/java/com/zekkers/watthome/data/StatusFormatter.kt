@@ -20,7 +20,9 @@ object StatusFormatter {
 
     fun dash(value: String?): String = value?.takeIf { it.isNotBlank() } ?: "—"
 
-    fun percent(value: Int?): String = value?.let { "$it%" } ?: "—"
+    fun percent(value: Int?): String = value?.let { "$it\u2060%" } ?: "—"
+
+    fun percentNumber(value: Int?): String = value?.toString() ?: "—"
 
     fun watts(value: Int?): String = value?.let { "$it W" } ?: "—"
 
@@ -59,8 +61,32 @@ object StatusFormatter {
     }
 
     fun powerUpLine(powerUp: PowerUp?): String {
-        val window = powerUpWindowOrNull(powerUp) ?: return "No Power Up"
-        return "Power Up $window"
+        if (powerUp == null) return "No Power Up"
+        val hours = powerUpCompactHours(powerUp)
+        return if (hours == "No Power Up") "No Power Up" else "Power Up $hours"
+    }
+
+    fun powerUpStartLine(powerUp: PowerUp?): String {
+        if (powerUp == null) return "No"
+        return displayClock(powerUp.from) ?: "Power Up"
+    }
+
+    fun powerUpEndLine(powerUp: PowerUp?): String {
+        if (powerUp == null) return "Power Up"
+        return displayClock(powerUp.to) ?: "set"
+    }
+
+    fun powerUpCompactHours(powerUp: PowerUp?): String {
+        if (powerUp == null) return "No Power Up"
+        val fromHour = displayClock(powerUp.from)?.substringBefore(":")
+        val toHour = displayClock(powerUp.to)?.substringBefore(":")
+        return if (fromHour != null && toHour != null) "$fromHour–$toHour" else "No Power Up"
+    }
+
+    fun hasTodayCurve(status: HomeStatus?): Boolean {
+        if (status == null) return false
+        return status.socSeries.count { it.soc != null } >= 2 ||
+            status.batteryWSeries.count { it.w != null } >= 2
     }
 
     fun hasPowerUp(powerUp: PowerUp?): Boolean = powerUp != null

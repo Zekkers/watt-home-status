@@ -10,7 +10,9 @@ import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.intOrNull
+import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 object HomeStatusParser {
     private val json = Json {
@@ -24,6 +26,7 @@ object HomeStatusParser {
     fun parse(raw: String): HomeStatus {
         val root = json.parseToJsonElement(raw)
         val obj = root as? JsonObject ?: return HomeStatus()
+        val history = collectHistory(obj)
         return HomeStatus(
             updated = obj.string("updated"),
             socPercent = obj.int("soc_percent"),
@@ -35,9 +38,49 @@ object HomeStatusParser {
             lastAction = obj.string("last_action"),
             weatherTomorrow = parseWeather(obj["weather_tomorrow"]),
             batteryW = obj.double("battery_w"),
-            batteryWSeries = parseSeries(obj["battery_w_series"]),
+            batteryWSeries = History.todaysOrAll(history.filter { it.w != null }),
+            socSeries = History.todaysOrAll(history.filter { it.soc != null }),
             lastSavings = parseLastSavings(obj["last_savings"])
         )
+    }
+
+    private fun collectHistory(obj: JsonObject): List<BatterySample> {
+        val keys = listOf(
+            "soc_series",
+            "battery_w_series",
+            "history",
+            "samples",
+            "soc_history",
+            "battery_history",
+            "series"
+        )
+        val merged = LinkedHashMap<String, BatterySample>()
+        var anon = 0
+        fun absorb(element: JsonElement?, preferSoc: Boolean?) {
+            for (sample in parseSeriesArray(element, preferSoc)) {
+                val id = sample.t ?: "i-${anon++}"
+                val previous = merged[id]
+                merged[id] = BatterySample(
+                    t = sample.t ?: previous?.t,
+                    w = sample.w ?: previous?.w,
+                    soc = sample.soc ?: previous?.soc
+                )
+            }
+        }
+        for (key in keys) {
+            val preferSoc = when {
+                key.contains("soc") -> true
+                key.contains("battery") || key == "battery_w_series" -> false
+                else -> null
+            }
+            absorb(obj[key], preferSoc)
+        }
+        if (obj["battery_w"] is JsonArray) {
+            absorb(obj["battery_w"], preferSoc = false)
+        }
+        return merged.values.sortedBy { sample ->
+            History.timestamp(sample.t) ?: OffsetDateTime.MIN
+        }
     }
 
     private fun parseOvernight(element: JsonElement?): Overnight? {
@@ -94,16 +137,54 @@ object HomeStatusParser {
         return if (weather.code == null && weather.label == null) null else weather
     }
 
-    private fun parseSeries(element: JsonElement?): List<BatterySample> {
+    private fun parseSeriesArray(element: JsonElement?, preferSoc: Boolean? = null): List<BatterySample> {
         val array = element as? JsonArray ?: return emptyList()
-        val samples = array.mapNotNull { item ->
-            val obj = item as? JsonObject ?: return@mapNotNull null
-            val watts = obj.double("w") ?: return@mapNotNull null
-            BatterySample(t = obj.string("t"), w = watts)
+        return array.mapNotNull { item ->
+            when (item) {
+                is JsonObject -> {
+                    val t = item.string("t") ?: item.string("time") ?: item.string("ts") ?: item.string("at")
+                    val watts = item.double("w")
+                        ?: item.double("battery_w")
+                        ?: item.double("watts")
+                        ?: item.double("power_w")
+                    val soc = item.double("soc")
+                        ?: item.double("soc_percent")
+                        ?: item.double("percent")
+                        ?: item.double("battery_soc")
+                    if (watts == null && soc == null) null else BatterySample(t = t, w = watts, soc = soc)
+                }
+                is JsonPrimitive -> {
+                    val value = item.doubleOrNull
+                        ?: item.intOrNull?.toDouble()
+                        ?: item.contentOrNull?.toDoubleOrNull()
+                        ?: return@mapNotNull null
+                    when (preferSoc) {
+                        true -> BatterySample(soc = value)
+                        false -> BatterySample(w = value)
+                        null -> if (value in 0.0..100.0) BatterySample(soc = value) else BatterySample(w = value)
+                    }
+                }
+                else -> null
+            }
         }
-        return samples.sortedBy { sample ->
-            sample.t?.let { runCatching { OffsetDateTime.parse(it) }.getOrNull() }
-                ?: OffsetDateTime.MIN
+    }
+
+    private object History {
+        fun timestamp(raw: String?): OffsetDateTime? {
+            if (raw.isNullOrBlank()) return null
+            runCatching { return OffsetDateTime.parse(raw) }
+            runCatching { return java.time.Instant.parse(raw).atOffset(ZoneOffset.UTC) }
+            return null
+        }
+
+        fun todaysOrAll(samples: List<BatterySample>): List<BatterySample> {
+            if (samples.size < 2) return samples
+            val today = LocalDate.now(StatusFormatter.london)
+            val todays = samples.filter { sample ->
+                val stamp = timestamp(sample.t) ?: return@filter true
+                stamp.atZoneSameInstant(StatusFormatter.london).toLocalDate() == today
+            }
+            return if (todays.size >= 2) todays else samples
         }
     }
 

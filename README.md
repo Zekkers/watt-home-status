@@ -35,17 +35,17 @@ On each phone, after the app is installed:
 4. Pick a size and drag it onto the home screen.
 5. Tap any widget to open the same figures in the app.
 
-Sizes in the picker:
+Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Battery** | 1×1 | Huge SOC %. A small bolt only when `next_power_up` is set. |
-| **Battery + session** | 2×1 | SOC on the left; Power Up from–to (UK) or **No Power Up**; tomorrow’s weather icon in the corner if present. |
-| **Glance** | 2×2 | The 2×1 layout plus a battery-power sparkline and Power Up results £ (batch total, e.g. £36.95 · 9 sessions) when present. |
-| **Overview** | ~3×2 | Overnight slot, 16:00 target, solar W, last action, Power Up, updated time. |
-| **Strip** | 4×1 | `% \| window \| weather \| results £` — handy on a dock. |
+| **Watt Home · Battery** | 1×1 | Huge SOC as `63%` on one line. Bolt when `next_power_up` is set. |
+| **Watt Home · Battery + session** | 2×1 | SOC on the left; Power Up as two lines (`12:00` then `14:00`) or **No Power Up**. |
+| **Watt Home · Glance** | 2×2 | SOC + Power Up, today’s battery curve, and batch Power Up results £ when present. |
+| **Watt Home · Overview** | ~3×2 | Overnight slot, 16:00 target, solar W, last action, curve, updated time. |
+| **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
 
-The sparkline is hidden until `battery_w_series` has at least two points. Missing weather or `last_savings` is hidden (or shown as — on the strip), never faked. Results £ is the batch Power Up credit, not a single session.
+Glance always keeps a graph slot. If `soc_series` / `battery_w_series` / `history` / `samples` are missing, it shows **waiting for today’s curve** rather than cloning the 2×1 layout. Results £ is the batch Power Up credit, not a single session.
 
 WorkManager refreshes the JSON about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). Android may stretch that toward 15–30 minutes to save battery.
 

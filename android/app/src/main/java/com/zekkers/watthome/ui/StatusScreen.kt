@@ -1,5 +1,6 @@
 package com.zekkers.watthome.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,11 +27,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusUiState
+import com.zekkers.watthome.widget.SparklineRenderer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,6 +118,8 @@ fun StatusScreen(
                 }
             }
 
+            TodayCurveCard(status)
+
             StatusRow("Overnight slot", StatusFormatter.overnight(status?.overnight))
             StatusRow("16:00 target", StatusFormatter.percent(status?.target1600Percent))
             StatusRow("Peak window", StatusFormatter.dash(status?.peakWindow))
@@ -131,6 +140,49 @@ fun StatusScreen(
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                 modifier = Modifier.padding(top = 8.dp)
             )
+        }
+    }
+}
+
+@Composable
+private fun TodayCurveCard(status: HomeStatus?) {
+    val density = LocalDensity.current.density
+    val curve = remember(status, density) {
+        SparklineRenderer.renderToday(
+            status = status,
+            widthPx = (320 * density).toInt().coerceAtLeast(180),
+            heightPx = (110 * density).toInt().coerceAtLeast(72)
+        )
+    }
+    val hasCurve = StatusFormatter.hasTodayCurve(status)
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
+            Text(
+                text = "Today’s battery",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+            )
+            Spacer(Modifier.height(8.dp))
+            Image(
+                bitmap = curve.asImageBitmap(),
+                contentDescription = "Today’s battery",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(110.dp),
+                contentScale = ContentScale.FillBounds
+            )
+            if (!hasCurve) {
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    text = "waiting for today’s curve",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                )
+            }
         }
     }
 }

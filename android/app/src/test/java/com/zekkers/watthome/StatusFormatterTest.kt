@@ -36,7 +36,8 @@ class StatusFormatterTest {
         assertEquals("No Power Up", StatusFormatter.powerUpWindow(status.nextPowerUp))
         assertFalse(StatusFormatter.hasPowerUp(status.nextPowerUp))
         assertEquals("02:00–03:00 · cap 30%", StatusFormatter.overnight(status.overnight))
-        assertEquals("64%", StatusFormatter.percent(status.socPercent))
+        assertEquals("64\u2060%", StatusFormatter.percent(status.socPercent))
+        assertEquals("64", StatusFormatter.percentNumber(status.socPercent))
         assertEquals("980 W", StatusFormatter.watts(status.solarW))
         assertTrue(status.batteryWSeries.isEmpty())
         assertNull(status.lastSavings)
@@ -91,10 +92,15 @@ class StatusFormatterTest {
         assertEquals(60, status.target1600Percent)
         assertEquals("12:00", status.nextPowerUp?.from)
         assertEquals("12:00–14:00", StatusFormatter.powerUpWindow(status.nextPowerUp))
+        assertEquals("12–14", StatusFormatter.powerUpCompactHours(status.nextPowerUp))
+        assertEquals("12:00", StatusFormatter.powerUpStartLine(status.nextPowerUp))
+        assertEquals("14:00", StatusFormatter.powerUpEndLine(status.nextPowerUp))
+        assertEquals("Power Up 12–14", StatusFormatter.powerUpLine(status.nextPowerUp))
         assertTrue(StatusFormatter.hasPowerUp(status.nextPowerUp))
         assertEquals("Partly cloudy", status.weatherTomorrow?.label)
         assertEquals(-320.0, status.batteryW)
         assertEquals(2, status.batteryWSeries.size)
+        assertTrue(StatusFormatter.hasTodayCurve(status))
         assertEquals(36.95, status.lastSavings?.gbp)
         assertEquals("£36.95", StatusFormatter.savingsPounds(status.lastSavings))
         assertEquals("£36.95 · 9 sessions", StatusFormatter.savingsBatchLine(status.lastSavings))
@@ -148,6 +154,48 @@ class StatusFormatterTest {
     fun displayClockKeepsUkWallClockAndConvertsIso() {
         assertEquals("13:00", StatusFormatter.displayClock("13:00"))
         assertEquals("15:34", StatusFormatter.displayClock("2026-08-24T14:34:00Z"))
+    }
+
+    @Test
+    fun compactHoursNeverSplitColonZeroZero() {
+        val noon = HomeStatusParser.parse("""{"next_power_up":{"from":"12:00","to":"14:00"}}""")
+        val peak = HomeStatusParser.parse("""{"next_power_up":{"from":"16:00","to":"19:00"}}""")
+        assertEquals("12–14", StatusFormatter.powerUpCompactHours(noon.nextPowerUp))
+        assertEquals("16–19", StatusFormatter.powerUpCompactHours(peak.nextPowerUp))
+        assertEquals("12:00", StatusFormatter.powerUpStartLine(noon.nextPowerUp))
+        assertEquals("14:00", StatusFormatter.powerUpEndLine(noon.nextPowerUp))
+        assertEquals("16:00", StatusFormatter.powerUpStartLine(peak.nextPowerUp))
+        assertEquals("19:00", StatusFormatter.powerUpEndLine(peak.nextPowerUp))
+    }
+
+    @Test
+    fun parsesHistoryArraysForTodayCurve() {
+        val status = HomeStatusParser.parse(
+            """
+            {
+              "soc_series": [
+                {"t":"2026-08-24T10:00:00+01:00","soc":40},
+                {"t":"2026-08-24T12:00:00+01:00","soc":55}
+              ],
+              "history": [
+                {"t":"2026-08-24T10:00:00+01:00","battery_w":200},
+                {"t":"2026-08-24T12:00:00+01:00","w":-80}
+              ],
+              "samples": [
+                {"time":"2026-08-24T11:00:00+01:00","soc_percent":48}
+              ]
+            }
+            """.trimIndent()
+        )
+        assertTrue(status.socSeries.size >= 2)
+        assertTrue(status.batteryWSeries.size >= 2)
+        assertTrue(StatusFormatter.hasTodayCurve(status))
+        val live = HomeStatusParser.parse("""{"soc_percent":63,"battery_w":1020}""")
+        assertFalse(StatusFormatter.hasTodayCurve(live))
+
+        val numbers = HomeStatusParser.parse("""{"soc_series":[40,55,63,70]}""")
+        assertEquals(4, numbers.socSeries.size)
+        assertTrue(StatusFormatter.hasTodayCurve(numbers))
     }
 
     @Test

@@ -10,16 +10,13 @@ import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.size
-import androidx.glance.text.FontWeight
-import androidx.glance.text.Text
-import androidx.glance.text.TextStyle
-import androidx.glance.color.ColorProvider
-import androidx.compose.ui.graphics.Color
 import com.zekkers.watthome.R
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
 
 class BatteryWidget : WattGlanceWidget() {
+    override val cardPadding = 4.dp
+
     @Composable
     override fun Content(status: HomeStatus?) {
         val showBadge = StatusFormatter.hasPowerUp(status?.nextPowerUp)
@@ -28,13 +25,10 @@ class BatteryWidget : WattGlanceWidget() {
                 modifier = GlanceModifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = StatusFormatter.percent(status?.socPercent),
-                    style = TextStyle(
-                        color = ColorProvider(Color.White, Color.White),
-                        fontSize = 34.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                SocToken(
+                    percent = status?.socPercent,
+                    numberSize = 28.sp,
+                    percentSize = 16.sp
                 )
             }
             if (showBadge) {
@@ -45,7 +39,7 @@ class BatteryWidget : WattGlanceWidget() {
                     Image(
                         provider = ImageProvider(R.drawable.ic_power_up_badge),
                         contentDescription = "Power Up",
-                        modifier = GlanceModifier.size(16.dp)
+                        modifier = GlanceModifier.size(14.dp)
                     )
                 }
             }

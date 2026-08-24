@@ -28,33 +28,29 @@ class StripWidget : WattGlanceWidget() {
             modifier = GlanceModifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            SocToken(status?.socPercent, numberSize = 20.sp, percentSize = 12.sp)
             Text(
-                text = StatusFormatter.percent(status?.socPercent),
-                style = TextStyle(
-                    color = ColorProvider(Color.White, Color.White),
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = GlanceModifier.defaultWeight()
-            )
-            Text(
-                text = StatusFormatter.powerUpWindow(status?.nextPowerUp),
+                text = StatusFormatter.powerUpCompactHours(status?.nextPowerUp),
                 style = TextStyle(
                     color = ColorProvider(Cream, Cream),
-                    fontSize = 13.sp
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center
                 ),
+                maxLines = 1,
                 modifier = GlanceModifier.defaultWeight()
             )
             if (weatherRes != null) {
                 Image(
                     provider = ImageProvider(weatherRes),
                     contentDescription = StatusFormatter.weatherLabel(status?.weatherTomorrow),
-                    modifier = GlanceModifier.size(20.dp)
+                    modifier = GlanceModifier.size(18.dp)
                 )
             } else {
                 Text(
                     text = "—",
-                    style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 13.sp)
+                    style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 13.sp),
+                    maxLines = 1
                 )
             }
             Text(
@@ -65,6 +61,7 @@ class StripWidget : WattGlanceWidget() {
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.End
                 ),
+                maxLines = 1,
                 modifier = GlanceModifier.defaultWeight()
             )
         }

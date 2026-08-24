@@ -11,7 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="64%"
+        android:maxLines="1"
+        android:text="63%"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -19,7 +20,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Power Up"
+        android:gravity="end"
+        android:maxLines="2"
+        android:text="12:00\n14:00"
         android:textColor="#E8F5E9"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textStyle="bold" />
 </LinearLayout>
