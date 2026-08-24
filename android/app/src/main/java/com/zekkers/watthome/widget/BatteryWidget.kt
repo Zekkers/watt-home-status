@@ -22,7 +22,7 @@ import com.zekkers.watthome.data.StatusFormatter
 class BatteryWidget : WattGlanceWidget() {
     @Composable
     override fun Content(status: HomeStatus?) {
-        val showBadge = StatusFormatter.showPowerUpBadge(status?.nextPowerUp)
+        val showBadge = StatusFormatter.hasPowerUp(status?.nextPowerUp)
         Box(modifier = GlanceModifier.fillMaxSize()) {
             Box(
                 modifier = GlanceModifier.fillMaxSize(),

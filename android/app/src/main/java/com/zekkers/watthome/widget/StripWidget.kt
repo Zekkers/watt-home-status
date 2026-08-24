@@ -23,7 +23,7 @@ class StripWidget : WattGlanceWidget() {
     @Composable
     override fun Content(status: HomeStatus?) {
         val weatherRes = WeatherIcons.drawableRes(status?.weatherTomorrow)
-        val savings = StatusFormatter.savingsPounds(status?.savings) ?: "—"
+        val savings = StatusFormatter.savingsPounds(status?.lastSavings) ?: "—"
         Row(
             modifier = GlanceModifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically

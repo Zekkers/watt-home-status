@@ -12,14 +12,13 @@ data class HomeStatus(
     val weatherTomorrow: WeatherTomorrow? = null,
     val batteryW: Double? = null,
     val batteryWSeries: List<BatterySample> = emptyList(),
-    val savings: Savings? = null
+    val lastSavings: LastSavings? = null
 )
 
 data class Overnight(
     val start: String? = null,
     val end: String? = null,
-    val capPercent: Int? = null,
-    val label: String? = null
+    val capPercent: Int? = null
 )
 
 data class PowerUp(
@@ -40,9 +39,14 @@ data class BatterySample(
     val w: Double? = null
 )
 
-data class Savings(
-    val lastGbp: Double? = null,
-    val label: String? = null
+data class LastSavings(
+    val gbp: Double? = null,
+    val kwhExtra: Double? = null,
+    val percentExtra: Double? = null,
+    val kind: String? = null,
+    val windowLabel: String? = null,
+    val source: String? = null,
+    val at: String? = null
 )
 
 data class StatusUiState(

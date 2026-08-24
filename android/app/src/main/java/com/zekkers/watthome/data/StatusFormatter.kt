@@ -1,12 +1,10 @@
 package com.zekkers.watthome.data
 
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.abs
@@ -18,6 +16,7 @@ object StatusFormatter {
         DateTimeFormatter.ofPattern("EEE d MMM yyyy, HH:mm", Locale.UK)
     private val clockFormat: DateTimeFormatter =
         DateTimeFormatter.ofPattern("HH:mm", Locale.UK)
+    private val sessionCount = Regex("""\((\d+)\s+sessions?\)""", RegexOption.IGNORE_CASE)
 
     fun dash(value: String?): String = value?.takeIf { it.isNotBlank() } ?: "—"
 
@@ -33,16 +32,13 @@ object StatusFormatter {
 
     fun overnight(overnight: Overnight?): String {
         if (overnight == null) return "—"
-        if (!overnight.label.isNullOrBlank() && overnight.start == null && overnight.end == null) {
-            return overnight.label
-        }
         val start = overnight.start?.takeIf { it.isNotBlank() }
         val end = overnight.end?.takeIf { it.isNotBlank() }
         val window = when {
             start != null && end != null -> "$start–$end"
             start != null -> start
             end != null -> end
-            else -> overnight.label
+            else -> null
         }
         val cap = overnight.capPercent?.let { "cap $it%" }
         return listOfNotNull(window, cap).joinToString(" · ").ifBlank { "—" }
@@ -54,13 +50,12 @@ object StatusFormatter {
         if (powerUp == null) return null
         val from = displayClock(powerUp.from)
         val to = displayClock(powerUp.to)
-        val window = when {
+        return when {
             from != null && to != null -> "$from–$to"
             from != null -> from
             to != null -> to
             else -> powerUp.label?.takeIf { it.isNotBlank() }
         }
-        return window?.takeIf { it.isNotBlank() }
     }
 
     fun powerUpLine(powerUp: PowerUp?): String {
@@ -68,27 +63,34 @@ object StatusFormatter {
         return "Power Up $window"
     }
 
-    fun showPowerUpBadge(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean {
-        if (powerUp == null) return false
-        if (powerUp.optedIn == true) return true
-        return powerUpWindowOrNull(powerUp) != null && isPowerUpUpcoming(powerUp, now)
-    }
+    fun hasPowerUp(powerUp: PowerUp?): Boolean = powerUp != null
 
-    fun isPowerUpUpcoming(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean {
-        if (powerUp == null) return false
-        val end = powerUpEnd(powerUp)
-        return if (end != null) !end.isBefore(now) else powerUpWindowOrNull(powerUp) != null
-    }
-
-    fun savingsPounds(savings: Savings?): String? {
-        val amount = savings?.lastGbp ?: return null
+    fun savingsPounds(savings: LastSavings?): String? {
+        val amount = savings?.gbp ?: return null
         return String.format(Locale.UK, "£%.2f", amount)
     }
 
-    fun savingsLine(savings: Savings?): String? {
+    fun savingsBatchLine(savings: LastSavings?): String? {
         val pounds = savingsPounds(savings) ?: return null
-        val label = savings?.label?.takeIf { it.isNotBlank() }
-        return if (label != null) "$pounds · $label" else pounds
+        val sessions = sessionCountLabel(savings?.windowLabel)
+        return if (sessions != null) "$pounds · $sessions" else pounds
+    }
+
+    fun savingsDetailLine(savings: LastSavings?): String? {
+        val pounds = savingsPounds(savings) ?: return null
+        val window = savings?.windowLabel?.takeIf { it.isNotBlank() }
+        val sessions = sessionCountLabel(savings?.windowLabel)
+        return when {
+            window != null -> "$pounds · $window"
+            sessions != null -> "$pounds · $sessions"
+            else -> pounds
+        }
+    }
+
+    fun sessionCountLabel(windowLabel: String?): String? {
+        val count = sessionCount.find(windowLabel.orEmpty())?.groupValues?.get(1)?.toIntOrNull()
+            ?: return null
+        return if (count == 1) "1 session" else "$count sessions"
     }
 
     fun weatherLabel(weather: WeatherTomorrow?): String =
@@ -118,13 +120,5 @@ object StatusFormatter {
         val hour = hm.groupValues[1].toInt()
         val minute = hm.groupValues[2].toInt()
         return String.format(Locale.UK, "%02d:%02d", hour, minute)
-    }
-
-    private fun powerUpEnd(powerUp: PowerUp): ZonedDateTime? {
-        val toClock = displayClock(powerUp.to) ?: return null
-        val toTime = runCatching { LocalTime.parse(toClock) }.getOrNull() ?: return null
-        val day = powerUp.date?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
-            ?: ZonedDateTime.now(london).toLocalDate()
-        return ZonedDateTime.of(day, toTime, london)
     }
 }

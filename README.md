@@ -39,13 +39,13 @@ Sizes in the picker:
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Battery** | 1×1 | Huge SOC %. A small bolt only when a Power Up is upcoming / opted in. |
+| **Battery** | 1×1 | Huge SOC %. A small bolt only when `next_power_up` is set. |
 | **Battery + session** | 2×1 | SOC on the left; Power Up from–to (UK) or **No Power Up**; tomorrow’s weather icon in the corner if present. |
-| **Glance** | 2×2 | The 2×1 layout plus a battery-power sparkline (charge up, discharge down) and last savings £ when those exist. |
+| **Glance** | 2×2 | The 2×1 layout plus a battery-power sparkline and Power Up results £ (batch total, e.g. £36.95 · 9 sessions) when present. |
 | **Overview** | ~3×2 | Overnight slot, 16:00 target, solar W, last action, Power Up, updated time. |
-| **Strip** | 4×1 | `% \| window \| weather \| savings` — handy on a dock. |
+| **Strip** | 4×1 | `% \| window \| weather \| results £` — handy on a dock. |
 
-The sparkline is hidden until `battery_w_series` has at least two points. Missing weather or savings is hidden (or shown as — on the strip), never faked.
+The sparkline is hidden until `battery_w_series` has at least two points. Missing weather or `last_savings` is hidden (or shown as — on the strip), never faked. Results £ is the batch Power Up credit, not a single session.
 
 WorkManager refreshes the JSON about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). Android may stretch that toward 15–30 minutes to save battery.
 

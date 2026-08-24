@@ -56,7 +56,7 @@ private fun GlanceTileContent(status: HomeStatus?, sparkline: Bitmap?) {
                 modifier = GlanceModifier.fillMaxWidth().height(44.dp)
             )
         }
-        val savings = StatusFormatter.savingsLine(status?.savings)
+        val savings = StatusFormatter.savingsBatchLine(status?.lastSavings)
         if (savings != null) {
             Spacer(GlanceModifier.height(6.dp))
             Text(

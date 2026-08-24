@@ -19,6 +19,8 @@ object HomeStatusParser {
         explicitNulls = false
     }
 
+    private val clockWindow = Regex("""(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})""")
+
     fun parse(raw: String): HomeStatus {
         val root = json.parseToJsonElement(raw)
         val obj = root as? JsonObject ?: return HomeStatus()
@@ -26,49 +28,39 @@ object HomeStatusParser {
             updated = obj.string("updated"),
             socPercent = obj.int("soc_percent"),
             solarW = obj.int("solar_w"),
-            target1600Percent = obj.int("target_1600_percent", "target_1600"),
-            overnight = parseOvernight(obj),
+            target1600Percent = obj.int("target_1600_percent"),
+            overnight = parseOvernight(obj["overnight"]),
             peakWindow = obj.string("peak_window"),
             nextPowerUp = parsePowerUp(obj["next_power_up"]),
             lastAction = obj.string("last_action"),
             weatherTomorrow = parseWeather(obj["weather_tomorrow"]),
             batteryW = obj.double("battery_w"),
             batteryWSeries = parseSeries(obj["battery_w_series"]),
-            savings = parseSavings(obj["savings"])
+            lastSavings = parseLastSavings(obj["last_savings"])
         )
     }
 
-    private fun parseOvernight(obj: JsonObject): Overnight? {
-        val nested = obj["overnight"] as? JsonObject
-        if (nested != null) {
-            return Overnight(
-                start = nested.string("start"),
-                end = nested.string("end"),
-                capPercent = nested.int("cap_percent"),
-                label = nested.string("label")
-            )
-        }
-        return when (val slot = obj["overnight_slot"]) {
-            null, is JsonNull -> null
-            is JsonPrimitive -> slot.contentOrNull?.takeIf { it.isNotBlank() }?.let {
-                Overnight(label = it)
-            }
-            is JsonObject -> Overnight(
-                start = slot.string("start"),
-                end = slot.string("end"),
-                capPercent = slot.int("cap_percent"),
-                label = slot.string("label")
-            )
-            else -> null
-        }
+    private fun parseOvernight(element: JsonElement?): Overnight? {
+        val nested = element as? JsonObject ?: return null
+        return Overnight(
+            start = nested.string("start"),
+            end = nested.string("end"),
+            capPercent = nested.int("cap_percent")
+        )
     }
 
     private fun parsePowerUp(element: JsonElement?): PowerUp? {
         return when (element) {
             null, is JsonNull -> null
             is JsonPrimitive -> {
-                val text = element.contentOrNull?.takeIf { it.isNotBlank() } ?: return null
-                PowerUp(label = text)
+                val text = element.contentOrNull?.takeIf { it.isNotBlank() && it != "null" }
+                    ?: return null
+                val clocks = clockWindow.find(text)
+                PowerUp(
+                    from = clocks?.groupValues?.get(1),
+                    to = clocks?.groupValues?.get(2),
+                    label = text
+                )
             }
             is JsonObject -> {
                 val powerUp = PowerUp(
@@ -115,13 +107,30 @@ object HomeStatusParser {
         }
     }
 
-    private fun parseSavings(element: JsonElement?): Savings? {
+    private fun parseLastSavings(element: JsonElement?): LastSavings? {
         val obj = element as? JsonObject ?: return null
-        val savings = Savings(
-            lastGbp = obj.double("last_gbp"),
-            label = obj.string("label")
+        val savings = LastSavings(
+            gbp = obj.double("gbp"),
+            kwhExtra = obj.double("kwh_extra"),
+            percentExtra = obj.double("percent_extra"),
+            kind = obj.string("kind"),
+            windowLabel = obj.string("window_label"),
+            source = obj.string("source"),
+            at = obj.string("at")
         )
-        return if (savings.lastGbp == null && savings.label == null) null else savings
+        return if (
+            savings.gbp == null &&
+            savings.kwhExtra == null &&
+            savings.percentExtra == null &&
+            savings.kind == null &&
+            savings.windowLabel == null &&
+            savings.source == null &&
+            savings.at == null
+        ) {
+            null
+        } else {
+            savings
+        }
     }
 }
 
@@ -130,15 +139,11 @@ private fun JsonObject.string(key: String): String? {
     return primitive.contentOrNull?.takeIf { it.isNotBlank() && it != "null" }
 }
 
-private fun JsonObject.int(vararg keys: String): Int? {
-    for (key in keys) {
-        val primitive = this[key] as? JsonPrimitive ?: continue
-        val value = primitive.intOrNull
-            ?: primitive.doubleOrNull?.toInt()
-            ?: primitive.contentOrNull?.toDoubleOrNull()?.toInt()
-        if (value != null) return value
-    }
-    return null
+private fun JsonObject.int(key: String): Int? {
+    val primitive = this[key] as? JsonPrimitive ?: return null
+    return primitive.intOrNull
+        ?: primitive.doubleOrNull?.toInt()
+        ?: primitive.contentOrNull?.toDoubleOrNull()?.toInt()
 }
 
 private fun JsonObject.double(key: String): Double? {

@@ -121,7 +121,7 @@ fun StatusScreen(
             if (status?.weatherTomorrow != null) {
                 StatusRow("Tomorrow", StatusFormatter.weatherLabel(status.weatherTomorrow))
             }
-            StatusFormatter.savingsLine(status?.savings)?.let { StatusRow("Last savings", it) }
+            StatusFormatter.savingsDetailLine(status?.lastSavings)?.let { StatusRow("Power Up results", it) }
             StatusRow("Last action", StatusFormatter.lastAction(status?.lastAction))
             StatusRow("Updated", StatusFormatter.formatUpdated(status?.updated))
 
