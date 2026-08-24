@@ -7,9 +7,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
@@ -21,7 +21,6 @@ import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
-import androidx.glance.layout.defaultWeight
 import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
@@ -44,7 +43,7 @@ class StatusWidget : GlanceAppWidget() {
 
 @Composable
 private fun StatusWidgetContent(status: HomeStatus?) {
-    val openApp = actionStartActivity<MainActivity>()
+    val openApp = actionStartActivity(MainActivity::class.java)
     Column(
         modifier = GlanceModifier
             .fillMaxSize()
