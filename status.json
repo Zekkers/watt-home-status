@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-24T17:02:26+01:00",
-  "soc_percent": 63,
-  "solar_w": 957,
-  "battery_w": -106,
+  "updated": "2026-08-24T17:33:02+01:00",
+  "soc_percent": 59,
+  "solar_w": 531,
+  "battery_w": -761,
   "target_1600_percent": 55,
   "overnight": {
     "start": "02:00",
@@ -21,7 +21,7 @@
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
@@ -29,7 +29,7 @@
     "code": "clear",
     "label": "clear"
   },
-  "last_action": "wrote Power Up charge 12:00\u201314:00 on CH2414G328",
+  "last_action": "wrote Power Up charge 12:00–14:00 on CH2414G328",
   "battery_w_series": [
     {
       "t": "2026-08-24T00:02:58+01:00",
@@ -302,6 +302,10 @@
     {
       "t": "2026-08-24T16:34:55+01:00",
       "w": -106
+    },
+    {
+      "t": "2026-08-24T17:33:02+01:00",
+      "w": -761
     }
   ],
   "soc_series": [
@@ -576,6 +580,10 @@
     {
       "t": "2026-08-24T16:34:55+01:00",
       "soc": 63
+    },
+    {
+      "t": "2026-08-24T17:33:02+01:00",
+      "soc": 59
     }
   ]
 }
