@@ -84,9 +84,9 @@ class GivEnergyParserTest {
         val live = GivEnergyParser.parseLatest(latest)
         assertEquals(63, live.socPercent)
         assertEquals(420, live.solarW)
-        assertEquals(-1250.0, live.batteryW)
-        assertEquals(2289.0, GivEnergyParser.appBatteryW(-2289.0))
-        assertEquals(-1250.0, GivEnergyParser.appBatteryW(1250.0))
+        assertEquals(-1250.0, live.batteryW!!, 0.01)
+        assertEquals(2289.0, GivEnergyParser.appBatteryW(-2289.0), 0.01)
+        assertEquals(-1250.0, GivEnergyParser.appBatteryW(1250.0), 0.01)
         assertEquals("2026-08-24T15:34:00Z", live.updated)
     }
 
@@ -94,10 +94,10 @@ class GivEnergyParserTest {
     fun dataPointsDownsampleToFifteenMinutesAndNegateWatts() {
         val snapshot = GivEnergyParser.snapshotFromPoints(GivEnergyParser.parseDataPoints(points))
         assertEquals(2, snapshot.socSeries.size)
-        assertEquals(51.0, snapshot.socSeries[0].soc)
-        assertEquals(700.0, snapshot.batteryWSeries[0].w)
-        assertEquals(55.0, snapshot.socSeries[1].soc)
-        assertEquals(-400.0, snapshot.batteryWSeries[1].w)
+        assertEquals(51.0, snapshot.socSeries[0].soc!!, 0.01)
+        assertEquals(700.0, snapshot.batteryWSeries[0].w!!, 0.01)
+        assertEquals(55.0, snapshot.socSeries[1].soc!!, 0.01)
+        assertEquals(-400.0, snapshot.batteryWSeries[1].w!!, 0.01)
         assertEquals(1, GivEnergyParser.lastPage(points))
     }
 
@@ -125,7 +125,7 @@ class GivEnergyParserTest {
         val merged = LiveStatus.merge(publicStatus, live)
         assertEquals(63, merged.socPercent)
         assertEquals(420, merged.solarW)
-        assertEquals(-1250.0, merged.batteryW)
+        assertEquals(-1250.0, merged.batteryW!!, 0.01)
         assertTrue(merged.socSeries.isEmpty())
         assertTrue(merged.batteryWSeries.isEmpty())
         assertEquals("12:00", merged.nextPowerUp?.from)
