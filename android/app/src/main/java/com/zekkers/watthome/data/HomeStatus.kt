@@ -1,25 +1,48 @@
 package com.zekkers.watthome.data
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class HomeStatus(
     val updated: String? = null,
-    @SerialName("soc_percent") val socPercent: Int? = null,
-    @SerialName("solar_w") val solarW: Int? = null,
-    @SerialName("target_1600_percent") val target1600Percent: Int? = null,
+    val socPercent: Int? = null,
+    val solarW: Int? = null,
+    val target1600Percent: Int? = null,
     val overnight: Overnight? = null,
-    @SerialName("peak_window") val peakWindow: String? = null,
-    @SerialName("next_power_up") val nextPowerUp: String? = null,
-    @SerialName("last_action") val lastAction: String? = null
+    val peakWindow: String? = null,
+    val nextPowerUp: PowerUp? = null,
+    val lastAction: String? = null,
+    val weatherTomorrow: WeatherTomorrow? = null,
+    val batteryW: Double? = null,
+    val batteryWSeries: List<BatterySample> = emptyList(),
+    val savings: Savings? = null
 )
 
-@Serializable
 data class Overnight(
     val start: String? = null,
     val end: String? = null,
-    @SerialName("cap_percent") val capPercent: Int? = null
+    val capPercent: Int? = null,
+    val label: String? = null
+)
+
+data class PowerUp(
+    val from: String? = null,
+    val to: String? = null,
+    val date: String? = null,
+    val optedIn: Boolean? = null,
+    val label: String? = null
+)
+
+data class WeatherTomorrow(
+    val code: String? = null,
+    val label: String? = null
+)
+
+data class BatterySample(
+    val t: String? = null,
+    val w: Double? = null
+)
+
+data class Savings(
+    val lastGbp: Double? = null,
+    val label: String? = null
 )
 
 data class StatusUiState(

@@ -25,30 +25,29 @@ Do this on each phone.
 
 The app needs **Internet** so it can fetch `status.json`. It does not ask for location, contacts, or notifications.
 
-## Add the home-screen widget
+## Add a home-screen widget
 
 On each phone, after the app is installed:
 
 1. Long-press an empty spot on the home screen.
 2. Tap **Widgets**.
 3. Find **Watt Home**.
-4. Drag the widget onto the home screen (about 3×2 cells; it can be resized).
-5. Tap the widget to open the same figures in the app.
+4. Pick a size and drag it onto the home screen.
+5. Tap any widget to open the same figures in the app.
 
-The widget and app show:
+Sizes in the picker:
 
-| Field | Source |
-| --- | --- |
-| Battery (SOC %) | `soc_percent` |
-| Solar W | `solar_w` |
-| Overnight slot | `overnight.start`–`end` and `cap_percent` |
-| 16:00 target | `target_1600_percent` |
-| Peak window | `peak_window` |
-| Next Power Up | `next_power_up` (shows **None scheduled** when `null`) |
-| Last action | `last_action` |
-| Updated | `updated`, displayed in **Europe/London** |
+| Picker name | Size | Shows |
+| --- | --- | --- |
+| **Battery** | 1×1 | Huge SOC %. A small bolt only when a Power Up is upcoming / opted in. |
+| **Battery + session** | 2×1 | SOC on the left; Power Up from–to (UK) or **No Power Up**; tomorrow’s weather icon in the corner if present. |
+| **Glance** | 2×2 | The 2×1 layout plus a battery-power sparkline (charge up, discharge down) and last savings £ when those exist. |
+| **Overview** | ~3×2 | Overnight slot, 16:00 target, solar W, last action, Power Up, updated time. |
+| **Strip** | 4×1 | `% \| window \| weather \| savings` — handy on a dock. |
 
-WorkManager refreshes the JSON about every **15 minutes** (and when you open the app, tap refresh, or add/update the widget). Android may stretch that toward 15–30 minutes to save battery.
+The sparkline is hidden until `battery_w_series` has at least two points. Missing weather or savings is hidden (or shown as — on the strip), never faked.
+
+WorkManager refreshes the JSON about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). Android may stretch that toward 15–30 minutes to save battery.
 
 ## Rebuild from this repo
 

@@ -1,11 +1,10 @@
 package com.zekkers.watthome.worker
 
 import android.content.Context
-import androidx.glance.appwidget.updateAll
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.zekkers.watthome.data.StatusRepository
-import com.zekkers.watthome.widget.StatusWidget
+import com.zekkers.watthome.widget.WidgetUpdater
 
 class StatusRefreshWorker(
     appContext: Context,
@@ -16,10 +15,10 @@ class StatusRefreshWorker(
         repository.loadCached()
         return try {
             repository.refresh()
-            StatusWidget().updateAll(applicationContext)
+            WidgetUpdater.updateAll(applicationContext)
             Result.success()
         } catch (_: Exception) {
-            StatusWidget().updateAll(applicationContext)
+            WidgetUpdater.updateAll(applicationContext)
             Result.retry()
         }
     }

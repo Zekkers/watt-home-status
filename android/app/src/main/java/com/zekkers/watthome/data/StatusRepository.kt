@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
@@ -27,12 +26,6 @@ class StatusRepository private constructor(context: Context) {
         .readTimeout(20, TimeUnit.SECONDS)
         .callTimeout(30, TimeUnit.SECONDS)
         .build()
-
-    private val json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
-        explicitNulls = false
-    }
 
     private val _uiState = MutableStateFlow(StatusUiState(isLoading = true))
     val uiState: StateFlow<StatusUiState> = _uiState.asStateFlow()
@@ -79,7 +72,7 @@ class StatusRepository private constructor(context: Context) {
         }
     }
 
-    private fun decode(raw: String): HomeStatus = json.decodeFromString(HomeStatus.serializer(), raw)
+    private fun decode(raw: String): HomeStatus = HomeStatusParser.parse(raw)
 
     private suspend fun persist(raw: String) {
         appContext.statusDataStore.edit { prefs ->

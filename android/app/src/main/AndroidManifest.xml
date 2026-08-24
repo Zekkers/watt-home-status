@@ -26,15 +26,63 @@
         </activity>
 
         <receiver
+            android:name=".widget.BatteryWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_label_battery">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_battery_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.BatterySessionWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_label_session">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_battery_session_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.GlanceTileWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_label_glance">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_glance_info" />
+        </receiver>
+
+        <receiver
             android:name=".widget.StatusWidgetReceiver"
             android:exported="true"
-            android:label="@string/widget_name">
+            android:label="@string/widget_label_overview">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/status_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.StripWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_label_strip">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_strip_info" />
         </receiver>
     </application>
 </manifest>

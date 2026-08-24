@@ -114,7 +114,14 @@ fun StatusScreen(
             StatusRow("Overnight slot", StatusFormatter.overnight(status?.overnight))
             StatusRow("16:00 target", StatusFormatter.percent(status?.target1600Percent))
             StatusRow("Peak window", StatusFormatter.dash(status?.peakWindow))
-            StatusRow("Next Power Up", StatusFormatter.nextPowerUp(status?.nextPowerUp))
+            StatusRow("Next Power Up", StatusFormatter.powerUpWindow(status?.nextPowerUp))
+            if (status?.batteryW != null) {
+                StatusRow("Battery power", StatusFormatter.signedWatts(status.batteryW))
+            }
+            if (status?.weatherTomorrow != null) {
+                StatusRow("Tomorrow", StatusFormatter.weatherLabel(status.weatherTomorrow))
+            }
+            StatusFormatter.savingsLine(status?.savings)?.let { StatusRow("Last savings", it) }
             StatusRow("Last action", StatusFormatter.lastAction(status?.lastAction))
             StatusRow("Updated", StatusFormatter.formatUpdated(status?.updated))
 
