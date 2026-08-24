@@ -13,6 +13,7 @@ import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
+import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
@@ -60,7 +61,7 @@ internal fun PowerUpTimeLine(
 }
 
 @Composable
-internal fun PowerUpBolt() {
+internal fun CornerBolt() {
     Image(
         provider = ImageProvider(R.drawable.ic_power_up_badge),
         contentDescription = "Power Up",
@@ -76,18 +77,21 @@ internal fun PowerUpClockBlock(
     mode: PowerUpClockMode,
     fontSize: TextUnit,
     showBolt: Boolean,
-    modifier: GlanceModifier = GlanceModifier
+    modifier: GlanceModifier = GlanceModifier,
+    alignEnd: Boolean = true
 ) {
     if (mode == PowerUpClockMode.Hidden || clock == null) return
     Row(
         modifier = modifier,
-        horizontalAlignment = Alignment.End,
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
         verticalAlignment = Alignment.Top
     ) {
         if (mode == PowerUpClockMode.OneLine) {
             PowerUpTimeLine(clock.oneLine, fontSize)
         } else {
-            Column(horizontalAlignment = Alignment.End) {
+            Column(
+                horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start
+            ) {
                 PowerUpTimeLine(clock.from, fontSize)
                 PowerUpTimeLine(clock.to, fontSize)
             }
@@ -118,7 +122,13 @@ internal fun BatterySocStack(
                 verticalAlignment = Alignment.Top,
                 horizontalAlignment = Alignment.Start
             ) {
-                SocToken(percent = status?.socPercent, numberSize = socSize)
+                Row(
+                    modifier = GlanceModifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    SocToken(percent = status?.socPercent, numberSize = socSize)
+                    Spacer(GlanceModifier.defaultWeight())
+                }
                 if (clock != null) {
                     PowerUpTimeLine(clock.from, timeSize)
                     PowerUpTimeLine(clock.to, timeSize)
@@ -129,7 +139,7 @@ internal fun BatterySocStack(
                     modifier = GlanceModifier.fillMaxSize(),
                     contentAlignment = Alignment.TopEnd
                 ) {
-                    PowerUpBolt()
+                    CornerBolt()
                 }
             }
         } else {
@@ -145,7 +155,7 @@ internal fun BatterySocStack(
                     }
                 }
                 if (showBolt) {
-                    PowerUpBolt()
+                    CornerBolt()
                 }
             }
         }
@@ -153,10 +163,7 @@ internal fun BatterySocStack(
 }
 
 @Composable
-internal fun SessionHeader(
-    status: HomeStatus?,
-    clockMode: PowerUpClockMode
-) {
+internal fun SessionHeader(status: HomeStatus?) {
     val clock = PowerUpLayout.clock(status?.nextPowerUp)
     val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
     Row(
@@ -171,12 +178,19 @@ internal fun SessionHeader(
                 maxLines = 1
             )
         }
-        PowerUpClockBlock(
-            clock = clock,
-            mode = clockMode,
-            fontSize = 13.sp,
-            showBolt = showBolt,
-            modifier = GlanceModifier.defaultWeight()
-        )
+        Spacer(GlanceModifier.defaultWeight())
+        if (clock != null) {
+            Column(horizontalAlignment = Alignment.End) {
+                PowerUpTimeLine(clock.from, 13.sp)
+                PowerUpTimeLine(clock.to, 13.sp)
+            }
+        }
+        if (showBolt) {
+            Image(
+                provider = ImageProvider(R.drawable.ic_power_up_badge),
+                contentDescription = "Power Up",
+                modifier = GlanceModifier.padding(start = 6.dp).size(PowerUpBoltSize)
+            )
+        }
     }
 }

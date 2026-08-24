@@ -68,15 +68,13 @@ object PowerUpLayout {
 
     fun twoByOne(
         powerUp: PowerUp?,
-        availableTimeDp: Float,
-        timeSp: Float,
-        boltDp: Float,
-        density: Float
+        availableTimeDp: Float = 0f,
+        timeSp: Float = 13f,
+        boltDp: Float = 0f,
+        density: Float = 1f
     ): PowerUpClockMode {
-        val clock = clock(powerUp) ?: return PowerUpClockMode.Hidden
-        val bolt = if (StatusFormatter.optedInPowerUp(powerUp)) boltDp else 0f
-        val need = WidgetTextMeasure.widthDp(clock.oneLine, timeSp, density) + bolt
-        return if (need <= availableTimeDp) PowerUpClockMode.OneLine else PowerUpClockMode.Stacked
+        if (clock(powerUp) == null) return PowerUpClockMode.Hidden
+        return PowerUpClockMode.Stacked
     }
 
     fun wide(
@@ -86,10 +84,7 @@ object PowerUpLayout {
         density: Float
     ): PowerUpClockMode {
         val clock = clock(powerUp) ?: return PowerUpClockMode.Hidden
-        return if (WidgetTextMeasure.fits(clock.oneLine, timeSp, availableDp, density)) {
-            PowerUpClockMode.OneLine
-        } else {
-            PowerUpClockMode.Stacked
-        }
+        val need = WidgetTextMeasure.widthDp(clock.oneLine, timeSp, density) * 1.3f
+        return if (need <= availableDp) PowerUpClockMode.OneLine else PowerUpClockMode.Stacked
     }
 }

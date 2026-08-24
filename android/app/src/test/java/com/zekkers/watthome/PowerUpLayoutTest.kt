@@ -48,24 +48,14 @@ class PowerUpLayoutTest {
     }
 
     @Test
-    fun twoByOneStacksWhenOneLinePlusBoltWouldClip() {
-        assertEquals(
-            PowerUpClockMode.Stacked,
-            PowerUpLayout.twoByOne(noon, availableTimeDp = 48f, timeSp = 13f, boltDp = 30f, density = 1f)
-        )
-        assertEquals(
-            PowerUpClockMode.Stacked,
-            PowerUpLayout.twoByOne(noon, availableTimeDp = 80f, timeSp = 13f, boltDp = 30f, density = 1f)
-        )
-    }
-
-    @Test
-    fun twoByOneUsesOneLineOnlyWhenTheFullStringFitsWithBolt() {
-        assertEquals(
-            PowerUpClockMode.OneLine,
-            PowerUpLayout.twoByOne(noon, availableTimeDp = 220f, timeSp = 13f, boltDp = 30f, density = 1f)
-        )
-        assertEquals("12pm - 2pm", PowerUpLayout.clock(noon)!!.oneLine)
+    fun twoByOneAlwaysStacksTwelvePmAndTwoPm() {
+        assertEquals(PowerUpClockMode.Stacked, PowerUpLayout.twoByOne(noon))
+        assertEquals(PowerUpClockMode.Stacked, PowerUpLayout.twoByOne(noon, availableTimeDp = 220f))
+        assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.twoByOne(null))
+        assertNotEquals(PowerUpClockMode.OneLine, PowerUpLayout.twoByOne(noon))
+        val clock = PowerUpLayout.clock(noon)!!
+        assertEquals("12pm", clock.from)
+        assertEquals("2pm", clock.to)
     }
 
     @Test
@@ -76,7 +66,7 @@ class PowerUpLayoutTest {
         )
         assertEquals(
             PowerUpClockMode.Stacked,
-            PowerUpLayout.wide(noon, availableDp = 40f, timeSp = 12f, density = 1f)
+            PowerUpLayout.wide(noon, availableDp = 80f, timeSp = 12f, density = 1f)
         )
         assertNull(PowerUpLayout.clock(null))
         assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.wide(null, 200f, 12f, 1f))

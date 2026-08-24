@@ -106,7 +106,9 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
             clock = clock,
             mode = clockMode,
             fontSize = 12.sp,
-            showBolt = false
+            showBolt = false,
+            modifier = GlanceModifier.fillMaxWidth(),
+            alignEnd = false
         )
         Spacer(GlanceModifier.height(6.dp))
         Image(

@@ -59,54 +59,49 @@ private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
     val hasCurve = StatusFormatter.hasTodayCurve(status)
     val savings = StatusFormatter.savingsWidgetLine(status?.lastSavings)
     val density = Resources.getSystem().displayMetrics.density
-    val innerWidth = LocalSize.current.width.value - 16f
-    val savingsLine = savings?.takeIf { WidgetTextMeasure.fits(it, 11f, innerWidth, density) }
-    Column(
+    val size = LocalSize.current
+    val rightWidth = (size.width.value - 16f) * 0.55f
+    val savingsLine = savings?.takeIf { WidgetTextMeasure.fits(it, 11f, rightWidth, density) }
+    Row(
         modifier = GlanceModifier.fillMaxSize(),
-        verticalAlignment = Alignment.Top,
-        horizontalAlignment = Alignment.Start
+        verticalAlignment = Alignment.Top
     ) {
-        Row(
-            modifier = GlanceModifier.fillMaxWidth().defaultWeight(),
-            verticalAlignment = Alignment.Top
+        BatterySocStack(
+            status = status,
+            modifier = GlanceModifier.padding(end = 8.dp),
+            fillBoltCorner = false
+        )
+        Column(
+            modifier = GlanceModifier.defaultWeight().fillMaxSize(),
+            verticalAlignment = Alignment.Top,
+            horizontalAlignment = Alignment.Start
         ) {
-            BatterySocStack(
-                status = status,
-                modifier = GlanceModifier.padding(end = 8.dp),
-                fillBoltCorner = false
+            Image(
+                provider = ImageProvider(curve),
+                contentDescription = "Today’s battery",
+                contentScale = ContentScale.FillBounds,
+                modifier = GlanceModifier.fillMaxWidth().defaultWeight()
             )
-            Column(
-                modifier = GlanceModifier.defaultWeight().fillMaxSize(),
-                verticalAlignment = Alignment.Top,
-                horizontalAlignment = Alignment.Start
-            ) {
-                Image(
-                    provider = ImageProvider(curve),
-                    contentDescription = "Today’s battery",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = GlanceModifier.fillMaxWidth().defaultWeight()
+            if (!hasCurve) {
+                Spacer(GlanceModifier.height(4.dp))
+                Text(
+                    text = "waiting for today’s curve",
+                    style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
+                    maxLines = 1
                 )
-                if (!hasCurve) {
-                    Spacer(GlanceModifier.height(4.dp))
-                    Text(
-                        text = "waiting for today’s curve",
-                        style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
-                        maxLines = 1
-                    )
-                }
             }
-        }
-        if (savingsLine != null) {
-            Spacer(GlanceModifier.height(4.dp))
-            Text(
-                text = savingsLine,
-                style = TextStyle(
-                    color = ColorProvider(Solar, Solar),
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Medium
-                ),
-                maxLines = 1
-            )
+            if (savingsLine != null) {
+                Spacer(GlanceModifier.height(4.dp))
+                Text(
+                    text = savingsLine,
+                    style = TextStyle(
+                        color = ColorProvider(Solar, Solar),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    maxLines = 1
+                )
+            }
         }
     }
 }

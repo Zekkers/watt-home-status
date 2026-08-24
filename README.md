@@ -47,10 +47,10 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | SOC as `63%` on one line. Bolt inset inside the corner. |
-| **Watt Home · Battery + session** | 2×1 | SOC on the left; Power Up as `12pm - 2pm` and a single bolt when opted in. |
-| **Watt Home · Glance** | 2×2 | Top-aligned SOC + `12pm - 2pm`, one SOC day curve filling the extra height (optional thin W strip under it), and `£36.95 · 9 sess`. |
-| **Watt Home · Overview** | ~3×2 / wide | Overnight slot, 16:00 target, solar W, Power Up `12pm - 2pm`, letterboxed SOC curve, updated time. |
+| **Watt Home · Battery** | 1×1 | Three rows only: large `63%`, small `12pm`, small `2pm`. Bolt 2× inset inside the rounded corner, not clipping SOC. Never one-line `12pm - 2pm`, never `6...`. |
+| **Watt Home · Battery + session** | 2×1 | SOC on the left; `12pm` / `2pm` as two lines on the right. Never `63%pm`. |
+| **Watt Home · Glance** | 2×2 | Left: the same 1×1 stack. Right: SOC graph. Top-aligned. Savings `£36.95 · 9 sess` if it fits without clipping the times. |
+| **Watt Home · Overview** | ~3×2 / wide | Overnight slot, 16:00 target, solar W, Power Up as full `12pm - 2pm` or stacked `12pm`/`2pm`. Never `m - 2` or concatenate onto SOC. |
 | **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
 
 Glance always keeps a graph slot. 2×2 fills its height with the SOC curve on a 00:00–24:00 / 0–100% scale. Wide Overview letterboxes that same mapping so the curve is not stretched flat. Missing extras stay hidden.
