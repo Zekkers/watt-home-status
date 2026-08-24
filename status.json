@@ -1,7 +1,8 @@
 {
-  "updated": "2026-08-24T15:34:00+01:00",
-  "soc_percent": 64,
-  "solar_w": 980,
+  "updated": "2026-08-24T16:22:23+01:00",
+  "soc_percent": 63,
+  "solar_w": 649,
+  "battery_w": 1020,
   "target_1600_percent": 55,
   "overnight": {
     "start": "02:00",
@@ -9,6 +10,24 @@
     "cap_percent": 30
   },
   "peak_window": "16:00-19:00",
-  "next_power_up": null,
-  "last_action": "status.json seeded"
+  "next_power_up": {
+    "from": "12:00",
+    "to": "14:00",
+    "date": "2026-08-25",
+    "opted_in": false
+  },
+  "last_savings": {
+    "gbp": 36.95,
+    "kwh_extra": null,
+    "percent_extra": null,
+    "kind": "power_up",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
+    "source": "results_email",
+    "at": "2026-08-13T15:33:56+01:00"
+  },
+  "weather_tomorrow": {
+    "code": "clear",
+    "label": "clear"
+  },
+  "last_action": "seeded last_savings + Tue 25 Aug 12:00–14:00 Power Up (opt-in in progress)"
 }
