@@ -169,33 +169,64 @@ class StatusFormatterTest {
     }
 
     @Test
-    fun parsesHistoryArraysForTodayCurve() {
-        val status = HomeStatusParser.parse(
+    fun graphsBatteryWSeriesAndOptionalSocSeriesWithoutInventing() {
+        val liveShape = HomeStatusParser.parse(
             """
             {
+              "battery_w": -106,
+              "battery_w_series": [
+                {"t":"2026-08-24T00:02:58+01:00","w":-355},
+                {"t":"2026-08-24T02:14:33+01:00","w":5665},
+                {"t":"2026-08-24T16:34:55+01:00","w":-106}
+              ],
               "soc_series": [
-                {"t":"2026-08-24T10:00:00+01:00","soc":40},
-                {"t":"2026-08-24T12:00:00+01:00","soc":55}
-              ],
-              "history": [
-                {"t":"2026-08-24T10:00:00+01:00","battery_w":200},
-                {"t":"2026-08-24T12:00:00+01:00","w":-80}
-              ],
-              "samples": [
-                {"time":"2026-08-24T11:00:00+01:00","soc_percent":48}
+                {"t":"2026-08-24T00:02:58+01:00","soc":13},
+                {"t":"2026-08-24T02:14:33+01:00","soc":21},
+                {"t":"2026-08-24T16:34:55+01:00","soc":63}
               ]
             }
             """.trimIndent()
         )
-        assertTrue(status.socSeries.size >= 2)
-        assertTrue(status.batteryWSeries.size >= 2)
-        assertTrue(StatusFormatter.hasTodayCurve(status))
-        val live = HomeStatusParser.parse("""{"soc_percent":63,"battery_w":1020}""")
-        assertFalse(StatusFormatter.hasTodayCurve(live))
+        assertEquals(3, liveShape.batteryWSeries.size)
+        assertEquals(-355.0, liveShape.batteryWSeries.first().w)
+        assertEquals(-106.0, liveShape.batteryWSeries.last().w)
+        assertEquals(3, liveShape.socSeries.size)
+        assertEquals(13.0, liveShape.socSeries.first().soc)
+        assertEquals(63.0, liveShape.socSeries.last().soc)
+        assertTrue(StatusFormatter.hasTodayCurve(liveShape))
 
-        val numbers = HomeStatusParser.parse("""{"soc_series":[40,55,63,70]}""")
-        assertEquals(4, numbers.socSeries.size)
-        assertTrue(StatusFormatter.hasTodayCurve(numbers))
+        val wattsOnly = HomeStatusParser.parse(
+            """{"battery_w_series":[{"t":"2026-08-24T10:00:00+01:00","w":200},{"t":"2026-08-24T11:00:00+01:00","w":-80}]}"""
+        )
+        assertEquals(2, wattsOnly.batteryWSeries.size)
+        assertTrue(wattsOnly.socSeries.isEmpty())
+        assertTrue(StatusFormatter.hasTodayCurve(wattsOnly))
+
+        val emptyArrays = HomeStatusParser.parse("""{"battery_w_series":[],"soc_series":[]}""")
+        assertTrue(emptyArrays.batteryWSeries.isEmpty())
+        assertTrue(emptyArrays.socSeries.isEmpty())
+        assertFalse(StatusFormatter.hasTodayCurve(emptyArrays))
+
+        val scalarOnly = HomeStatusParser.parse("""{"soc_percent":63,"battery_w":1020}""")
+        assertTrue(scalarOnly.batteryWSeries.isEmpty())
+        assertTrue(scalarOnly.socSeries.isEmpty())
+        assertFalse(StatusFormatter.hasTodayCurve(scalarOnly))
+
+        val onePoint = HomeStatusParser.parse("""{"battery_w_series":[{"t":"2026-08-24T10:00:00+01:00","w":200}]}""")
+        assertEquals(1, onePoint.batteryWSeries.size)
+        assertFalse(StatusFormatter.hasTodayCurve(onePoint))
+
+        val otherKeys = HomeStatusParser.parse(
+            """
+            {
+              "history": [{"t":"2026-08-24T10:00:00+01:00","w":200},{"t":"2026-08-24T12:00:00+01:00","w":-80}],
+              "samples": [{"time":"2026-08-24T11:00:00+01:00","soc_percent":48},{"time":"2026-08-24T12:00:00+01:00","soc":55}]
+            }
+            """.trimIndent()
+        )
+        assertTrue(otherKeys.batteryWSeries.isEmpty())
+        assertTrue(otherKeys.socSeries.isEmpty())
+        assertFalse(StatusFormatter.hasTodayCurve(otherKeys))
     }
 
     @Test

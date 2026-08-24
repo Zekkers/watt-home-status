@@ -4,7 +4,10 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import com.zekkers.watthome.data.BatterySample
 import com.zekkers.watthome.data.HomeStatus
+import com.zekkers.watthome.data.StatusFormatter
+import java.time.LocalTime
 import kotlin.math.abs
 
 object SparklineRenderer {
@@ -13,6 +16,7 @@ object SparklineRenderer {
     private const val Line = 0xFFE8F5E9.toInt()
     private const val Charge = 0xFF81C784.toInt()
     private const val Discharge = 0xFFF9A825.toInt()
+    private const val MinutesInDay = 24 * 60.0
 
     fun renderToday(status: HomeStatus?, widthPx: Int, heightPx: Int): Bitmap {
         val empty = Bitmap.createBitmap(widthPx.coerceAtLeast(8), heightPx.coerceAtLeast(8), Bitmap.Config.ARGB_8888)
@@ -20,12 +24,12 @@ object SparklineRenderer {
             drawEmpty(empty)
             return empty
         }
-        val soc = status.socSeries.mapNotNull { it.soc }
+        val soc = status.socSeries.filter { it.soc != null }
         if (soc.size >= 2) {
-            renderUnsigned(empty, soc, minY = 0.0, maxY = 100.0)
+            renderUnsigned(empty, soc) { it.soc!! }
             return empty
         }
-        val watts = status.batteryWSeries.mapNotNull { it.w }
+        val watts = status.batteryWSeries.filter { it.w != null }
         if (watts.size >= 2) {
             renderSigned(empty, watts)
             return empty
@@ -34,33 +38,32 @@ object SparklineRenderer {
         return empty
     }
 
-    private fun renderUnsigned(bitmap: Bitmap, points: List<Double>, minY: Double, maxY: Double) {
+    private fun renderUnsigned(bitmap: Bitmap, samples: List<BatterySample>, value: (BatterySample) -> Double) {
         val canvas = Canvas(bitmap)
         canvas.drawColor(Background)
         drawGrid(canvas, bitmap.width, bitmap.height)
         val pad = bitmap.height * 0.16f
         val usable = (bitmap.height - 2 * pad).coerceAtLeast(1f)
-        val span = (maxY - minY).coerceAtLeast(1.0)
-        val dx = (bitmap.width - 1).toFloat() / points.lastIndex
+        val xs = xPositions(samples, bitmap.width)
         val paint = linePaint(Line)
         val path = Path()
-        points.forEachIndexed { index, value ->
-            val x = index * dx
-            val y = pad + ((maxY - value) / span).toFloat() * usable
-            if (index == 0) path.moveTo(x, y) else path.lineTo(x, y)
+        samples.forEachIndexed { index, sample ->
+            val y = pad + ((100.0 - value(sample).coerceIn(0.0, 100.0)) / 100.0).toFloat() * usable
+            if (index == 0) path.moveTo(xs[index], y) else path.lineTo(xs[index], y)
         }
         canvas.drawPath(path, paint)
     }
 
-    private fun renderSigned(bitmap: Bitmap, points: List<Double>) {
+    private fun renderSigned(bitmap: Bitmap, samples: List<BatterySample>) {
         val canvas = Canvas(bitmap)
         canvas.drawColor(Background)
         drawGrid(canvas, bitmap.width, bitmap.height)
+        val points = samples.map { it.w!! }
         val maxAbs = points.maxOf { abs(it) }.coerceAtLeast(1.0)
         val pad = bitmap.height * 0.12f
         val midY = bitmap.height / 2f
         val usable = ((bitmap.height - 2 * pad) / 2f).coerceAtLeast(1f)
-        val dx = (bitmap.width - 1).toFloat() / points.lastIndex
+        val xs = xPositions(samples, bitmap.width)
         fun y(value: Double): Float = midY - (value / maxAbs).toFloat() * usable
         val zeroPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Grid
@@ -69,10 +72,31 @@ object SparklineRenderer {
         canvas.drawLine(0f, midY, bitmap.width.toFloat(), midY, zeroPaint)
         val charge = linePaint(Charge)
         val discharge = linePaint(Discharge)
-        for (i in 1 until points.size) {
+        for (i in 1 until samples.size) {
             val paint = if (points[i] >= 0 && points[i - 1] >= 0) charge else discharge
-            canvas.drawLine((i - 1) * dx, y(points[i - 1]), i * dx, y(points[i]), paint)
+            canvas.drawLine(xs[i - 1], y(points[i - 1]), xs[i], y(points[i]), paint)
         }
+    }
+
+    private fun xPositions(samples: List<BatterySample>, width: Int): List<Float> {
+        val minutes = samples.map { minutesFromMidnight(it.t) }
+        if (minutes.all { it != null }) {
+            return minutes.map { ((it!! / MinutesInDay) * (width - 1)).toFloat() }
+        }
+        val last = samples.lastIndex.coerceAtLeast(1)
+        return samples.indices.map { it * (width - 1).toFloat() / last }
+    }
+
+    private fun minutesFromMidnight(raw: String?): Double? {
+        if (raw.isNullOrBlank()) return null
+        StatusFormatter.parseTimestamp(raw)?.let { stamp ->
+            val local = stamp.atZoneSameInstant(StatusFormatter.london).toLocalTime()
+            return local.hour * 60.0 + local.minute + local.second / 60.0
+        }
+        return runCatching {
+            val local = LocalTime.parse(raw.trim())
+            local.hour * 60.0 + local.minute + local.second / 60.0
+        }.getOrNull()
     }
 
     private fun drawEmpty(bitmap: Bitmap) {

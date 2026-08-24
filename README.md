@@ -45,7 +45,7 @@ Sizes in the picker (under **Watt Home**, no search needed):
 | **Watt Home · Overview** | ~3×2 | Overnight slot, 16:00 target, solar W, last action, curve, updated time. |
 | **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
 
-Glance always keeps a graph slot. If `soc_series` / `battery_w_series` / `history` / `samples` are missing, it shows **waiting for today’s curve** rather than cloning the 2×1 layout. Results £ is the batch Power Up credit, not a single session.
+Glance always keeps a graph slot. It draws today’s samples from `battery_w_series` (and `soc_series` when present). If those arrays are missing or empty, the slot stays empty — **waiting for today’s curve** — with no invented points. Results £ is the batch Power Up credit, not a single session.
 
 WorkManager refreshes the JSON about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). Android may stretch that toward 15–30 minutes to save battery.
 
