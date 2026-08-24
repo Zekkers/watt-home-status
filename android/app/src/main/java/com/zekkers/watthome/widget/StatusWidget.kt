@@ -49,7 +49,11 @@ class StatusWidget : GlanceAppWidget() {
 @Composable
 private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
     val hasCurve = StatusFormatter.hasTodayCurve(status)
-    Column(modifier = GlanceModifier.fillMaxSize()) {
+    Column(
+        modifier = GlanceModifier.fillMaxSize(),
+        verticalAlignment = Alignment.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
         Text(
             text = "Watt Home",
             style = TextStyle(color = ColorProvider(Leaf, Leaf), fontSize = 12.sp),
@@ -60,7 +64,7 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
             modifier = GlanceModifier.fillMaxWidth(),
             verticalAlignment = Alignment.Bottom
         ) {
-            SocToken(status?.socPercent, numberSize = 28.sp, percentSize = 14.sp)
+            SocToken(status?.socPercent, numberSize = 28.sp)
             Spacer(GlanceModifier.defaultWeight())
             Text(
                 text = StatusFormatter.watts(status?.solarW),
@@ -84,7 +88,7 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
             maxLines = 1
         )
         Text(
-            text = StatusFormatter.powerUpLine(status?.nextPowerUp),
+            text = StatusFormatter.powerUpSpokenWindow(status?.nextPowerUp),
             style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
             maxLines = 1
         )

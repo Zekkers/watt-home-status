@@ -16,6 +16,7 @@ import androidx.glance.background
 import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
+import androidx.glance.layout.Alignment
 import com.zekkers.watthome.MainActivity
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusRepository
@@ -59,7 +60,8 @@ internal fun WidgetCard(
             .cornerRadius(radius)
             .background(ForestBg)
             .clickable(openApp)
-            .padding(padding)
+            .padding(padding),
+        contentAlignment = Alignment.TopStart
     ) {
         content()
     }

@@ -9,6 +9,7 @@ import androidx.glance.ImageProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import com.zekkers.watthome.R
 import com.zekkers.watthome.data.HomeStatus
@@ -28,8 +29,7 @@ class BatteryWidget : WattGlanceWidget() {
             ) {
                 SocToken(
                     percent = status?.socPercent,
-                    numberSize = 34.sp,
-                    percentSize = 16.sp
+                    numberSize = 32.sp
                 )
             }
             if (showBadge) {
@@ -40,7 +40,7 @@ class BatteryWidget : WattGlanceWidget() {
                     Image(
                         provider = ImageProvider(R.drawable.ic_power_up_badge),
                         contentDescription = "Power Up",
-                        modifier = GlanceModifier.size(12.dp)
+                        modifier = GlanceModifier.padding(top = 8.dp, end = 8.dp).size(12.dp)
                     )
                 }
             }

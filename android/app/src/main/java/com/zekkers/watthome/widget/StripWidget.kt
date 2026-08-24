@@ -28,7 +28,7 @@ class StripWidget : WattGlanceWidget() {
             modifier = GlanceModifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SocToken(status?.socPercent, numberSize = 20.sp, percentSize = 12.sp)
+            SocToken(status?.socPercent, numberSize = 20.sp)
             Text(
                 text = StatusFormatter.powerUpCompactHours(status?.nextPowerUp),
                 style = TextStyle(

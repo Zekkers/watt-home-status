@@ -12,6 +12,7 @@ import androidx.glance.ImageProvider
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.color.ColorProvider
+import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.Spacer
@@ -33,8 +34,9 @@ class GlanceTileWidget : GlanceAppWidget() {
         val density = context.resources.displayMetrics.density
         val curve = SparklineRenderer.renderToday(
             status = status,
-            widthPx = (260 * density).toInt().coerceAtLeast(180),
-            heightPx = (90 * density).toInt().coerceAtLeast(64)
+            widthPx = (240 * density).toInt().coerceAtLeast(160),
+            heightPx = (170 * density).toInt().coerceAtLeast(120),
+            fillSlot = true
         )
         provideContent {
             WidgetCard {
@@ -48,13 +50,17 @@ class GlanceTileWidget : GlanceAppWidget() {
 private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
     val hasCurve = StatusFormatter.hasTodayCurve(status)
     val savings = StatusFormatter.savingsWidgetLine(status?.lastSavings)
-    Column(modifier = GlanceModifier.fillMaxSize()) {
+    Column(
+        modifier = GlanceModifier.fillMaxSize(),
+        verticalAlignment = Alignment.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
         SessionHeader(status)
-        Spacer(GlanceModifier.height(8.dp))
+        Spacer(GlanceModifier.height(6.dp))
         Image(
             provider = ImageProvider(curve),
             contentDescription = "Today’s battery",
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.FillBounds,
             modifier = GlanceModifier.fillMaxWidth().defaultWeight()
         )
         if (!hasCurve) {

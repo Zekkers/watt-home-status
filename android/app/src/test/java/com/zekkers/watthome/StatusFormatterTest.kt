@@ -95,7 +95,8 @@ class StatusFormatterTest {
         assertEquals("12–14", StatusFormatter.powerUpCompactHours(status.nextPowerUp))
         assertEquals("12:00", StatusFormatter.powerUpStartLine(status.nextPowerUp))
         assertEquals("14:00", StatusFormatter.powerUpEndLine(status.nextPowerUp))
-        assertEquals("Power Up 12–14", StatusFormatter.powerUpLine(status.nextPowerUp))
+        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindow(status.nextPowerUp))
+        assertEquals("12pm - 2pm", StatusFormatter.powerUpLine(status.nextPowerUp))
         assertTrue(StatusFormatter.hasPowerUp(status.nextPowerUp))
         assertTrue(StatusFormatter.optedInPowerUp(status.nextPowerUp))
         assertEquals("partly_cloudy", status.weatherTomorrow?.code)
@@ -176,6 +177,11 @@ class StatusFormatterTest {
         assertEquals("14:00", StatusFormatter.powerUpEndLine(noon.nextPowerUp))
         assertEquals("16:00", StatusFormatter.powerUpStartLine(peak.nextPowerUp))
         assertEquals("19:00", StatusFormatter.powerUpEndLine(peak.nextPowerUp))
+        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindow(noon.nextPowerUp))
+        assertEquals("4pm - 7pm", StatusFormatter.powerUpSpokenWindow(peak.nextPowerUp))
+        assertEquals("12am - 1am", StatusFormatter.powerUpSpokenWindow(
+            HomeStatusParser.parse("""{"next_power_up":{"from":"00:00","to":"01:00"}}""").nextPowerUp
+        ))
     }
 
     @Test

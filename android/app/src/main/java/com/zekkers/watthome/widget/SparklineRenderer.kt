@@ -20,13 +20,22 @@ object SparklineRenderer {
     /** Same plot shape as the 2×2 Glance tile (~260×90). */
     private const val PlotAspect = 260f / 90f
 
-    fun renderToday(status: HomeStatus?, widthPx: Int, heightPx: Int): Bitmap {
+    fun renderToday(
+        status: HomeStatus?,
+        widthPx: Int,
+        heightPx: Int,
+        fillSlot: Boolean = false
+    ): Bitmap {
         val bitmap = Bitmap.createBitmap(widthPx.coerceAtLeast(8), heightPx.coerceAtLeast(8), Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(Background)
-        val plot = letterbox(bitmap.width.toFloat(), bitmap.height.toFloat(), PlotAspect)
+        val plot = if (fillSlot) {
+            RectF(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
+        } else {
+            letterbox(bitmap.width.toFloat(), bitmap.height.toFloat(), PlotAspect)
+        }
         if (status == null || widthPx < 8 || heightPx < 8) {
-            drawGrid(canvas, plot.top, plot.width(), plot.height())
+            drawGrid(canvas, plot.top, plot.width(), plot.height(), plot.left)
             return bitmap
         }
         val soc = status.socSeries.filter { it.t != null && it.soc != null }
@@ -34,12 +43,12 @@ object SparklineRenderer {
         val hasSoc = soc.size >= 2
         val hasWatts = watts.size >= 2
         if (!hasSoc && !hasWatts) {
-            drawGrid(canvas, plot.top, plot.width(), plot.height())
+            drawGrid(canvas, plot.top, plot.width(), plot.height(), plot.left)
             return bitmap
         }
         if (hasSoc && hasWatts) {
-            val socBottom = plot.top + plot.height() * 0.68f
-            val wattsTop = plot.top + plot.height() * 0.74f
+            val socBottom = plot.top + plot.height() * 0.82f
+            val wattsTop = plot.top + plot.height() * 0.86f
             drawSoc(canvas, soc, plot.left, plot.top, socBottom, plot.width())
             drawSignedWatts(canvas, watts, plot.left, wattsTop, plot.bottom, plot.width())
             return bitmap

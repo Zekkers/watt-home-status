@@ -60,11 +60,26 @@ object StatusFormatter {
         }
     }
 
-    fun powerUpLine(powerUp: PowerUp?): String {
+    fun powerUpSpokenWindow(powerUp: PowerUp?): String {
         if (powerUp == null) return "No Power Up"
-        val hours = powerUpCompactHours(powerUp)
-        return if (hours == "No Power Up") "No Power Up" else "Power Up $hours"
+        val from = twelveHourClock(powerUp.from)
+        val to = twelveHourClock(powerUp.to)
+        return if (from != null && to != null) "$from - $to" else "No Power Up"
     }
+
+    fun twelveHourClock(raw: String?): String? {
+        val clock = displayClock(raw) ?: return null
+        val hour24 = clock.substringBefore(":").toIntOrNull() ?: return null
+        val minute = clock.substringAfter(":", missingDelimiterValue = "0").toIntOrNull() ?: 0
+        val suffix = if (hour24 < 12) "am" else "pm"
+        val hour12 = when (val hour = hour24 % 12) {
+            0 -> 12
+            else -> hour
+        }
+        return if (minute == 0) "$hour12$suffix" else String.format(Locale.UK, "%d:%02d%s", hour12, minute, suffix)
+    }
+
+    fun powerUpLine(powerUp: PowerUp?): String = powerUpSpokenWindow(powerUp)
 
     fun powerUpStartLine(powerUp: PowerUp?): String {
         if (powerUp == null) return "No"

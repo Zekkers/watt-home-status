@@ -39,13 +39,13 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | SOC fills the tile (`63%`) on one line. Bolt when `opted_in`. |
-| **Watt Home · Battery + session** | 2×1 | SOC on the left; Power Up as one line (`12:00–14:00`) and a single bolt when opted in. No weather overlay. |
-| **Watt Home · Glance** | 2×2 | SOC + one-line Power Up, today’s SOC curve, optional signed W strip, and `£36.95 · 9 sess` when gbp is present. |
-| **Watt Home · Overview** | ~3×2 | Overnight slot, 16:00 target, solar W, last action, same-aspect curve, updated time. |
+| **Watt Home · Battery** | 1×1 | SOC as `63%` on one line. Bolt inset inside the corner. |
+| **Watt Home · Battery + session** | 2×1 | SOC on the left; Power Up as `12pm - 2pm` and a single bolt when opted in. |
+| **Watt Home · Glance** | 2×2 | Top-aligned SOC + `12pm - 2pm`, one SOC day curve filling the extra height (optional thin W strip under it), and `£36.95 · 9 sess`. |
+| **Watt Home · Overview** | ~3×2 / wide | Overnight slot, 16:00 target, solar W, Power Up `12pm - 2pm`, letterboxed SOC curve, updated time. |
 | **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
 
-Glance always keeps a graph slot. It prefers `soc_series` (`{t, soc}`) as today’s battery curve on a 00:00–24:00 axis, letterboxed to the same 2×2 plot aspect so a wide Overview does not squash or stretch the shape. `battery_w_series` is an optional signed sparkline with a zero line. Missing extras stay hidden — no invented points. Widget savings is one line (`£36.95 · 9 sess`), never a mid-word ellipsis.
+Glance always keeps a graph slot. 2×2 fills its height with the SOC curve on a 00:00–24:00 / 0–100% scale. Wide Overview letterboxes that same mapping so the curve is not stretched flat. Missing extras stay hidden.
 
 WorkManager refreshes the JSON about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). Android may stretch that toward 15–30 minutes to save battery.
 

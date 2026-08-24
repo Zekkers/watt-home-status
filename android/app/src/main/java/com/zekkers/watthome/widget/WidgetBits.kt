@@ -26,38 +26,24 @@ import com.zekkers.watthome.data.StatusFormatter
 @Composable
 internal fun SocToken(
     percent: Int?,
-    numberSize: TextUnit,
-    percentSize: TextUnit = 14.sp
+    numberSize: TextUnit
 ) {
-    Row(verticalAlignment = Alignment.Bottom) {
-        Text(
-            text = StatusFormatter.percentNumber(percent),
-            style = TextStyle(
-                color = ColorProvider(Color.White, Color.White),
-                fontSize = numberSize,
-                fontWeight = FontWeight.Bold
-            ),
-            maxLines = 1
-        )
-        if (percent != null) {
-            Text(
-                text = "%",
-                style = TextStyle(
-                    color = ColorProvider(Color.White, Color.White),
-                    fontSize = percentSize,
-                    fontWeight = FontWeight.Bold
-                ),
-                maxLines = 1
-            )
-        }
-    }
+    Text(
+        text = StatusFormatter.percent(percent),
+        style = TextStyle(
+            color = ColorProvider(Color.White, Color.White),
+            fontSize = numberSize,
+            fontWeight = FontWeight.Bold
+        ),
+        maxLines = 1
+    )
 }
 
 @Composable
 internal fun PowerUpTimes(powerUp: PowerUp?) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
-            text = StatusFormatter.powerUpWindow(powerUp),
+            text = StatusFormatter.powerUpSpokenWindow(powerUp),
             style = TextStyle(
                 color = ColorProvider(Cream, Cream),
                 fontSize = 13.sp,
@@ -82,7 +68,7 @@ internal fun SessionHeader(status: HomeStatus?) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = GlanceModifier.defaultWeight()) {
-            SocToken(status?.socPercent, numberSize = 28.sp, percentSize = 14.sp)
+            SocToken(status?.socPercent, numberSize = 26.sp)
             Text(
                 text = "battery",
                 style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 10.sp),
