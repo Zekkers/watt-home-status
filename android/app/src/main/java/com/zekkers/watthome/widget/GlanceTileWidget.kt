@@ -60,8 +60,7 @@ private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
     val savings = StatusFormatter.savingsWidgetLine(status?.lastSavings)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - 16f
-    val showSavings = savings != null &&
-        WidgetTextMeasure.fits(savings, 11f, innerWidth, density)
+    val savingsLine = savings?.takeIf { WidgetTextMeasure.fits(it, 11f, innerWidth, density) }
     Column(
         modifier = GlanceModifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,
@@ -97,10 +96,10 @@ private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
                 }
             }
         }
-        if (showSavings && savings != null) {
+        if (savingsLine != null) {
             Spacer(GlanceModifier.height(4.dp))
             Text(
-                text = savings,
+                text = savingsLine,
                 style = TextStyle(
                     color = ColorProvider(Solar, Solar),
                     fontSize = 11.sp,
