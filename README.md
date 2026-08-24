@@ -1,6 +1,6 @@
 # Watt Home status
 
-Public house battery / solar snapshot for Ian Day’s family phones. Watt writes [`status.json`](status.json) on `main`. This repo also holds a sideloadable Android app that reads that file — no login, no Cambrionix Hub API, no tracking.
+Public house battery / solar snapshot for Ian Day’s family phones. Watt writes [`status.json`](status.json) on `main`. This repo also holds a sideloadable Android app that reads that file — no login, no tracking.
 
 Feed (no auth):
 
