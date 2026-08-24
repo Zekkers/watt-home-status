@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Watt Home</string>
+    <string name="widget_name">Watt Home</string>
+    <string name="widget_description">Battery, solar, and overnight slot from the public Watt status feed.</string>
+</resources>
