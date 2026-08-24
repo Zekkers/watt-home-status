@@ -1,0 +1,14 @@
+{
+  "updated": "2026-08-24T15:34:00+01:00",
+  "soc_percent": 64,
+  "solar_w": 980,
+  "target_1600_percent": 55,
+  "overnight": {
+    "start": "02:00",
+    "end": "03:00",
+    "cap_percent": 30
+  },
+  "peak_window": "16:00-19:00",
+  "next_power_up": null,
+  "last_action": "status.json seeded"
+}
