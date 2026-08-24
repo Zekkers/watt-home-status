@@ -21,8 +21,8 @@ android {
         applicationId = "com.zekkers.watthome"
         minSdk = 26
         targetSdk = 35
-        versionCode = 11
-        versionName = "1.1.9"
+        versionCode = 12
+        versionName = "1.2.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -86,6 +86,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.security:security-crypto:1.0.0")
     implementation("androidx.work:work-runtime-ktx:2.10.0")
     implementation("androidx.glance:glance-appwidget:1.1.1")
     implementation("androidx.glance:glance-material3:1.1.1")

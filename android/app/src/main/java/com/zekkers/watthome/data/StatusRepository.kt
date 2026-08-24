@@ -21,42 +21,124 @@ private val Context.statusDataStore: DataStore<Preferences> by preferencesDataSt
 
 class StatusRepository private constructor(context: Context) {
     private val appContext = context.applicationContext
+    private val tokenStore = TokenStore.get(appContext)
+    private val givEnergy = GivEnergyClient()
     private val client = OkHttpClient.Builder()
         .connectTimeout(15, TimeUnit.SECONDS)
         .readTimeout(20, TimeUnit.SECONDS)
         .callTimeout(30, TimeUnit.SECONDS)
         .build()
 
-    private val _uiState = MutableStateFlow(StatusUiState(isLoading = true))
+    private val _uiState = MutableStateFlow(StatusUiState(isLoading = true, hasToken = tokenStore.hasToken()))
     val uiState: StateFlow<StatusUiState> = _uiState.asStateFlow()
 
     suspend fun loadCached() {
         val cached = readCachedJson()?.let { decode(it) }
-        _uiState.value = StatusUiState(status = cached, isLoading = cached == null)
+        _uiState.value = StatusUiState(
+            status = cached,
+            isLoading = cached == null,
+            hasToken = tokenStore.hasToken()
+        )
     }
 
     suspend fun cachedStatus(): HomeStatus? = readCachedJson()?.let { decode(it) }
 
+    fun hasToken(): Boolean = tokenStore.hasToken()
+
+    fun seenTokenScreen(): Boolean {
+        return appContext.getSharedPreferences(SETUP_PREFS, Context.MODE_PRIVATE)
+            .getBoolean(KEY_SEEN_TOKEN, false)
+    }
+
+    fun markTokenScreenSeen() {
+        appContext.getSharedPreferences(SETUP_PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(KEY_SEEN_TOKEN, true)
+            .apply()
+    }
+
+    fun saveToken(raw: String) {
+        tokenStore.saveToken(raw)
+        markTokenScreenSeen()
+        _uiState.value = _uiState.value.copy(hasToken = true, tokenMessage = null, error = null)
+    }
+
+    fun clearToken() {
+        tokenStore.clearToken()
+        _uiState.value = _uiState.value.copy(hasToken = false, liveOk = false, tokenMessage = null)
+    }
+
+    fun testToken(raw: String): String {
+        val token = TokenStore.normalize(raw) ?: throw IllegalArgumentException("Paste a GivEnergy API token first")
+        givEnergy.testToken(token)
+        return "Live battery OK"
+    }
+
     suspend fun refresh(): HomeStatus {
         val previous = _uiState.value.status
-        _uiState.value = _uiState.value.copy(isLoading = true, error = null)
+        val hasToken = tokenStore.hasToken()
+        _uiState.value = _uiState.value.copy(isLoading = true, error = null, hasToken = hasToken)
         return try {
-            val body = fetchJson()
-            persist(body)
-            val status = decode(body)
-            _uiState.value = StatusUiState(status = status, isLoading = false, error = null)
-            status
+            val publicStatus = decode(fetchPublicJson())
+            val token = tokenStore.readToken()
+            val merged = if (token == null) {
+                persist(HomeStatusJson.encode(publicStatus))
+                _uiState.value = StatusUiState(
+                    status = publicStatus,
+                    isLoading = false,
+                    hasToken = false,
+                    liveOk = false
+                )
+                publicStatus
+            } else {
+                try {
+                    val live = givEnergy.fetchLive(token)
+                    val status = LiveStatus.merge(publicStatus, live)
+                    persist(HomeStatusJson.encode(status))
+                    _uiState.value = StatusUiState(
+                        status = status,
+                        isLoading = false,
+                        hasToken = true,
+                        liveOk = true
+                    )
+                    status
+                } catch (rejected: TokenRejectedException) {
+                    persist(HomeStatusJson.encode(publicStatus))
+                    _uiState.value = StatusUiState(
+                        status = publicStatus,
+                        isLoading = false,
+                        error = rejected.message,
+                        hasToken = true,
+                        liveOk = false
+                    )
+                    throw rejected
+                } catch (liveError: Exception) {
+                    persist(HomeStatusJson.encode(publicStatus))
+                    _uiState.value = StatusUiState(
+                        status = publicStatus,
+                        isLoading = false,
+                        error = humanMessage(liveError),
+                        hasToken = true,
+                        liveOk = false
+                    )
+                    throw liveError
+                }
+            }
+            merged
         } catch (error: Exception) {
+            if (error is TokenRejectedException) throw error
+            if (_uiState.value.error != null && _uiState.value.status != null) throw error
             _uiState.value = StatusUiState(
                 status = previous ?: cachedStatus(),
                 isLoading = false,
-                error = humanMessage(error)
+                error = humanMessage(error),
+                hasToken = hasToken
             )
             throw error
         }
     }
 
-    private suspend fun fetchJson(): String {
+    private suspend fun fetchPublicJson(): String {
         val request = Request.Builder()
             .url(STATUS_URL)
             .header("User-Agent", USER_AGENT)
@@ -86,16 +168,24 @@ class StatusRepository private constructor(context: Context) {
     }
 
     private fun humanMessage(error: Throwable): String {
-        val detail = error.message?.takeIf { it.isNotBlank() }
+        if (error is TokenRejectedException) return error.message ?: "token rejected, re-enter"
+        val detail = error.message?.takeIf { it.isNotBlank() && !looksSecret(it) }
         return if (detail != null) "Couldn't refresh: $detail" else "Couldn't refresh"
+    }
+
+    private fun looksSecret(text: String): Boolean {
+        val token = tokenStore.readToken() ?: return false
+        return token.isNotBlank() && text.contains(token)
     }
 
     companion object {
         const val STATUS_URL =
             "https://raw.githubusercontent.com/Zekkers/watt-home-status/main/status.json"
         private const val USER_AGENT =
-            "WattHomeStatus/1.0 (family widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2 (family widget; +https://github.com/Zekkers/watt-home-status)"
         private val KEY_JSON = stringPreferencesKey("status_json")
+        private const val SETUP_PREFS = "watt_home_setup"
+        private const val KEY_SEEN_TOKEN = "seen_token_screen"
 
         @Volatile
         private var instance: StatusRepository? = null

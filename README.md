@@ -1,10 +1,14 @@
 # Watt Home status
 
-Public house battery / solar snapshot for Ian Day’s family phones. Watt writes [`status.json`](status.json) on `main`. This repo also holds a sideloadable Android app that reads that file — no login, no tracking.
+Public house battery / solar extras for Ian Day’s family phones, plus an optional live GivEnergy Cloud feed. Watt still writes [`status.json`](status.json) on `main` for Power Up, overnight, savings, and weather. The sideload app can also read the house All-In-One inverter live when you paste a GivEnergy API token.
 
-Feed (no auth):
+Feed (no auth, extras):
 
 `https://raw.githubusercontent.com/Zekkers/watt-home-status/main/status.json`
+
+Live battery (optional, per phone):
+
+`https://api.givenergy.cloud/v1` with a Bearer token. The app only reads inverter `CH2414G328`.
 
 ## Download the app
 
@@ -20,10 +24,14 @@ Do this on each phone.
 
 1. Copy `watt-home-status.apk` to the phone (AirDrop-style via Drive, USB, Messages, or email to yourself).
 2. Open the file. If Android blocks it, tap **Settings** and allow install from that app (Files / Chrome / Drive / Gmail).
-3. Install **Watt Home**. There is no account screen — it should open straight onto battery and solar.
-4. Leave **battery optimisation** alone unless the widget stays stale; then set Watt Home to **Unrestricted** (Samsung: Settings → Apps → Watt Home → Battery → Unrestricted).
+3. Install **Watt Home**.
+4. On first launch, paste a **GivEnergy API token** (or skip and keep the public `status.json` feed). Create a token in **Account Settings → Manage API Tokens** on [givenergy.cloud](https://givenergy.cloud). Tap **Save**. **Test** checks the token; **Remove** clears it from this phone. The token stays in EncryptedSharedPreferences on that phone only — never in `status.json`.
+5. Later: open the app → gear icon → same token screen.
+6. Leave **battery optimisation** alone unless the widget stays stale; then set Watt Home to **Unrestricted** (Samsung: Settings → Apps → Watt Home → Battery → Unrestricted).
 
-The app needs **Internet** so it can fetch `status.json`. It does not ask for location, contacts, or notifications.
+If no token is saved, the app keeps polling public `status.json` and shows **Add GivEnergy token for live battery**.
+
+The app needs **Internet**. It does not ask for location, contacts, or notifications. Backup is off.
 
 ## Add a home-screen widget
 
@@ -47,7 +55,7 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 Glance always keeps a graph slot. 2×2 fills its height with the SOC curve on a 00:00–24:00 / 0–100% scale. Wide Overview letterboxes that same mapping so the curve is not stretched flat. Missing extras stay hidden.
 
-WorkManager refreshes the JSON about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). Android may stretch that toward 15–30 minutes to save battery.
+WorkManager refreshes about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min). Public `status.json` still supplies Power Up, overnight, 16:00 target, last action, weather, and savings. Android may stretch the timer toward 15–30 minutes to save battery.
 
 ## Rebuild from this repo
 

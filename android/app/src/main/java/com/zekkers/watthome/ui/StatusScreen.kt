@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -44,7 +45,8 @@ import com.zekkers.watthome.widget.SparklineRenderer
 @Composable
 fun StatusScreen(
     state: StatusUiState,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onOpenSettings: () -> Unit
 ) {
     val status = state.status
     Scaffold(
@@ -52,6 +54,9 @@ fun StatusScreen(
             TopAppBar(
                 title = { Text("Watt Home") },
                 actions = {
+                    IconButton(onClick = onOpenSettings) {
+                        Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                    }
                     IconButton(onClick = onRefresh) {
                         Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
                     }
@@ -73,6 +78,20 @@ fun StatusScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            if (!state.hasToken) {
+                Text(
+                    text = "Add GivEnergy token for live battery",
+                    color = MaterialTheme.colorScheme.secondary,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            } else if (state.liveOk) {
+                Text(
+                    text = "Live house battery",
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+
             if (state.error != null) {
                 Text(
                     text = state.error,
@@ -136,7 +155,11 @@ fun StatusScreen(
             StatusRow("Updated", StatusFormatter.formatUpdated(status?.updated))
 
             Text(
-                text = "Public status only. No login, no tracking.",
+                text = if (state.hasToken) {
+                    "Live battery from this phone’s token. Public extras still come from the family status file."
+                } else {
+                    "Public status only until a GivEnergy token is saved. No tracking."
+                },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                 modifier = Modifier.padding(top = 8.dp)

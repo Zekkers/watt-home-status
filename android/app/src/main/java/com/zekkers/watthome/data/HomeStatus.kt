@@ -54,5 +54,8 @@ data class LastSavings(
 data class StatusUiState(
     val status: HomeStatus? = null,
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val hasToken: Boolean = false,
+    val liveOk: Boolean = false,
+    val tokenMessage: String? = null
 )
