@@ -47,7 +47,7 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | Three rows: `21%` + bolt, then `12pm`, then `2pm`. Percentage is wrap-content at 26sp so it is never `21…`. |
+| **Watt Home · Battery** | 1×1 | Centered `20%` (wrap-content, with `%`, never `20…`). Lower half: `12pm` / `2pm` with the bolt to their right. |
 | **Watt Home · Battery + session** | 2×1 | SOC on the left with `battery`; `12pm` / `2pm` as two lines on the right, bolt at the far right. Never `63%pm`. |
 | **Watt Home · Glance** | 2×2 | Top identical to 2×1. SOC graph along the bottom. Savings `£36.95 · 9 sess` if it fits. |
 | **Watt Home · Overview** | ~3×2 / wide | Overnight slot, 16:00 target, solar W, Power Up as full `12pm - 2pm` or stacked `12pm`/`2pm`. Never `m - 2` or concatenate onto SOC. |

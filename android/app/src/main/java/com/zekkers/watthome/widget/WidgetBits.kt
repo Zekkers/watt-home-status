@@ -114,19 +114,28 @@ internal fun BatterySocStack(
             modifier = GlanceModifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Spacer(GlanceModifier.defaultWeight())
             SocToken(percent = status?.socPercent, numberSize = socSize)
             Spacer(GlanceModifier.defaultWeight())
-            if (showBolt) {
-                Image(
-                    provider = ImageProvider(R.drawable.ic_power_up_badge),
-                    contentDescription = "Power Up",
-                    modifier = GlanceModifier.size(PowerUpBoltSize)
-                )
-            }
         }
         if (clock != null) {
-            PowerUpTimeLine(clock.from, timeSize)
-            PowerUpTimeLine(clock.to, timeSize)
+            Row(
+                modifier = GlanceModifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(horizontalAlignment = Alignment.Start) {
+                    PowerUpTimeLine(clock.from, timeSize)
+                    PowerUpTimeLine(clock.to, timeSize)
+                }
+                Spacer(GlanceModifier.defaultWeight())
+                if (showBolt) {
+                    Image(
+                        provider = ImageProvider(R.drawable.ic_power_up_badge),
+                        contentDescription = "Power Up",
+                        modifier = GlanceModifier.padding(start = 4.dp).size(PowerUpBoltSize)
+                    )
+                }
+            }
         }
     }
 }
