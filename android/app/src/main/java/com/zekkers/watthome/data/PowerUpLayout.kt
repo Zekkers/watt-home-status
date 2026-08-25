@@ -19,6 +19,7 @@ object WidgetTextMeasure {
                 'w', 'M', 'W' -> 0.95f
                 'i', 'l', 't', 'f', 'j' -> 0.35f
                 '1' -> 0.50f
+                '\u2060', '\u200B', '\uFEFF' -> 0f
                 else -> em
             }
         }
