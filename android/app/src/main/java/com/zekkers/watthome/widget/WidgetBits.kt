@@ -10,14 +10,13 @@ import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
-import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
+import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -35,6 +34,7 @@ internal fun SocToken(
 ) {
     Text(
         text = StatusFormatter.percent(percent),
+        modifier = GlanceModifier.wrapContentSize(),
         style = TextStyle(
             color = ColorProvider(Color.White, Color.White),
             fontSize = numberSize,
@@ -51,23 +51,13 @@ internal fun PowerUpTimeLine(
 ) {
     Text(
         text = text,
+        modifier = GlanceModifier.wrapContentSize(),
         style = TextStyle(
             color = ColorProvider(Cream, Cream),
             fontSize = fontSize,
             fontWeight = FontWeight.Medium
         ),
         maxLines = 1
-    )
-}
-
-@Composable
-internal fun CornerBolt() {
-    Image(
-        provider = ImageProvider(R.drawable.ic_power_up_badge),
-        contentDescription = "Power Up",
-        modifier = GlanceModifier
-            .padding(top = 8.dp, end = 8.dp)
-            .size(PowerUpBoltSize)
     )
 }
 
@@ -110,54 +100,33 @@ internal fun PowerUpClockBlock(
 internal fun BatterySocStack(
     status: HomeStatus?,
     modifier: GlanceModifier = GlanceModifier,
-    socSize: TextUnit = 32.sp,
-    timeSize: TextUnit = 10.sp,
-    fillBoltCorner: Boolean = false
+    socSize: TextUnit = 26.sp,
+    timeSize: TextUnit = 10.sp
 ) {
     val clock = PowerUpLayout.clock(status?.nextPowerUp)
     val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
-    Box(modifier = modifier) {
-        if (fillBoltCorner) {
-            Column(
-                verticalAlignment = Alignment.Top,
-                horizontalAlignment = Alignment.Start
-            ) {
-                Row(
-                    modifier = GlanceModifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    SocToken(percent = status?.socPercent, numberSize = socSize)
-                    Spacer(GlanceModifier.defaultWeight())
-                }
-                if (clock != null) {
-                    PowerUpTimeLine(clock.from, timeSize)
-                    PowerUpTimeLine(clock.to, timeSize)
-                }
-            }
+    Column(
+        modifier = modifier,
+        verticalAlignment = Alignment.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        Row(
+            modifier = GlanceModifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            SocToken(percent = status?.socPercent, numberSize = socSize)
+            Spacer(GlanceModifier.defaultWeight())
             if (showBolt) {
-                Box(
-                    modifier = GlanceModifier.fillMaxSize(),
-                    contentAlignment = Alignment.TopEnd
-                ) {
-                    CornerBolt()
-                }
+                Image(
+                    provider = ImageProvider(R.drawable.ic_power_up_badge),
+                    contentDescription = "Power Up",
+                    modifier = GlanceModifier.size(PowerUpBoltSize)
+                )
             }
-        } else {
-            Row(verticalAlignment = Alignment.Top) {
-                Column(
-                    verticalAlignment = Alignment.Top,
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    SocToken(percent = status?.socPercent, numberSize = socSize)
-                    if (clock != null) {
-                        PowerUpTimeLine(clock.from, timeSize)
-                        PowerUpTimeLine(clock.to, timeSize)
-                    }
-                }
-                if (showBolt) {
-                    CornerBolt()
-                }
-            }
+        }
+        if (clock != null) {
+            PowerUpTimeLine(clock.from, timeSize)
+            PowerUpTimeLine(clock.to, timeSize)
         }
     }
 }

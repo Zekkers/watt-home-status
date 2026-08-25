@@ -47,13 +47,13 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | Three rows only: large `63%`, small `12pm`, small `2pm`. Bolt 2× inset inside the rounded corner, not clipping SOC. Never one-line `12pm - 2pm`, never `6...`. |
-| **Watt Home · Battery + session** | 2×1 | SOC on the left; `12pm` / `2pm` as two lines on the right. Never `63%pm`. |
-| **Watt Home · Glance** | 2×2 | Left: the same 1×1 stack. Right: SOC graph. Top-aligned. Savings `£36.95 · 9 sess` if it fits without clipping the times. |
+| **Watt Home · Battery** | 1×1 | Three rows: `21%` + bolt, then `12pm`, then `2pm`. Percentage is wrap-content at 26sp so it is never `21…`. |
+| **Watt Home · Battery + session** | 2×1 | SOC on the left with `battery`; `12pm` / `2pm` as two lines on the right, bolt at the far right. Never `63%pm`. |
+| **Watt Home · Glance** | 2×2 | Top identical to 2×1. SOC graph along the bottom. Savings `£36.95 · 9 sess` if it fits. |
 | **Watt Home · Overview** | ~3×2 / wide | Overnight slot, 16:00 target, solar W, Power Up as full `12pm - 2pm` or stacked `12pm`/`2pm`. Never `m - 2` or concatenate onto SOC. |
 | **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
 
-Glance always keeps a graph slot. 2×2 fills its height with the SOC curve on a 00:00–24:00 / 0–100% scale. Wide Overview letterboxes that same mapping so the curve is not stretched flat. Missing extras stay hidden.
+2×2 keeps a graph slot along the bottom (SOC curve on a 00:00–24:00 / 0–100% scale). Wide Overview letterboxes that same mapping so the curve is not stretched flat. Missing extras stay hidden.
 
 WorkManager refreshes about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min). Public `status.json` still supplies Power Up, overnight, 16:00 target, last action, weather, and savings. Android may stretch the timer toward 15–30 minutes to save battery.
 
