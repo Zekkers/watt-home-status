@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-25T17:37:32+01:00",
-  "soc_percent": 93,
-  "solar_w": 367,
-  "battery_w": -474,
+  "updated": "2026-08-26T00:04:31+01:00",
+  "soc_percent": 50,
+  "solar_w": 0,
+  "battery_w": -730,
   "target_1600_percent": 55,
   "overnight": {
     "start": "02:00",
@@ -21,7 +21,7 @@
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
@@ -29,7 +29,7 @@
     "code": "clear",
     "label": "clear"
   },
-  "last_action": "opted in + wrote Power Up charge 10:30\u201312:30 Wed 26 Aug",
+  "last_action": "midnight: kept Power Up 10:30–12:30 + overnight 02:00–03:00/30",
   "battery_w_series": [
     {
       "t": "2026-08-25T00:00:17+01:00",
@@ -166,6 +166,10 @@
     {
       "t": "2026-08-25T17:37:32+01:00",
       "w": -474
+    },
+    {
+      "t": "2026-08-26T00:04:31+01:00",
+      "w": -730
     }
   ],
   "soc_series": [
@@ -304,6 +308,10 @@
     {
       "t": "2026-08-25T17:37:32+01:00",
       "soc": 93
+    },
+    {
+      "t": "2026-08-26T00:04:31+01:00",
+      "soc": 50
     }
   ]
 }
