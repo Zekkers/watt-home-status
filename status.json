@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-25T15:13:19+01:00",
-  "soc_percent": 100,
-  "solar_w": 1725,
-  "battery_w": -42,
+  "updated": "2026-08-25T17:37:32+01:00",
+  "soc_percent": 93,
+  "solar_w": 367,
+  "battery_w": -474,
   "target_1600_percent": 55,
   "overnight": {
     "start": "02:00",
@@ -10,7 +10,12 @@
     "cap_percent": 30
   },
   "peak_window": "16:00-19:00",
-  "next_power_up": null,
+  "next_power_up": {
+    "from": "10:30",
+    "to": "12:30",
+    "date": "2026-08-26",
+    "opted_in": true
+  },
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
@@ -24,7 +29,7 @@
     "code": "clear",
     "label": "clear"
   },
-  "last_action": "15:00 check: SOC 100% >= 55%, no top-up",
+  "last_action": "opted in + wrote Power Up charge 10:30\u201312:30 Wed 26 Aug",
   "battery_w_series": [
     {
       "t": "2026-08-25T00:00:17+01:00",
@@ -157,6 +162,10 @@
     {
       "t": "2026-08-25T15:13:19+01:00",
       "w": -42
+    },
+    {
+      "t": "2026-08-25T17:37:32+01:00",
+      "w": -474
     }
   ],
   "soc_series": [
@@ -291,6 +300,10 @@
     {
       "t": "2026-08-25T15:13:19+01:00",
       "soc": 100
+    },
+    {
+      "t": "2026-08-25T17:37:32+01:00",
+      "soc": 93
     }
   ]
 }
