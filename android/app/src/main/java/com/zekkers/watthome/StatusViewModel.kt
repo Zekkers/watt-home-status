@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.zekkers.watthome.data.StatusRepository
 import com.zekkers.watthome.data.TokenRejectedException
 import com.zekkers.watthome.widget.WidgetUpdater
+import com.zekkers.watthome.worker.StatusRefreshScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -42,8 +43,17 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching { repository.refresh() }
+            val previousSoc = repository.uiState.value.status?.socPercent
+            val result = runCatching { repository.refresh(includeSeries = true) }
             WidgetUpdater.updateAll(getApplication())
+            result.getOrNull()?.let { status ->
+                StatusRefreshScheduler.scheduleAfterSuccess(
+                    context = getApplication(),
+                    status = status,
+                    previousSocPercent = previousSoc,
+                    liveOk = repository.uiState.value.liveOk
+                )
+            }
         }
     }
 
@@ -64,8 +74,17 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
             try {
                 repository.saveToken(raw)
                 _tokenFeedback.value = "Token saved"
-                runCatching { repository.refresh() }
+                val previousSoc = repository.uiState.value.status?.socPercent
+                val refreshed = runCatching { repository.refresh(includeSeries = true) }
                 WidgetUpdater.updateAll(getApplication())
+                refreshed.getOrNull()?.let { status ->
+                    StatusRefreshScheduler.scheduleAfterSuccess(
+                        context = getApplication(),
+                        status = status,
+                        previousSocPercent = previousSoc,
+                        liveOk = repository.uiState.value.liveOk
+                    )
+                }
                 withContext(Dispatchers.Main) {
                     _openedFromSettings.value = false
                     _showTokenScreen.value = false
@@ -90,6 +109,7 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
     fun removeToken() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.clearToken()
+            StatusRefreshScheduler.cancelFollowUp(getApplication())
             _tokenFeedback.value = "Token removed"
             runCatching { repository.refresh() }
             WidgetUpdater.updateAll(getApplication())

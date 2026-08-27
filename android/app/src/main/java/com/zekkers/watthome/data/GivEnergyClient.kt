@@ -17,8 +17,9 @@ class GivEnergyClient(
         get(GivEnergy.latestUrl(), token)
     }
 
-    fun fetchLive(token: String): LiveInverterSnapshot {
+    fun fetchLive(token: String, includeSeries: Boolean = true): LiveInverterSnapshot {
         val latest = GivEnergyParser.parseLatest(get(GivEnergy.latestUrl(), token))
+        if (!includeSeries) return latest
         val series = runCatching { fetchTodaySeries(token) }.getOrElse {
             if (it is TokenRejectedException) throw it
             LiveInverterSnapshot()
@@ -64,6 +65,6 @@ class GivEnergyClient(
 
     companion object {
         private const val USER_AGENT =
-            "WattHomeStatus/1.2 (family widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.4 (family widget; +https://github.com/Zekkers/watt-home-status)"
     }
 }
