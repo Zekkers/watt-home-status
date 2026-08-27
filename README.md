@@ -16,7 +16,7 @@ Sideload this APK onto both phones:
 
 **[android/app/release/watt-home-status.apk](android/app/release/watt-home-status.apk)**
 
-Signed with the family keystore in [`android/keystore/`](android/keystore/) (see that folder’s README). Same key for later updates so you do not have to uninstall first.
+Signed with the family keystore so later updates overwrite-install (same `applicationId` and signing key). The `.jks` is not in git; GitHub Actions uses repo secrets, and a local rebuild uses `android/keystore.properties`.
 
 ## Install on two Androids
 
@@ -69,6 +69,21 @@ export ANDROID_HOME=/path/to/android-sdk   # or write sdk.dir in local.propertie
 ./gradlew assembleRelease
 ```
 
-The signed APK is copied to `android/app/release/watt-home-status.apk`. Family keystore passwords live in `android/keystore.properties` — they are for household sideload only, not Play Store production.
+The signed APK is copied to `android/app/release/watt-home-status.apk`. Local signing reads `android/keystore.properties` (gitignored; copy from `android/keystore.properties.example`) and the family `.jks`. That is household sideload only, not Play Store production.
 
 Android project sources live under [`android/`](android/).
+
+## GitHub Actions sideload APK
+
+Pushes to `main`, version tags `v*` (for example `v1.2.5`), and a manual **Run workflow** run unit tests, then `assembleRelease`, then upload **watt-home-status.apk** as a workflow artifact. A `v*` tag also attaches that APK to a GitHub Release.
+
+Signing uses the same family key as previous sideload APKs. Add these four Actions secrets once (**Settings → Secrets and variables → Actions**). Do not put the keystore or passwords in git.
+
+| Secret | What to put |
+| --- | --- |
+| `KEYSTORE_BASE64` | Base64 of the family `.jks`. Linux: `base64 -w0 android/keystore/watt-family.jks`. macOS: `base64 -i android/keystore/watt-family.jks \| tr -d '\n'` |
+| `KEYSTORE_PASSWORD` | Store password from your local `keystore.properties` |
+| `KEY_ALIAS` | Key alias (local builds use `watt-family`) |
+| `KEY_PASSWORD` | Key password from your local `keystore.properties` |
+
+The first workflow run will fail until those four secrets exist. It will not upload an unsigned or debug-signed APK as the family build.
