@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Watt Home</string>
+    <string name="widget_label">Watt Home</string>
+    <string name="widget_battery_description">Watt Home · Battery</string>
+    <string name="widget_session_description">Watt Home · Battery + session</string>
+    <string name="widget_glance_description">Watt Home · Glance</string>
+    <string name="widget_overview_description">Watt Home · Overview</string>
+    <string name="widget_strip_description">Watt Home · Strip</string>
+</resources>
