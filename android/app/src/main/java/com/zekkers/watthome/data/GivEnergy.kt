@@ -37,13 +37,38 @@ object GivEnergy {
 object LiveStatus {
     fun merge(publicStatus: HomeStatus, live: LiveInverterSnapshot?): HomeStatus {
         if (live == null) return publicStatus
-        return publicStatus.copy(
-            updated = live.updated ?: publicStatus.updated,
-            socPercent = live.socPercent ?: publicStatus.socPercent,
-            solarW = live.solarW ?: publicStatus.solarW,
-            batteryW = live.batteryW ?: publicStatus.batteryW,
-            socSeries = live.socSeries,
-            batteryWSeries = live.batteryWSeries
+        val socSeries = live.socSeries.ifEmpty { publicStatus.socSeries }
+        val batteryWSeries = live.batteryWSeries.ifEmpty { publicStatus.batteryWSeries }
+        return appendLiveTip(
+            publicStatus.copy(
+                updated = live.updated ?: publicStatus.updated,
+                socPercent = live.socPercent ?: publicStatus.socPercent,
+                solarW = live.solarW ?: publicStatus.solarW,
+                batteryW = live.batteryW ?: publicStatus.batteryW,
+                socSeries = socSeries,
+                batteryWSeries = batteryWSeries
+            ),
+            live
         )
+    }
+
+    fun appendLiveTip(status: HomeStatus, live: LiveInverterSnapshot): HomeStatus {
+        val stamp = live.updated ?: return status
+        val socTip = live.socPercent?.toDouble()?.let { BatterySample(t = stamp, soc = it) }
+        val wattTip = live.batteryW?.let { BatterySample(t = stamp, w = it) }
+        return status.copy(
+            socSeries = appendSample(status.socSeries, socTip) { it.soc != null },
+            batteryWSeries = appendSample(status.batteryWSeries, wattTip) { it.w != null }
+        )
+    }
+
+    private fun appendSample(
+        existing: List<BatterySample>,
+        newest: BatterySample?,
+        keep: (BatterySample) -> Boolean
+    ): List<BatterySample> {
+        if (newest?.t == null) return existing
+        val withoutDup = existing.filterNot { it.t == newest.t }
+        return (withoutDup + newest).filter(keep)
     }
 }

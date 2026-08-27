@@ -55,7 +55,9 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 2×2 keeps a graph slot along the bottom (SOC curve on a 00:00–24:00 / 0–100% scale). Wide Overview letterboxes that same mapping so the curve is not stretched flat. Missing extras stay hidden.
 
-WorkManager refreshes about every **15 minutes** (and when you open the app, tap refresh, or add/update a widget). With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min). Public `status.json` still supplies Power Up, overnight, 16:00 target, last action, weather, and savings. Android may stretch the timer toward 15–30 minutes to save battery.
+WorkManager’s periodic poll is **15 minutes** when the pack is quiet (Android’s minimum for repeating work). After a successful live GivEnergy GET, if the battery is moving — `|battery_w|` over ~500 W, a Power Up window from `status.json` is in progress, or SOC just changed — the app schedules a one-shot follow-up in **90 seconds**. When things go quiet again it drops back to 15 minutes, so the phone is not polled every minute all day. All widget sizes share one DataStore cache and refresh together. Tap a widget to force a live refresh (and open the app). AppWidget `updatePeriodMillis` is 0; the 15-minute floor is WorkManager, not the launcher.
+
+With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min on the full poll; fast follow-ups only hit `/system-data/latest` and pin the graph tip). Public `status.json` still supplies Power Up, overnight, 16:00 target, last action, weather, and savings.
 
 ## Rebuild from this repo
 

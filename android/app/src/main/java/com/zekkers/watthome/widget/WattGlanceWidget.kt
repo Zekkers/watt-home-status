@@ -7,8 +7,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
@@ -17,7 +17,6 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
 import androidx.glance.layout.Alignment
-import com.zekkers.watthome.MainActivity
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusRepository
 import com.zekkers.watthome.worker.StatusRefreshScheduler
@@ -54,13 +53,13 @@ internal fun WidgetCard(
     padding: Dp = 12.dp,
     content: @Composable () -> Unit
 ) {
-    val openApp = actionStartActivity(MainActivity::class.java)
+    val onTap = actionRunCallback<WidgetTapAction>()
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
             .cornerRadius(radius)
             .background(ForestBg)
-            .clickable(openApp)
+            .clickable(onTap)
             .padding(padding),
         contentAlignment = Alignment.TopStart
     ) {

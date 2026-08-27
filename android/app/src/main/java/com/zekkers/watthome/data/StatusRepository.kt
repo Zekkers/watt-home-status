@@ -74,57 +74,18 @@ class StatusRepository private constructor(context: Context) {
         return "Live battery OK"
     }
 
-    suspend fun refresh(): HomeStatus {
-        val previous = _uiState.value.status
+    suspend fun refresh(includeSeries: Boolean = true): HomeStatus {
+        val previous = _uiState.value.status ?: cachedStatus()
         val hasToken = tokenStore.hasToken()
         _uiState.value = _uiState.value.copy(isLoading = true, error = null, hasToken = hasToken)
         return try {
-            val publicStatus = decode(fetchPublicJson())
-            val token = tokenStore.readToken()
-            val merged = if (token == null) {
-                persist(HomeStatusJson.encode(publicStatus))
-                _uiState.value = StatusUiState(
-                    status = publicStatus,
-                    isLoading = false,
-                    hasToken = false,
-                    liveOk = false
-                )
-                publicStatus
-            } else {
-                try {
-                    val live = givEnergy.fetchLive(token)
-                    val status = LiveStatus.merge(publicStatus, live)
-                    persist(HomeStatusJson.encode(status))
-                    _uiState.value = StatusUiState(
-                        status = status,
-                        isLoading = false,
-                        hasToken = true,
-                        liveOk = true
-                    )
-                    status
-                } catch (rejected: TokenRejectedException) {
-                    persist(HomeStatusJson.encode(publicStatus))
-                    _uiState.value = StatusUiState(
-                        status = publicStatus,
-                        isLoading = false,
-                        error = rejected.message,
-                        hasToken = true,
-                        liveOk = false
-                    )
-                    throw rejected
-                } catch (liveError: Exception) {
-                    persist(HomeStatusJson.encode(publicStatus))
-                    _uiState.value = StatusUiState(
-                        status = publicStatus,
-                        isLoading = false,
-                        error = humanMessage(liveError),
-                        hasToken = true,
-                        liveOk = false
-                    )
-                    throw liveError
+            if (!includeSeries) {
+                val token = tokenStore.readToken()
+                if (previous != null && token != null) {
+                    return refreshLiveLatest(previous, token)
                 }
             }
-            merged
+            refreshFull()
         } catch (error: Exception) {
             if (error is TokenRejectedException) throw error
             if (_uiState.value.error != null && _uiState.value.status != null) throw error
@@ -135,6 +96,78 @@ class StatusRepository private constructor(context: Context) {
                 hasToken = hasToken
             )
             throw error
+        }
+    }
+
+    private suspend fun refreshFull(): HomeStatus {
+        val publicStatus = decode(fetchPublicJson())
+        val token = tokenStore.readToken()
+        return if (token == null) {
+            persist(HomeStatusJson.encode(publicStatus))
+            _uiState.value = StatusUiState(
+                status = publicStatus,
+                isLoading = false,
+                hasToken = false,
+                liveOk = false
+            )
+            publicStatus
+        } else {
+            try {
+                val live = givEnergy.fetchLive(token, includeSeries = true)
+                val status = LiveStatus.merge(publicStatus, live)
+                persist(HomeStatusJson.encode(status))
+                _uiState.value = StatusUiState(
+                    status = status,
+                    isLoading = false,
+                    hasToken = true,
+                    liveOk = true
+                )
+                status
+            } catch (rejected: TokenRejectedException) {
+                persist(HomeStatusJson.encode(publicStatus))
+                _uiState.value = StatusUiState(
+                    status = publicStatus,
+                    isLoading = false,
+                    error = rejected.message,
+                    hasToken = true,
+                    liveOk = false
+                )
+                throw rejected
+            } catch (liveError: Exception) {
+                persist(HomeStatusJson.encode(publicStatus))
+                _uiState.value = StatusUiState(
+                    status = publicStatus,
+                    isLoading = false,
+                    error = humanMessage(liveError),
+                    hasToken = true,
+                    liveOk = false
+                )
+                throw liveError
+            }
+        }
+    }
+
+    private suspend fun refreshLiveLatest(cached: HomeStatus, token: String): HomeStatus {
+        return try {
+            val live = givEnergy.fetchLive(token, includeSeries = false)
+            val status = LiveStatus.merge(cached, live)
+            persist(HomeStatusJson.encode(status))
+            _uiState.value = StatusUiState(
+                status = status,
+                isLoading = false,
+                hasToken = true,
+                liveOk = true
+            )
+            status
+        } catch (rejected: TokenRejectedException) {
+            _uiState.value = _uiState.value.copy(
+                isLoading = false,
+                error = rejected.message,
+                hasToken = true,
+                liveOk = false,
+                status = cached
+            )
+            throw rejected
         }
     }
 
@@ -182,7 +215,7 @@ class StatusRepository private constructor(context: Context) {
         const val STATUS_URL =
             "https://raw.githubusercontent.com/Zekkers/watt-home-status/main/status.json"
         private const val USER_AGENT =
-            "WattHomeStatus/1.2 (family widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.4 (family widget; +https://github.com/Zekkers/watt-home-status)"
         private val KEY_JSON = stringPreferencesKey("status_json")
         private const val SETUP_PREFS = "watt_home_setup"
         private const val KEY_SEEN_TOKEN = "seen_token_screen"
