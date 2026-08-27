@@ -12,9 +12,10 @@ Live battery (optional, per phone):
 
 ## Download the app
 
-Sideload this APK onto both phones:
+Sideload this APK onto both phones from the rolling GitHub Release. Every successful `main` build refreshes these URLs — no version tag required:
 
-**[android/app/release/watt-home-status.apk](android/app/release/watt-home-status.apk)**
+- Latest release: https://github.com/Zekkers/watt-home-status/releases/latest
+- Direct APK: https://github.com/Zekkers/watt-home-status/releases/latest/download/watt-home-status.apk
 
 Signed with the family keystore so later updates overwrite-install (same `applicationId` and signing key). The `.jks` is not in git; GitHub Actions uses repo secrets, and a local rebuild uses `android/keystore.properties`.
 
@@ -22,7 +23,7 @@ Signed with the family keystore so later updates overwrite-install (same `applic
 
 Do this on each phone.
 
-1. Copy `watt-home-status.apk` to the phone (AirDrop-style via Drive, USB, Messages, or email to yourself).
+1. On the phone, open the [direct APK link](https://github.com/Zekkers/watt-home-status/releases/latest/download/watt-home-status.apk) in Chrome (or download `watt-home-status.apk` from the [latest release](https://github.com/Zekkers/watt-home-status/releases/latest)).
 2. Open the file. If Android blocks it, tap **Settings** and allow install from that app (Files / Chrome / Drive / Gmail).
 3. Install **Watt Home**.
 4. On first launch, paste a **GivEnergy API token** (or skip and keep the public `status.json` feed). Create a token in **Account Settings → Manage API Tokens** on [givenergy.cloud](https://givenergy.cloud). Tap **Save**. **Test** checks the token; **Remove** clears it from this phone. The token stays in EncryptedSharedPreferences on that phone only — never in `status.json`.
@@ -75,7 +76,12 @@ Android project sources live under [`android/`](android/).
 
 ## GitHub Actions sideload APK
 
-Pushes to `main`, version tags `v*` (for example `v1.2.5`), and a manual **Run workflow** run unit tests, then `assembleRelease`, then upload **watt-home-status.apk** as a workflow artifact. A `v*` tag also attaches that APK to a GitHub Release.
+Pushes to `main`, version tags `v*` (for example `v1.2.5`), and a manual **Run workflow** run unit tests, then `assembleRelease`, then upload **watt-home-status.apk** as a workflow artifact (these expire). Every successful signed build also publishes that same filename to a rolling GitHub Release tagged `latest`, so these URLs stay current without cutting a version tag:
+
+- https://github.com/Zekkers/watt-home-status/releases/latest
+- https://github.com/Zekkers/watt-home-status/releases/latest/download/watt-home-status.apk
+
+A `v*` tag still gets its own GitHub Release with the same APK attached. Existing version tags are left alone.
 
 Signing uses the same family key as previous sideload APKs. Add these four Actions secrets once (**Settings → Secrets and variables → Actions**). Do not put the keystore or passwords in git.
 
