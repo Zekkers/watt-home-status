@@ -1,26 +1,31 @@
 {
-  "updated": "2026-08-27T15:06:05+01:00",
-  "soc_percent": 87,
-  "solar_w": 3001,
-  "battery_w": 1668,
+  "updated": "2026-08-27T17:39:59+01:00",
+  "soc_percent": 72,
+  "solar_w": 108,
+  "battery_w": -2209,
   "target_1600_percent": 55,
   "overnight": null,
   "peak_window": "16:00-19:00",
-  "next_power_up": null,
+  "next_power_up": {
+    "from": "12:30",
+    "to": "14:30",
+    "date": "2026-08-28",
+    "opted_in": true
+  },
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
   "weather_tomorrow": {
-    "code": "clear",
-    "label": "clear"
+    "code": "overcast",
+    "label": "overcast"
   },
-  "last_action": "15:00: SOC 87% >= target 55% \u2014 no peak top-up; cleared finished Power Up slot 12:00\u201314:00; overnight left cleared (midnight will size)",
+  "last_action": "opted in + wrote Power Up charge 12:30–14:30 Fri 28 Aug; overnight left cleared (SOC 73% ≥ 30% summer cap)",
   "battery_w_series": [
     {
       "t": "2026-08-27T00:15:09+01:00",
@@ -117,6 +122,10 @@
     {
       "t": "2026-08-27T15:06:05+01:00",
       "w": 1668
+    },
+    {
+      "t": "2026-08-27T17:39:59+01:00",
+      "w": -2209
     }
   ]
 }
