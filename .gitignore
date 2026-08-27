@@ -10,3 +10,6 @@ captures/
 *.apk
 !android/app/release/
 !android/app/release/watt-home-status.apk
+android/keystore.properties
+android/keystore/*.jks
+

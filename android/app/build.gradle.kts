@@ -1,4 +1,6 @@
+import java.io.File
 import java.util.Properties
+import org.gradle.api.GradleException
 
 plugins {
     id("com.android.application")
@@ -12,6 +14,31 @@ val keystorePropertiesFile = rootProject.file("keystore.properties")
 if (keystorePropertiesFile.exists()) {
     keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
 }
+
+fun envOrProp(envName: String, propName: String): String? {
+    System.getenv(envName)?.trim()?.takeIf { it.isNotEmpty() }?.let { return it }
+    return keystoreProperties.getProperty(propName)?.trim()?.takeIf { it.isNotEmpty() }
+}
+
+fun resolveKeystoreFile(path: String): File {
+    val file = File(path)
+    return if (file.isAbsolute) file else rootProject.file(path)
+}
+
+val storeFileValue = envOrProp("KEYSTORE_FILE", "storeFile")
+val storePasswordValue = envOrProp("KEYSTORE_PASSWORD", "storePassword")
+val keyAliasValue = envOrProp("KEY_ALIAS", "keyAlias")
+val keyPasswordValue = envOrProp("KEY_PASSWORD", "keyPassword")
+val familyStoreFile = storeFileValue?.let { resolveKeystoreFile(it) }
+
+val familySigningError: String? = when {
+    listOf(storeFileValue, storePasswordValue, keyAliasValue, keyPasswordValue).any { it.isNullOrEmpty() } ->
+        "Family release signing is not configured. For a local sideload build, copy android/keystore.properties.example to android/keystore.properties and point storeFile at the family .jks. For GitHub Actions, set repo secrets KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, and KEY_PASSWORD. Refusing to ship an unsigned or debug-signed APK as a family build."
+    familyStoreFile?.isFile != true ->
+        "Family keystore file was not found${familyStoreFile?.let { " at ${it.absolutePath}" } ?: ""}. Refusing to ship an unsigned or debug-signed APK as a family build."
+    else -> null
+}
+val familySigningReady = familySigningError == null
 
 android {
     namespace = "com.zekkers.watthome"
@@ -27,19 +54,21 @@ android {
     }
 
     signingConfigs {
-        create("family") {
-            val store = keystoreProperties.getProperty("storeFile")
-                ?: error("keystore.properties is missing storeFile")
-            storeFile = rootProject.file(store)
-            storePassword = keystoreProperties.getProperty("storePassword")
-            keyAlias = keystoreProperties.getProperty("keyAlias")
-            keyPassword = keystoreProperties.getProperty("keyPassword")
+        if (familySigningReady) {
+            create("family") {
+                storeFile = checkNotNull(familyStoreFile)
+                storePassword = checkNotNull(storePasswordValue)
+                keyAlias = checkNotNull(keyAliasValue)
+                keyPassword = checkNotNull(keyPasswordValue)
+            }
         }
     }
 
     buildTypes {
         debug {
-            signingConfig = signingConfigs.getByName("family")
+            if (familySigningReady) {
+                signingConfig = signingConfigs.getByName("family")
+            }
         }
         release {
             isMinifyEnabled = false
@@ -48,7 +77,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("family")
+            if (familySigningReady) {
+                signingConfig = signingConfigs.getByName("family")
+            }
         }
     }
 
@@ -103,6 +134,21 @@ tasks.register<Copy>("copySideloadApk") {
     from(layout.buildDirectory.file("outputs/apk/release/app-release.apk"))
     into(layout.projectDirectory.dir("release"))
     rename { "watt-home-status.apk" }
+}
+
+val requireFamilyReleaseSigning = tasks.register("requireFamilyReleaseSigning") {
+    doLast {
+        val message = familySigningError
+        if (message != null) {
+            throw GradleException(message)
+        }
+    }
+}
+
+tasks.configureEach {
+    if (name == "packageRelease" || name == "assembleRelease") {
+        dependsOn(requireFamilyReleaseSigning)
+    }
 }
 
 afterEvaluate {
