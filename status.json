@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-28T08:21:45+01:00",
-  "soc_percent": 55,
-  "solar_w": 212,
-  "battery_w": -513,
+  "updated": "2026-08-28T15:25:21+01:00",
+  "soc_percent": 98,
+  "solar_w": 975,
+  "battery_w": 419,
   "target_1600_percent": 55,
   "overnight": {
     "start": "02:00",
@@ -10,12 +10,7 @@
     "cap_percent": 65
   },
   "peak_window": "16:00-19:00",
-  "next_power_up": {
-    "from": "12:30",
-    "to": "14:30",
-    "date": "2026-08-28",
-    "opted_in": true
-  },
+  "next_power_up": null,
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
@@ -29,7 +24,7 @@
     "code": "partlycloudy",
     "label": "cloudy early, fair mid-morning (met.no; Open-Meteo 429)"
   },
-  "last_action": "08:00 check: on plan",
+  "last_action": "15:00: SOC 98% >= target 55% \u2014 no peak top-up; cleared finished Power Up slot 12:30\u201314:30; overnight left for 01:30 sizing",
   "battery_w_series": [
     {
       "t": "2026-08-28T00:02:22+01:00",
@@ -94,6 +89,10 @@
     {
       "t": "2026-08-28T08:18:20+01:00",
       "w": -513
+    },
+    {
+      "t": "2026-08-28T15:25:21+01:00",
+      "w": 419
     }
   ],
   "soc_series": [
@@ -160,6 +159,10 @@
     {
       "t": "2026-08-28T08:18:20+01:00",
       "soc": 55
+    },
+    {
+      "t": "2026-08-28T15:25:21+01:00",
+      "soc": 98
     }
   ]
 }
