@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-29T08:10:22+01:00",
-  "soc_percent": 47,
-  "solar_w": 316,
-  "battery_w": 327,
+  "updated": "2026-08-29T15:08:06+01:00",
+  "soc_percent": 97,
+  "solar_w": 386,
+  "battery_w": 413,
   "target_1600_percent": 55,
   "overnight": {
     "from": "02:00",
@@ -11,12 +11,7 @@
     "kw": 6
   },
   "peak_window": "16:00-19:00",
-  "next_power_up": {
-    "from": "13:00",
-    "to": "15:00",
-    "date": "2026-08-29",
-    "opted_in": true
-  },
+  "next_power_up": null,
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
@@ -30,7 +25,7 @@
     "code": "overcast",
     "label": "100% cloud this morning, rain from ~13:00 (Open-Meteo)"
   },
-  "last_action": "08:00 recap ON_PLAN: overnight 02:00\u201302:35 @ 55%/6kW charged 32\u219255% (~3.4 kWh, 3.7 kWh import, no hold-at-cap, no EPS); live SOC 47% solar 316W house 569W; Power Up 13:00\u201315:00 still set; no inverter write",
+  "last_action": "15:00 peak check: SOC 97% \u2265 55% target \u2192 no top-up write; cleared finished dateless Power Up 13:00\u201315:00 on CH2414G328 (kept overnight 02:00\u201302:35 @ 55% for 01:30 sizing; slots 2\u20139 empty); Gateway not written",
   "battery_w_series": [
     {
       "t": "2026-08-29T01:40:00+01:00",
@@ -67,6 +62,10 @@
     {
       "t": "2026-08-29T08:05:33+01:00",
       "w": 327
+    },
+    {
+      "t": "2026-08-29T15:08:06+01:00",
+      "w": 413
     }
   ],
   "soc_series": [
@@ -105,6 +104,10 @@
     {
       "t": "2026-08-29T08:05:33+01:00",
       "soc": 47
+    },
+    {
+      "t": "2026-08-29T15:08:06+01:00",
+      "soc": 97
     }
   ]
 }
