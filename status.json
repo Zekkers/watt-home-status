@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-30T08:02:51+01:00",
-  "soc_percent": 58,
-  "solar_w": 429,
-  "battery_w": 207,
+  "updated": "2026-08-30T14:57:51+01:00",
+  "soc_percent": 59,
+  "solar_w": 819,
+  "battery_w": -1931,
   "target_1600_percent": 55,
   "overnight": {
     "from": "00:00",
@@ -26,7 +26,7 @@
     "code": "partly_cloudy",
     "label": "Cloudy early (80\u201390%), fair mid-morning, no rain; usable GHI from ~09:00 (Open-Meteo)"
   },
-  "last_action": "08:00 check ON_PLAN: overnight cleared as planned (SOC 67%\u219262% through 02\u201305, continuous discharge, 0 hold-at-cap, ~0 grid, no cheap import); live SOC 58% solar ~430 W house ~145 W; no Power Up today; 20% floor until 16:00 fat; no EPS; no inverter write",
+  "last_action": "15:00: SOC 59% >= target 55% \u2014 no peak top-up; slots already empty; no Power Up today; overnight left cleared for 01:30 sizing",
   "battery_w_series": [
     {
       "t": "2026-08-29T02:31:00+01:00",
@@ -83,6 +83,10 @@
     {
       "t": "2026-08-30T08:02:51+01:00",
       "w": 207
+    },
+    {
+      "t": "2026-08-30T14:57:51+01:00",
+      "w": -1931
     }
   ],
   "soc_series": [
@@ -141,6 +145,10 @@
     {
       "t": "2026-08-30T08:02:51+01:00",
       "soc": 58
+    },
+    {
+      "t": "2026-08-30T14:57:51+01:00",
+      "soc": 59
     }
   ]
 }
