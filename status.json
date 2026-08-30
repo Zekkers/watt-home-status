@@ -1,14 +1,15 @@
 {
-  "updated": "2026-08-29T15:08:06+01:00",
-  "soc_percent": 97,
-  "solar_w": 386,
-  "battery_w": 413,
+  "updated": "2026-08-30T01:44:51+01:00",
+  "soc_percent": 67,
+  "solar_w": 0,
+  "battery_w": -225,
   "target_1600_percent": 55,
   "overnight": {
-    "from": "02:00",
-    "to": "02:35",
-    "soc_cap": 55,
-    "kw": 6
+    "from": "00:00",
+    "to": "00:00",
+    "soc_cap": null,
+    "kw": 6,
+    "cleared": true
   },
   "peak_window": "16:00-19:00",
   "next_power_up": null,
@@ -22,10 +23,10 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "weather_tomorrow": {
-    "code": "overcast",
-    "label": "100% cloud this morning, rain from ~13:00 (Open-Meteo)"
+    "code": "partly_cloudy",
+    "label": "Cloudy early (80\u201390%), fair mid-morning, no rain; usable GHI from ~09:00 (Open-Meteo)"
   },
-  "last_action": "15:00 peak check: SOC 97% \u2265 55% target \u2192 no top-up write; cleared finished dateless Power Up 13:00\u201315:00 on CH2414G328 (kept overnight 02:00\u201302:35 @ 55% for 01:30 sizing; slots 2\u20139 empty); Gateway not written",
+  "last_action": "01:30 overnight: SOC 67% house 141 W; no late Power Up; cleared leftover 02:00\u201302:35 @ 55% (already above cap; would hold-at-cap). Skip cheap import \u2014 weather-adjusted PV until 16:00 keeps ~20%+ floor. slots empty; Gateway not written",
   "battery_w_series": [
     {
       "t": "2026-08-29T01:40:00+01:00",
@@ -66,6 +67,10 @@
     {
       "t": "2026-08-29T15:08:06+01:00",
       "w": 413
+    },
+    {
+      "t": "2026-08-30T01:44:51+01:00",
+      "w": -225
     }
   ],
   "soc_series": [
@@ -108,6 +113,10 @@
     {
       "t": "2026-08-29T15:08:06+01:00",
       "soc": 97
+    },
+    {
+      "t": "2026-08-30T01:44:51+01:00",
+      "soc": 67
     }
   ]
 }
