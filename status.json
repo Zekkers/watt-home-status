@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-30T01:44:51+01:00",
-  "soc_percent": 67,
-  "solar_w": 0,
-  "battery_w": -225,
+  "updated": "2026-08-30T08:02:51+01:00",
+  "soc_percent": 58,
+  "solar_w": 429,
+  "battery_w": 207,
   "target_1600_percent": 55,
   "overnight": {
     "from": "00:00",
@@ -26,20 +26,8 @@
     "code": "partly_cloudy",
     "label": "Cloudy early (80\u201390%), fair mid-morning, no rain; usable GHI from ~09:00 (Open-Meteo)"
   },
-  "last_action": "01:30 overnight: SOC 67% house 141 W; no late Power Up; cleared leftover 02:00\u201302:35 @ 55% (already above cap; would hold-at-cap). Skip cheap import \u2014 weather-adjusted PV until 16:00 keeps ~20%+ floor. slots empty; Gateway not written",
+  "last_action": "08:00 check ON_PLAN: overnight cleared as planned (SOC 67%\u219262% through 02\u201305, continuous discharge, 0 hold-at-cap, ~0 grid, no cheap import); live SOC 58% solar ~430 W house ~145 W; no Power Up today; 20% floor until 16:00 fat; no EPS; no inverter write",
   "battery_w_series": [
-    {
-      "t": "2026-08-29T01:40:00+01:00",
-      "w": -229
-    },
-    {
-      "t": "2026-08-29T02:01:00+01:00",
-      "w": -5664
-    },
-    {
-      "t": "2026-08-29T02:21:00+01:00",
-      "w": -5663
-    },
     {
       "t": "2026-08-29T02:31:00+01:00",
       "w": -5659
@@ -69,23 +57,35 @@
       "w": 413
     },
     {
-      "t": "2026-08-30T01:44:51+01:00",
+      "t": "2026-08-30T01:43:17+01:00",
       "w": -225
+    },
+    {
+      "t": "2026-08-30T01:58:28+01:00",
+      "w": -225
+    },
+    {
+      "t": "2026-08-30T02:59:12+01:00",
+      "w": -197
+    },
+    {
+      "t": "2026-08-30T05:00:39+01:00",
+      "w": -196
+    },
+    {
+      "t": "2026-08-30T07:02:07+01:00",
+      "w": -167
+    },
+    {
+      "t": "2026-08-30T07:57:47+01:00",
+      "w": 215
+    },
+    {
+      "t": "2026-08-30T08:02:51+01:00",
+      "w": 207
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-08-29T01:40:00+01:00",
-      "soc": 33
-    },
-    {
-      "t": "2026-08-29T02:01:00+01:00",
-      "soc": 32
-    },
-    {
-      "t": "2026-08-29T02:21:00+01:00",
-      "soc": 46
-    },
     {
       "t": "2026-08-29T02:31:00+01:00",
       "soc": 52
@@ -115,8 +115,32 @@
       "soc": 97
     },
     {
-      "t": "2026-08-30T01:44:51+01:00",
+      "t": "2026-08-30T01:43:17+01:00",
       "soc": 67
+    },
+    {
+      "t": "2026-08-30T01:58:28+01:00",
+      "soc": 67
+    },
+    {
+      "t": "2026-08-30T02:59:12+01:00",
+      "soc": 65
+    },
+    {
+      "t": "2026-08-30T05:00:39+01:00",
+      "soc": 62
+    },
+    {
+      "t": "2026-08-30T07:02:07+01:00",
+      "soc": 58
+    },
+    {
+      "t": "2026-08-30T07:57:47+01:00",
+      "soc": 58
+    },
+    {
+      "t": "2026-08-30T08:02:51+01:00",
+      "soc": 58
     }
   ]
 }
