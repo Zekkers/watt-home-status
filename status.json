@@ -1,15 +1,15 @@
 {
-  "updated": "2026-08-30T14:57:51+01:00",
-  "soc_percent": 59,
-  "solar_w": 819,
-  "battery_w": -1931,
-  "target_1600_percent": 55,
+  "updated": "2026-08-31T01:43:03+01:00",
+  "soc_percent": 6,
+  "solar_w": 0,
+  "battery_w": 0,
+  "target_1600_percent": 60,
   "overnight": {
-    "from": "00:00",
-    "to": "00:00",
-    "soc_cap": null,
+    "from": "02:00",
+    "to": "03:20",
+    "soc_cap": 60,
     "kw": 6,
-    "cleared": true
+    "cleared": false
   },
   "peak_window": "16:00-19:00",
   "next_power_up": null,
@@ -23,10 +23,10 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "weather_tomorrow": {
-    "code": "partly_cloudy",
-    "label": "Cloudy early (80\u201390%), fair mid-morning, no rain; usable GHI from ~09:00 (Open-Meteo)"
+    "code": "cloudy",
+    "label": "Overnight rain 03\u201304, 100% cloud early; usable GHI from ~08:00 (90\u2192335), 15:00 hole (85, 100% cloud); ~36% of clear-sky (Open-Meteo)"
   },
-  "last_action": "15:00: SOC 59% >= target 55% \u2014 no peak top-up; slots already empty; no Power Up today; overnight left cleared for 01:30 sizing",
+  "last_action": "01:30: SOC 6% (house on grid, batt 0 W) \u2014 no Power Up; wrote CH2414G328 overnight 02:00\u201303:20 @ 60%/6 kW (GHI ~36% of clear \u2192 +10 on May\u2013Sep cap); slots 1\u20139 empty; Gateway not written",
   "battery_w_series": [
     {
       "t": "2026-08-29T02:31:00+01:00",
@@ -87,6 +87,10 @@
     {
       "t": "2026-08-30T14:57:51+01:00",
       "w": -1931
+    },
+    {
+      "t": "2026-08-31T01:40:35+01:00",
+      "w": 0
     }
   ],
   "soc_series": [
@@ -149,6 +153,10 @@
     {
       "t": "2026-08-30T14:57:51+01:00",
       "soc": 59
+    },
+    {
+      "t": "2026-08-31T01:40:35+01:00",
+      "soc": 6
     }
   ]
 }
