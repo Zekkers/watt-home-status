@@ -75,7 +75,18 @@ Android project sources live under [`android/`](android/).
 
 ## GitHub Actions sideload APK
 
-Pushes to `main`, version tags `v*` (for example `v1.2.5`), and a manual **Run workflow** run unit tests, then `assembleRelease`, then upload **watt-home-status.apk** as a workflow artifact. A `v*` tag also attaches that APK to a GitHub Release.
+Pushes to `main`, version tags `v*` (for example `v1.2.5`), pull requests from this repo, and a manual **Run workflow** run unit tests, then `assembleRelease`, then upload **watt-home-status.apk** as a workflow artifact (these expire).
+
+A same-repo pull request also publishes a GitHub **pre-release** tagged `pr-<number>` (for example `pr-6`) and comments the phone-tap URL. Re-pushes replace that APK. This does **not** update the rolling `latest` Release.
+
+- https://github.com/Zekkers/watt-home-status/releases/download/pr-6/watt-home-status.apk
+
+Every successful signed build on `main` (or a `v*` tag) publishes the same filename to a rolling GitHub Release tagged `latest`:
+
+- https://github.com/Zekkers/watt-home-status/releases/latest
+- https://github.com/Zekkers/watt-home-status/releases/latest/download/watt-home-status.apk
+
+A `v*` tag still gets its own GitHub Release with the same APK attached. Existing version tags are left alone.
 
 Signing uses the same family key as previous sideload APKs. Add these four Actions secrets once (**Settings → Secrets and variables → Actions**). Do not put the keystore or passwords in git.
 

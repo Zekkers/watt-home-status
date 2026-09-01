@@ -4,14 +4,24 @@ on:
   push:
     branches: [main]
     tags: ["v*"]
+  pull_request:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
+
+concurrency:
+  group: android-release-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
+    # Same-repo only. Fork PRs do not receive signing secrets; do not use
+    # pull_request_target to reach them.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Check out
@@ -87,7 +97,37 @@ jobs:
           path: android/app/release/watt-home-status.apk
           if-no-files-found: error
 
-      - name: Attach APK to GitHub Release
+      # Rolling `latest` on main (and v* tags) only. Never on pull_request.
+      # GITHUB_TOKEN tag pushes do not re-run this workflow; `latest` also
+      # does not match tags: ["v*"].
+      - name: Publish rolling latest Release
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          apk="android/app/release/watt-home-status.apk"
+          if [ ! -f "${apk}" ]; then
+            echo "::error::Missing ${apk}"
+            exit 1
+          fi
+
+          git tag -f latest "${GITHUB_SHA}"
+          git push origin refs/tags/latest --force
+
+          notes="Household sideload APK from ${GITHUB_SHA}. This rolling release is updated on every successful main build."
+          if gh release view latest >/dev/null 2>&1; then
+            gh release upload latest "${apk}" --clobber
+            gh release edit latest --title "Latest" --notes "${notes}" --latest
+          else
+            gh release create latest "${apk}" \
+              --title "Latest" \
+              --notes "${notes}" \
+              --latest \
+              --verify-tag
+          fi
+
+      - name: Attach APK to version tag Release
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -98,5 +138,60 @@ jobs:
           if gh release view "${tag}" >/dev/null 2>&1; then
             gh release upload "${tag}" "${apk}" --clobber
           else
-            gh release create "${tag}" "${apk}" --title "${tag}" --generate-notes --verify-tag
+            gh release create "${tag}" "${apk}" \
+              --title "${tag}" \
+              --generate-notes \
+              --verify-tag \
+              --latest=false
+          fi
+          if gh release view latest >/dev/null 2>&1; then
+            gh release edit latest --latest
+          fi
+
+      - name: Publish PR pre-release
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          apk="android/app/release/watt-home-status.apk"
+          if [ ! -f "${apk}" ]; then
+            echo "::error::Missing ${apk}"
+            exit 1
+          fi
+          number="${{ github.event.pull_request.number }}"
+          tag="pr-${number}"
+          notes="Signed household APK from pull request ${number} (${GITHUB_SHA}). Pre-release only — the rolling latest Release is not updated until merge to main. Re-pushes replace this APK."
+          if gh release view "${tag}" >/dev/null 2>&1; then
+            gh release upload "${tag}" "${apk}" --clobber
+            gh release edit "${tag}" --title "PR ${number} sideload" --notes "${notes}" --prerelease --latest=false
+          else
+            gh release create "${tag}" "${apk}" \
+              --title "PR ${number} sideload" \
+              --notes "${notes}" \
+              --prerelease \
+              --latest=false \
+              --target "${{ github.event.pull_request.head.sha }}"
+          fi
+
+      - name: Comment PR with APK URL
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          url="https://github.com/${REPO}/releases/download/pr-${PR_NUMBER}/watt-home-status.apk"
+          marker="<!-- watt-home-pr-apk -->"
+          body="$(printf '%s\n\n%s\n\n%s\n\n%s\n' \
+            "${marker}" \
+            "Sideload this pull request without merging:" \
+            "${url}" \
+            "Pre-release tag \`pr-${PR_NUMBER}\`. Re-pushes replace that APK. The rolling \`latest\` Release is not updated until this merges to main.")"
+          existing="$(gh api "repos/${REPO}/issues/${PR_NUMBER}/comments" --paginate --jq ".[] | select(.body | contains(\"${marker}\")) | .id" | head -n1)"
+          if [ -n "${existing}" ]; then
+            gh api -X PATCH "repos/${REPO}/issues/comments/${existing}" -f body="${body}"
+          else
+            gh api -X POST "repos/${REPO}/issues/${PR_NUMBER}/comments" -f body="${body}"
           fi
