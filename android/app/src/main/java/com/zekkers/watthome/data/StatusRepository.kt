@@ -85,7 +85,7 @@ class StatusRepository private constructor(context: Context) {
                     return refreshLiveLatest(previous, token)
                 }
             }
-            refreshFull()
+            refreshFull(previous)
         } catch (error: Exception) {
             if (error is TokenRejectedException) throw error
             if (_uiState.value.error != null && _uiState.value.status != null) throw error
@@ -99,48 +99,34 @@ class StatusRepository private constructor(context: Context) {
         }
     }
 
-    private suspend fun refreshFull(): HomeStatus {
-        val publicStatus = decode(fetchPublicJson())
+    private suspend fun refreshFull(previous: HomeStatus?): HomeStatus {
+        val publicStatus = decode(fetchPublicJson()).copy(
+            solarWSeries = previous?.solarWSeries.orEmpty(),
+            lastWidgetPollAt = previous?.lastWidgetPollAt
+        )
         val token = tokenStore.readToken()
         return if (token == null) {
-            persist(HomeStatusJson.encode(publicStatus))
-            _uiState.value = StatusUiState(
-                status = publicStatus,
-                isLoading = false,
-                hasToken = false,
-                liveOk = false
-            )
-            publicStatus
+            commitStatus(publicStatus, previous, hasToken = false, liveOk = false)
         } else {
             try {
                 val live = givEnergy.fetchLive(token, includeSeries = true)
-                val status = LiveStatus.merge(publicStatus, live)
-                persist(HomeStatusJson.encode(status))
-                _uiState.value = StatusUiState(
-                    status = status,
-                    isLoading = false,
-                    hasToken = true,
-                    liveOk = true
-                )
-                status
+                commitStatus(LiveStatus.merge(publicStatus, live), previous, hasToken = true, liveOk = true)
             } catch (rejected: TokenRejectedException) {
-                persist(HomeStatusJson.encode(publicStatus))
-                _uiState.value = StatusUiState(
-                    status = publicStatus,
-                    isLoading = false,
-                    error = rejected.message,
+                commitStatus(
+                    publicStatus,
+                    previous,
                     hasToken = true,
-                    liveOk = false
+                    liveOk = false,
+                    error = rejected.message
                 )
                 throw rejected
             } catch (liveError: Exception) {
-                persist(HomeStatusJson.encode(publicStatus))
-                _uiState.value = StatusUiState(
-                    status = publicStatus,
-                    isLoading = false,
-                    error = humanMessage(liveError),
+                commitStatus(
+                    publicStatus,
+                    previous,
                     hasToken = true,
-                    liveOk = false
+                    liveOk = false,
+                    error = humanMessage(liveError)
                 )
                 throw liveError
             }
@@ -150,15 +136,7 @@ class StatusRepository private constructor(context: Context) {
     private suspend fun refreshLiveLatest(cached: HomeStatus, token: String): HomeStatus {
         return try {
             val live = givEnergy.fetchLive(token, includeSeries = false)
-            val status = LiveStatus.merge(cached, live)
-            persist(HomeStatusJson.encode(status))
-            _uiState.value = StatusUiState(
-                status = status,
-                isLoading = false,
-                hasToken = true,
-                liveOk = true
-            )
-            status
+            commitStatus(LiveStatus.merge(cached, live), cached, hasToken = true, liveOk = true)
         } catch (rejected: TokenRejectedException) {
             _uiState.value = _uiState.value.copy(
                 isLoading = false,
@@ -169,6 +147,25 @@ class StatusRepository private constructor(context: Context) {
             )
             throw rejected
         }
+    }
+
+    private suspend fun commitStatus(
+        status: HomeStatus,
+        previous: HomeStatus?,
+        hasToken: Boolean,
+        liveOk: Boolean,
+        error: String? = null
+    ): HomeStatus {
+        val finished = SolarInterval.finish(status, previous)
+        persist(HomeStatusJson.encode(finished))
+        _uiState.value = StatusUiState(
+            status = finished,
+            isLoading = false,
+            hasToken = hasToken,
+            liveOk = liveOk,
+            error = error
+        )
+        return finished
     }
 
     private suspend fun fetchPublicJson(): String {
@@ -215,7 +212,7 @@ class StatusRepository private constructor(context: Context) {
         const val STATUS_URL =
             "https://raw.githubusercontent.com/Zekkers/watt-home-status/main/status.json"
         private const val USER_AGENT =
-            "WattHomeStatus/1.2.4 (family widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.5 (family widget; +https://github.com/Zekkers/watt-home-status)"
         private val KEY_JSON = stringPreferencesKey("status_json")
         private const val SETUP_PREFS = "watt_home_setup"
         private const val KEY_SEEN_TOKEN = "seen_token_screen"

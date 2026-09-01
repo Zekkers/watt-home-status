@@ -26,7 +26,8 @@ class GivEnergyClient(
         }
         return latest.copy(
             socSeries = series.socSeries,
-            batteryWSeries = series.batteryWSeries
+            batteryWSeries = series.batteryWSeries,
+            solarWSeries = series.solarWSeries
         )
     }
 
@@ -65,6 +66,6 @@ class GivEnergyClient(
 
     companion object {
         private const val USER_AGENT =
-            "WattHomeStatus/1.2.4 (family widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.5 (family widget; +https://github.com/Zekkers/watt-home-status)"
     }
 }

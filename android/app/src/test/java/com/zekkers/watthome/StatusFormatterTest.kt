@@ -40,6 +40,13 @@ class StatusFormatterTest {
         assertEquals("64\u2060%", StatusFormatter.percent(status.socPercent))
         assertEquals("64", StatusFormatter.percentNumber(status.socPercent))
         assertEquals("980 W", StatusFormatter.watts(status.solarW))
+        assertEquals("980 W", StatusFormatter.solarIntervalWatts(status))
+        assertEquals("0 W", StatusFormatter.watts(0))
+        assertEquals("412 W", StatusFormatter.watts(412))
+        assertEquals(
+            "412 W",
+            StatusFormatter.solarIntervalWatts(status.copy(solarIntervalAvgW = 412, solarW = 980))
+        )
         assertTrue(status.batteryWSeries.isEmpty())
         assertNull(status.lastSavings)
         assertNull(status.weatherTomorrow)

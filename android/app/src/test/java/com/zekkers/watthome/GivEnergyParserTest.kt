@@ -35,15 +35,42 @@ class GivEnergyParserTest {
           "data": [
             {
               "time": "2026-08-24T12:00:00+01:00",
-              "power": {"battery": {"percent": 50, "power": -800}}
+              "power": {
+                "battery": {"percent": 50, "power": -800},
+                "solar": {
+                  "power": 1000,
+                  "arrays": [
+                    {"array": 1, "power": 400},
+                    {"array": 2, "power": 600}
+                  ]
+                }
+              }
             },
             {
               "time": "2026-08-24T12:05:00+01:00",
-              "power": {"battery": {"percent": 51, "power": -700}}
+              "power": {
+                "battery": {"percent": 51, "power": -700},
+                "solar": {
+                  "power": 1050,
+                  "arrays": [
+                    {"array": 1, "power": 450},
+                    {"array": 2, "power": 600}
+                  ]
+                }
+              }
             },
             {
               "time": "2026-08-24T12:16:00+01:00",
-              "power": {"battery": {"percent": 55, "power": 400}}
+              "power": {
+                "battery": {"percent": 55, "power": 400},
+                "solar": {
+                  "power": 980,
+                  "arrays": [
+                    {"array": 1, "power": 380},
+                    {"array": 2, "power": 600}
+                  ]
+                }
+              }
             }
           ],
           "meta": {"current_page": 1, "last_page": 1}
@@ -99,6 +126,26 @@ class GivEnergyParserTest {
         assertEquals(55.0, snapshot.socSeries[1].soc!!, 0.01)
         assertEquals(-400.0, snapshot.batteryWSeries[1].w!!, 0.01)
         assertEquals(1, GivEnergyParser.lastPage(points))
+        assertEquals(3, snapshot.solarWSeries.size)
+        assertEquals(400.0, snapshot.solarWSeries[0].w!!, 0.01)
+        assertEquals(450.0, snapshot.solarWSeries[1].w!!, 0.01)
+        assertEquals(380.0, snapshot.solarWSeries[2].w!!, 0.01)
+        snapshot.solarWSeries.forEach { sample ->
+            assertTrue(sample.w!! < 500.0)
+        }
+    }
+
+    @Test
+    fun dataPointsIgnoreArrayTwoAndGatewayDummyPv() {
+        val raw = """
+            {"data":[
+              {"serial_number":"GW2412G481","time":"2026-08-24T12:00:00Z","power":{"solar":{"power":9999,"arrays":[{"array":1,"power":9999}]},"battery":{"percent":9,"power":1}}},
+              {"time":"2026-08-24T12:05:00Z","power":{"solar":{"power":0,"arrays":[{"array":1,"power":0},{"array":2,"power":800}]},"battery":{"percent":10,"power":0}}}
+            ]}
+        """.trimIndent()
+        val snapshot = GivEnergyParser.snapshotFromPoints(GivEnergyParser.parseDataPoints(raw))
+        assertEquals(1, snapshot.solarWSeries.size)
+        assertEquals(0.0, snapshot.solarWSeries.single().w!!, 0.01)
     }
 
     @Test
@@ -130,6 +177,7 @@ class GivEnergyParserTest {
         assertEquals(63.0, merged.socSeries.last().soc!!, 0.01)
         assertEquals("2026-08-24T15:34:00Z", merged.socSeries.last().t)
         assertEquals(-1250.0, merged.batteryWSeries.last().w!!, 0.01)
+        assertEquals(420.0, merged.solarWSeries.last().w!!, 0.01)
         assertEquals("12:00", merged.nextPowerUp?.from)
         assertEquals(55, merged.target1600Percent)
         assertEquals(36.95, merged.lastSavings?.gbp)

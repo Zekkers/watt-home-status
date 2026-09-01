@@ -19,6 +19,7 @@ import androidx.glance.layout.size
 import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.R
 import com.zekkers.watthome.data.HomeStatus
@@ -97,6 +98,23 @@ internal fun PowerUpClockBlock(
 }
 
 @Composable
+internal fun SolarIntervalLine(
+    status: HomeStatus?,
+    fontSize: TextUnit = 10.sp
+) {
+    Text(
+        text = StatusFormatter.solarIntervalWatts(status),
+        style = TextStyle(
+            color = ColorProvider(Solar, Solar),
+            fontSize = fontSize,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Center
+        ),
+        maxLines = 1
+    )
+}
+
+@Composable
 internal fun BatterySocStack(
     status: HomeStatus?,
     modifier: GlanceModifier = GlanceModifier,
@@ -108,16 +126,10 @@ internal fun BatterySocStack(
     Column(
         modifier = modifier,
         verticalAlignment = Alignment.Top,
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = GlanceModifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(GlanceModifier.defaultWeight())
-            SocToken(percent = status?.socPercent, numberSize = socSize)
-            Spacer(GlanceModifier.defaultWeight())
-        }
+        SocToken(percent = status?.socPercent, numberSize = socSize)
+        SolarIntervalLine(status, timeSize)
         if (clock != null) {
             Row(
                 modifier = GlanceModifier.fillMaxWidth(),
@@ -150,11 +162,7 @@ internal fun SessionHeader(status: HomeStatus?) {
     ) {
         Column {
             SocToken(status?.socPercent, numberSize = 26.sp)
-            Text(
-                text = "battery",
-                style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 10.sp),
-                maxLines = 1
-            )
+            SolarIntervalLine(status, 10.sp)
         }
         Spacer(GlanceModifier.defaultWeight())
         if (clock != null) {

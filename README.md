@@ -47,8 +47,8 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | Centered `20%` (wrap-content, with `%`, never `20…`). Lower half: `12pm` / `2pm` with the bolt to their right. |
-| **Watt Home · Battery + session** | 2×1 | SOC on the left with `battery`; `12pm` / `2pm` as two lines on the right, bolt at the far right. Never `63%pm`. |
+| **Watt Home · Battery** | 1×1 | Centered `20%` (wrap-content, with `%`, never `20…`). Small `412 W` (array-1 PV mean over the last widget poll) under the %. Lower half: `12pm` / `2pm` with the bolt to their right, not next to the %. |
+| **Watt Home · Battery + session** | 2×1 | SOC on the left with the same small solar line under it; `12pm` / `2pm` as two lines on the right, bolt at the far right. Never `63%pm`. |
 | **Watt Home · Glance** | 2×2 | Top identical to 2×1. SOC graph along the bottom. Savings `£36.95 · 9 sess` if it fits. |
 | **Watt Home · Overview** | ~3×2 / wide | Overnight slot, 16:00 target, solar W, Power Up as full `12pm - 2pm` or stacked `12pm`/`2pm`. Never `m - 2` or concatenate onto SOC. |
 | **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
@@ -57,7 +57,7 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 WorkManager’s periodic poll is **15 minutes** when the pack is quiet (Android’s minimum for repeating work). After a successful live GivEnergy GET, if the battery is moving — `|battery_w|` over ~500 W, a Power Up window from `status.json` is in progress, or SOC just changed — the app schedules a one-shot follow-up in **90 seconds**. When things go quiet again it drops back to 15 minutes, so the phone is not polled every minute all day. All widget sizes share one DataStore cache and refresh together. Tap a widget to force a live refresh (and open the app). AppWidget `updatePeriodMillis` is 0; the 15-minute floor is WorkManager, not the launcher.
 
-With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min on the full poll; fast follow-ups only hit `/system-data/latest` and pin the graph tip). Public `status.json` still supplies Power Up, overnight, 16:00 target, last action, weather, and savings.
+With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min on the full poll; fast follow-ups only hit `/system-data/latest` and pin the graph tip). The small solar line on the 1×1 / 2×1 / 2×2 is the mean of array-1 PV watts over the previous widget poll interval (those ~90 seconds or ~15 minutes), from GivEnergy data-points when the full poll already fetched them, otherwise from a short on-phone buffer of each poll’s live watts. Night is `0 W`. The first poll after install may show the current watts until two samples (or data-points in that window) exist. Public `status.json` still supplies Power Up, overnight, 16:00 target, last action, weather, and savings.
 
 ## Rebuild from this repo
 

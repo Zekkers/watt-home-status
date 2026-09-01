@@ -54,9 +54,12 @@ object GivEnergyParser {
         val samples = points.mapNotNull(::sampleFromPoint)
             .sortedBy { timestamp(it.t) ?: OffsetDateTime.MIN }
         val downsampled = downsample(samples, minutes = 15)
+        val solar = points.mapNotNull(::solarSampleFromPoint)
+            .sortedBy { timestamp(it.t) ?: OffsetDateTime.MIN }
         return LiveInverterSnapshot(
             socSeries = downsampled.map { BatterySample(t = it.t, soc = it.soc) },
-            batteryWSeries = downsampled.map { BatterySample(t = it.t, w = it.w) }
+            batteryWSeries = downsampled.map { BatterySample(t = it.t, w = it.w) },
+            solarWSeries = solar
         )
     }
 
@@ -89,10 +92,22 @@ object GivEnergyParser {
         return BatterySample(t = t, w = w, soc = soc)
     }
 
+    private fun solarSampleFromPoint(point: JsonObject): BatterySample? {
+        if (isIgnoredSerial(point)) return null
+        val t = string(point, "time") ?: return null
+        val power = obj(point["power"]) ?: point
+        val solar = obj(power["solar"]) ?: obj(point["solar"])
+        val watts = solarArray1(solar) ?: return null
+        return BatterySample(t = t, w = watts.toDouble())
+    }
+
     private fun solarArray1(solar: JsonObject?): Int? {
-        val arrays = solar?.get("arrays") as? JsonArray ?: return int(solar, "power")
-        val match = arrays.mapNotNull { it as? JsonObject }.firstOrNull { int(it, "array") == 1 }
-        return int(match, "power") ?: int(solar, "power")
+        val arrays = solar?.get("arrays") as? JsonArray
+        if (arrays != null) {
+            val match = arrays.mapNotNull { it as? JsonObject }.firstOrNull { int(it, "array") == 1 }
+            return int(match, "power")
+        }
+        return int(solar, "power")
     }
 
     private fun isIgnoredSerial(obj: JsonObject): Boolean {

@@ -8,7 +8,8 @@ data class LiveInverterSnapshot(
     val solarW: Int? = null,
     val batteryW: Double? = null,
     val socSeries: List<BatterySample> = emptyList(),
-    val batteryWSeries: List<BatterySample> = emptyList()
+    val batteryWSeries: List<BatterySample> = emptyList(),
+    val solarWSeries: List<BatterySample> = emptyList()
 )
 
 object GivEnergy {
@@ -39,6 +40,7 @@ object LiveStatus {
         if (live == null) return publicStatus
         val socSeries = live.socSeries.ifEmpty { publicStatus.socSeries }
         val batteryWSeries = live.batteryWSeries.ifEmpty { publicStatus.batteryWSeries }
+        val solarWSeries = live.solarWSeries.ifEmpty { publicStatus.solarWSeries }
         return appendLiveTip(
             publicStatus.copy(
                 updated = live.updated ?: publicStatus.updated,
@@ -46,7 +48,8 @@ object LiveStatus {
                 solarW = live.solarW ?: publicStatus.solarW,
                 batteryW = live.batteryW ?: publicStatus.batteryW,
                 socSeries = socSeries,
-                batteryWSeries = batteryWSeries
+                batteryWSeries = batteryWSeries,
+                solarWSeries = solarWSeries
             ),
             live
         )
@@ -56,9 +59,11 @@ object LiveStatus {
         val stamp = live.updated ?: return status
         val socTip = live.socPercent?.toDouble()?.let { BatterySample(t = stamp, soc = it) }
         val wattTip = live.batteryW?.let { BatterySample(t = stamp, w = it) }
+        val solarTip = live.solarW?.let { BatterySample(t = stamp, w = it.toDouble()) }
         return status.copy(
             socSeries = appendSample(status.socSeries, socTip) { it.soc != null },
-            batteryWSeries = appendSample(status.batteryWSeries, wattTip) { it.w != null }
+            batteryWSeries = appendSample(status.batteryWSeries, wattTip) { it.w != null },
+            solarWSeries = appendSample(status.solarWSeries, solarTip) { it.w != null }
         )
     }
 

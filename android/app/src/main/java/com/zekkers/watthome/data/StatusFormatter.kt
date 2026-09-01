@@ -26,6 +26,9 @@ object StatusFormatter {
 
     fun watts(value: Int?): String = value?.let { "$it W" } ?: "—"
 
+    fun solarIntervalWatts(status: HomeStatus?): String =
+        watts(status?.solarIntervalAvgW ?: status?.solarW)
+
     fun signedWatts(value: Double?): String {
         if (value == null) return "—"
         val rounded = if (abs(value) >= 10) value.toInt().toString() else String.format(Locale.UK, "%.0f", value)

@@ -95,6 +95,8 @@ class PowerUpLayoutTest {
         assertFalse(WidgetTextMeasure.fits("21\u2060%", 32f, 56f, 1f, bold = true))
         assertTrue(WidgetTextMeasure.fits("12pm", 10f, 40f, 1f))
         assertTrue(WidgetTextMeasure.fits("2pm", 10f, 40f, 1f))
+        assertTrue(WidgetTextMeasure.fits("412 W", 10f, 56f, 1f))
+        assertTrue(WidgetTextMeasure.fits("0 W", 10f, 56f, 1f))
         assertFalse(WidgetTextMeasure.fits("12pm - 2pm", 13f, 40f, 1f))
     }
 

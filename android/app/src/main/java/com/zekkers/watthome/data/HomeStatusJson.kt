@@ -11,6 +11,11 @@ object HomeStatusJson {
         status.updated?.let { put("updated", JsonPrimitive(it)) }
         status.socPercent?.let { put("soc_percent", JsonPrimitive(it)) }
         status.solarW?.let { put("solar_w", JsonPrimitive(it)) }
+        status.solarIntervalAvgW?.let { put("solar_interval_avg_w", JsonPrimitive(it)) }
+        if (status.solarWSeries.isNotEmpty()) {
+            put("solar_w_series", seriesArray(status.solarWSeries, includeW = true))
+        }
+        status.lastWidgetPollAt?.let { put("last_widget_poll_at", JsonPrimitive(it)) }
         status.target1600Percent?.let { put("target_1600_percent", JsonPrimitive(it)) }
         status.overnight?.let { overnight ->
             put(
