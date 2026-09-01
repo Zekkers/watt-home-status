@@ -1,6 +1,7 @@
 package com.zekkers.watthome.data
 
 import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 /**
@@ -24,11 +25,13 @@ object SolarInterval {
     ): HomeStatus {
         val pollStamp = status.updated?.let { StatusFormatter.parseTimestamp(it) } ?: now
         val lastPoll = previous?.lastWidgetPollAt?.let { StatusFormatter.parseTimestamp(it) }
+        val pollStampText = status.updated?.takeIf { StatusFormatter.parseTimestamp(it) != null }
+            ?: pollStamp.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         val incoming = buildList {
             addAll(previous?.solarWSeries.orEmpty())
             addAll(status.solarWSeries)
             status.solarW?.let { watts ->
-                add(BatterySample(t = pollStamp.toString(), w = watts.toDouble()))
+                add(BatterySample(t = pollStampText, w = watts.toDouble()))
             }
         }
         val samples = retainRecent(incoming, pollStamp)
@@ -36,7 +39,7 @@ object SolarInterval {
         return status.copy(
             solarWSeries = samples,
             solarIntervalAvgW = average,
-            lastWidgetPollAt = pollStamp.toString()
+            lastWidgetPollAt = pollStampText
         )
     }
 
