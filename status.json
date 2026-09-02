@@ -1,8 +1,8 @@
 {
-  "updated": "2026-09-02T01:53:18+01:00",
-  "soc_percent": 9,
-  "solar_w": 0,
-  "battery_w": -734,
+  "updated": "2026-09-02T08:04:44+01:00",
+  "soc_percent": 50,
+  "solar_w": 183,
+  "battery_w": -53,
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
@@ -24,9 +24,9 @@
   },
   "weather_tomorrow": {
     "code": "cloudy_rain",
-    "label": "Heavy cloud morning (88\u2013100%), light rain 12\u201314 (0.1\u20130.4 mm), GHI 08:00 96 \u2192 11:00 191 \u2192 14:00 310 (Open-Meteo). Poor PV until 16:00."
+    "label": "Heavy cloud (100%), light rain mid-afternoon. 08:00 GHI 99.0 cloud 100% precip 0.0; 12:00 GHI 393.0 cloud 100% precip 0.1; 16:00 GHI 155.0 cloud 100% precip 0.0 (Open-Meteo)."
   },
-  "last_action": "01:30: no late Power Up; SOC 9% house spike 634 W (sleep ~175 W assumed after 02:00); Open-Meteo heavy cloud + light rain 12\u201314, poor GHI; wrote CH2414G328 02:00\u201303:15 @ 60%/6 kW (~7.0 kWh / 75 min on 13.5 usable); cleared extras; Gateway not written",
+  "last_action": "08:00: overnight 02:00\u201303:15 @ 60%/6 kW charged 9%\u219258% (~7.5 kWh pack / ~8.0 kWh import, no hold-at-cap, no EPS); now SOC 50% solar 183 W batt -53 W house 156 W; no Power Up; no inverter write",
   "battery_w_series": [
     {
       "t": "2026-08-29T02:31:00+01:00",
@@ -167,6 +167,34 @@
     {
       "t": "2026-09-02T01:53:18+01:00",
       "w": -734
+    },
+    {
+      "t": "2026-09-02T02:00:32+01:00",
+      "w": 5662
+    },
+    {
+      "t": "2026-09-02T02:30:54+01:00",
+      "w": 5666
+    },
+    {
+      "t": "2026-09-02T03:16:27+01:00",
+      "w": -221
+    },
+    {
+      "t": "2026-09-02T04:57:40+01:00",
+      "w": -279
+    },
+    {
+      "t": "2026-09-02T06:59:08+01:00",
+      "w": -322
+    },
+    {
+      "t": "2026-09-02T07:59:52+01:00",
+      "w": -53
+    },
+    {
+      "t": "2026-09-02T07:59:52+01:00",
+      "w": -53
     }
   ],
   "soc_series": [
@@ -309,6 +337,34 @@
     {
       "t": "2026-09-02T01:53:18+01:00",
       "soc": 9
+    },
+    {
+      "t": "2026-09-02T02:00:32+01:00",
+      "soc": 9
+    },
+    {
+      "t": "2026-09-02T02:30:54+01:00",
+      "soc": 28
+    },
+    {
+      "t": "2026-09-02T03:16:27+01:00",
+      "soc": 58
+    },
+    {
+      "t": "2026-09-02T04:57:40+01:00",
+      "soc": 55
+    },
+    {
+      "t": "2026-09-02T06:59:08+01:00",
+      "soc": 51
+    },
+    {
+      "t": "2026-09-02T07:59:52+01:00",
+      "soc": 50
+    },
+    {
+      "t": "2026-09-02T07:59:52+01:00",
+      "soc": 50
     }
   ]
 }
