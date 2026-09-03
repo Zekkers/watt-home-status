@@ -64,7 +64,7 @@ private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
         verticalAlignment = Alignment.Top,
         horizontalAlignment = Alignment.Start
     ) {
-        SessionHeader(status)
+        SessionHeader(status, contentPaddingDp = 16f)
         Spacer(GlanceModifier.height(6.dp))
         Image(
             provider = ImageProvider(curve),

@@ -47,10 +47,10 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | Centered `20%` (wrap-content, with `%`, never `20…`). Lower half: `12pm` / `2pm` with the bolt to their right. |
-| **Watt Home · Battery + session** | 2×1 | SOC on the left with `battery`; `12pm` / `2pm` as two lines on the right, bolt at the far right. Never `63%pm`. |
-| **Watt Home · Glance** | 2×2 | Top identical to 2×1. SOC graph along the bottom. Savings `£36.95 · 9 sess` if it fits. |
-| **Watt Home · Overview** | ~3×2 / wide | Overnight slot, 16:00 target, solar W, Power Up as full `12pm - 2pm` or stacked `12pm`/`2pm`. Never `m - 2` or concatenate onto SOC. |
+| **Watt Home · Battery** | 1×1 | Centered SOC (keeps `%`, including `100%` — never `10…`). Small live array-1 solar W under it. Lower half: Power Up times with the bolt to their right, not next to the %. |
+| **Watt Home · Battery + session** | 2×1 | SOC on the left with `battery`; Power Up times as two lines on the right, bolt fully visible at the far right when opted in. Never `63%pm`. |
+| **Watt Home · Glance** | 2×2 | Top identical to 2×1, including a fully visible opt-in bolt. SOC graph along the bottom. Savings `£36.95 · 9 sess` if it fits. |
+| **Watt Home · Overview** | ~3×2 / 4×2 | Overnight slot, 16:00 target, solar W, Power Up as full `12pm - 2pm` or stacked `12pm`/`2pm`, with the opt-in bolt beside the times. Never `m - 2` or concatenate onto SOC. |
 | **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
 
 2×2 keeps a graph slot along the bottom (SOC curve on a 00:00–24:00 / 0–100% scale). Wide Overview letterboxes that same mapping so the curve is not stretched flat. Missing extras stay hidden.
@@ -75,7 +75,11 @@ Android project sources live under [`android/`](android/).
 
 ## GitHub Actions sideload APK
 
-Pushes to `main`, version tags `v*` (for example `v1.2.5`), and a manual **Run workflow** run unit tests, then `assembleRelease`, then upload **watt-home-status.apk** as a workflow artifact. A `v*` tag also attaches that APK to a GitHub Release.
+Pushes to `main`, version tags `v*` (for example `v1.2.6`), pull requests from this repo, and a manual **Run workflow** run unit tests, then `assembleRelease`, then upload **watt-home-status.apk** as a workflow artifact (these expire).
+
+A same-repo pull request also publishes a GitHub **pre-release** tagged `pr-<number>` (for example `pr-7`) and comments the phone-tap URL. Re-pushes replace that APK.
+
+A `v*` tag also attaches that APK to a GitHub Release.
 
 Signing uses the same family key as previous sideload APKs. Add these four Actions secrets once (**Settings → Secrets and variables → Actions**). Do not put the keystore or passwords in git.
 

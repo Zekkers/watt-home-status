@@ -20,7 +20,7 @@ class BatterySessionWidget : WattGlanceWidget() {
             modifier = GlanceModifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            SessionHeader(status)
+            SessionHeader(status, contentPaddingDp = 12f)
         }
     }
 }

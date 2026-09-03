@@ -23,6 +23,7 @@ import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
+import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -58,11 +59,13 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - 24f
     val clock = PowerUpLayout.clock(status?.nextPowerUp)
+    val showBolt = StatusFormatter.optedInPowerUp(status?.nextPowerUp)
     val clockMode = PowerUpLayout.wide(
         powerUp = status?.nextPowerUp,
         availableDp = innerWidth,
         timeSp = 12f,
-        density = density
+        density = density,
+        showBolt = showBolt
     )
     Column(
         modifier = GlanceModifier.fillMaxSize(),
@@ -106,8 +109,8 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
             clock = clock,
             mode = clockMode,
             fontSize = 12.sp,
-            showBolt = false,
-            modifier = GlanceModifier.fillMaxWidth(),
+            showBolt = showBolt,
+            modifier = GlanceModifier.wrapContentSize(),
             alignEnd = false
         )
         Spacer(GlanceModifier.height(6.dp))
