@@ -67,7 +67,7 @@ class WidgetPlotLayoutTest {
     fun sessionFallsBackBesideOnVeryShortTile() {
         val pane = WidgetPlotLayout.sessionPlot(160f, 40f)
         assertTrue(pane.besideHeader)
-        assertTrue(pane.plotWidthDp >= WidgetPlotLayout.MinPlotWidthDp)
+        assertTrue(pane.plotWidthDp >= WidgetPlotLayout.MinCompactPlotWidthDp)
         assertTrue(pane.leftWidthDp >= 72f)
         val clock = PowerUpLayout.clock(halfHour.nextPowerUp, midday)!!
         val soc = SocLayout.token(

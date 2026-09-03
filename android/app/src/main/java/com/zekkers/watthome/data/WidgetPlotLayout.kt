@@ -19,6 +19,7 @@ object WidgetPlotLayout {
     const val OverviewLeftFloorDp = 80f
 
     const val MinPlotWidthDp = 72f
+    const val MinCompactPlotWidthDp = 56f
     const val MinPlotHeightDp = 24f
     const val SessionHeaderDp = 34f
     const val SessionBesideMaxHeightDp = 56f
@@ -111,7 +112,9 @@ object WidgetPlotLayout {
                 besideHeader = false
             )
         } else {
-            val plotW = (innerW * 0.38f).coerceAtLeast(MinPlotWidthDp).coerceAtMost(innerW * 0.45f)
+            val plotW = (innerW * 0.40f)
+                .coerceAtLeast(MinCompactPlotWidthDp)
+                .coerceAtMost((innerW - 80f).coerceAtLeast(MinCompactPlotWidthDp))
             SplitPane(
                 leftWidthDp = (innerW - plotW).coerceAtLeast(72f),
                 plotWidthDp = plotW,
