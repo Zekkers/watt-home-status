@@ -10,14 +10,14 @@ import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.GraphSeriesStyle
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
+import com.zekkers.watthome.data.WidgetPlotLayout
 import kotlin.math.abs
 
 object SparklineRenderer {
     private const val Background = 0xFF1B3A24.toInt()
     private const val Grid = 0x4481C784
+    private const val ZeroLabelColor = 0xFFE8F5E9.toInt()
     private const val MinutesInDay = 24 * 60.0
-    /** Same plot shape as the 2×2 Glance tile (~260×90). */
-    private const val PlotAspect = 260f / 90f
 
     fun renderToday(
         status: HomeStatus?,
@@ -30,11 +30,12 @@ object SparklineRenderer {
         val bitmap = Bitmap.createBitmap(widthPx.coerceAtLeast(8), heightPx.coerceAtLeast(8), Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(Background)
-        val plot = if (fillSlot) {
-            RectF(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
-        } else {
-            letterbox(bitmap.width.toFloat(), bitmap.height.toFloat(), PlotAspect)
-        }
+        val plotBox = WidgetPlotLayout.plotBounds(
+            bitmap.width.toFloat(),
+            bitmap.height.toFloat(),
+            fillSlot
+        )
+        val plot = plotBox.toRect()
         if (status == null || widthPx < 8 || heightPx < 8) {
             drawGrid(canvas, plot.top, plot.width(), plot.height(), plot.left)
             return bitmap
@@ -50,8 +51,11 @@ object SparklineRenderer {
         }
         val hasPower = solar.size >= 2 || battery.size >= 2 || house.size >= 2 || grid.size >= 2
         val hasSoc = soc.size >= 2
-        val legendH = if (showLegend && series.any()) (plot.height() * 0.18f).coerceAtLeast(12f) else 0f
-        val chart = RectF(plot.left, plot.top + legendH, plot.right, plot.bottom)
+        val legendH = WidgetPlotLayout.legendHeightPx(plotBox.height, showLegend, series.any())
+        val labelPaint = zeroLabelPaint(plotBox.height - legendH)
+        val gutter = WidgetPlotLayout.zeroGutterPx(hasPower, labelPaint.measureText(WidgetPlotLayout.ZeroLabel))
+        val chartBox = WidgetPlotLayout.chartBounds(plotBox, legendH, gutter)
+        val chart = chartBox.toRect()
         if (!hasPower && !hasSoc) {
             drawGrid(canvas, chart.top, chart.width(), chart.height(), chart.left)
             if (legendH > 0f) drawLegend(canvas, plot, series, legendH)
@@ -67,6 +71,7 @@ object SparklineRenderer {
             }
             val maxAbs = values.maxOf { abs(it) }.coerceAtLeast(1.0)
             drawZeroLine(canvas, chart)
+            drawZeroLabel(canvas, plot.left, chartBox.midY, labelPaint)
             if (solar.size >= 2) drawPowerLine(canvas, solar, chart, maxAbs, GraphSeriesStyle.SOLAR.toInt())
             if (house.size >= 2) drawPowerLine(canvas, house, chart, maxAbs, GraphSeriesStyle.HOUSE.toInt())
             if (grid.size >= 2) drawPowerLine(canvas, grid, chart, maxAbs, GraphSeriesStyle.GRID.toInt())
@@ -84,16 +89,16 @@ object SparklineRenderer {
         return samples.filter { it.t != null && it.w != null }
     }
 
-    private fun letterbox(availW: Float, availH: Float, aspect: Float): RectF {
-        var w = availW
-        var h = w / aspect
-        if (h > availH) {
-            h = availH
-            w = h * aspect
-        }
-        val left = (availW - w) / 2f
-        val top = (availH - h) / 2f
-        return RectF(left, top, left + w, top + h)
+    private fun WidgetPlotLayout.FloatBox.toRect(): RectF = RectF(left, top, right, bottom)
+
+    private fun zeroLabelPaint(chartHeightPx: Float): Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = ZeroLabelColor
+        textSize = WidgetPlotLayout.zeroLabelTextPx(chartHeightPx)
+    }
+
+    private fun drawZeroLabel(canvas: Canvas, left: Float, zeroY: Float, paint: Paint) {
+        val baseline = zeroY - (paint.fontMetrics.ascent + paint.fontMetrics.descent) / 2f
+        canvas.drawText(WidgetPlotLayout.ZeroLabel, left + 1f, baseline, paint)
     }
 
     private fun drawSocOverlay(canvas: Canvas, samples: List<BatterySample>, chart: RectF) {

@@ -2,7 +2,6 @@ package com.zekkers.watthome.widget
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +28,7 @@ import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusRepository
+import com.zekkers.watthome.data.WidgetPlotLayout
 import com.zekkers.watthome.data.WidgetTextMeasure
 import com.zekkers.watthome.worker.StatusRefreshScheduler
 
@@ -38,31 +38,32 @@ class GlanceTileWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
-        val density = context.resources.displayMetrics.density
-        val series = GraphSeriesSelection.WIDGET_COMPACT
-        val curve = SparklineRenderer.renderToday(
-            status = status,
-            widthPx = (220 * density).toInt().coerceAtLeast(160),
-            heightPx = (90 * density).toInt().coerceAtLeast(64),
-            fillSlot = true,
-            series = series,
-            showLegend = false
-        )
         provideContent {
             WidgetCard(radius = 16.dp, padding = 8.dp) {
-                GlanceTileContent(status, curve, series)
+                GlanceTileContent(status, GraphSeriesSelection.WIDGET_COMPACT)
             }
         }
     }
 }
 
 @Composable
-private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap, series: GraphSeriesSelection) {
+private fun GlanceTileContent(status: HomeStatus?, series: GraphSeriesSelection) {
     val hasCurve = StatusFormatter.hasVisibleTodayCurve(status, series)
     val savings = StatusFormatter.savingsWidgetLine(status?.lastSavings)
     val density = Resources.getSystem().displayMetrics.density
-    val innerWidth = LocalSize.current.width.value - 16f
+    val size = LocalSize.current
+    val innerWidth = size.width.value - 16f
     val savingsLine = savings?.takeIf { WidgetTextMeasure.fits(it, 11f, innerWidth, density) }
+    val extraLines = (if (!hasCurve) 1 else 0) + (if (savingsLine != null) 1 else 0)
+    val pane = WidgetPlotLayout.glanceBottom(size.width.value, size.height.value, extraLines)
+    val curve = SparklineRenderer.renderToday(
+        status = status,
+        widthPx = (pane.plotWidthDp * density).toInt().coerceAtLeast(80),
+        heightPx = (pane.plotHeightDp * density).toInt().coerceAtLeast(36),
+        fillSlot = true,
+        series = series,
+        showLegend = false
+    )
     Column(
         modifier = GlanceModifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,

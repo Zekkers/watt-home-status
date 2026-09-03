@@ -184,28 +184,35 @@ internal fun BatterySocStack(
 @Composable
 internal fun SessionHeader(
     status: HomeStatus?,
-    contentPaddingDp: Float = 12f
+    contentPaddingDp: Float = 12f,
+    availableWidthDp: Float? = null,
+    showSolar: Boolean = false,
+    modifier: GlanceModifier = GlanceModifier.fillMaxWidth()
 ) {
     val clock = PowerUpLayout.clock(status?.nextPowerUp)
     val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
     val density = Resources.getSystem().displayMetrics.density
-    val innerWidth = LocalSize.current.width.value - contentPaddingDp
+    val innerWidth = availableWidthDp ?: (LocalSize.current.width.value - contentPaddingDp)
     val soc = SocLayout.token(
         percent = status?.socPercent,
         availableDp = SocLayout.headerSocBudget(innerWidth, clock, showBolt, density),
         density = density
     )
     Row(
-        modifier = GlanceModifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = GlanceModifier.defaultWeight()) {
             FittedSocToken(soc)
-            Text(
-                text = "battery",
-                style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 10.sp),
-                maxLines = 1
-            )
+            if (showSolar) {
+                SolarWattsLine(status, 10.sp)
+            } else {
+                Text(
+                    text = "battery",
+                    style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 10.sp),
+                    maxLines = 1
+                )
+            }
         }
         if (clock != null) {
             Row(

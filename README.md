@@ -48,12 +48,12 @@ Sizes in the picker (under **Watt Home**, no search needed):
 | Picker name | Size | Shows |
 | --- | --- | --- |
 | **Watt Home · Battery** | 1×1 | Centered SOC (keeps `%`, including `100%` — never `10…`). Small live array-1 solar W under it. Lower half: Power Up times with the bolt to their right, not next to the %. |
-| **Watt Home · Battery + session** | 2×1 | SOC on the left with `battery`; Power Up times as two lines on the right, bolt fully visible at the far right when opted in. Never `63%pm`. |
-| **Watt Home · Glance** | 2×2 | Top identical to 2×1, including a fully visible opt-in bolt. SOC graph along the bottom. Savings `£36.95 · 9 sess` if it fits. |
-| **Watt Home · Overview** | ~3×2 / 4×2 | Overnight slot, 16:00 target, solar W, Power Up as full `12pm - 2pm` or stacked `12pm`/`2pm`, with the opt-in bolt beside the times. Never `m - 2` or concatenate onto SOC. |
+| **Watt Home · Battery + session** | 2×1 | SOC and live solar W, Power Up times as two lines, bolt fully visible when opted in, plus a compact sparkline with a left-side `0W` mark. Never `63%pm`. |
+| **Watt Home · Glance** | 2×2 | Top identical to 2×1’s header (SOC, `battery`, times, bolt). Power graph along the bottom with a left-side `0W` at the zero line. Savings `£36.95 · 9 sess` if it fits. |
+| **Watt Home · Overview** | ~3×2 / 4×2 | Numbers on the left (SOC, solar, overnight, 16:00, peak, Power Up, savings). Graph fills the right pane at that pane’s real size — not a letterboxed strip under the text. `0W` sits on the left of the plot at the zero line. |
 | **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
 
-2×2 keeps a graph slot along the bottom (SOC curve on a 00:00–24:00 / 0–100% scale). Wide Overview letterboxes that same mapping so the curve is not stretched flat. Missing extras stay hidden.
+2×1 and 2×2 keep a power sparkline (Options ticks on Overview / the app; compact tiles show solar + battery). A cream `0W` label sits on the left of the zero line whenever a power trace is drawn. Wide Overview puts that plot on the right of the numbers. Missing extras stay hidden.
 
 WorkManager’s periodic poll is **15 minutes** when the pack is quiet (Android’s minimum for repeating work). After a successful live GivEnergy GET, if the battery is moving — `|battery_w|` over ~500 W, a Power Up window from `status.json` is in progress, or SOC just changed — the app schedules a one-shot follow-up in **90 seconds**. When things go quiet again it drops back to 15 minutes, so the phone is not polled every minute all day. All widget sizes share one DataStore cache and refresh together. Tap a widget to force a live refresh (and open the app). AppWidget `updatePeriodMillis` is 0; the 15-minute floor is WorkManager, not the launcher.
 
