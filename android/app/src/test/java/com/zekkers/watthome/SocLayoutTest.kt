@@ -9,8 +9,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.time.ZonedDateTime
 
 class SocLayoutTest {
+    private val midday = ZonedDateTime.parse("2026-09-03T13:00:00+01:00[Europe/London]")
     private val halfHour = HomeStatusParser.parse(
         """{"next_power_up":{"from":"12:30","to":"14:30","opted_in":true},"soc_percent":100}"""
     )
@@ -55,10 +57,10 @@ class SocLayoutTest {
 
     @Test
     fun compactHeaderKeepsFullChargeAndBolt() {
-        val clock = PowerUpLayout.clock(halfHour.nextPowerUp)!!
+        val clock = PowerUpLayout.clock(halfHour.nextPowerUp, midday)!!
         assertEquals("12:30pm", clock.from)
         assertEquals("2:30pm", clock.to)
-        assertTrue(StatusFormatter.optedInPowerUp(halfHour.nextPowerUp))
+        assertTrue(StatusFormatter.optedInPowerUp(halfHour.nextPowerUp, midday))
         assertTrue(
             SocLayout.headerFits(
                 percent = 100,
@@ -83,7 +85,7 @@ class SocLayoutTest {
 
     @Test
     fun compactHeaderStillFitsTwoDigitAtPreferredSize() {
-        val clock = PowerUpLayout.clock(halfHour.nextPowerUp)!!
+        val clock = PowerUpLayout.clock(halfHour.nextPowerUp, midday)!!
         val soc = SocLayout.token(
             88,
             SocLayout.headerSocBudget(SocLayout.CompactHeaderInnerDp, clock, true, 1f),
@@ -95,9 +97,9 @@ class SocLayoutTest {
 
     @Test
     fun boltOnlyWhenOptedIn() {
-        assertTrue(StatusFormatter.optedInPowerUp(halfHour.nextPowerUp))
-        assertFalse(StatusFormatter.optedInPowerUp(skipped.nextPowerUp))
-        assertFalse(StatusFormatter.optedInPowerUp(null))
+        assertTrue(StatusFormatter.optedInPowerUp(halfHour.nextPowerUp, midday))
+        assertFalse(StatusFormatter.optedInPowerUp(skipped.nextPowerUp, midday))
+        assertFalse(StatusFormatter.optedInPowerUp(null, midday))
         assertTrue(StatusFormatter.hasPowerUp(skipped.nextPowerUp))
     }
 }

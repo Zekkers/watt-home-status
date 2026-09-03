@@ -9,8 +9,12 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 class StatusFormatterTest {
+    private val during25Aug = ZonedDateTime.parse("2026-08-25T13:00:00+01:00[Europe/London]")
+    private val midday = ZonedDateTime.parse("2026-08-27T13:00:00+01:00[Europe/London]")
+    private val midnight = ZonedDateTime.parse("2026-08-27T00:30:00+01:00[Europe/London]")
     private val sample = """
         {
           "updated": "2026-08-24T15:34:00+01:00",
@@ -96,15 +100,15 @@ class StatusFormatterTest {
         assertEquals(71, status.socPercent)
         assertEquals(60, status.target1600Percent)
         assertEquals("12:00", status.nextPowerUp?.from)
-        assertEquals("12:00–14:00", StatusFormatter.powerUpWindow(status.nextPowerUp))
-        assertEquals("12–14", StatusFormatter.powerUpCompactHours(status.nextPowerUp))
-        assertEquals("12:00", StatusFormatter.powerUpStartLine(status.nextPowerUp))
-        assertEquals("14:00", StatusFormatter.powerUpEndLine(status.nextPowerUp))
-        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindow(status.nextPowerUp))
-        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindowOrNull(status.nextPowerUp))
-        assertEquals("12pm - 2pm", StatusFormatter.powerUpLine(status.nextPowerUp))
+        assertEquals("12:00–14:00", StatusFormatter.powerUpWindow(status.nextPowerUp, during25Aug))
+        assertEquals("12–14", StatusFormatter.powerUpCompactHours(status.nextPowerUp, during25Aug))
+        assertEquals("12:00", StatusFormatter.powerUpStartLine(status.nextPowerUp, during25Aug))
+        assertEquals("14:00", StatusFormatter.powerUpEndLine(status.nextPowerUp, during25Aug))
+        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindow(status.nextPowerUp, during25Aug))
+        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindowOrNull(status.nextPowerUp, during25Aug))
+        assertEquals("12pm - 2pm", StatusFormatter.powerUpLine(status.nextPowerUp, during25Aug))
         assertTrue(StatusFormatter.hasPowerUp(status.nextPowerUp))
-        assertTrue(StatusFormatter.optedInPowerUp(status.nextPowerUp))
+        assertTrue(StatusFormatter.optedInPowerUp(status.nextPowerUp, during25Aug))
         assertEquals("partly_cloudy", status.weatherTomorrow?.code)
         assertEquals("Partly cloudy", status.weatherTomorrow?.label)
         assertEquals(-320.0, status.batteryW)
@@ -125,13 +129,13 @@ class StatusFormatterTest {
         val status = HomeStatusParser.parse("""{"next_power_up":"12:00–14:00 Tue 25 Aug"}""")
         assertEquals("12:00", status.nextPowerUp?.from)
         assertEquals("14:00", status.nextPowerUp?.to)
-        assertEquals("12:00–14:00", StatusFormatter.powerUpWindow(status.nextPowerUp))
+        assertEquals("12:00–14:00", StatusFormatter.powerUpWindow(status.nextPowerUp, midday))
         assertTrue(StatusFormatter.hasPowerUp(status.nextPowerUp))
-        assertFalse(StatusFormatter.optedInPowerUp(status.nextPowerUp))
+        assertFalse(StatusFormatter.optedInPowerUp(status.nextPowerUp, midday))
         assertNull(HomeStatusParser.parse("""{"next_power_up":null}""").nextPowerUp)
         val skipped = HomeStatusParser.parse("""{"next_power_up":{"from":"12:00","to":"14:00","date":"2026-08-25","opted_in":false}}""")
         assertTrue(StatusFormatter.hasPowerUp(skipped.nextPowerUp))
-        assertFalse(StatusFormatter.optedInPowerUp(skipped.nextPowerUp))
+        assertFalse(StatusFormatter.optedInPowerUp(skipped.nextPowerUp, during25Aug))
     }
 
     @Test
@@ -177,20 +181,21 @@ class StatusFormatterTest {
     fun compactHoursNeverSplitColonZeroZero() {
         val noon = HomeStatusParser.parse("""{"next_power_up":{"from":"12:00","to":"14:00"}}""")
         val peak = HomeStatusParser.parse("""{"next_power_up":{"from":"16:00","to":"19:00"}}""")
-        assertEquals("12–14", StatusFormatter.powerUpCompactHours(noon.nextPowerUp))
-        assertEquals("16–19", StatusFormatter.powerUpCompactHours(peak.nextPowerUp))
-        assertEquals("12:00", StatusFormatter.powerUpStartLine(noon.nextPowerUp))
-        assertEquals("14:00", StatusFormatter.powerUpEndLine(noon.nextPowerUp))
-        assertEquals("16:00", StatusFormatter.powerUpStartLine(peak.nextPowerUp))
-        assertEquals("19:00", StatusFormatter.powerUpEndLine(peak.nextPowerUp))
-        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindow(noon.nextPowerUp))
-        assertEquals("4pm - 7pm", StatusFormatter.powerUpSpokenWindow(peak.nextPowerUp))
+        assertEquals("12–14", StatusFormatter.powerUpCompactHours(noon.nextPowerUp, midday))
+        assertEquals("16–19", StatusFormatter.powerUpCompactHours(peak.nextPowerUp, midday))
+        assertEquals("12:00", StatusFormatter.powerUpStartLine(noon.nextPowerUp, midday))
+        assertEquals("14:00", StatusFormatter.powerUpEndLine(noon.nextPowerUp, midday))
+        assertEquals("16:00", StatusFormatter.powerUpStartLine(peak.nextPowerUp, midday))
+        assertEquals("19:00", StatusFormatter.powerUpEndLine(peak.nextPowerUp, midday))
+        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindow(noon.nextPowerUp, midday))
+        assertEquals("4pm - 7pm", StatusFormatter.powerUpSpokenWindow(peak.nextPowerUp, midday))
         assertEquals("12am - 1am", StatusFormatter.powerUpSpokenWindow(
-            HomeStatusParser.parse("""{"next_power_up":{"from":"00:00","to":"01:00"}}""").nextPowerUp
+            HomeStatusParser.parse("""{"next_power_up":{"from":"00:00","to":"01:00"}}""").nextPowerUp,
+            midnight
         ))
         assertEquals("12pm", StatusFormatter.twelveHourClock(noon.nextPowerUp?.from))
         assertEquals("2pm", StatusFormatter.twelveHourClock(noon.nextPowerUp?.to))
-        assertNull(StatusFormatter.powerUpSpokenWindowOrNull(null))
+        assertNull(StatusFormatter.powerUpSpokenWindowOrNull(null, midday))
     }
 
     @Test
