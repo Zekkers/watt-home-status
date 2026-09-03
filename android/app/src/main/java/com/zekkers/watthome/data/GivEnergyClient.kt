@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit
 
 class GivEnergyClient(
     private val client: OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
-        .callTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(RefreshPolicy.CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .readTimeout(RefreshPolicy.READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .callTimeout(RefreshPolicy.CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .build()
 ) {
     fun testToken(token: String) {

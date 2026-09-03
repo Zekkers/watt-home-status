@@ -11,6 +11,7 @@ object HomeStatusJson {
         status.updated?.let { put("updated", JsonPrimitive(it)) }
         status.socPercent?.let { put("soc_percent", JsonPrimitive(it)) }
         status.solarW?.let { put("solar_w", JsonPrimitive(it)) }
+        status.houseW?.let { put("house_w", JsonPrimitive(it)) }
         status.target1600Percent?.let { put("target_1600_percent", JsonPrimitive(it)) }
         status.overnight?.let { overnight ->
             put(

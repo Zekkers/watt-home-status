@@ -98,6 +98,12 @@ fun StatusScreen(
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodyMedium
                 )
+            } else if (state.showingLastKnown && state.status != null) {
+                Text(
+                    text = "Showing last known status",
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
 
             Card(
@@ -135,6 +141,13 @@ fun StatusScreen(
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.headlineMedium
                     )
+                    if (status?.houseW != null) {
+                        Text(
+                            text = "House ${StatusFormatter.watts(status.houseW)}",
+                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.9f),
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                    }
                 }
             }
 

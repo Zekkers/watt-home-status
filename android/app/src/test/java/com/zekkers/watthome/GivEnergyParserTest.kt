@@ -25,6 +25,7 @@ class GivEnergyParserTest {
                 {"array": 2, "voltage": 250, "current": 2, "power": 580}
               ]
             },
+            "consumption": {"power": 406},
             "battery": {"percent": 63, "power": 1250, "temperature": 32.1}
           }
         }
@@ -84,6 +85,7 @@ class GivEnergyParserTest {
         val live = GivEnergyParser.parseLatest(latest)
         assertEquals(63, live.socPercent)
         assertEquals(420, live.solarW)
+        assertEquals(406, live.houseW)
         assertEquals(-1250.0, live.batteryW!!, 0.01)
         assertEquals(2289.0, GivEnergyParser.appBatteryW(-2289.0), 0.01)
         assertEquals(-1250.0, GivEnergyParser.appBatteryW(1250.0), 0.01)
@@ -108,6 +110,7 @@ class GivEnergyParserTest {
             {
               "soc_percent": 10,
               "solar_w": 1,
+              "house_w": 200,
               "battery_w": 5,
               "target_1600_percent": 55,
               "next_power_up": {"from":"12:00","to":"14:00","opted_in":true},
@@ -125,6 +128,7 @@ class GivEnergyParserTest {
         val merged = LiveStatus.merge(publicStatus, live)
         assertEquals(63, merged.socPercent)
         assertEquals(420, merged.solarW)
+        assertEquals(406, merged.houseW)
         assertEquals(-1250.0, merged.batteryW!!, 0.01)
         assertEquals(10.0, merged.socSeries.first().soc!!, 0.01)
         assertEquals(63.0, merged.socSeries.last().soc!!, 0.01)

@@ -6,6 +6,7 @@ data class LiveInverterSnapshot(
     val updated: String? = null,
     val socPercent: Int? = null,
     val solarW: Int? = null,
+    val houseW: Int? = null,
     val batteryW: Double? = null,
     val socSeries: List<BatterySample> = emptyList(),
     val batteryWSeries: List<BatterySample> = emptyList()
@@ -44,6 +45,7 @@ object LiveStatus {
                 updated = live.updated ?: publicStatus.updated,
                 socPercent = live.socPercent ?: publicStatus.socPercent,
                 solarW = live.solarW ?: publicStatus.solarW,
+                houseW = live.houseW ?: publicStatus.houseW,
                 batteryW = live.batteryW ?: publicStatus.batteryW,
                 socSeries = socSeries,
                 batteryWSeries = batteryWSeries

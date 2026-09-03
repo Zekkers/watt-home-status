@@ -15,6 +15,7 @@ class StatusFormatterTest {
           "updated": "2026-08-24T15:34:00+01:00",
           "soc_percent": 64,
           "solar_w": 980,
+          "house_w": 406,
           "target_1600_percent": 55,
           "overnight": {"start": "02:00", "end": "03:00", "cap_percent": 30},
           "peak_window": "16:00-19:00",
@@ -28,6 +29,7 @@ class StatusFormatterTest {
         val status = HomeStatusParser.parse(sample)
         assertEquals(64, status.socPercent)
         assertEquals(980, status.solarW)
+        assertEquals(406, status.houseW)
         assertEquals(55, status.target1600Percent)
         assertEquals("02:00", status.overnight?.start)
         assertEquals(30, status.overnight?.capPercent)
@@ -40,6 +42,7 @@ class StatusFormatterTest {
         assertEquals("64\u2060%", StatusFormatter.percent(status.socPercent))
         assertEquals("64", StatusFormatter.percentNumber(status.socPercent))
         assertEquals("980 W", StatusFormatter.watts(status.solarW))
+        assertEquals("406 W", StatusFormatter.watts(status.houseW))
         assertTrue(status.batteryWSeries.isEmpty())
         assertNull(status.lastSavings)
         assertNull(status.weatherTomorrow)

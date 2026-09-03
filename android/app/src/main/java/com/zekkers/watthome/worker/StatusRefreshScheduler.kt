@@ -44,7 +44,7 @@ object StatusRefreshScheduler {
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(
             ONCE_WORK,
-            ExistingWorkPolicy.REPLACE,
+            ExistingWorkPolicy.KEEP,
             request
         )
     }

@@ -4,6 +4,7 @@ data class HomeStatus(
     val updated: String? = null,
     val socPercent: Int? = null,
     val solarW: Int? = null,
+    val houseW: Int? = null,
     val target1600Percent: Int? = null,
     val overnight: Overnight? = null,
     val peakWindow: String? = null,
@@ -57,5 +58,6 @@ data class StatusUiState(
     val error: String? = null,
     val hasToken: Boolean = false,
     val liveOk: Boolean = false,
-    val tokenMessage: String? = null
+    val tokenMessage: String? = null,
+    val showingLastKnown: Boolean = false
 )

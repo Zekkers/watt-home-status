@@ -3,10 +3,12 @@ package com.zekkers.watthome
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.zekkers.watthome.data.RefreshErrors
 import com.zekkers.watthome.data.StatusRepository
 import com.zekkers.watthome.data.TokenRejectedException
 import com.zekkers.watthome.widget.WidgetUpdater
 import com.zekkers.watthome.worker.StatusRefreshScheduler
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,7 +30,7 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
     val tokenFeedback = _tokenFeedback.asStateFlow()
 
     private val _showTokenScreen = MutableStateFlow(
-        !repository.hasToken() && !repository.seenTokenScreen()
+        !repository.snapshotHasToken() && !repository.seenTokenScreen()
     )
     val showTokenScreen = _showTokenScreen.asStateFlow()
 
@@ -36,24 +38,37 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
     val openedFromSettings = _openedFromSettings.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.loadCached()
+            if (!repository.hasToken() && !repository.seenTokenScreen()) {
+                _showTokenScreen.value = true
+            }
+            refreshInternal()
         }
     }
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            val previousSoc = repository.uiState.value.status?.socPercent
-            val result = runCatching { repository.refresh(includeSeries = true) }
+            refreshInternal()
+        }
+    }
+
+    private suspend fun refreshInternal() {
+        val previousSoc = repository.uiState.value.status?.socPercent
+        try {
+            val status = repository.refresh(includeSeries = true)
             WidgetUpdater.updateAll(getApplication())
-            result.getOrNull()?.let { status ->
-                StatusRefreshScheduler.scheduleAfterSuccess(
-                    context = getApplication(),
-                    status = status,
-                    previousSocPercent = previousSoc,
-                    liveOk = repository.uiState.value.liveOk
-                )
-            }
+            StatusRefreshScheduler.scheduleAfterSuccess(
+                context = getApplication(),
+                status = status,
+                previousSocPercent = previousSoc,
+                liveOk = repository.uiState.value.liveOk
+            )
+        } catch (error: CancellationException) {
+            WidgetUpdater.updateAll(getApplication())
+            if (RefreshErrors.isStructuredCancellation(error)) throw error
+        } catch (_: Exception) {
+            WidgetUpdater.updateAll(getApplication())
         }
     }
 
@@ -75,12 +90,12 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
                 repository.saveToken(raw)
                 _tokenFeedback.value = "Token saved"
                 val previousSoc = repository.uiState.value.status?.socPercent
-                val refreshed = runCatching { repository.refresh(includeSeries = true) }
+                val status = runCatching { repository.refresh(includeSeries = true) }.getOrNull()
                 WidgetUpdater.updateAll(getApplication())
-                refreshed.getOrNull()?.let { status ->
+                status?.let {
                     StatusRefreshScheduler.scheduleAfterSuccess(
                         context = getApplication(),
-                        status = status,
+                        status = it,
                         previousSocPercent = previousSoc,
                         liveOk = repository.uiState.value.liveOk
                     )
@@ -89,6 +104,8 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
                     _openedFromSettings.value = false
                     _showTokenScreen.value = false
                 }
+            } catch (error: CancellationException) {
+                throw error
             } catch (error: Exception) {
                 _tokenFeedback.value = safeMessage(error)
             }
@@ -100,6 +117,8 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
             _tokenFeedback.value = "Testing…"
             try {
                 _tokenFeedback.value = repository.testToken(raw)
+            } catch (error: CancellationException) {
+                throw error
             } catch (error: Exception) {
                 _tokenFeedback.value = safeMessage(error)
             }
@@ -116,7 +135,8 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private fun safeMessage(error: Throwable): String {
+    private fun safeMessage(error: Throwable): String? {
+        if (RefreshErrors.looksLikeCancellation(error)) return null
         if (error is TokenRejectedException) return "token rejected, re-enter"
         val detail = error.message?.takeIf { it.isNotBlank() && !it.contains("Bearer", ignoreCase = true) }
         return detail ?: "Couldn't use that token"

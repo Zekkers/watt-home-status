@@ -27,10 +27,12 @@ object GivEnergyParser {
         if (isIgnoredSerial(root) || isIgnoredSerial(data)) return LiveInverterSnapshot()
         val battery = obj(data["battery"])
         val solar = obj(data["solar"])
+        val consumption = obj(data["consumption"])
         return LiveInverterSnapshot(
             updated = string(data, "time"),
             socPercent = int(battery, "percent"),
             solarW = solarArray1(solar),
+            houseW = int(consumption, "power") ?: int(data, "consumption"),
             batteryW = double(battery, "power")?.let(::appBatteryW)
         )
     }
