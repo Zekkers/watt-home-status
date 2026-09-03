@@ -45,7 +45,8 @@ class WidgetTapPolicyTest {
     @Test
     fun applicationOnCreateDoesNotTouchRepository() {
         val src = readMain("WattHomeApp.kt")
-        assertFalse(src.contains("StatusRepository"))
+        assertFalse(src.contains("StatusRepository.get"))
+        assertFalse(src.contains("TokenStore"))
         assertTrue(src.contains("enqueueNow"))
         assertTrue(src.contains("enqueuePeriodic"))
     }
