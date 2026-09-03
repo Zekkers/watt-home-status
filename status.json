@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-03T12:25:08+01:00",
+  "updated_at": "2026-09-03T15:14:27+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 55,
-  "solar_w": 2037,
-  "house_w": 3730,
-  "battery_w": 1843,
-  "grid_w": 29,
+  "soc_percent": 100,
+  "solar_w": 1851,
+  "house_w": 406,
+  "battery_w": 47,
+  "grid_w": 1413,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-03T11:20:21Z",
+  "sample_time_utc": "2026-09-03T14:12:26Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -23,27 +23,23 @@
     "opted_in": true,
     "percent_limit": 100
   },
-  "last_action": "12:15 SOC check (read-only): 55% before Power Up 12:30\u201314:30; leftover fat vs 20% floor; next Power Up-day overnight cap \u2192 30%",
-  "updated": "2026-09-03T08:05:16+01:00",
+  "last_action": "15:00 emergency check: SOC 100% ≥ target 60%; opted-in Power Up 12:30–14:30 finished; no inverter write",
+  "updated": "2026-09-03T15:14:27+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
   "weather_tomorrow": {
     "code": "cloudy",
-    "label": "Cloudy morning clearing after noon. 08:00 GHI 93.0 cloud 100% precip 0.0; 12:00 GHI 299.0 cloud 100% precip 0.0; 14:00 GHI 398.0 cloud 96% precip 0.0; 16:00 GHI 447.0 cloud 65% precip 0.0 (Open-Meteo). Power Up 12:30\u201314:30 covers noon fill + immersion."
+    "label": "Cloudy morning clearing after noon. 08:00 GHI 93.0 cloud 100% precip 0.0; 12:00 GHI 299.0 cloud 100% precip 0.0; 14:00 GHI 398.0 cloud 96% precip 0.0; 16:00 GHI 447.0 cloud 65% precip 0.0 (Open-Meteo). Power Up 12:30–14:30 covers noon fill + immersion."
   },
   "battery_w_series": [
-    {
-      "t": "2026-08-30T02:59:12+01:00",
-      "w": -197
-    },
     {
       "t": "2026-08-30T05:00:39+01:00",
       "w": -196
@@ -219,13 +215,13 @@
     {
       "t": "2026-09-03T08:02:15+01:00",
       "w": -1988
+    },
+    {
+      "t": "2026-09-03T15:12:26+01:00",
+      "w": 47
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-08-30T02:59:12+01:00",
-      "soc": 65
-    },
     {
       "t": "2026-08-30T05:00:39+01:00",
       "soc": 62
@@ -401,6 +397,10 @@
     {
       "t": "2026-09-03T08:02:15+01:00",
       "soc": 51
+    },
+    {
+      "t": "2026-09-03T15:12:26+01:00",
+      "soc": 100
     }
   ]
 }
