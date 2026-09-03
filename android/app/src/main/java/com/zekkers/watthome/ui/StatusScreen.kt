@@ -193,6 +193,8 @@ fun StatusScreen(
 @Composable
 private fun TodayCurveCard(status: HomeStatus?, series: GraphSeriesSelection) {
     val density = LocalDensity.current.density
+    // First-paint snapshot has no series, so this is an empty grid until
+    // the IO refresh fills traces in. Do not force a heavy overlay here.
     val curve = remember(status, series, density) {
         SparklineRenderer.renderToday(
             status = status,

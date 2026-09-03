@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.action.clickable
-import androidx.glance.appwidget.action.actionRunCallback
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
@@ -17,6 +17,7 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
 import androidx.glance.layout.Alignment
+import com.zekkers.watthome.MainActivity
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusRepository
 import com.zekkers.watthome.worker.StatusRefreshScheduler
@@ -54,7 +55,10 @@ internal fun WidgetCard(
     padding: Dp = 12.dp,
     content: @Composable () -> Unit
 ) {
-    val onTap = actionRunCallback<WidgetTapAction>()
+    // PendingIntent that starts MainActivity with no preceding I/O.
+    // Do not use ActionCallback here — Glance finishes the callback before
+    // the activity is shown, so a refresh-then-start tap feels ~2s dead.
+    val onTap = actionStartActivity<MainActivity>()
     Box(
         modifier = GlanceModifier
             .fillMaxSize()

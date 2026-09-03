@@ -26,12 +26,14 @@ class StatusRepository private constructor(context: Context) {
     private val appContext = context.applicationContext
     private val snapshotPrefs = appContext.getSharedPreferences(SNAPSHOT_PREFS, Context.MODE_PRIVATE)
     private val tokenStore by lazy { TokenStore.get(appContext) }
-    private val givEnergy = GivEnergyClient()
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(RefreshPolicy.CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-        .readTimeout(RefreshPolicy.READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-        .callTimeout(RefreshPolicy.CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-        .build()
+    private val givEnergy by lazy { GivEnergyClient() }
+    private val client by lazy {
+        OkHttpClient.Builder()
+            .connectTimeout(RefreshPolicy.CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(RefreshPolicy.READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .callTimeout(RefreshPolicy.CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .build()
+    }
     private val refreshMutex = Mutex()
 
     @Volatile
