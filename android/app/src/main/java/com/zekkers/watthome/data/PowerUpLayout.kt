@@ -82,10 +82,14 @@ object PowerUpLayout {
         powerUp: PowerUp?,
         availableDp: Float,
         timeSp: Float,
-        density: Float
+        density: Float,
+        showBolt: Boolean = false,
+        boltDp: Float = 24f,
+        boltPadDp: Float = 6f
     ): PowerUpClockMode {
         val clock = clock(powerUp) ?: return PowerUpClockMode.Hidden
-        val need = WidgetTextMeasure.widthDp(clock.oneLine, timeSp, density) * 1.3f
+        val bolt = if (showBolt) boltDp + boltPadDp else 0f
+        val need = WidgetTextMeasure.widthDp(clock.oneLine, timeSp, density) * 1.3f + bolt
         return if (need <= availableDp) PowerUpClockMode.OneLine else PowerUpClockMode.Stacked
     }
 }

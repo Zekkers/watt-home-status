@@ -68,6 +68,14 @@ class PowerUpLayoutTest {
             PowerUpClockMode.Stacked,
             PowerUpLayout.wide(noon, availableDp = 80f, timeSp = 12f, density = 1f)
         )
+        assertEquals(
+            PowerUpClockMode.OneLine,
+            PowerUpLayout.wide(noon, availableDp = 200f, timeSp = 12f, density = 1f, showBolt = true)
+        )
+        assertEquals(
+            PowerUpClockMode.Stacked,
+            PowerUpLayout.wide(noon, availableDp = 110f, timeSp = 12f, density = 1f, showBolt = true)
+        )
         assertNull(PowerUpLayout.clock(null))
         assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.wide(null, 200f, 12f, 1f))
     }
@@ -93,6 +101,7 @@ class PowerUpLayoutTest {
         assertTrue(WidgetTextMeasure.estimateWidthDp("63\u2060%", 26f, bold = true) > 30f)
         assertTrue(WidgetTextMeasure.fits("21\u2060%", 26f, 56f, 1f, bold = true))
         assertFalse(WidgetTextMeasure.fits("21\u2060%", 32f, 56f, 1f, bold = true))
+        assertFalse(WidgetTextMeasure.fits("100\u2060%", 26f, 66f, 1f, bold = true))
         assertTrue(WidgetTextMeasure.fits("12pm", 10f, 40f, 1f))
         assertTrue(WidgetTextMeasure.fits("2pm", 10f, 40f, 1f))
         assertFalse(WidgetTextMeasure.fits("12pm - 2pm", 13f, 40f, 1f))

@@ -28,6 +28,7 @@ internal val Cream = Color(0xFFE8F5E9)
 internal val Solar = Color(0xFFF9A825)
 internal val SolarSoft = Color(0xFFFFE082)
 internal val PowerUpBoltSize = 24.dp
+internal val CompactHeaderBoltSize = 16.dp
 
 abstract class WattGlanceWidget : GlanceAppWidget() {
     protected open val cardPadding: Dp = 12.dp

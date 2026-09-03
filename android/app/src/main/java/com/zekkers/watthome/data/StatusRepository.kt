@@ -291,7 +291,7 @@ class StatusRepository private constructor(context: Context) {
         const val STATUS_URL =
             "https://raw.githubusercontent.com/Zekkers/watt-home-status/main/status.json"
         private const val USER_AGENT =
-            "WattHomeStatus/1.2.5 (home energy; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.7 (home-energy widget; +https://github.com/Zekkers/watt-home-status)"
         private val KEY_JSON = stringPreferencesKey("status_json")
         private const val SETUP_PREFS = "watt_home_setup"
         private const val SNAPSHOT_PREFS = "watt_home_first_paint"
