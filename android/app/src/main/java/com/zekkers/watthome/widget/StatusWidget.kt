@@ -27,6 +27,8 @@ import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.zekkers.watthome.data.GraphSeriesPrefs
+import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.PowerUpLayout
 import com.zekkers.watthome.data.StatusFormatter
@@ -39,23 +41,26 @@ class StatusWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
+        val series = GraphSeriesPrefs.read(context)
         val density = context.resources.displayMetrics.density
         val curve = SparklineRenderer.renderToday(
             status = status,
             widthPx = (260 * density).toInt().coerceAtLeast(180),
-            heightPx = (90 * density).toInt().coerceAtLeast(64)
+            heightPx = (90 * density).toInt().coerceAtLeast(64),
+            series = series,
+            showLegend = true
         )
         provideContent {
             WidgetCard {
-                OverviewContent(status, curve)
+                OverviewContent(status, curve, series)
             }
         }
     }
 }
 
 @Composable
-private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
-    val hasCurve = StatusFormatter.hasTodayCurve(status)
+private fun OverviewContent(status: HomeStatus?, curve: Bitmap, series: GraphSeriesSelection) {
+    val hasCurve = StatusFormatter.hasVisibleTodayCurve(status, series)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - 24f
     val clock = PowerUpLayout.clock(status?.nextPowerUp)
@@ -116,7 +121,7 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
         Spacer(GlanceModifier.height(6.dp))
         Image(
             provider = ImageProvider(curve),
-            contentDescription = "Today’s battery",
+            contentDescription = "Today’s energy",
             contentScale = ContentScale.Fit,
             modifier = GlanceModifier.fillMaxWidth().defaultWeight()
         )

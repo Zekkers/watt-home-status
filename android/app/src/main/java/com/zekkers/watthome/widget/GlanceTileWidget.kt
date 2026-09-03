@@ -25,6 +25,7 @@ import androidx.glance.layout.height
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusRepository
@@ -38,23 +39,26 @@ class GlanceTileWidget : GlanceAppWidget() {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
         val density = context.resources.displayMetrics.density
+        val series = GraphSeriesSelection.WIDGET_COMPACT
         val curve = SparklineRenderer.renderToday(
             status = status,
             widthPx = (220 * density).toInt().coerceAtLeast(160),
             heightPx = (90 * density).toInt().coerceAtLeast(64),
-            fillSlot = true
+            fillSlot = true,
+            series = series,
+            showLegend = false
         )
         provideContent {
             WidgetCard(radius = 16.dp, padding = 8.dp) {
-                GlanceTileContent(status, curve)
+                GlanceTileContent(status, curve, series)
             }
         }
     }
 }
 
 @Composable
-private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
-    val hasCurve = StatusFormatter.hasTodayCurve(status)
+private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap, series: GraphSeriesSelection) {
+    val hasCurve = StatusFormatter.hasVisibleTodayCurve(status, series)
     val savings = StatusFormatter.savingsWidgetLine(status?.lastSavings)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - 16f
@@ -68,7 +72,7 @@ private fun GlanceTileContent(status: HomeStatus?, curve: Bitmap) {
         Spacer(GlanceModifier.height(6.dp))
         Image(
             provider = ImageProvider(curve),
-            contentDescription = "Today’s battery",
+            contentDescription = "Today’s energy",
             contentScale = ContentScale.FillBounds,
             modifier = GlanceModifier.fillMaxWidth().defaultWeight()
         )

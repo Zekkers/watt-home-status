@@ -103,9 +103,23 @@ object StatusFormatter {
 
     fun hasTodayCurve(status: HomeStatus?): Boolean {
         if (status == null) return false
-        return status.socSeries.count { it.soc != null } >= 2 ||
-            status.batteryWSeries.count { it.w != null } >= 2
+        return wattPoints(status.batteryWSeries) >= 2 ||
+            wattPoints(status.solarWSeries) >= 2 ||
+            wattPoints(status.houseWSeries) >= 2 ||
+            wattPoints(status.gridWSeries) >= 2 ||
+            status.socSeries.count { it.soc != null } >= 2
     }
+
+    fun hasVisibleTodayCurve(status: HomeStatus?, series: GraphSeriesSelection): Boolean {
+        if (status == null || !series.any()) return false
+        return (series.solar && wattPoints(status.solarWSeries) >= 2) ||
+            (series.battery && wattPoints(status.batteryWSeries) >= 2) ||
+            (series.house && wattPoints(status.houseWSeries) >= 2) ||
+            (series.grid && wattPoints(status.gridWSeries) >= 2) ||
+            (series.soc && status.socSeries.count { it.soc != null } >= 2)
+    }
+
+    private fun wattPoints(samples: List<BatterySample>): Int = samples.count { it.w != null }
 
     fun hasPowerUp(powerUp: PowerUp?): Boolean = powerUp != null
 

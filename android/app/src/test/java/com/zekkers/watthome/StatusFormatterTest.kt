@@ -258,6 +258,31 @@ class StatusFormatterTest {
         assertTrue(otherKeys.batteryWSeries.isEmpty())
         assertTrue(otherKeys.socSeries.isEmpty())
         assertFalse(StatusFormatter.hasTodayCurve(otherKeys))
+
+        val energy = HomeStatusParser.parse(
+            """
+            {
+              "solar_w_series": [
+                {"t":"2026-08-26T10:00:00+01:00","w":200},
+                {"t":"2026-08-26T11:00:00+01:00","w":400}
+              ],
+              "house_w_series": [
+                {"t":"2026-08-26T10:00:00+01:00","w":300},
+                {"t":"2026-08-26T11:00:00+01:00","w":280}
+              ],
+              "grid_w_series": [
+                {"t":"2026-08-26T10:00:00+01:00","w":-50},
+                {"t":"2026-08-26T11:00:00+01:00","w":80}
+              ]
+            }
+            """.trimIndent()
+        )
+        assertEquals(2, energy.solarWSeries.size)
+        assertEquals(400.0, energy.solarWSeries.last().w)
+        assertEquals(280.0, energy.houseWSeries.last().w)
+        assertEquals(80.0, energy.gridWSeries.last().w)
+        assertTrue(StatusFormatter.hasTodayCurve(energy))
+        assertTrue(StatusFormatter.hasVisibleTodayCurve(energy, GraphSeriesSelection.DEFAULT))
     }
 
     @Test

@@ -12,8 +12,12 @@ data class HomeStatus(
     val lastAction: String? = null,
     val weatherTomorrow: WeatherTomorrow? = null,
     val batteryW: Double? = null,
+    val gridW: Double? = null,
     val batteryWSeries: List<BatterySample> = emptyList(),
     val socSeries: List<BatterySample> = emptyList(),
+    val solarWSeries: List<BatterySample> = emptyList(),
+    val houseWSeries: List<BatterySample> = emptyList(),
+    val gridWSeries: List<BatterySample> = emptyList(),
     val lastSavings: LastSavings? = null
 )
 
@@ -39,7 +43,10 @@ data class WeatherTomorrow(
 data class BatterySample(
     val t: String? = null,
     val w: Double? = null,
-    val soc: Double? = null
+    val soc: Double? = null,
+    val solarW: Double? = null,
+    val houseW: Double? = null,
+    val gridW: Double? = null
 )
 
 data class LastSavings(

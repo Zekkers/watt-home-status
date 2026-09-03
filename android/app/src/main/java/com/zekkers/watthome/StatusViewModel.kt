@@ -3,6 +3,8 @@ package com.zekkers.watthome
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.zekkers.watthome.data.GraphSeriesPrefs
+import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.RefreshErrors
 import com.zekkers.watthome.data.StatusRepository
 import com.zekkers.watthome.data.TokenRejectedException
@@ -36,6 +38,9 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _openedFromSettings = MutableStateFlow(false)
     val openedFromSettings = _openedFromSettings.asStateFlow()
+
+    private val _graphSeries = MutableStateFlow(GraphSeriesPrefs.read(application))
+    val graphSeries = _graphSeries.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -122,6 +127,14 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
             } catch (error: Exception) {
                 _tokenFeedback.value = safeMessage(error)
             }
+        }
+    }
+
+    fun setGraphSeries(selection: GraphSeriesSelection) {
+        GraphSeriesPrefs.write(getApplication(), selection)
+        _graphSeries.value = selection
+        viewModelScope.launch(Dispatchers.IO) {
+            WidgetUpdater.updateAll(getApplication())
         }
     }
 

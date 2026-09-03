@@ -34,6 +34,9 @@ class FirstPaintSnapshotTest {
         assertEquals("2026-09-03T15:14:27+01:00", painted.updated)
         assertTrue(painted.socSeries.isEmpty())
         assertTrue(painted.batteryWSeries.isEmpty())
+        assertTrue(painted.solarWSeries.isEmpty())
+        assertTrue(painted.houseWSeries.isEmpty())
+        assertTrue(painted.gridWSeries.isEmpty())
     }
 
     @Test

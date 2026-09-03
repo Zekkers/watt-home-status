@@ -47,11 +47,21 @@ object HomeStatusJson {
             )
         }
         status.batteryW?.let { put("battery_w", JsonPrimitive(it)) }
+        status.gridW?.let { put("grid_w", JsonPrimitive(it)) }
         if (status.batteryWSeries.isNotEmpty()) {
             put("battery_w_series", seriesArray(status.batteryWSeries, includeW = true))
         }
         if (status.socSeries.isNotEmpty()) {
             put("soc_series", seriesArray(status.socSeries, includeSoc = true))
+        }
+        if (status.solarWSeries.isNotEmpty()) {
+            put("solar_w_series", seriesArray(status.solarWSeries, includeW = true))
+        }
+        if (status.houseWSeries.isNotEmpty()) {
+            put("house_w_series", seriesArray(status.houseWSeries, includeW = true))
+        }
+        if (status.gridWSeries.isNotEmpty()) {
+            put("grid_w_series", seriesArray(status.gridWSeries, includeW = true))
         }
         status.lastSavings?.let { savings ->
             put(

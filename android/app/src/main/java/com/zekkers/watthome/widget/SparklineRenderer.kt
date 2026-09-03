@@ -6,6 +6,8 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import com.zekkers.watthome.data.BatterySample
+import com.zekkers.watthome.data.GraphSeriesSelection
+import com.zekkers.watthome.data.GraphSeriesStyle
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
 import kotlin.math.abs
@@ -13,9 +15,6 @@ import kotlin.math.abs
 object SparklineRenderer {
     private const val Background = 0xFF1B3A24.toInt()
     private const val Grid = 0x4481C784
-    private const val Line = 0xFFE8F5E9.toInt()
-    private const val Charge = 0xFF81C784.toInt()
-    private const val Discharge = 0xFFF9A825.toInt()
     private const val MinutesInDay = 24 * 60.0
     /** Same plot shape as the 2×2 Glance tile (~260×90). */
     private const val PlotAspect = 260f / 90f
@@ -24,7 +23,9 @@ object SparklineRenderer {
         status: HomeStatus?,
         widthPx: Int,
         heightPx: Int,
-        fillSlot: Boolean = false
+        fillSlot: Boolean = false,
+        series: GraphSeriesSelection = GraphSeriesSelection.DEFAULT,
+        showLegend: Boolean = !fillSlot
     ): Bitmap {
         val bitmap = Bitmap.createBitmap(widthPx.coerceAtLeast(8), heightPx.coerceAtLeast(8), Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -38,31 +39,49 @@ object SparklineRenderer {
             drawGrid(canvas, plot.top, plot.width(), plot.height(), plot.left)
             return bitmap
         }
-        val soc = status.socSeries.filter { it.t != null && it.soc != null }
-        val watts = status.batteryWSeries.filter { it.t != null && it.w != null }
+        val solar = wattSamples(status.solarWSeries, series.solar)
+        val battery = wattSamples(status.batteryWSeries, series.battery)
+        val house = wattSamples(status.houseWSeries, series.house)
+        val grid = wattSamples(status.gridWSeries, series.grid)
+        val soc = if (series.soc) {
+            status.socSeries.filter { it.t != null && it.soc != null }
+        } else {
+            emptyList()
+        }
+        val hasPower = solar.size >= 2 || battery.size >= 2 || house.size >= 2 || grid.size >= 2
         val hasSoc = soc.size >= 2
-        val hasWatts = watts.size >= 2
-        if (!hasSoc && !hasWatts) {
-            drawGrid(canvas, plot.top, plot.width(), plot.height(), plot.left)
+        val legendH = if (showLegend && series.any()) (plot.height() * 0.18f).coerceAtLeast(12f) else 0f
+        val chart = RectF(plot.left, plot.top + legendH, plot.right, plot.bottom)
+        if (!hasPower && !hasSoc) {
+            drawGrid(canvas, chart.top, chart.width(), chart.height(), chart.left)
+            if (legendH > 0f) drawLegend(canvas, plot, series, legendH)
             return bitmap
         }
-        if (fillSlot && hasSoc) {
-            drawSoc(canvas, soc, plot.left, plot.top, plot.bottom, plot.width())
-            return bitmap
-        }
-        if (hasSoc && hasWatts) {
-            val socBottom = plot.top + plot.height() * 0.82f
-            val wattsTop = plot.top + plot.height() * 0.86f
-            drawSoc(canvas, soc, plot.left, plot.top, socBottom, plot.width())
-            drawSignedWatts(canvas, watts, plot.left, wattsTop, plot.bottom, plot.width())
-            return bitmap
+        drawGrid(canvas, chart.top, chart.width(), chart.height(), chart.left)
+        if (hasPower) {
+            val values = buildList {
+                addAll(solar.map { it.w!! })
+                addAll(battery.map { it.w!! })
+                addAll(house.map { it.w!! })
+                addAll(grid.map { it.w!! })
+            }
+            val maxAbs = values.maxOf { abs(it) }.coerceAtLeast(1.0)
+            drawZeroLine(canvas, chart)
+            if (solar.size >= 2) drawPowerLine(canvas, solar, chart, maxAbs, GraphSeriesStyle.SOLAR.toInt())
+            if (house.size >= 2) drawPowerLine(canvas, house, chart, maxAbs, GraphSeriesStyle.HOUSE.toInt())
+            if (grid.size >= 2) drawPowerLine(canvas, grid, chart, maxAbs, GraphSeriesStyle.GRID.toInt())
+            if (battery.size >= 2) drawSignedBattery(canvas, battery, chart, maxAbs)
         }
         if (hasSoc) {
-            drawSoc(canvas, soc, plot.left, plot.top, plot.bottom, plot.width())
-            return bitmap
+            drawSocOverlay(canvas, soc, chart)
         }
-        drawSignedWatts(canvas, watts, plot.left, plot.top, plot.bottom, plot.width())
+        if (legendH > 0f) drawLegend(canvas, plot, series, legendH)
         return bitmap
+    }
+
+    private fun wattSamples(samples: List<BatterySample>, enabled: Boolean): List<BatterySample> {
+        if (!enabled) return emptyList()
+        return samples.filter { it.t != null && it.w != null }
     }
 
     private fun letterbox(availW: Float, availH: Float, aspect: Float): RectF {
@@ -77,56 +96,71 @@ object SparklineRenderer {
         return RectF(left, top, left + w, top + h)
     }
 
-    private fun drawSoc(
-        canvas: Canvas,
-        samples: List<BatterySample>,
-        left: Float,
-        top: Float,
-        bottom: Float,
-        width: Float
-    ) {
-        val height = (bottom - top).coerceAtLeast(1f)
-        drawGrid(canvas, top, width, height, left)
-        val pad = height * 0.14f
-        val usable = (height - 2 * pad).coerceAtLeast(1f)
-        val xs = xPositions(samples, left, width)
+    private fun drawSocOverlay(canvas: Canvas, samples: List<BatterySample>, chart: RectF) {
+        val pad = chart.height() * 0.08f
+        val usable = (chart.height() - 2 * pad).coerceAtLeast(1f)
+        val xs = xPositions(samples, chart.left, chart.width())
         val path = Path()
         samples.forEachIndexed { index, sample ->
             val soc = sample.soc!!.coerceIn(0.0, 100.0)
-            val y = top + pad + ((100.0 - soc) / 100.0).toFloat() * usable
+            val y = chart.top + pad + ((100.0 - soc) / 100.0).toFloat() * usable
             if (index == 0) path.moveTo(xs[index], y) else path.lineTo(xs[index], y)
         }
-        canvas.drawPath(path, linePaint(Line, 3.6f))
+        canvas.drawPath(path, linePaint(GraphSeriesStyle.SOC_PLOT.toInt(), 2.8f))
     }
 
-    private fun drawSignedWatts(
+    private fun drawPowerLine(
         canvas: Canvas,
         samples: List<BatterySample>,
-        left: Float,
-        top: Float,
-        bottom: Float,
-        width: Float
+        chart: RectF,
+        maxAbs: Double,
+        color: Int
     ) {
-        val height = (bottom - top).coerceAtLeast(1f)
-        drawGrid(canvas, top, width, height, left)
+        val xs = xPositions(samples, chart.left, chart.width())
+        val path = Path()
+        samples.forEachIndexed { index, sample ->
+            val y = yForWatts(sample.w!!, chart, maxAbs)
+            if (index == 0) path.moveTo(xs[index], y) else path.lineTo(xs[index], y)
+        }
+        canvas.drawPath(path, linePaint(color, 2.5f))
+    }
+
+    private fun drawSignedBattery(
+        canvas: Canvas,
+        samples: List<BatterySample>,
+        chart: RectF,
+        maxAbs: Double
+    ) {
+        val xs = xPositions(samples, chart.left, chart.width())
         val points = samples.map { it.w!! }
-        val maxAbs = points.maxOf { abs(it) }.coerceAtLeast(1.0)
-        val pad = height * 0.12f
-        val midY = top + height / 2f
-        val usable = ((height - 2 * pad) / 2f).coerceAtLeast(1f)
-        val xs = xPositions(samples, left, width)
-        fun y(value: Double): Float = midY - (value / maxAbs).toFloat() * usable
-        val zeroPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        val charge = linePaint(GraphSeriesStyle.BATTERY_CHARGE.toInt(), 2.6f)
+        val discharge = linePaint(GraphSeriesStyle.BATTERY_DISCHARGE.toInt(), 2.6f)
+        for (i in 1 until samples.size) {
+            val paint = if (points[i] >= 0 && points[i - 1] >= 0) charge else discharge
+            canvas.drawLine(
+                xs[i - 1],
+                yForWatts(points[i - 1], chart, maxAbs),
+                xs[i],
+                yForWatts(points[i], chart, maxAbs),
+                paint
+            )
+        }
+    }
+
+    private fun yForWatts(value: Double, chart: RectF, maxAbs: Double): Float {
+        val pad = chart.height() * 0.08f
+        val midY = chart.top + chart.height() / 2f
+        val usable = ((chart.height() - 2 * pad) / 2f).coerceAtLeast(1f)
+        return midY - (value / maxAbs).toFloat() * usable
+    }
+
+    private fun drawZeroLine(canvas: Canvas, chart: RectF) {
+        val midY = chart.top + chart.height() / 2f
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Grid
             strokeWidth = 2f
         }
-        canvas.drawLine(left, midY, left + width, midY, zeroPaint)
-        val charge = linePaint(Charge, 2.6f)
-        val discharge = linePaint(Discharge, 2.6f)
-        for (i in 1 until samples.size) {
-            val paint = if (points[i] >= 0 && points[i - 1] >= 0) charge else discharge
-            canvas.drawLine(xs[i - 1], y(points[i - 1]), xs[i], y(points[i]), paint)
-        }
+        canvas.drawLine(chart.left, midY, chart.right, midY, paint)
     }
 
     private fun xPositions(samples: List<BatterySample>, left: Float, width: Float): List<Float> {
@@ -144,6 +178,41 @@ object SparklineRenderer {
         val local = stamp.atZoneSameInstant(StatusFormatter.london).toLocalTime()
         return local.hour * 60.0 + local.minute + local.second / 60.0
     }
+
+    private fun drawLegend(
+        canvas: Canvas,
+        plot: RectF,
+        series: GraphSeriesSelection,
+        height: Float
+    ) {
+        val items = buildList {
+            if (series.solar) add(LegendItem("Solar", GraphSeriesStyle.SOLAR.toInt()))
+            if (series.battery) add(LegendItem("Battery", GraphSeriesStyle.BATTERY_CHARGE.toInt()))
+            if (series.house) add(LegendItem("House", GraphSeriesStyle.HOUSE.toInt()))
+            if (series.grid) add(LegendItem("Grid", GraphSeriesStyle.GRID.toInt()))
+            if (series.soc) add(LegendItem("SOC", GraphSeriesStyle.SOC_PLOT.toInt()))
+        }
+        if (items.isEmpty()) return
+        val text = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = 0xDDE8F5E9.toInt()
+            textSize = (height * 0.55f).coerceIn(9f, 14f)
+        }
+        val swatch = Paint(Paint.ANTI_ALIAS_FLAG)
+        val gap = 10f
+        val dot = (text.textSize * 0.45f).coerceAtLeast(3f)
+        var x = plot.left + 2f
+        val baseline = plot.top + height * 0.72f
+        val cy = baseline - text.textSize * 0.32f
+        items.forEach { item ->
+            swatch.color = item.color
+            canvas.drawCircle(x + dot, cy, dot, swatch)
+            x += dot * 2f + 4f
+            canvas.drawText(item.label, x, baseline, text)
+            x += text.measureText(item.label) + gap
+        }
+    }
+
+    private data class LegendItem(val label: String, val color: Int)
 
     private fun drawGrid(
         canvas: Canvas,

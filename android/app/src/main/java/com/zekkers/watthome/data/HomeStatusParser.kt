@@ -37,8 +37,12 @@ object HomeStatusParser {
             lastAction = obj.string("last_action"),
             weatherTomorrow = parseWeather(obj["weather_tomorrow"]),
             batteryW = obj.double("battery_w"),
+            gridW = obj.double("grid_w"),
             batteryWSeries = parseBatteryWSeries(obj["battery_w_series"]),
             socSeries = parseSocSeries(obj["soc_series"]),
+            solarWSeries = parseBatteryWSeries(obj["solar_w_series"]),
+            houseWSeries = parseBatteryWSeries(obj["house_w_series"]),
+            gridWSeries = parseBatteryWSeries(obj["grid_w_series"]),
             lastSavings = parseLastSavings(obj["last_savings"])
         )
     }
