@@ -17,7 +17,8 @@ class WidgetTapPolicyTest {
     @Test
     fun glanceClickTargetsUseActionStartActivity() {
         val card = readMain("widget/WattGlanceWidget.kt")
-        assertTrue(card.contains("actionStartActivity<MainActivity>()"))
+        assertTrue(card.contains("actionStartActivity("))
+        assertTrue(card.contains("WidgetTapPolicy.launchIntent"))
         assertFalse(card.contains("actionRunCallback"))
         assertFalse(card.contains("repository.refresh"))
     }

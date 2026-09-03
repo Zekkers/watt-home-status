@@ -33,16 +33,18 @@ object WidgetTapPolicy {
 
     val steps: List<Step> = listOf(Step.StartActivity)
 
-    fun openMainActivity(context: Context) {
+    fun launchIntent(context: Context): Intent {
         check(steps.first() == Step.StartActivity) {
             "Widget tap must start MainActivity before any refresh"
         }
-        val app = context.applicationContext
-        val open = Intent(app, MainActivity::class.java).apply {
+        return Intent(context.applicationContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or
                 Intent.FLAG_ACTIVITY_SINGLE_TOP or
                 Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
-        app.startActivity(open)
+    }
+
+    fun openMainActivity(context: Context) {
+        context.applicationContext.startActivity(launchIntent(context))
     }
 }
