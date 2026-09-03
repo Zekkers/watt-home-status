@@ -1,5 +1,6 @@
 package com.zekkers.watthome
 
+import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatusParser
 import com.zekkers.watthome.data.StatusFormatter
 import org.junit.Assert.assertEquals
