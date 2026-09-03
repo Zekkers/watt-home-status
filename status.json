@@ -1,22 +1,22 @@
 {
-  "updated": "2026-09-02T17:34:31+01:00",
-  "soc_percent": 49,
-  "solar_w": 208,
-  "battery_w": 1136,
+  "updated": "2026-09-03T01:35:51+01:00",
+  "soc_percent": 4,
+  "solar_w": 0,
+  "battery_w": 0,
   "target_1600_percent": 60,
   "overnight": {
-    "from": "00:00",
-    "to": "00:00",
-    "soc_cap": 100,
+    "from": "02:00",
+    "to": "03:35",
+    "soc_cap": 65,
     "kw": 6,
-    "cleared": true
+    "cleared": false
   },
   "peak_window": "16:00-19:00",
   "next_power_up": {
-    "from": "2026-09-03T12:30:00+01:00",
-    "to": "2026-09-03T14:30:00+01:00",
-    "opted_in": true,
-    "label": "Thu 03/09/26 12:30\u201314:30"
+    "date": "2026-09-03",
+    "from": "12:30",
+    "to": "14:30",
+    "opted_in": true
   },
   "last_savings": {
     "gbp": 36.95,
@@ -28,31 +28,11 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "weather_tomorrow": {
-    "code": "cloudy_rain",
-    "label": "Heavy cloud (100%), light rain mid-afternoon. 08:00 GHI 99.0 cloud 100% precip 0.0; 12:00 GHI 393.0 cloud 100% precip 0.1; 16:00 GHI 155.0 cloud 100% precip 0.0 (Open-Meteo)."
+    "code": "cloudy",
+    "label": "100% cloud all morning (Open-Meteo), no rain; GHI 08:00 72 \u2192 11:00 435 \u2192 14:00 305. Power Up 12:30\u201314:30 covers noon fill + immersion."
   },
-  "last_action": "17:30: Typeform opted into Thu 03/09/26 Power Up 12:30\u201314:30; wrote CH2414G328 12:30\u201314:30 @ 100%/6 kW; cleared overnight (SOC 49% \u2265 ~30% summer with noon Power Up) and leftover 15:08\u201315:43; Gateway not written; filed mail Home/Octopus",
+  "last_action": "01:30: Power Up today 12:30\u201314:30 already Home/Octopus opted-in (no late Typeform); SOC 4% at EPS (house on grid ~504 W); Open-Meteo 100% cloud; wrote CH2414G328 02:00\u201303:35 @ 65%/6 kW (~8.23 kWh / 95 min at 5.56 kW) + kept PU 12:30\u201314:30 @ 100%; Gateway not written",
   "battery_w_series": [
-    {
-      "t": "2026-08-29T02:31:00+01:00",
-      "w": -5659
-    },
-    {
-      "t": "2026-08-29T02:41:00+01:00",
-      "w": 564
-    },
-    {
-      "t": "2026-08-29T03:01:00+01:00",
-      "w": 299
-    },
-    {
-      "t": "2026-08-29T05:03:00+01:00",
-      "w": 201
-    },
-    {
-      "t": "2026-08-29T06:59:00+01:00",
-      "w": 348
-    },
     {
       "t": "2026-08-29T08:05:33+01:00",
       "w": 327
@@ -208,29 +188,13 @@
     {
       "t": "2026-09-02T17:34:31+01:00",
       "w": 1136
+    },
+    {
+      "t": "2026-09-03T01:35:51+01:00",
+      "w": 0
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-08-29T02:31:00+01:00",
-      "soc": 52
-    },
-    {
-      "t": "2026-08-29T02:41:00+01:00",
-      "soc": 55
-    },
-    {
-      "t": "2026-08-29T03:01:00+01:00",
-      "soc": 54
-    },
-    {
-      "t": "2026-08-29T05:03:00+01:00",
-      "soc": 51
-    },
-    {
-      "t": "2026-08-29T06:59:00+01:00",
-      "soc": 47
-    },
     {
       "t": "2026-08-29T08:05:33+01:00",
       "soc": 47
@@ -386,6 +350,10 @@
     {
       "t": "2026-09-02T17:34:31+01:00",
       "soc": 49
+    },
+    {
+      "t": "2026-09-03T01:35:51+01:00",
+      "soc": 4
     }
   ]
 }
