@@ -136,8 +136,13 @@ object StatusFormatter {
 
     fun isPowerUpCurrent(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean {
         if (powerUp == null) return false
+        val londonNow = now.withZoneSameInstant(london)
+        val today = londonNow.toLocalDate()
+        val sessionDate = parseLocalDate(powerUp.date)
+        // Do not preview a free window (Power Up / Weekend Happy Hour) before its London calendar day.
+        if (sessionDate != null && sessionDate.isAfter(today)) return false
         val expireAt = powerUpExpiresAt(powerUp, now) ?: return true
-        return now.withZoneSameInstant(london).isBefore(expireAt)
+        return londonNow.isBefore(expireAt)
     }
 
     fun powerUpExpiresAt(powerUp: PowerUp, now: ZonedDateTime = ZonedDateTime.now(london)): ZonedDateTime? {

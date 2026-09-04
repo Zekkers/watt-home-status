@@ -23,6 +23,10 @@ class PowerUpExpiryTest {
     private val evening = ZonedDateTime.parse("2026-09-03T22:12:00+01:00[Europe/London]")
     private val noDate = PowerUp(from = "12:30", to = "14:30", optedIn = true)
     private val tomorrow = window.copy(date = "2026-09-04")
+    private val sundayHappyHour = PowerUp(from = "12:00", to = "13:00", date = "2026-09-06", optedIn = true)
+    private val fridayAfternoon = ZonedDateTime.parse("2026-09-04T15:00:00+01:00[Europe/London]")
+    private val sundayInProgress = ZonedDateTime.parse("2026-09-06T12:20:00+01:00[Europe/London]")
+    private val yesterday = window.copy(date = "2026-09-02")
 
     @Test
     fun upcomingWindowStillShowsTimesAndBolt() {
@@ -30,29 +34,53 @@ class PowerUpExpiryTest {
     }
 
     @Test
-    fun inProgressWindowStillShowsTimesAndBolt() {
+    fun todayInProgressWindowShowsTimesAndBolt() {
         assertVisible(window, inProgress)
         assertVisible(window, justEnded)
         assertVisible(window, fourMinutesAfter)
     }
 
     @Test
-    fun fiveMinutesAfterEndHidesTimesBoltAndSpokenWindow() {
+    fun todayAfterEndPlusGraceHidesTimesBoltAndSpokenWindow() {
         assertHidden(window, fiveMinutesAfter)
         assertHidden(window, evening)
     }
 
     @Test
-    fun nextDayDateStillInTheFutureShows() {
-        assertVisible(tomorrow, evening)
-        assertVisible(tomorrow, fiveMinutesAfter)
+    fun futureDateHiddenUntilItsLondonCalendarDay() {
+        assertHidden(tomorrow, evening)
+        assertHidden(tomorrow, fiveMinutesAfter)
+        assertHidden(tomorrow, upcoming)
+        assertHidden(sundayHappyHour, fridayAfternoon)
+        assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.oneByOne(tomorrow, evening))
+        assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.twoByTwo(sundayHappyHour, fridayAfternoon))
+        assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.twoByOne(sundayHappyHour, now = fridayAfternoon))
+        assertEquals(
+            PowerUpClockMode.Hidden,
+            PowerUpLayout.wide(sundayHappyHour, availableDp = 200f, timeSp = 12f, density = 1f, now = fridayAfternoon)
+        )
+        assertTrue(StatusFormatter.isPowerUpCurrent(sundayHappyHour, sundayInProgress))
+        val sundayClock = PowerUpLayout.clock(sundayHappyHour, sundayInProgress)
+        assertNotNull(sundayClock)
+        assertEquals("12pm", sundayClock!!.from)
+        assertEquals("1pm", sundayClock.to)
+        assertEquals("12pm - 1pm", StatusFormatter.powerUpSpokenWindow(sundayHappyHour, sundayInProgress))
+        assertTrue(StatusFormatter.optedInPowerUp(sundayHappyHour, sundayInProgress))
     }
 
     @Test
-    fun missingDateHidesOnceTodaysToPlusGraceHasPassed() {
+    fun missingDateStillUsesTodaysExpireAfterEnd() {
+        assertVisible(noDate, upcoming)
         assertVisible(noDate, inProgress)
         assertHidden(noDate, fiveMinutesAfter)
         assertHidden(noDate, evening)
+    }
+
+    @Test
+    fun pastDateAlreadyExpiredStaysHidden() {
+        assertHidden(yesterday, upcoming)
+        assertHidden(yesterday, inProgress)
+        assertHidden(yesterday, evening)
     }
 
     @Test
