@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-04T12:45:14+01:00",
+  "updated_at": "2026-09-04T13:10:14+01:00",
   "timezone": "Europe/London",
   "soc_percent": 85,
   "solar_w": 130,
@@ -16,17 +16,9 @@
     "percent_limit": 100,
     "kw": 6
   },
-  "next_power_up": {
-    "date": "2026-09-06",
-    "from": "12:00",
-    "to": "13:00",
-    "opted_in": true,
-    "percent_limit": 100,
-    "label": "Happy Hour",
-    "kind": "weekend_happy_hour"
-  },
-  "last_action": "Laura booked Weekend Happy Hour Sun 6 Sep 12:00\u201313:00 (forward from AOL); inverter write deferred until after Sat noon (date-less slots)",
-  "updated": "2026-09-04T12:45:14+01:00",
+  "next_power_up": null,
+  "last_action": "Hid Sun 6 Sep Happy Hour from widgets until its calendar day (Ian); booking kept in booked_happy_hour for Sun 01:30",
+  "updated": "2026-09-04T13:10:14+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -404,5 +396,14 @@
       "t": "2026-09-04T08:40:03+01:00",
       "soc": 85
     }
-  ]
+  ],
+  "booked_happy_hour": {
+    "date": "2026-09-06",
+    "from": "12:00",
+    "to": "13:00",
+    "opted_in": true,
+    "percent_limit": 100,
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour"
+  }
 }
