@@ -1,24 +1,24 @@
 {
-  "updated_at": "2026-09-03T22:14:01+01:00",
+  "updated_at": "2026-09-04T02:02:24+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 100,
-  "solar_w": 1851,
-  "house_w": 406,
-  "battery_w": 47,
-  "grid_w": 1413,
+  "soc_percent": 20,
+  "solar_w": 0,
+  "house_w": 225,
+  "battery_w": 319,
+  "grid_w": 3,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-03T14:12:26Z",
+  "sample_time_utc": "2026-09-04T01:00:14Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
-    "to": "03:35",
-    "percent_limit": 65,
+    "to": "04:05",
+    "percent_limit": 100,
     "kw": 6
   },
   "next_power_up": null,
-  "last_action": "cleared finished Power Up 12:30\u201314:30 from widgets (window ended 14:30)",
-  "updated": "2026-09-03T22:14:01+01:00",
+  "last_action": "01:30: SOC 20% @02:00, no Power Up today; Open-Meteo 100% cloud + rain 09:00; immersion full 6 kWh on top of 20% floor / 60% @16:00 \u2192 wrote CH2414G328 02:00\u201304:05 @100%/6 kW (~10.8 kWh / 125 min at 5.56 kW); cleared spent dateless Power Up 12:30\u201314:30; Gateway not written",
+  "updated": "2026-09-04T02:02:24+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -31,7 +31,7 @@
   },
   "weather_tomorrow": {
     "code": "cloudy",
-    "label": "Cloudy morning clearing after noon. 08:00 GHI 93.0 cloud 100% precip 0.0; 12:00 GHI 299.0 cloud 100% precip 0.0; 14:00 GHI 398.0 cloud 96% precip 0.0; 16:00 GHI 447.0 cloud 65% precip 0.0 (Open-Meteo). Power Up 12:30\u201314:30 covers noon fill + immersion."
+    "label": "100% cloud morning, precip 09:00 1.9 mm, GHI 08:13.0 12:413.0 14:344.0 16:210.0 \u2014 no Power Up; immersion full 6 kWh (all-cloudy / poor midday GHI)"
   },
   "battery_w_series": [
     {
@@ -213,6 +213,10 @@
     {
       "t": "2026-09-03T15:12:26+01:00",
       "w": 47
+    },
+    {
+      "t": "2026-09-04T02:02:24+01:00",
+      "w": 319
     }
   ],
   "soc_series": [
@@ -395,6 +399,10 @@
     {
       "t": "2026-09-03T15:12:26+01:00",
       "soc": 100
+    },
+    {
+      "t": "2026-09-04T02:02:24+01:00",
+      "soc": 20
     }
   ]
 }
