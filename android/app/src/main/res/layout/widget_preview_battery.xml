@@ -3,18 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/green_dark"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="2dp">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:maxLines="1"
-        android:text="20%"
+        android:text="100%"
         android:textColor="#FFFFFF"
-        android:textSize="26sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="1363 W"
+        android:textColor="#F9A825"
+        android:textSize="10sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,15 +32,16 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="12pm"
+                android:text="12:30pm"
                 android:textColor="#E8F5E9"
                 android:textSize="10sp" />
 
@@ -39,20 +49,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="2pm"
+                android:text="2:30pm"
                 android:textColor="#E8F5E9"
                 android:textSize="10sp" />
         </LinearLayout>
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="4dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="2dp"
             android:contentDescription="@null"
             android:src="@drawable/ic_power_up_badge" />
     </LinearLayout>

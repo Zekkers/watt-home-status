@@ -24,12 +24,15 @@ class MainActivity : ComponentActivity() {
                 val showToken by viewModel.showTokenScreen.collectAsStateWithLifecycle()
                 val tokenFeedback by viewModel.tokenFeedback.collectAsStateWithLifecycle()
                 val fromSettings by viewModel.openedFromSettings.collectAsStateWithLifecycle()
+                val series by viewModel.graphSeries.collectAsStateWithLifecycle()
                 if (showToken) {
                     TokenScreen(
                         hasToken = state.hasToken,
                         message = tokenFeedback,
                         error = if (state.error?.contains("token rejected") == true) state.error else null,
                         canSkip = !fromSettings && !state.hasToken,
+                        series = series,
+                        onSeriesChange = viewModel::setGraphSeries,
                         onSave = viewModel::saveToken,
                         onTest = viewModel::testToken,
                         onRemove = viewModel::removeToken,
@@ -39,6 +42,7 @@ class MainActivity : ComponentActivity() {
                 } else {
                     StatusScreen(
                         state = state,
+                        series = series,
                         onRefresh = viewModel::refresh,
                         onOpenSettings = viewModel::openTokenScreen
                     )

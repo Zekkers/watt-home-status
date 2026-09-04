@@ -27,11 +27,15 @@ object GivEnergyParser {
         if (isIgnoredSerial(root) || isIgnoredSerial(data)) return LiveInverterSnapshot()
         val battery = obj(data["battery"])
         val solar = obj(data["solar"])
+        val consumption = obj(data["consumption"])
+        val grid = obj(data["grid"])
         return LiveInverterSnapshot(
             updated = string(data, "time"),
             socPercent = int(battery, "percent"),
-            solarW = solarArray1(solar),
-            batteryW = double(battery, "power")?.let(::appBatteryW)
+            solarW = solarArray1Watts(solar)?.toInt(),
+            houseW = int(consumption, "power") ?: int(data, "consumption"),
+            batteryW = double(battery, "power")?.let(::appBatteryW),
+            gridW = double(grid, "power") ?: int(grid, "power")?.toDouble()
         )
     }
 
@@ -55,8 +59,21 @@ object GivEnergyParser {
             .sortedBy { timestamp(it.t) ?: OffsetDateTime.MIN }
         val downsampled = downsample(samples, minutes = 15)
         return LiveInverterSnapshot(
-            socSeries = downsampled.map { BatterySample(t = it.t, soc = it.soc) },
-            batteryWSeries = downsampled.map { BatterySample(t = it.t, w = it.w) }
+            socSeries = downsampled.mapNotNull { sample ->
+                sample.soc?.let { BatterySample(t = sample.t, soc = it) }
+            },
+            batteryWSeries = downsampled.mapNotNull { sample ->
+                sample.w?.let { BatterySample(t = sample.t, w = it) }
+            },
+            solarWSeries = downsampled.mapNotNull { sample ->
+                sample.solarW?.let { BatterySample(t = sample.t, w = it) }
+            },
+            houseWSeries = downsampled.mapNotNull { sample ->
+                sample.houseW?.let { BatterySample(t = sample.t, w = it) }
+            },
+            gridWSeries = downsampled.mapNotNull { sample ->
+                sample.gridW?.let { BatterySample(t = sample.t, w = it) }
+            }
         )
     }
 
@@ -81,18 +98,31 @@ object GivEnergyParser {
     private fun sampleFromPoint(point: JsonObject): BatterySample? {
         if (isIgnoredSerial(point)) return null
         val power = obj(point["power"]) ?: point
-        val battery = obj(power["battery"]) ?: return null
+        val battery = obj(power["battery"])
+        val solar = obj(power["solar"])
+        val consumption = obj(power["consumption"])
+        val grid = obj(power["grid"])
         val t = string(point, "time") ?: return null
         val soc = double(battery, "percent") ?: int(battery, "percent")?.toDouble()
         val w = double(battery, "power")?.let(::appBatteryW)
-        if (soc == null && w == null) return null
-        return BatterySample(t = t, w = w, soc = soc)
+        val solarW = solarArray1Watts(solar)
+        val houseW = (double(consumption, "power") ?: int(consumption, "power")?.toDouble())
+            ?: (double(power, "consumption") ?: int(power, "consumption")?.toDouble())
+        val gridW = double(grid, "power") ?: int(grid, "power")?.toDouble()
+        if (soc == null && w == null && solarW == null && houseW == null && gridW == null) return null
+        return BatterySample(t = t, w = w, soc = soc, solarW = solarW, houseW = houseW, gridW = gridW)
     }
 
-    private fun solarArray1(solar: JsonObject?): Int? {
-        val arrays = solar?.get("arrays") as? JsonArray ?: return int(solar, "power")
+    private fun solarArray1Watts(solar: JsonObject?): Double? {
+        val arrays = solar?.get("arrays") as? JsonArray
+        if (arrays == null) {
+            return double(solar, "power") ?: int(solar, "power")?.toDouble()
+        }
         val match = arrays.mapNotNull { it as? JsonObject }.firstOrNull { int(it, "array") == 1 }
-        return int(match, "power") ?: int(solar, "power")
+        return double(match, "power")
+            ?: int(match, "power")?.toDouble()
+            ?: double(solar, "power")
+            ?: int(solar, "power")?.toDouble()
     }
 
     private fun isIgnoredSerial(obj: JsonObject): Boolean {

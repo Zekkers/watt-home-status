@@ -3,6 +3,7 @@ package com.zekkers.watthome.data
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.TextPaint
+import java.time.ZonedDateTime
 import kotlin.math.max
 
 object WidgetTextMeasure {
@@ -56,25 +57,36 @@ data class PowerUpClock(val from: String, val to: String) {
 enum class PowerUpClockMode { Hidden, Stacked, OneLine }
 
 object PowerUpLayout {
-    fun clock(powerUp: PowerUp?): PowerUpClock? {
-        val from = StatusFormatter.twelveHourClock(powerUp?.from) ?: return null
-        val to = StatusFormatter.twelveHourClock(powerUp?.to) ?: return null
+    fun clock(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
+    ): PowerUpClock? {
+        val visible = StatusFormatter.currentPowerUp(powerUp, now) ?: return null
+        val from = StatusFormatter.twelveHourClock(visible.from) ?: return null
+        val to = StatusFormatter.twelveHourClock(visible.to) ?: return null
         return PowerUpClock(from, to)
     }
 
-    fun oneByOne(powerUp: PowerUp?): PowerUpClockMode =
-        if (clock(powerUp) == null) PowerUpClockMode.Hidden else PowerUpClockMode.Stacked
+    fun oneByOne(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
+    ): PowerUpClockMode =
+        if (clock(powerUp, now) == null) PowerUpClockMode.Hidden else PowerUpClockMode.Stacked
 
-    fun twoByTwo(powerUp: PowerUp?): PowerUpClockMode = oneByOne(powerUp)
+    fun twoByTwo(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
+    ): PowerUpClockMode = oneByOne(powerUp, now)
 
     fun twoByOne(
         powerUp: PowerUp?,
         availableTimeDp: Float = 0f,
         timeSp: Float = 13f,
         boltDp: Float = 0f,
-        density: Float = 1f
+        density: Float = 1f,
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
     ): PowerUpClockMode {
-        if (clock(powerUp) == null) return PowerUpClockMode.Hidden
+        if (clock(powerUp, now) == null) return PowerUpClockMode.Hidden
         return PowerUpClockMode.Stacked
     }
 
@@ -82,10 +94,15 @@ object PowerUpLayout {
         powerUp: PowerUp?,
         availableDp: Float,
         timeSp: Float,
-        density: Float
+        density: Float,
+        showBolt: Boolean = false,
+        boltDp: Float = 24f,
+        boltPadDp: Float = 6f,
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
     ): PowerUpClockMode {
-        val clock = clock(powerUp) ?: return PowerUpClockMode.Hidden
-        val need = WidgetTextMeasure.widthDp(clock.oneLine, timeSp, density) * 1.3f
+        val clock = clock(powerUp, now) ?: return PowerUpClockMode.Hidden
+        val bolt = if (showBolt) boltDp + boltPadDp else 0f
+        val need = WidgetTextMeasure.widthDp(clock.oneLine, timeSp, density) * 1.3f + bolt
         return if (need <= availableDp) PowerUpClockMode.OneLine else PowerUpClockMode.Stacked
     }
 }

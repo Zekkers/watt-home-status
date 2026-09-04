@@ -1,13 +1,16 @@
 package com.zekkers.watthome.widget
 
+import android.content.res.Resources
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalSize
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
@@ -19,21 +22,25 @@ import androidx.glance.layout.size
 import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.R
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.PowerUpClock
 import com.zekkers.watthome.data.PowerUpClockMode
 import com.zekkers.watthome.data.PowerUpLayout
+import com.zekkers.watthome.data.SocLayout
+import com.zekkers.watthome.data.SocTokenSpec
 import com.zekkers.watthome.data.StatusFormatter
 
 @Composable
 internal fun SocToken(
     percent: Int?,
-    numberSize: TextUnit
+    numberSize: TextUnit,
+    text: String = StatusFormatter.percent(percent)
 ) {
     Text(
-        text = StatusFormatter.percent(percent),
+        text = text,
         modifier = GlanceModifier.wrapContentSize(),
         style = TextStyle(
             color = ColorProvider(Color.White, Color.White),
@@ -42,6 +49,11 @@ internal fun SocToken(
         ),
         maxLines = 1
     )
+}
+
+@Composable
+internal fun FittedSocToken(spec: SocTokenSpec) {
+    SocToken(percent = null, numberSize = spec.sizeSp.sp, text = spec.text)
 }
 
 @Composable
@@ -62,13 +74,27 @@ internal fun PowerUpTimeLine(
 }
 
 @Composable
+internal fun PowerUpBolt(
+    size: Dp = PowerUpBoltSize,
+    startPad: Dp = 6.dp
+) {
+    Image(
+        provider = ImageProvider(R.drawable.ic_power_up_badge),
+        contentDescription = "Power Up",
+        modifier = GlanceModifier.padding(start = startPad).size(size)
+    )
+}
+
+@Composable
 internal fun PowerUpClockBlock(
     clock: PowerUpClock?,
     mode: PowerUpClockMode,
     fontSize: TextUnit,
     showBolt: Boolean,
     modifier: GlanceModifier = GlanceModifier,
-    alignEnd: Boolean = true
+    alignEnd: Boolean = true,
+    boltSize: Dp = PowerUpBoltSize,
+    boltPad: Dp = 6.dp
 ) {
     if (mode == PowerUpClockMode.Hidden || clock == null) return
     Row(
@@ -87,13 +113,27 @@ internal fun PowerUpClockBlock(
             }
         }
         if (showBolt) {
-            Image(
-                provider = ImageProvider(R.drawable.ic_power_up_badge),
-                contentDescription = "Power Up",
-                modifier = GlanceModifier.padding(start = 6.dp).size(PowerUpBoltSize)
-            )
+            PowerUpBolt(size = boltSize, startPad = boltPad)
         }
     }
+}
+
+@Composable
+internal fun SolarWattsLine(
+    status: HomeStatus?,
+    fontSize: TextUnit = 10.sp
+) {
+    val watts = status?.solarW ?: return
+    Text(
+        text = StatusFormatter.watts(watts),
+        style = TextStyle(
+            color = ColorProvider(Solar, Solar),
+            fontSize = fontSize,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Center
+        ),
+        maxLines = 1
+    )
 }
 
 @Composable
@@ -101,39 +141,40 @@ internal fun BatterySocStack(
     status: HomeStatus?,
     modifier: GlanceModifier = GlanceModifier,
     socSize: TextUnit = 26.sp,
-    timeSize: TextUnit = 10.sp
+    timeSize: TextUnit = 10.sp,
+    contentPaddingDp: Float = 4f
 ) {
     val clock = PowerUpLayout.clock(status?.nextPowerUp)
     val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
+    val density = Resources.getSystem().displayMetrics.density
+    val innerWidth = LocalSize.current.width.value - contentPaddingDp
+    val soc = SocLayout.token(
+        percent = status?.socPercent,
+        availableDp = innerWidth,
+        density = density,
+        preferredSp = socSize.value
+    )
     Column(
         modifier = modifier,
         verticalAlignment = Alignment.Top,
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = GlanceModifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(GlanceModifier.defaultWeight())
-            SocToken(percent = status?.socPercent, numberSize = socSize)
-            Spacer(GlanceModifier.defaultWeight())
-        }
+        FittedSocToken(soc)
+        SolarWattsLine(status, timeSize)
         if (clock != null) {
             Row(
                 modifier = GlanceModifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(horizontalAlignment = Alignment.Start) {
+                Column(
+                    modifier = GlanceModifier.defaultWeight(),
+                    horizontalAlignment = Alignment.Start
+                ) {
                     PowerUpTimeLine(clock.from, timeSize)
                     PowerUpTimeLine(clock.to, timeSize)
                 }
-                Spacer(GlanceModifier.defaultWeight())
                 if (showBolt) {
-                    Image(
-                        provider = ImageProvider(R.drawable.ic_power_up_badge),
-                        contentDescription = "Power Up",
-                        modifier = GlanceModifier.padding(start = 4.dp).size(PowerUpBoltSize)
-                    )
+                    PowerUpBolt(size = CompactHeaderBoltSize, startPad = 2.dp)
                 }
             }
         }
@@ -141,34 +182,51 @@ internal fun BatterySocStack(
 }
 
 @Composable
-internal fun SessionHeader(status: HomeStatus?) {
+internal fun SessionHeader(
+    status: HomeStatus?,
+    contentPaddingDp: Float = 12f,
+    availableWidthDp: Float? = null,
+    showSolar: Boolean = false,
+    modifier: GlanceModifier = GlanceModifier.fillMaxWidth()
+) {
     val clock = PowerUpLayout.clock(status?.nextPowerUp)
     val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
+    val density = Resources.getSystem().displayMetrics.density
+    val innerWidth = availableWidthDp ?: (LocalSize.current.width.value - contentPaddingDp)
+    val soc = SocLayout.token(
+        percent = status?.socPercent,
+        availableDp = SocLayout.headerSocBudget(innerWidth, clock, showBolt, density),
+        density = density
+    )
     Row(
-        modifier = GlanceModifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column {
-            SocToken(status?.socPercent, numberSize = 26.sp)
-            Text(
-                text = "battery",
-                style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 10.sp),
-                maxLines = 1
-            )
-        }
-        Spacer(GlanceModifier.defaultWeight())
-        if (clock != null) {
-            Column(horizontalAlignment = Alignment.End) {
-                PowerUpTimeLine(clock.from, 13.sp)
-                PowerUpTimeLine(clock.to, 13.sp)
+        Column(modifier = GlanceModifier.defaultWeight()) {
+            FittedSocToken(soc)
+            if (showSolar) {
+                SolarWattsLine(status, 10.sp)
+            } else {
+                Text(
+                    text = "battery",
+                    style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 10.sp),
+                    maxLines = 1
+                )
             }
         }
-        if (showBolt) {
-            Image(
-                provider = ImageProvider(R.drawable.ic_power_up_badge),
-                contentDescription = "Power Up",
-                modifier = GlanceModifier.padding(start = 6.dp).size(PowerUpBoltSize)
-            )
+        if (clock != null) {
+            Row(
+                modifier = GlanceModifier.wrapContentSize(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(horizontalAlignment = Alignment.End) {
+                    PowerUpTimeLine(clock.from, SocLayout.HeaderTimeSp.sp)
+                    PowerUpTimeLine(clock.to, SocLayout.HeaderTimeSp.sp)
+                }
+                if (showBolt) {
+                    PowerUpBolt(size = CompactHeaderBoltSize, startPad = 2.dp)
+                }
+            }
         }
     }
 }

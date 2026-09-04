@@ -3,7 +3,10 @@ package com.zekkers.watthome.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +14,9 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -32,10 +37,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.zekkers.watthome.data.GraphSeriesSelection
+import com.zekkers.watthome.data.GraphSeriesStyle
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusUiState
@@ -45,6 +53,7 @@ import com.zekkers.watthome.widget.SparklineRenderer
 @Composable
 fun StatusScreen(
     state: StatusUiState,
+    series: GraphSeriesSelection,
     onRefresh: () -> Unit,
     onOpenSettings: () -> Unit
 ) {
@@ -98,6 +107,12 @@ fun StatusScreen(
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodyMedium
                 )
+            } else if (state.showingLastKnown && state.status != null) {
+                Text(
+                    text = "Showing last known status",
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
 
             Card(
@@ -135,10 +150,17 @@ fun StatusScreen(
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.headlineMedium
                     )
+                    if (status?.houseW != null) {
+                        Text(
+                            text = "House ${StatusFormatter.watts(status.houseW)}",
+                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.9f),
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                    }
                 }
             }
 
-            TodayCurveCard(status)
+            TodayCurveCard(status, series)
 
             StatusRow("Overnight slot", StatusFormatter.overnight(status?.overnight))
             StatusRow("16:00 target", StatusFormatter.percent(status?.target1600Percent))
@@ -169,16 +191,20 @@ fun StatusScreen(
 }
 
 @Composable
-private fun TodayCurveCard(status: HomeStatus?) {
+private fun TodayCurveCard(status: HomeStatus?, series: GraphSeriesSelection) {
     val density = LocalDensity.current.density
-    val curve = remember(status, density) {
+    // First-paint snapshot has no series, so this is an empty grid until
+    // the IO refresh fills traces in. Do not force a heavy overlay here.
+    val curve = remember(status, series, density) {
         SparklineRenderer.renderToday(
             status = status,
             widthPx = (320 * density).toInt().coerceAtLeast(180),
-            heightPx = (110 * density).toInt().coerceAtLeast(72)
+            heightPx = (110 * density).toInt().coerceAtLeast(72),
+            series = series,
+            showLegend = false
         )
     }
-    val hasCurve = StatusFormatter.hasTodayCurve(status)
+    val hasCurve = StatusFormatter.hasVisibleTodayCurve(status, series)
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -186,25 +212,62 @@ private fun TodayCurveCard(status: HomeStatus?) {
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Text(
-                text = "Today’s battery",
+                text = "Today’s energy",
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
             Spacer(Modifier.height(8.dp))
             Image(
                 bitmap = curve.asImageBitmap(),
-                contentDescription = "Today’s battery",
+                contentDescription = "Today’s energy",
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(260f / 90f),
                 contentScale = ContentScale.Fit
             )
+            Spacer(Modifier.height(8.dp))
+            EnergyLegend(series)
             if (!hasCurve) {
                 Spacer(Modifier.height(6.dp))
                 Text(
                     text = "waiting for today’s curve",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun EnergyLegend(series: GraphSeriesSelection) {
+    val items = buildList {
+        if (series.solar) add("Solar" to Color(GraphSeriesStyle.SOLAR))
+        if (series.battery) add("Battery" to Color(GraphSeriesStyle.BATTERY_UI))
+        if (series.house) add("House" to Color(GraphSeriesStyle.HOUSE))
+        if (series.grid) add("Grid" to Color(GraphSeriesStyle.GRID))
+        if (series.soc) add("SOC" to Color(GraphSeriesStyle.SOC_UI))
+    }
+    if (items.isEmpty()) return
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        items.forEach { (label, color) ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(8.dp)
+                        .background(color, CircleShape)
+                )
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
             }
         }

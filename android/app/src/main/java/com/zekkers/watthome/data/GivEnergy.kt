@@ -6,9 +6,14 @@ data class LiveInverterSnapshot(
     val updated: String? = null,
     val socPercent: Int? = null,
     val solarW: Int? = null,
+    val houseW: Int? = null,
     val batteryW: Double? = null,
+    val gridW: Double? = null,
     val socSeries: List<BatterySample> = emptyList(),
-    val batteryWSeries: List<BatterySample> = emptyList()
+    val batteryWSeries: List<BatterySample> = emptyList(),
+    val solarWSeries: List<BatterySample> = emptyList(),
+    val houseWSeries: List<BatterySample> = emptyList(),
+    val gridWSeries: List<BatterySample> = emptyList()
 )
 
 object GivEnergy {
@@ -39,14 +44,22 @@ object LiveStatus {
         if (live == null) return publicStatus
         val socSeries = live.socSeries.ifEmpty { publicStatus.socSeries }
         val batteryWSeries = live.batteryWSeries.ifEmpty { publicStatus.batteryWSeries }
+        val solarWSeries = live.solarWSeries.ifEmpty { publicStatus.solarWSeries }
+        val houseWSeries = live.houseWSeries.ifEmpty { publicStatus.houseWSeries }
+        val gridWSeries = live.gridWSeries.ifEmpty { publicStatus.gridWSeries }
         return appendLiveTip(
             publicStatus.copy(
                 updated = live.updated ?: publicStatus.updated,
                 socPercent = live.socPercent ?: publicStatus.socPercent,
                 solarW = live.solarW ?: publicStatus.solarW,
+                houseW = live.houseW ?: publicStatus.houseW,
                 batteryW = live.batteryW ?: publicStatus.batteryW,
+                gridW = live.gridW ?: publicStatus.gridW,
                 socSeries = socSeries,
-                batteryWSeries = batteryWSeries
+                batteryWSeries = batteryWSeries,
+                solarWSeries = solarWSeries,
+                houseWSeries = houseWSeries,
+                gridWSeries = gridWSeries
             ),
             live
         )
@@ -56,9 +69,15 @@ object LiveStatus {
         val stamp = live.updated ?: return status
         val socTip = live.socPercent?.toDouble()?.let { BatterySample(t = stamp, soc = it) }
         val wattTip = live.batteryW?.let { BatterySample(t = stamp, w = it) }
+        val solarTip = live.solarW?.toDouble()?.let { BatterySample(t = stamp, w = it) }
+        val houseTip = live.houseW?.toDouble()?.let { BatterySample(t = stamp, w = it) }
+        val gridTip = live.gridW?.let { BatterySample(t = stamp, w = it) }
         return status.copy(
             socSeries = appendSample(status.socSeries, socTip) { it.soc != null },
-            batteryWSeries = appendSample(status.batteryWSeries, wattTip) { it.w != null }
+            batteryWSeries = appendSample(status.batteryWSeries, wattTip) { it.w != null },
+            solarWSeries = appendSample(status.solarWSeries, solarTip) { it.w != null },
+            houseWSeries = appendSample(status.houseWSeries, houseTip) { it.w != null },
+            gridWSeries = appendSample(status.gridWSeries, gridTip) { it.w != null }
         )
     }
 

@@ -1,16 +1,19 @@
 package com.zekkers.watthome.data
 
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.abs
 
 object StatusFormatter {
     val london: ZoneId = ZoneId.of("Europe/London")
+    const val POWER_UP_HIDE_AFTER_MINUTES = 5L
 
     private val displayFormat: DateTimeFormatter =
         DateTimeFormatter.ofPattern("EEE d MMM yyyy, HH:mm", Locale.UK)
@@ -46,29 +49,30 @@ object StatusFormatter {
         return listOfNotNull(window, cap).joinToString(" · ").ifBlank { "—" }
     }
 
-    fun powerUpWindow(powerUp: PowerUp?): String = powerUpWindowOrNull(powerUp) ?: "No Power Up"
+    fun powerUpWindow(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
+        powerUpWindowOrNull(powerUp, now) ?: "No Power Up"
 
-    fun powerUpWindowOrNull(powerUp: PowerUp?): String? {
-        if (powerUp == null) return null
-        val from = displayClock(powerUp.from)
-        val to = displayClock(powerUp.to)
+    fun powerUpWindowOrNull(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String? {
+        val visible = currentPowerUp(powerUp, now) ?: return null
+        val from = displayClock(visible.from)
+        val to = displayClock(visible.to)
         return when {
             from != null && to != null -> "$from–$to"
             from != null -> from
             to != null -> to
-            else -> powerUp.label?.takeIf { it.isNotBlank() }
+            else -> visible.label?.takeIf { it.isNotBlank() }
         }
     }
 
-    fun powerUpSpokenWindowOrNull(powerUp: PowerUp?): String? {
-        if (powerUp == null) return null
-        val from = twelveHourClock(powerUp.from)
-        val to = twelveHourClock(powerUp.to)
+    fun powerUpSpokenWindowOrNull(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String? {
+        val visible = currentPowerUp(powerUp, now) ?: return null
+        val from = twelveHourClock(visible.from)
+        val to = twelveHourClock(visible.to)
         return if (from != null && to != null) "$from - $to" else null
     }
 
-    fun powerUpSpokenWindow(powerUp: PowerUp?): String =
-        powerUpSpokenWindowOrNull(powerUp) ?: "No Power Up"
+    fun powerUpSpokenWindow(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
+        powerUpSpokenWindowOrNull(powerUp, now) ?: "—"
 
     fun twelveHourClock(raw: String?): String? {
         val clock = displayClock(raw) ?: return null
@@ -82,34 +86,81 @@ object StatusFormatter {
         return if (minute == 0) "$hour12$suffix" else String.format(Locale.UK, "%d:%02d%s", hour12, minute, suffix)
     }
 
-    fun powerUpLine(powerUp: PowerUp?): String = powerUpSpokenWindow(powerUp)
+    fun powerUpLine(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
+        powerUpSpokenWindow(powerUp, now)
 
-    fun powerUpStartLine(powerUp: PowerUp?): String {
-        if (powerUp == null) return "No"
-        return displayClock(powerUp.from) ?: "Power Up"
+    fun powerUpStartLine(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String {
+        val visible = currentPowerUp(powerUp, now) ?: return "No"
+        return displayClock(visible.from) ?: "Power Up"
     }
 
-    fun powerUpEndLine(powerUp: PowerUp?): String {
-        if (powerUp == null) return "Power Up"
-        return displayClock(powerUp.to) ?: "set"
+    fun powerUpEndLine(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String {
+        val visible = currentPowerUp(powerUp, now) ?: return "Power Up"
+        return displayClock(visible.to) ?: "set"
     }
 
-    fun powerUpCompactHours(powerUp: PowerUp?): String {
-        if (powerUp == null) return "No Power Up"
-        val fromHour = displayClock(powerUp.from)?.substringBefore(":")
-        val toHour = displayClock(powerUp.to)?.substringBefore(":")
-        return if (fromHour != null && toHour != null) "$fromHour–$toHour" else "No Power Up"
+    fun powerUpCompactHours(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String {
+        val visible = currentPowerUp(powerUp, now) ?: return "—"
+        val fromHour = displayClock(visible.from)?.substringBefore(":")
+        val toHour = displayClock(visible.to)?.substringBefore(":")
+        return if (fromHour != null && toHour != null) "$fromHour–$toHour" else "—"
     }
 
     fun hasTodayCurve(status: HomeStatus?): Boolean {
         if (status == null) return false
-        return status.socSeries.count { it.soc != null } >= 2 ||
-            status.batteryWSeries.count { it.w != null } >= 2
+        return wattPoints(status.batteryWSeries) >= 2 ||
+            wattPoints(status.solarWSeries) >= 2 ||
+            wattPoints(status.houseWSeries) >= 2 ||
+            wattPoints(status.gridWSeries) >= 2 ||
+            status.socSeries.count { it.soc != null } >= 2
     }
+
+    fun hasVisibleTodayCurve(status: HomeStatus?, series: GraphSeriesSelection): Boolean {
+        if (status == null || !series.any()) return false
+        return (series.solar && wattPoints(status.solarWSeries) >= 2) ||
+            (series.battery && wattPoints(status.batteryWSeries) >= 2) ||
+            (series.house && wattPoints(status.houseWSeries) >= 2) ||
+            (series.grid && wattPoints(status.gridWSeries) >= 2) ||
+            (series.soc && status.socSeries.count { it.soc != null } >= 2)
+    }
+
+    private fun wattPoints(samples: List<BatterySample>): Int = samples.count { it.w != null }
 
     fun hasPowerUp(powerUp: PowerUp?): Boolean = powerUp != null
 
-    fun optedInPowerUp(powerUp: PowerUp?): Boolean = powerUp?.optedIn == true
+    fun optedInPowerUp(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean =
+        currentPowerUp(powerUp, now)?.optedIn == true
+
+    fun currentPowerUp(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): PowerUp? =
+        powerUp?.takeIf { isPowerUpCurrent(it, now) }
+
+    fun isPowerUpCurrent(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean {
+        if (powerUp == null) return false
+        val londonNow = now.withZoneSameInstant(london)
+        val today = londonNow.toLocalDate()
+        val sessionDate = parseLocalDate(powerUp.date)
+        // Do not preview a free window (Power Up / Weekend Happy Hour) before its London calendar day.
+        if (sessionDate != null && sessionDate.isAfter(today)) return false
+        val expireAt = powerUpExpiresAt(powerUp, now) ?: return true
+        return londonNow.isBefore(expireAt)
+    }
+
+    fun powerUpExpiresAt(powerUp: PowerUp, now: ZonedDateTime = ZonedDateTime.now(london)): ZonedDateTime? {
+        val to = parseLocalTime(powerUp.to) ?: return null
+        val londonNow = now.withZoneSameInstant(london)
+        val endDate = parseLocalDate(powerUp.date) ?: londonNow.toLocalDate()
+        return ZonedDateTime.of(endDate, to, london).plusMinutes(POWER_UP_HIDE_AFTER_MINUTES)
+    }
+
+    fun parseLocalTime(raw: String?): LocalTime? {
+        val clock = displayClock(raw) ?: return null
+        return runCatching { LocalTime.parse(clock) }.getOrNull()
+    }
+
+    fun parseLocalDate(raw: String?): LocalDate? {
+        if (raw.isNullOrBlank()) return null
+        return runCatching { LocalDate.parse(raw.trim()) }.getOrNull()
+    }
 
     fun savingsPounds(savings: LastSavings?): String? {
         val amount = savings?.gbp ?: return null

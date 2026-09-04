@@ -11,6 +11,7 @@ object HomeStatusJson {
         status.updated?.let { put("updated", JsonPrimitive(it)) }
         status.socPercent?.let { put("soc_percent", JsonPrimitive(it)) }
         status.solarW?.let { put("solar_w", JsonPrimitive(it)) }
+        status.houseW?.let { put("house_w", JsonPrimitive(it)) }
         status.target1600Percent?.let { put("target_1600_percent", JsonPrimitive(it)) }
         status.overnight?.let { overnight ->
             put(
@@ -46,11 +47,21 @@ object HomeStatusJson {
             )
         }
         status.batteryW?.let { put("battery_w", JsonPrimitive(it)) }
+        status.gridW?.let { put("grid_w", JsonPrimitive(it)) }
         if (status.batteryWSeries.isNotEmpty()) {
             put("battery_w_series", seriesArray(status.batteryWSeries, includeW = true))
         }
         if (status.socSeries.isNotEmpty()) {
             put("soc_series", seriesArray(status.socSeries, includeSoc = true))
+        }
+        if (status.solarWSeries.isNotEmpty()) {
+            put("solar_w_series", seriesArray(status.solarWSeries, includeW = true))
+        }
+        if (status.houseWSeries.isNotEmpty()) {
+            put("house_w_series", seriesArray(status.houseWSeries, includeW = true))
+        }
+        if (status.gridWSeries.isNotEmpty()) {
+            put("grid_w_series", seriesArray(status.gridWSeries, includeW = true))
         }
         status.lastSavings?.let { savings ->
             put(

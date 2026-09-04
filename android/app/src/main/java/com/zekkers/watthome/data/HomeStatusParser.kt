@@ -29,6 +29,7 @@ object HomeStatusParser {
             updated = obj.string("updated"),
             socPercent = obj.int("soc_percent"),
             solarW = obj.int("solar_w"),
+            houseW = obj.int("house_w"),
             target1600Percent = obj.int("target_1600_percent"),
             overnight = parseOvernight(obj["overnight"]),
             peakWindow = obj.string("peak_window"),
@@ -36,8 +37,12 @@ object HomeStatusParser {
             lastAction = obj.string("last_action"),
             weatherTomorrow = parseWeather(obj["weather_tomorrow"]),
             batteryW = obj.double("battery_w"),
+            gridW = obj.double("grid_w"),
             batteryWSeries = parseBatteryWSeries(obj["battery_w_series"]),
             socSeries = parseSocSeries(obj["soc_series"]),
+            solarWSeries = parseBatteryWSeries(obj["solar_w_series"]),
+            houseWSeries = parseBatteryWSeries(obj["house_w_series"]),
+            gridWSeries = parseBatteryWSeries(obj["grid_w_series"]),
             lastSavings = parseLastSavings(obj["last_savings"])
         )
     }

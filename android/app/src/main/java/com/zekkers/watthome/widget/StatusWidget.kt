@@ -20,16 +20,24 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxHeight
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
+import androidx.glance.layout.width
+import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.zekkers.watthome.data.GraphSeriesPrefs
+import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatus
+import com.zekkers.watthome.data.PowerUpClock
+import com.zekkers.watthome.data.PowerUpClockMode
 import com.zekkers.watthome.data.PowerUpLayout
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusRepository
+import com.zekkers.watthome.data.WidgetPlotLayout
 import com.zekkers.watthome.worker.StatusRefreshScheduler
 
 class StatusWidget : GlanceAppWidget() {
@@ -38,34 +46,69 @@ class StatusWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
-        val density = context.resources.displayMetrics.density
-        val curve = SparklineRenderer.renderToday(
-            status = status,
-            widthPx = (260 * density).toInt().coerceAtLeast(180),
-            heightPx = (90 * density).toInt().coerceAtLeast(64)
-        )
+        val series = GraphSeriesPrefs.read(context)
         provideContent {
             WidgetCard {
-                OverviewContent(status, curve)
+                OverviewContent(status, series)
             }
         }
     }
 }
 
 @Composable
-private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
-    val hasCurve = StatusFormatter.hasTodayCurve(status)
+private fun OverviewContent(status: HomeStatus?, series: GraphSeriesSelection) {
+    val hasCurve = StatusFormatter.hasVisibleTodayCurve(status, series)
     val density = Resources.getSystem().displayMetrics.density
-    val innerWidth = LocalSize.current.width.value - 24f
+    val size = LocalSize.current
+    val pane = WidgetPlotLayout.overviewSplit(size.width.value, size.height.value)
+    val curve = SparklineRenderer.renderToday(
+        status = status,
+        widthPx = (pane.plotWidthDp * density).toInt().coerceAtLeast(80),
+        heightPx = (pane.plotHeightDp * density).toInt().coerceAtLeast(64),
+        fillSlot = true,
+        series = series,
+        showLegend = true
+    )
     val clock = PowerUpLayout.clock(status?.nextPowerUp)
+    val showBolt = StatusFormatter.optedInPowerUp(status?.nextPowerUp)
     val clockMode = PowerUpLayout.wide(
         powerUp = status?.nextPowerUp,
-        availableDp = innerWidth,
+        availableDp = pane.leftWidthDp,
         timeSp = 12f,
-        density = density
+        density = density,
+        showBolt = showBolt
     )
-    Column(
+    Row(
         modifier = GlanceModifier.fillMaxSize(),
+        verticalAlignment = Alignment.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        OverviewNumbers(
+            status = status,
+            clock = clock,
+            clockMode = clockMode,
+            showBolt = showBolt,
+            hasCurve = hasCurve,
+            modifier = GlanceModifier.width(pane.leftWidthDp.dp).fillMaxHeight()
+        )
+        OverviewPlot(
+            curve = curve,
+            modifier = GlanceModifier.width(pane.plotWidthDp.dp).fillMaxHeight()
+        )
+    }
+}
+
+@Composable
+private fun OverviewNumbers(
+    status: HomeStatus?,
+    clock: PowerUpClock?,
+    clockMode: PowerUpClockMode,
+    showBolt: Boolean,
+    hasCurve: Boolean,
+    modifier: GlanceModifier
+) {
+    Column(
+        modifier = modifier,
         verticalAlignment = Alignment.Top,
         horizontalAlignment = Alignment.Start
     ) {
@@ -106,17 +149,11 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
             clock = clock,
             mode = clockMode,
             fontSize = 12.sp,
-            showBolt = false,
-            modifier = GlanceModifier.fillMaxWidth(),
+            showBolt = showBolt,
+            modifier = GlanceModifier.wrapContentSize(),
             alignEnd = false
         )
         Spacer(GlanceModifier.height(6.dp))
-        Image(
-            provider = ImageProvider(curve),
-            contentDescription = "Today’s battery",
-            contentScale = ContentScale.Fit,
-            modifier = GlanceModifier.fillMaxWidth().defaultWeight()
-        )
         if (!hasCurve) {
             Text(
                 text = "waiting for today’s curve",
@@ -141,4 +178,14 @@ private fun OverviewContent(status: HomeStatus?, curve: Bitmap) {
             maxLines = 1
         )
     }
+}
+
+@Composable
+private fun OverviewPlot(curve: Bitmap, modifier: GlanceModifier) {
+    Image(
+        provider = ImageProvider(curve),
+        contentDescription = "Today’s energy",
+        contentScale = ContentScale.FillBounds,
+        modifier = modifier
+    )
 }

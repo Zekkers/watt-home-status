@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit
 
 class GivEnergyClient(
     private val client: OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
-        .callTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(RefreshPolicy.CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .readTimeout(RefreshPolicy.READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .callTimeout(RefreshPolicy.CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .build()
 ) {
     fun testToken(token: String) {
@@ -26,7 +26,10 @@ class GivEnergyClient(
         }
         return latest.copy(
             socSeries = series.socSeries,
-            batteryWSeries = series.batteryWSeries
+            batteryWSeries = series.batteryWSeries,
+            solarWSeries = series.solarWSeries,
+            houseWSeries = series.houseWSeries,
+            gridWSeries = series.gridWSeries
         )
     }
 
@@ -65,6 +68,6 @@ class GivEnergyClient(
 
     companion object {
         private const val USER_AGENT =
-            "WattHomeStatus/1.2.4 (family widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.9 (home-energy widget; +https://github.com/Zekkers/watt-home-status)"
     }
 }

@@ -7,8 +7,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.LocalContext
 import androidx.glance.action.clickable
-import androidx.glance.appwidget.action.actionRunCallback
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
@@ -28,6 +29,7 @@ internal val Cream = Color(0xFFE8F5E9)
 internal val Solar = Color(0xFFF9A825)
 internal val SolarSoft = Color(0xFFFFE082)
 internal val PowerUpBoltSize = 24.dp
+internal val CompactHeaderBoltSize = 16.dp
 
 abstract class WattGlanceWidget : GlanceAppWidget() {
     protected open val cardPadding: Dp = 12.dp
@@ -53,7 +55,10 @@ internal fun WidgetCard(
     padding: Dp = 12.dp,
     content: @Composable () -> Unit
 ) {
-    val onTap = actionRunCallback<WidgetTapAction>()
+    // PendingIntent that starts MainActivity with no preceding I/O.
+    // Do not use ActionCallback here — Glance finishes the callback before
+    // the activity is shown, so a refresh-then-start tap feels ~2s dead.
+    val onTap = actionStartActivity(WidgetTapPolicy.launchIntent(LocalContext.current))
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
