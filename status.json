@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-04T13:10:14+01:00",
+  "updated_at": "2026-09-04T15:15:58+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 85,
-  "solar_w": 130,
-  "house_w": 227,
-  "battery_w": -175,
-  "grid_w": 7,
+  "soc_percent": 72,
+  "solar_w": 868,
+  "house_w": 994,
+  "battery_w": 195,
+  "grid_w": -41,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-04T07:40:03Z",
+  "sample_time_utc": "2026-09-04T14:14:48Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -17,8 +17,8 @@
     "kw": 6
   },
   "next_power_up": null,
-  "last_action": "Hid Sun 6 Sep Happy Hour from widgets until its calendar day (Ian); booking kept in booked_happy_hour for Sun 01:30",
-  "updated": "2026-09-04T13:10:14+01:00",
+  "last_action": "15:00 peak check: SOC 72% \u2265 60% target \u2192 no top-up write; kept overnight 02:00\u201304:05 @ 100%/6 kW; no Power Up/Happy Hour in progress; next_power_up null; Gateway not written",
+  "updated": "2026-09-04T15:15:58+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -213,6 +213,10 @@
     {
       "t": "2026-09-04T08:40:03+01:00",
       "w": -175
+    },
+    {
+      "t": "2026-09-04T15:15:58+01:00",
+      "w": 195
     }
   ],
   "soc_series": [
@@ -395,6 +399,10 @@
     {
       "t": "2026-09-04T08:40:03+01:00",
       "soc": 85
+    },
+    {
+      "t": "2026-09-04T15:15:58+01:00",
+      "soc": 72
     }
   ],
   "booked_happy_hour": {
