@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-04T08:44:05+01:00",
+  "updated_at": "2026-09-04T12:45:14+01:00",
   "timezone": "Europe/London",
   "soc_percent": 85,
   "solar_w": 130,
@@ -16,9 +16,17 @@
     "percent_limit": 100,
     "kw": 6
   },
-  "next_power_up": null,
-  "last_action": "08:00: overnight 02:00\u201304:05 @ 100%/6 kW charged 20%\u219298% (peak 98%; ~11.7 kWh pack / ~12.8 kWh import, no hold-at-cap); now SOC 85% solar 130 W batt -175 W house 227 W; no Power Up; no inverter write",
-  "updated": "2026-09-04T08:44:05+01:00",
+  "next_power_up": {
+    "date": "2026-09-06",
+    "from": "12:00",
+    "to": "13:00",
+    "opted_in": true,
+    "percent_limit": 100,
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour"
+  },
+  "last_action": "Laura booked Weekend Happy Hour Sun 6 Sep 12:00\u201313:00 (forward from AOL); inverter write deferred until after Sat noon (date-less slots)",
+  "updated": "2026-09-04T12:45:14+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
