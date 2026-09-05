@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-05T15:12:07+01:00",
+  "updated_at": "2026-09-05T17:38:26+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 99,
-  "solar_w": 678,
-  "house_w": 1790,
-  "battery_w": -1146,
-  "grid_w": 29,
+  "soc_percent": 74,
+  "solar_w": 607,
+  "house_w": 1693,
+  "battery_w": -1151,
+  "grid_w": -55,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-05T14:07:04Z",
+  "sample_time_utc": "2026-09-05T16:33:50Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
-    "from": "02:00",
-    "to": "02:40",
-    "percent_limit": 30,
+    "from": "00:00",
+    "to": "00:00",
+    "percent_limit": 100,
     "kw": 6,
-    "cleared": false
+    "cleared": true
   },
   "next_power_up": null,
-  "last_action": "15:00 emergency check: SOC 99% \u2265 target 60%; cleared spent Power Up slot 11:30\u201313:30 (date-less; would repeat Sunday); kept overnight 02:00\u201302:40 @ 30%/6 kW; Happy Hour Sun 12:00\u201313:00 deferred (not written early); solar ~678 W house ~1790 W batt -1146 W; Gateway not written",
-  "updated": "2026-09-05T15:12:07+01:00",
+  "last_action": "17:30 Power Up catch: no new Power Up / Happy Hour / Power Down today; Sat 11:30\u201313:30 already opted-in & finished; Happy Hour Sun 12:00\u201313:00 still booked (deferred write); SOC 74% \u2265 overnight cap 30% \u2192 cleared overnight timed-charge (was 02:00\u201302:40 @ 30%); next_power_up null; solar ~607 W house ~1693 W batt -1151 W; Gateway not written",
+  "updated": "2026-09-05T17:38:26+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -182,6 +182,10 @@
     {
       "t": "2026-09-05T15:12:07+01:00",
       "w": -1146
+    },
+    {
+      "t": "2026-09-05T17:38:26+01:00",
+      "w": -1151
     }
   ],
   "soc_series": [
