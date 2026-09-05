@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-05T01:40:11+01:00",
+  "updated_at": "2026-09-05T08:07:27+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 8,
-  "solar_w": 0,
-  "house_w": 243,
-  "battery_w": 301,
-  "grid_w": 3,
+  "soc_percent": 18,
+  "solar_w": 218,
+  "house_w": 305,
+  "battery_w": 188,
+  "grid_w": 30,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-05T00:37:18Z",
+  "sample_time_utc": "2026-09-05T07:07:00Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -26,8 +26,8 @@
     "label": "Power Up",
     "kind": "power_up"
   },
-  "last_action": "01:30: Sat Power Up 11:30\u201313:30 already opted-in; promoted booked_power_up\u2192next_power_up; kept CH2414G328 11:30\u201313:30 @ 100%/6 kW; wrote overnight 02:00\u201302:40 @ 30%/6 kW (~3.0 kWh / 40 min at 5.56 kW from SOC 8%, floor 10% until PU); Happy Hour Sun 12:00\u201313:00 deferred (date-less slot); Gateway not written; no late Typeform",
-  "updated": "2026-09-05T01:40:11+01:00",
+  "last_action": "08:00 check ON_PLAN: overnight 02:00\u201302:40 @ 30%/6 kW charged ~7\u20138%\u219230% (~3.5 kWh pack/import, hit cap ~02:38, no hold-at-cap); continuous discharge after. No EPS (min 7%). Morning SOC 18%, solar ~218 W, house ~305 W, batt +188 W. Power Up today 11:30\u201313:30 opted-in; floor 10% until PU (leftover 8 pp \u2014 lean). No inverter write; no rule change.",
+  "updated": "2026-09-05T08:07:27+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -43,42 +43,6 @@
     "label": "Mixed cloud Sat. 08:00 GHI 134 cloud 0%; 12:00 GHI 533 cloud 41%; 14:00 GHI 521 cloud 55%; 16:00 GHI 291 cloud 82% (Open-Meteo). Power Up Sat 11:30\u201313:30 covers immersion; overnight lean to 30% PU-day cap from SOC 8%."
   },
   "battery_w_series": [
-    {
-      "t": "2026-08-31T08:25:28+01:00",
-      "w": -372
-    },
-    {
-      "t": "2026-08-31T15:22:26+01:00",
-      "w": 26
-    },
-    {
-      "t": "2026-09-01T01:58:08+01:00",
-      "w": -234
-    },
-    {
-      "t": "2026-09-01T02:03:12+01:00",
-      "w": 5672
-    },
-    {
-      "t": "2026-09-01T02:33:35+01:00",
-      "w": 5664
-    },
-    {
-      "t": "2026-09-01T03:09:00+01:00",
-      "w": 5658
-    },
-    {
-      "t": "2026-09-01T03:14:04+01:00",
-      "w": -216
-    },
-    {
-      "t": "2026-09-01T05:00:21+01:00",
-      "w": -278
-    },
-    {
-      "t": "2026-09-01T07:01:49+01:00",
-      "w": -245
-    },
     {
       "t": "2026-09-01T08:22:48+01:00",
       "w": 20
@@ -234,6 +198,10 @@
     {
       "t": "2026-09-05T01:37:18+01:00",
       "w": 301
+    },
+    {
+      "t": "2026-09-05T08:07:27+01:00",
+      "w": 188
     }
   ],
   "soc_series": [
