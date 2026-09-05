@@ -1,25 +1,33 @@
 {
-  "updated_at": "2026-09-04T18:25:37+01:00",
+  "updated_at": "2026-09-05T01:40:11+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 49,
-  "solar_w": 174,
-  "house_w": 704,
-  "battery_w": 737,
-  "grid_w": -10,
+  "soc_percent": 8,
+  "solar_w": 0,
+  "house_w": 243,
+  "battery_w": 301,
+  "grid_w": 3,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-04T17:22:04Z",
+  "sample_time_utc": "2026-09-05T00:37:18Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
-    "from": "00:00",
-    "to": "00:00",
-    "percent_limit": 100,
+    "from": "02:00",
+    "to": "02:40",
+    "percent_limit": 30,
     "kw": 6,
-    "cleared": true
+    "cleared": false
   },
-  "next_power_up": null,
-  "last_action": "17:30: Typeform opted into Sat 05/09/26 Power Up 11:30\u201313:30; wrote CH2414G328 11:30\u201313:30 @ 100%/6 kW; cleared overnight (SOC 50% \u2265 30% PU-day cap); next_power_up null until Sat (hide-until-day); Gateway not written; filed mail Home/Octopus",
-  "updated": "2026-09-04T18:25:37+01:00",
+  "next_power_up": {
+    "date": "2026-09-05",
+    "from": "11:30",
+    "to": "13:30",
+    "opted_in": true,
+    "percent_limit": 100,
+    "label": "Power Up",
+    "kind": "power_up"
+  },
+  "last_action": "01:30: Sat Power Up 11:30\u201313:30 already opted-in; promoted booked_power_up\u2192next_power_up; kept CH2414G328 11:30\u201313:30 @ 100%/6 kW; wrote overnight 02:00\u201302:40 @ 30%/6 kW (~3.0 kWh / 40 min at 5.56 kW from SOC 8%, floor 10% until PU); Happy Hour Sun 12:00\u201313:00 deferred (date-less slot); Gateway not written; no late Typeform",
+  "updated": "2026-09-05T01:40:11+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -31,8 +39,8 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "weather_tomorrow": {
-    "code": "cloudy",
-    "label": "Cloudy / wet morning. 08:00 GHI 25.0 cloud 100% precip 0.2; 12:00 GHI 315.0 cloud 100% precip 0.0; 14:00 GHI 455.0 cloud 100% precip 0.0; 16:00 GHI 328.0 cloud 100% precip 0.0 (Open-Meteo). Power Up Sat 11:30\u201313:30; immersion covered by free window so overnight cleared."
+    "code": "partly_cloudy",
+    "label": "Mixed cloud Sat. 08:00 GHI 134 cloud 0%; 12:00 GHI 533 cloud 41%; 14:00 GHI 521 cloud 55%; 16:00 GHI 291 cloud 82% (Open-Meteo). Power Up Sat 11:30\u201313:30 covers immersion; overnight lean to 30% PU-day cap from SOC 8%."
   },
   "battery_w_series": [
     {
@@ -222,6 +230,10 @@
     {
       "t": "2026-09-04T18:22:13+01:00",
       "w": 737
+    },
+    {
+      "t": "2026-09-05T01:37:18+01:00",
+      "w": 301
     }
   ],
   "soc_series": [
@@ -412,6 +424,10 @@
     {
       "t": "2026-09-04T18:22:13+01:00",
       "soc": 49
+    },
+    {
+      "t": "2026-09-05T01:37:18+01:00",
+      "soc": 8
     }
   ],
   "booked_happy_hour": {
