@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-06T08:05:37+01:00",
+  "updated_at": "2026-09-06T15:14:10+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 19,
-  "solar_w": 173,
-  "house_w": 306,
-  "battery_w": -239,
-  "grid_w": -2,
+  "soc_percent": 81,
+  "solar_w": 834,
+  "house_w": 220,
+  "battery_w": 527,
+  "grid_w": -1,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-06T07:04:19Z",
+  "sample_time_utc": "2026-09-06T14:09:26Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -17,17 +17,9 @@
     "kw": 6,
     "cleared": false
   },
-  "next_power_up": {
-    "date": "2026-09-06",
-    "from": "12:00",
-    "to": "13:00",
-    "opted_in": true,
-    "percent_limit": 100,
-    "label": "Happy Hour",
-    "kind": "weekend_happy_hour"
-  },
-  "last_action": "08:00 charge check: overnight plan 02:00\u201302:30 @ 30%/6 kW from SOC 14% (~2.16 kWh); actual ~02:00 SOC 13% \u2192 hit 30% by ~02:25 (~2.4 kWh AC), brief hold-at-cap then discharge; now SOC 19% house ~306 W solar ~173 W (floor 10% until Happy Hour 12:00\u201313:00); leftover ~9 pp \u2014 not fat; no EPS brush; no inverter write; slots still overnight + HH @ 100%",
-  "updated": "2026-09-06T08:05:37+01:00",
+  "next_power_up": null,
+  "last_action": "15:00 emergency check: SOC 81% \u2265 target 60%; cleared spent Happy Hour slot 12:00\u201313:00 (date-less; would repeat Monday); kept overnight 02:00\u201302:30 @ 30%/6 kW; solar ~834 W house ~220 W batt +527 W; Gateway not written",
+  "updated": "2026-09-06T15:14:10+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -43,10 +35,6 @@
     "label": "Mixed cloud Sun. 08:00 GHI 43 cloud 100%; 12:00 GHI 563 cloud 30%; 13:00 GHI 505 cloud 99%; 14:00 GHI 652 cloud 80%; 16:00 GHI 487 cloud 47% (Open-Meteo). Happy Hour 12:00\u201313:00; lean overnight to 30% HH-day cap from SOC 14%; immersion 13\u201314 mostly PV-covered."
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-01T08:22:48+01:00",
-      "w": 20
-    },
     {
       "t": "2026-09-01T15:22:51+01:00",
       "w": -812
@@ -202,41 +190,13 @@
     {
       "t": "2026-09-06T08:05:37+01:00",
       "w": -239
+    },
+    {
+      "t": "2026-09-06T15:14:10+01:00",
+      "w": 527
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-08-31T08:25:28+01:00",
-      "soc": 46
-    },
-    {
-      "t": "2026-08-31T15:22:26+01:00",
-      "soc": 43
-    },
-    {
-      "t": "2026-09-01T01:58:08+01:00",
-      "soc": 12
-    },
-    {
-      "t": "2026-09-01T02:03:12+01:00",
-      "soc": 13
-    },
-    {
-      "t": "2026-09-01T02:33:35+01:00",
-      "soc": 32
-    },
-    {
-      "t": "2026-09-01T03:09:00+01:00",
-      "soc": 56
-    },
-    {
-      "t": "2026-09-01T03:14:04+01:00",
-      "soc": 57
-    },
-    {
-      "t": "2026-09-01T05:00:21+01:00",
-      "soc": 55
-    },
     {
       "t": "2026-09-01T07:01:49+01:00",
       "soc": 51
@@ -392,6 +352,10 @@
     {
       "t": "2026-09-06T08:05:37+01:00",
       "soc": 19
+    },
+    {
+      "t": "2026-09-06T15:14:10+01:00",
+      "soc": 81
     }
   ],
   "booked_happy_hour": {
