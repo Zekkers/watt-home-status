@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-06T01:38:44+01:00",
+  "updated_at": "2026-09-06T08:05:37+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 14,
-  "solar_w": 0,
-  "house_w": 232,
-  "battery_w": -311,
-  "grid_w": 2,
+  "soc_percent": 19,
+  "solar_w": 173,
+  "house_w": 306,
+  "battery_w": -239,
+  "grid_w": -2,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-06T00:29:34Z",
+  "sample_time_utc": "2026-09-06T07:04:19Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -26,8 +26,8 @@
     "label": "Happy Hour",
     "kind": "weekend_happy_hour"
   },
-  "last_action": "01:30 overnight: Happy Hour today 12:00\u201313:00 already booked (Laura AOL; no late Typeform); SOC 14% house ~232 W; Open-Meteo mixed cloud Sun (08:00 GHI 43 cloud 100%; 12:00 GHI 563 cloud 30%; 13:00 GHI 505 cloud 99%; 14:00 GHI 652 cloud 80%); wrote CH2414G328 overnight 02:00\u201302:30 @ 30%/6 kW (~2.16 kWh / 30 min at 5.56 kW) + Happy Hour 12:00\u201313:00 @ 100%; promoted booked_happy_hour\u2192next_power_up; immersion leftover 13:00\u201314:00 ~covered by PV (no overnight add); Gateway not written",
-  "updated": "2026-09-06T01:38:44+01:00",
+  "last_action": "08:00 charge check: overnight plan 02:00\u201302:30 @ 30%/6 kW from SOC 14% (~2.16 kWh); actual ~02:00 SOC 13% \u2192 hit 30% by ~02:25 (~2.4 kWh AC), brief hold-at-cap then discharge; now SOC 19% house ~306 W solar ~173 W (floor 10% until Happy Hour 12:00\u201313:00); leftover ~9 pp \u2014 not fat; no EPS brush; no inverter write; slots still overnight + HH @ 100%",
+  "updated": "2026-09-06T08:05:37+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -198,6 +198,10 @@
     {
       "t": "2026-09-06T01:38:44+01:00",
       "w": -311
+    },
+    {
+      "t": "2026-09-06T08:05:37+01:00",
+      "w": -239
     }
   ],
   "soc_series": [
@@ -384,6 +388,10 @@
     {
       "t": "2026-09-06T01:38:44+01:00",
       "soc": 14
+    },
+    {
+      "t": "2026-09-06T08:05:37+01:00",
+      "soc": 19
     }
   ],
   "booked_happy_hour": {
