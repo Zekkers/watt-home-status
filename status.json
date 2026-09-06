@@ -1,25 +1,33 @@
 {
-  "updated_at": "2026-09-05T17:38:26+01:00",
+  "updated_at": "2026-09-06T01:38:44+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 74,
-  "solar_w": 607,
-  "house_w": 1693,
-  "battery_w": -1151,
-  "grid_w": -55,
+  "soc_percent": 14,
+  "solar_w": 0,
+  "house_w": 232,
+  "battery_w": -311,
+  "grid_w": 2,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-05T16:33:50Z",
+  "sample_time_utc": "2026-09-06T00:29:34Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
-    "from": "00:00",
-    "to": "00:00",
-    "percent_limit": 100,
+    "from": "02:00",
+    "to": "02:30",
+    "percent_limit": 30,
     "kw": 6,
-    "cleared": true
+    "cleared": false
   },
-  "next_power_up": null,
-  "last_action": "17:30 Power Up catch: no new Power Up / Happy Hour / Power Down today; Sat 11:30\u201313:30 already opted-in & finished; Happy Hour Sun 12:00\u201313:00 still booked (deferred write); SOC 74% \u2265 overnight cap 30% \u2192 cleared overnight timed-charge (was 02:00\u201302:40 @ 30%); next_power_up null; solar ~607 W house ~1693 W batt -1151 W; Gateway not written",
-  "updated": "2026-09-05T17:38:26+01:00",
+  "next_power_up": {
+    "date": "2026-09-06",
+    "from": "12:00",
+    "to": "13:00",
+    "opted_in": true,
+    "percent_limit": 100,
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour"
+  },
+  "last_action": "01:30 overnight: Happy Hour today 12:00\u201313:00 already booked (Laura AOL; no late Typeform); SOC 14% house ~232 W; Open-Meteo mixed cloud Sun (08:00 GHI 43 cloud 100%; 12:00 GHI 563 cloud 30%; 13:00 GHI 505 cloud 99%; 14:00 GHI 652 cloud 80%); wrote CH2414G328 overnight 02:00\u201302:30 @ 30%/6 kW (~2.16 kWh / 30 min at 5.56 kW) + Happy Hour 12:00\u201313:00 @ 100%; promoted booked_happy_hour\u2192next_power_up; immersion leftover 13:00\u201314:00 ~covered by PV (no overnight add); Gateway not written",
+  "updated": "2026-09-06T01:38:44+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -32,7 +40,7 @@
   },
   "weather_tomorrow": {
     "code": "partly_cloudy",
-    "label": "Mixed cloud Sat. 08:00 GHI 134 cloud 0%; 12:00 GHI 533 cloud 41%; 14:00 GHI 521 cloud 55%; 16:00 GHI 291 cloud 82% (Open-Meteo). Power Up Sat 11:30\u201313:30 covers immersion; overnight lean to 30% PU-day cap from SOC 8%."
+    "label": "Mixed cloud Sun. 08:00 GHI 43 cloud 100%; 12:00 GHI 563 cloud 30%; 13:00 GHI 505 cloud 99%; 14:00 GHI 652 cloud 80%; 16:00 GHI 487 cloud 47% (Open-Meteo). Happy Hour 12:00\u201313:00; lean overnight to 30% HH-day cap from SOC 14%; immersion 13\u201314 mostly PV-covered."
   },
   "battery_w_series": [
     {
@@ -186,6 +194,10 @@
     {
       "t": "2026-09-05T17:38:26+01:00",
       "w": -1151
+    },
+    {
+      "t": "2026-09-06T01:38:44+01:00",
+      "w": -311
     }
   ],
   "soc_series": [
@@ -368,6 +380,10 @@
     {
       "t": "2026-09-05T15:12:07+01:00",
       "soc": 99
+    },
+    {
+      "t": "2026-09-06T01:38:44+01:00",
+      "soc": 14
     }
   ],
   "booked_happy_hour": {
