@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-07T08:30:56+01:00",
+  "updated_at": "2026-09-07T15:37:58+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 89,
-  "solar_w": 467,
-  "house_w": 136,
-  "battery_w": 245,
-  "grid_w": -1,
+  "soc_percent": 85,
+  "solar_w": 792,
+  "house_w": 946,
+  "battery_w": 199,
+  "grid_w": 11,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-07T07:26:56Z",
+  "sample_time_utc": "2026-09-07T14:37:07Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "08:00 check ON_PLAN: overnight 02:00\u201303:34 @ 100%/6 kW charged 39%\u219298% (peak 98%; ~9.0 kWh pack / ~9.6 kWh import), ~2 pp short of 100%; no hold-at-cap; continuous discharge after slot. No EPS. Morning SOC 89%, solar ~467 W, house ~136 W, batt +245 W. No Power Up; 20% floor until 16:00 fat (expected cloudy+immersion 100% sizing). No inverter write; no rule change.",
-  "updated": "2026-09-07T08:30:56+01:00",
+  "last_action": "15:00 peak: SOC 85% \u2265 60% target \u2192 no top-up write; Power Down tonight 18:00\u201319:00 (AOL ACTION mail; not opted-in yet \u2014 16:00 check will opt in). SOC ample for PD (house~946 W; no pre-PD charge). Kept overnight 02:00\u201303:34 @ 100%/6 kW; no free-window slot to clear; next_power_up null; solar ~792 W house ~946 W batt +199 W grid ~11 W; Gateway not written; no email.",
+  "updated": "2026-09-07T15:37:58+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -42,6 +42,10 @@
     {
       "t": "2026-09-07T08:30:56+01:00",
       "w": 245
+    },
+    {
+      "t": "2026-09-07T15:37:58+01:00",
+      "w": 199
     }
   ],
   "booked_power_up": {
@@ -66,6 +70,19 @@
     {
       "t": "2026-09-07T08:30:56+01:00",
       "soc": 89
+    },
+    {
+      "t": "2026-09-07T15:37:58+01:00",
+      "soc": 85
     }
-  ]
+  ],
+  "booked_power_down": {
+    "date": "2026-09-07",
+    "from": "18:00",
+    "to": "19:00",
+    "opted_in": false,
+    "label": "Power Down",
+    "kind": "power_down",
+    "session_id": "e6a732cf-1320-47ae-872a-9573783b4770"
+  }
 }
