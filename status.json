@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-07T15:37:58+01:00",
+  "updated_at": "2026-09-07T17:44:10+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 85,
-  "solar_w": 792,
-  "house_w": 946,
-  "battery_w": 199,
-  "grid_w": 11,
+  "soc_percent": 75,
+  "solar_w": 422,
+  "house_w": 1074,
+  "battery_w": 777,
+  "grid_w": -140,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-07T14:37:07Z",
+  "sample_time_utc": "2026-09-07T16:43:39Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "15:00 peak: SOC 85% \u2265 60% target \u2192 no top-up write; Power Down tonight 18:00\u201319:00 (AOL ACTION mail; not opted-in yet \u2014 16:00 check will opt in). SOC ample for PD (house~946 W; no pre-PD charge). Kept overnight 02:00\u201303:34 @ 100%/6 kW; no free-window slot to clear; next_power_up null; solar ~792 W house ~946 W batt +199 W grid ~11 W; Gateway not written; no email.",
-  "updated": "2026-09-07T15:37:58+01:00",
+  "last_action": "17:30 catch: no Power Up (Gmail+AOL). 16:00 Saving Session check missed today \u2014 caught Power Down 18:00\u201319:00 from Laura AOL; opted in via Saving Sessions queue (A-5314B4CC / session e6a732cf\u2026 \u2014 You're in). SOC 75% (~9.6 kWh above EPS) covers ~1.3 kWh needed @ house 1074 W +20% \u2192 no pre-PD top-up. CH2414G328 slots unchanged: overnight 02:00\u201303:34 @ 100%/6 kW only (no charge into PD). next_power_up null; solar ~422 W house ~1074 W batt +777 W grid ~-140 W; Gateway not written; AOL untouched.",
+  "updated": "2026-09-07T17:44:10+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -46,6 +46,10 @@
     {
       "t": "2026-09-07T15:37:58+01:00",
       "w": 199
+    },
+    {
+      "t": "2026-09-07T17:44:10+01:00",
+      "w": 777
     }
   ],
   "booked_power_up": {
@@ -74,13 +78,17 @@
     {
       "t": "2026-09-07T15:37:58+01:00",
       "soc": 85
+    },
+    {
+      "t": "2026-09-07T17:44:10+01:00",
+      "soc": 75
     }
   ],
   "booked_power_down": {
     "date": "2026-09-07",
     "from": "18:00",
     "to": "19:00",
-    "opted_in": false,
+    "opted_in": true,
     "label": "Power Down",
     "kind": "power_down",
     "session_id": "e6a732cf-1320-47ae-872a-9573783b4770"
