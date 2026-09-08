@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-07T17:44:10+01:00",
+  "updated_at": "2026-09-08T01:36:21+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 75,
-  "solar_w": 422,
-  "house_w": 1074,
-  "battery_w": 777,
-  "grid_w": -140,
+  "soc_percent": 12,
+  "solar_w": 0,
+  "house_w": 289,
+  "battery_w": 377,
+  "grid_w": 7,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-07T16:43:39Z",
+  "sample_time_utc": "2026-09-08T00:34:19Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
-    "to": "03:34",
+    "to": "04:14",
     "percent_limit": 100,
     "kw": 6,
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "17:30 catch: no Power Up (Gmail+AOL). 16:00 Saving Session check missed today \u2014 caught Power Down 18:00\u201319:00 from Laura AOL; opted in via Saving Sessions queue (A-5314B4CC / session e6a732cf\u2026 \u2014 You're in). SOC 75% (~9.6 kWh above EPS) covers ~1.3 kWh needed @ house 1074 W +20% \u2192 no pre-PD top-up. CH2414G328 slots unchanged: overnight 02:00\u201303:34 @ 100%/6 kW only (no charge into PD). next_power_up null; solar ~422 W house ~1074 W batt +777 W grid ~-140 W; Gateway not written; AOL untouched.",
-  "updated": "2026-09-07T17:44:10+01:00",
+  "last_action": "01:30 overnight Tue 8 Sep: no free window (Gmail+AOL, no late Power Up/Happy Hour). SOC 12% house ~289 W sleep; Open-Meteo midday 100% cloud (12:00 GHI 226 / 13:00 282 / 14:00 217). Wrote CH2414G328 02:00\u201304:14 @ 100%/6 kW (~11.9 kWh / 134 min at 5.56 kW) with full immersion ~6 kWh on cloudy no-PU day; extras cleared; next_power_up null; Gateway not written.",
+  "updated": "2026-09-08T01:36:21+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -32,7 +32,7 @@
   },
   "weather_tomorrow": {
     "code": "cloudy",
-    "label": "Cloudy Mon. midday 100% cloud \u2014 12:00 GHI 167; 13:00 GHI 255; 14:00 GHI 337; 16:00 GHI 216 cloud 100% (Open-Meteo). No free window; immersion overnight add; overnight 02:00\u201303:34 @ 100%."
+    "label": "Cloudy Tue. midday 100% cloud \u2014 12:00 GHI 226; 13:00 GHI 282; 14:00 GHI 217; 16:00 GHI 389 cloud 53% (Open-Meteo). No free window; immersion overnight add; overnight 02:00\u201304:14 @ 100%."
   },
   "battery_w_series": [
     {
@@ -50,6 +50,10 @@
     {
       "t": "2026-09-07T17:44:10+01:00",
       "w": 777
+    },
+    {
+      "t": "2026-09-08T01:36:21+01:00",
+      "w": 377
     }
   ],
   "booked_power_up": {
@@ -82,6 +86,10 @@
     {
       "t": "2026-09-07T17:44:10+01:00",
       "soc": 75
+    },
+    {
+      "t": "2026-09-08T01:36:21+01:00",
+      "soc": 12
     }
   ],
   "booked_power_down": {
