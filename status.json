@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-08T01:36:21+01:00",
+  "updated_at": "2026-09-08T08:12:23+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 12,
-  "solar_w": 0,
-  "house_w": 289,
-  "battery_w": 377,
-  "grid_w": 7,
+  "soc_percent": 87,
+  "solar_w": 73,
+  "house_w": 296,
+  "battery_w": -302,
+  "grid_w": 3,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-08T00:34:19Z",
+  "sample_time_utc": "2026-09-08T07:09:05Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "01:30 overnight Tue 8 Sep: no free window (Gmail+AOL, no late Power Up/Happy Hour). SOC 12% house ~289 W sleep; Open-Meteo midday 100% cloud (12:00 GHI 226 / 13:00 282 / 14:00 217). Wrote CH2414G328 02:00\u201304:14 @ 100%/6 kW (~11.9 kWh / 134 min at 5.56 kW) with full immersion ~6 kWh on cloudy no-PU day; extras cleared; next_power_up null; Gateway not written.",
-  "updated": "2026-09-08T01:36:21+01:00",
+  "last_action": "08:00 check ON_PLAN: overnight 02:00\u201304:14 @ 100%/6 kW charged 10%\u219296% (peak 96%; ~13.1 kWh pack / ~14.2 kWh import), ~4 pp short of 100%; no hold-at-cap; continuous discharge after slot. No EPS (min 10). Morning SOC 87%, solar ~73 W, house ~296 W, batt -302 W. No Power Up; 20% floor until 16:00 fat (expected cloudy+immersion 100% sizing). No inverter write; no rule change.",
+  "updated": "2026-09-08T08:12:23+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -32,7 +32,7 @@
   },
   "weather_tomorrow": {
     "code": "cloudy",
-    "label": "Cloudy Tue. midday 100% cloud \u2014 12:00 GHI 226; 13:00 GHI 282; 14:00 GHI 217; 16:00 GHI 389 cloud 53% (Open-Meteo). No free window; immersion overnight add; overnight 02:00\u201304:14 @ 100%."
+    "label": "Cloudy / wet Tue. 08:00 GHI 26.0 cloud 100% precip 1.4; 12:00 GHI 184.0 cloud 100% precip 0.4; 14:00 GHI 254.0 cloud 100% precip 0.0; 16:00 GHI 221.0 cloud 100% precip 0.0 (Open-Meteo). No Power Up; immersion overnight sizing held."
   },
   "battery_w_series": [
     {
@@ -54,6 +54,104 @@
     {
       "t": "2026-09-08T01:36:21+01:00",
       "w": 377
+    },
+    {
+      "t": "2026-09-08T01:59:37+01:00",
+      "w": -851
+    },
+    {
+      "t": "2026-09-08T02:29:59+01:00",
+      "w": 5667
+    },
+    {
+      "t": "2026-09-08T03:00:21+01:00",
+      "w": 5662
+    },
+    {
+      "t": "2026-09-08T03:25:39+01:00",
+      "w": 5662
+    },
+    {
+      "t": "2026-09-08T04:01:05+01:00",
+      "w": 5657
+    },
+    {
+      "t": "2026-09-08T04:16:16+01:00",
+      "w": -338
+    },
+    {
+      "t": "2026-09-08T05:01:49+01:00",
+      "w": -250
+    },
+    {
+      "t": "2026-09-08T06:58:13+01:00",
+      "w": -333
+    },
+    {
+      "t": "2026-09-08T07:58:57+01:00",
+      "w": -186
+    },
+    {
+      "t": "2026-09-08T08:09:05+01:00",
+      "w": -302
+    }
+  ],
+  "soc_series": [
+    {
+      "t": "2026-09-07T08:30:56+01:00",
+      "soc": 89
+    },
+    {
+      "t": "2026-09-07T15:37:58+01:00",
+      "soc": 85
+    },
+    {
+      "t": "2026-09-07T17:44:10+01:00",
+      "soc": 75
+    },
+    {
+      "t": "2026-09-08T01:36:21+01:00",
+      "soc": 12
+    },
+    {
+      "t": "2026-09-08T01:59:37+01:00",
+      "soc": 10
+    },
+    {
+      "t": "2026-09-08T02:29:59+01:00",
+      "soc": 29
+    },
+    {
+      "t": "2026-09-08T03:00:21+01:00",
+      "soc": 48
+    },
+    {
+      "t": "2026-09-08T03:25:39+01:00",
+      "soc": 65
+    },
+    {
+      "t": "2026-09-08T04:01:05+01:00",
+      "soc": 88
+    },
+    {
+      "t": "2026-09-08T04:16:16+01:00",
+      "soc": 96
+    },
+    {
+      "t": "2026-09-08T05:01:49+01:00",
+      "soc": 96
+    },
+    {
+      "t": "2026-09-08T06:58:13+01:00",
+      "soc": 91
+    },
+    {
+      "t": "2026-09-08T07:58:57+01:00",
+      "soc": 88
+    },
+    {
+      "t": "2026-09-08T08:09:05+01:00",
+      "soc": 87
     }
   ],
   "booked_power_up": {
@@ -74,24 +172,6 @@
     "label": "Happy Hour",
     "kind": "weekend_happy_hour"
   },
-  "soc_series": [
-    {
-      "t": "2026-09-07T08:30:56+01:00",
-      "soc": 89
-    },
-    {
-      "t": "2026-09-07T15:37:58+01:00",
-      "soc": 85
-    },
-    {
-      "t": "2026-09-07T17:44:10+01:00",
-      "soc": 75
-    },
-    {
-      "t": "2026-09-08T01:36:21+01:00",
-      "soc": 12
-    }
-  ],
   "booked_power_down": {
     "date": "2026-09-07",
     "from": "18:00",
