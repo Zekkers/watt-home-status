@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-08T08:12:23+01:00",
+  "updated_at": "2026-09-08T15:07:35+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 87,
-  "solar_w": 73,
-  "house_w": 296,
-  "battery_w": -302,
-  "grid_w": 3,
+  "soc_percent": 49,
+  "solar_w": 992,
+  "house_w": 428,
+  "battery_w": -462,
+  "grid_w": 5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-08T07:09:05Z",
+  "sample_time_utc": "2026-09-08T14:04:04Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "08:00 check ON_PLAN: overnight 02:00\u201304:14 @ 100%/6 kW charged 10%\u219296% (peak 96%; ~13.1 kWh pack / ~14.2 kWh import), ~4 pp short of 100%; no hold-at-cap; continuous discharge after slot. No EPS (min 10). Morning SOC 87%, solar ~73 W, house ~296 W, batt -302 W. No Power Up; 20% floor until 16:00 fat (expected cloudy+immersion 100% sizing). No inverter write; no rule change.",
-  "updated": "2026-09-08T08:12:23+01:00",
+  "last_action": "15:00: SOC 49% < target 60% \u2192 wrote CH2414G328 15:07\u201315:28 @ 60%/6 kW (~1.49 kWh / 21 min @ 5.56 kW sizing); kept overnight 02:00\u201304:14 @ 100%/6 kW; no Power Up/Happy Hour in progress; no Power Down tonight (last was Mon 7 Sep 18:00\u201319:00); solar 992 W batt -462 W house 428 W grid 5 W",
+  "updated": "2026-09-08T15:07:35+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -94,6 +94,10 @@
     {
       "t": "2026-09-08T08:09:05+01:00",
       "w": -302
+    },
+    {
+      "t": "2026-09-08T15:07:35+01:00",
+      "w": -462
     }
   ],
   "soc_series": [
@@ -152,6 +156,10 @@
     {
       "t": "2026-09-08T08:09:05+01:00",
       "soc": 87
+    },
+    {
+      "t": "2026-09-08T15:07:35+01:00",
+      "soc": 49
     }
   ],
   "booked_power_up": {
@@ -180,5 +188,12 @@
     "label": "Power Down",
     "kind": "power_down",
     "session_id": "e6a732cf-1320-47ae-872a-9573783b4770"
+  },
+  "peak_topup": {
+    "from": "15:07",
+    "to": "15:28",
+    "percent_limit": 60,
+    "kw": 6,
+    "at": "2026-09-08T15:07:35+01:00"
   }
 }
