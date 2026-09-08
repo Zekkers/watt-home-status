@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-08T15:07:35+01:00",
+  "updated_at": "2026-09-08T17:46:45+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 49,
-  "solar_w": 992,
-  "house_w": 428,
-  "battery_w": -462,
-  "grid_w": 5,
+  "soc_percent": 50,
+  "solar_w": 112,
+  "house_w": 1545,
+  "battery_w": 1538,
+  "grid_w": 43,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-08T14:04:04Z",
+  "sample_time_utc": "2026-09-08T16:46:01Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "15:00: SOC 49% < target 60% \u2192 wrote CH2414G328 15:07\u201315:28 @ 60%/6 kW (~1.49 kWh / 21 min @ 5.56 kW sizing); kept overnight 02:00\u201304:14 @ 100%/6 kW; no Power Up/Happy Hour in progress; no Power Down tonight (last was Mon 7 Sep 18:00\u201319:00); solar 992 W batt -462 W house 428 W grid 5 W",
-  "updated": "2026-09-08T15:07:35+01:00",
+  "last_action": "17:30: no new Power Up / Happy Hour / Power Down (Gmail empty after:2026/09/07; Laura AOL only yesterday\u2019s Power Down Mon 7 Sep 18:00\u201319:00). SOC 50% solar 112 W house 1545 W batt +1538 W grid 43 W; kept overnight 02:00\u201304:14 @ 100%/6 kW; next_power_up null; no inverter write",
+  "updated": "2026-09-08T17:46:45+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -98,6 +98,10 @@
     {
       "t": "2026-09-08T15:07:35+01:00",
       "w": -462
+    },
+    {
+      "t": "2026-09-08T17:46:45+01:00",
+      "w": 1538
     }
   ],
   "soc_series": [
@@ -160,6 +164,10 @@
     {
       "t": "2026-09-08T15:07:35+01:00",
       "soc": 49
+    },
+    {
+      "t": "2026-09-08T17:46:45+01:00",
+      "soc": 50
     }
   ],
   "booked_power_up": {
