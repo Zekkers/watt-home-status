@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-09T15:07:01+01:00",
+  "updated_at": "2026-09-09T17:56:43+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 95,
-  "solar_w": 998,
-  "house_w": 394,
-  "battery_w": 479,
-  "grid_w": 79,
+  "soc_percent": 84,
+  "solar_w": 199,
+  "house_w": 1289,
+  "battery_w": -1070,
+  "grid_w": 20,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-09T14:01:23Z",
+  "sample_time_utc": "2026-09-09T16:53:28Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "15:00: SOC 95% \u2265 target 60% \u2192 no top-up write; kept overnight 02:00\u201304:25 @ 100%/6 kW; no Power Up/Happy Hour in progress; no Power Down tonight (AOL only Mon 7 Sep 18:00\u201319:00); next_power_up null; solar 998 W batt 479 W house 394 W grid 79 W",
-  "updated": "2026-09-09T15:07:01+01:00",
+  "last_action": "17:30 Power Up catch: no new Power Up / Happy Hour / Power Down today (Gmail empty; AOL only Mon 7 Sep Power Down already known); kept overnight 02:00\u201304:25 @ 100%/6 kW (SOC 84% < overnight cap 100%); next_power_up null; solar ~199 W house ~1289 W batt -1070 W grid 20 W; Gateway not written",
+  "updated": "2026-09-09T17:56:43+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -154,6 +154,10 @@
     {
       "t": "2026-09-09T15:07:01+01:00",
       "w": 479
+    },
+    {
+      "t": "2026-09-09T17:56:43+01:00",
+      "w": -1070
     }
   ],
   "soc_series": [
@@ -272,6 +276,10 @@
     {
       "t": "2026-09-09T15:07:01+01:00",
       "soc": 95
+    },
+    {
+      "t": "2026-09-09T17:56:43+01:00",
+      "soc": 84
     }
   ],
   "booked_power_up": {
