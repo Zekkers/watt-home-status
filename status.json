@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-09T08:09:20+01:00",
+  "updated_at": "2026-09-09T15:07:01+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 91,
-  "solar_w": 185,
-  "house_w": 171,
-  "battery_w": -75,
-  "grid_w": -1,
+  "soc_percent": 95,
+  "solar_w": 998,
+  "house_w": 394,
+  "battery_w": 479,
+  "grid_w": 79,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-09T07:06:23Z",
+  "sample_time_utc": "2026-09-09T14:01:23Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "08:00 check ON_PLAN: overnight 02:00\u201304:25 @ 100%/6 kW charged 5%\u219297% (peak 97%; ~12.857 kWh pack / ~14.3 kWh import), ~3 pp short of 100%; no hold-at-cap; continuous discharge after slot. Pre-slot parked at 4% EPS until ~02:00 (known at 01:30); no EPS during/after charge. Morning SOC 91%, solar ~185 W, house ~171 W, batt -75 W. No Power Up; 20% floor until 16:00 fat (expected cloudy+immersion 100% sizing). No inverter write; no rule change.",
-  "updated": "2026-09-09T08:09:20+01:00",
+  "last_action": "15:00: SOC 95% \u2265 target 60% \u2192 no top-up write; kept overnight 02:00\u201304:25 @ 100%/6 kW; no Power Up/Happy Hour in progress; no Power Down tonight (AOL only Mon 7 Sep 18:00\u201319:00); next_power_up null; solar 998 W batt 479 W house 394 W grid 79 W",
+  "updated": "2026-09-09T15:07:01+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -150,6 +150,10 @@
     {
       "t": "2026-09-09T08:06:23+01:00",
       "w": -75
+    },
+    {
+      "t": "2026-09-09T15:07:01+01:00",
+      "w": 479
     }
   ],
   "soc_series": [
@@ -264,6 +268,10 @@
     {
       "t": "2026-09-09T08:06:23+01:00",
       "soc": 91
+    },
+    {
+      "t": "2026-09-09T15:07:01+01:00",
+      "soc": 95
     }
   ],
   "booked_power_up": {
