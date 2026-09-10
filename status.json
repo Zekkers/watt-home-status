@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-10T15:17:12+01:00",
+  "updated_at": "2026-09-10T17:42:10+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 100,
-  "solar_w": 697,
-  "house_w": 459,
-  "battery_w": 36,
-  "grid_w": 210,
+  "soc_percent": 91,
+  "solar_w": 183,
+  "house_w": 862,
+  "battery_w": 815,
+  "grid_w": 27,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-10T14:13:53Z",
+  "sample_time_utc": "2026-09-10T16:40:39Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "15:00 peak check: SOC 100% \u2265 60% target \u2192 no top-up write; kept overnight 02:00\u201302:46 @ 64%/6 kW; no Power Up/Happy Hour in progress; Power Down tonight 19:00\u201320:00 (AOL ACTION mail, opted_in false \u2014 16:00 check will propose); pack ready for PD at 100% (house ~459 W); next_power_up null; solar ~697 W house ~459 W batt +36 W grid ~210 W; Gateway not written; no email.",
-  "updated": "2026-09-10T15:17:12+01:00",
+  "last_action": "17:30 afternoon: no Power Up on Gmail/AOL; Power Down tonight 19:00\u201320:00 \u2014 16:00 check missed so opted in via Octopus dashboard Accept Challenge (You're in!); SOC 91% (~11.74 kWh above EPS) vs ~1\u20131.5 kWh needed for 1h house \u2014 pack adequate, no pre-window top-up; no timed-charge into PD (overnight remains 02:00\u201302:46 @ 64%/6 kW); house on pack for the hour, skip immersion/laundry if you can; Happy Hour bank still 1; Sessions 1; next_power_up null; solar ~183 W house ~862 W batt +815 W grid ~27 W; Gateway not written.",
+  "updated": "2026-09-10T17:42:10+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -170,6 +170,10 @@
     {
       "t": "2026-09-10T15:17:12+01:00",
       "w": 36
+    },
+    {
+      "t": "2026-09-10T17:42:10+01:00",
+      "w": 815
     }
   ],
   "soc_series": [
