@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-09T17:56:43+01:00",
+  "updated_at": "2026-09-10T01:45:01+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 84,
-  "solar_w": 199,
-  "house_w": 1289,
-  "battery_w": -1070,
-  "grid_w": 20,
+  "soc_percent": 36,
+  "solar_w": 0,
+  "house_w": 164,
+  "battery_w": 242,
+  "grid_w": 3,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-09T16:53:28Z",
+  "sample_time_utc": "2026-09-10T00:44:08Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
-    "to": "04:25",
-    "percent_limit": 100,
+    "to": "02:46",
+    "percent_limit": 64,
     "kw": 6,
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "17:30 Power Up catch: no new Power Up / Happy Hour / Power Down today (Gmail empty; AOL only Mon 7 Sep Power Down already known); kept overnight 02:00\u201304:25 @ 100%/6 kW (SOC 84% < overnight cap 100%); next_power_up null; solar ~199 W house ~1289 W batt -1070 W grid 20 W; Gateway not written",
-  "updated": "2026-09-09T17:56:43+01:00",
+  "last_action": "01:30 overnight: no free window today (Thu 10 Sep); no late Power Up/Happy Hour in Gmail or AOL (AOL only Mon 7 Sep Power Down); SOC 36% house ~164 W; Solcast Garage+Home noon PV ~5.49 kWh; wrote CH2414G328 02:00\u201302:46 @ 64%/6 kW (~3.78 kWh / 46 min at 5.56 kW) immersion net ~0.51 kWh; extras cleared; next_power_up null; Gateway not written",
+  "updated": "2026-09-10T01:45:01+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -31,8 +31,8 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "weather_tomorrow": {
-    "code": "cloudy",
-    "label": "Cloudy Wed. 08:00 GHI 87.0 cloud 5 precip 0.0; 12:00 GHI 173.0 cloud 98 precip 0.0; 14:00 GHI 215.0 cloud 94 precip 0.0; 16:00 GHI 258.0 cloud 95 precip 0.0 (Open-Meteo). No Power Up; immersion overnight sizing held."
+    "code": "sunny",
+    "label": "Thu Solcast sum Garage+Home: 12:00\u201314:00 ~5.49 kWh PV (immersion net ~0.51 kWh), 08:00\u201316:00 ~17.2 kWh. Lean overnight 64% (not 100% cloudy fill)."
   },
   "battery_w_series": [
     {
@@ -158,6 +158,10 @@
     {
       "t": "2026-09-09T17:56:43+01:00",
       "w": -1070
+    },
+    {
+      "t": "2026-09-10T01:45:01+01:00",
+      "w": 242
     }
   ],
   "soc_series": [
@@ -280,6 +284,10 @@
     {
       "t": "2026-09-09T17:56:43+01:00",
       "soc": 84
+    },
+    {
+      "t": "2026-09-10T01:45:01+01:00",
+      "soc": 36
     }
   ],
   "booked_power_up": {
