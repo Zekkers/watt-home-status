@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-10T01:45:01+01:00",
+  "updated_at": "2026-09-10T08:30:37+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 36,
-  "solar_w": 0,
-  "house_w": 164,
-  "battery_w": 242,
-  "grid_w": 3,
+  "soc_percent": 55,
+  "solar_w": 619,
+  "house_w": 618,
+  "battery_w": 81,
+  "grid_w": 0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-10T00:44:08Z",
+  "sample_time_utc": "2026-09-10T07:29:01Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "01:30 overnight: no free window today (Thu 10 Sep); no late Power Up/Happy Hour in Gmail or AOL (AOL only Mon 7 Sep Power Down); SOC 36% house ~164 W; Solcast Garage+Home noon PV ~5.49 kWh; wrote CH2414G328 02:00\u201302:46 @ 64%/6 kW (~3.78 kWh / 46 min at 5.56 kW) immersion net ~0.51 kWh; extras cleared; next_power_up null; Gateway not written",
-  "updated": "2026-09-10T01:45:01+01:00",
+  "last_action": "08:00 check ON_PLAN: overnight 02:00\u201302:46 @ 64%/6 kW charged 36%\u219264% (peak 64%; ~3.94 kWh pack / ~4.3 kWh AC import), hit cap on time; brief idle at 02:44 then continuous discharge. No EPS (min 36%). Morning SOC 55%, solar ~570 W, house ~613 W, batt +124 W. No Power Up; 20% floor until 16:00 \u2014 leftover high but intentional lean Solcast sunny sizing. Forecast Solcast Garage+Home; early PV tracking OK (inv ~0.43 kW vs Solcast ~0.37\u20130.66 kW 08:00\u201308:30). No inverter write; no rule change.",
+  "updated": "2026-09-10T08:30:37+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -32,7 +32,7 @@
   },
   "weather_tomorrow": {
     "code": "sunny",
-    "label": "Thu Solcast sum Garage+Home: 12:00\u201314:00 ~5.49 kWh PV (immersion net ~0.51 kWh), 08:00\u201316:00 ~17.2 kWh. Lean overnight 64% (not 100% cloudy fill)."
+    "label": "Thu Solcast sum Garage+Home: overnight used noon ~5.49 / 08\u201316 ~17.2 kWh. Early solar tracking OK. Lean overnight 64% held."
   },
   "battery_w_series": [
     {
@@ -162,6 +162,10 @@
     {
       "t": "2026-09-10T01:45:01+01:00",
       "w": 242
+    },
+    {
+      "t": "2026-09-10T08:29:01+01:00",
+      "w": 81
     }
   ],
   "soc_series": [
@@ -288,6 +292,10 @@
     {
       "t": "2026-09-10T01:45:01+01:00",
       "soc": 36
+    },
+    {
+      "t": "2026-09-10T08:29:01+01:00",
+      "soc": 55
     }
   ],
   "booked_power_up": {
