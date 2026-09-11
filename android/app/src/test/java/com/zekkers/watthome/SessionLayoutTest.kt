@@ -16,6 +16,7 @@ import org.junit.Test
 import java.time.ZonedDateTime
 
 class SessionLayoutTest {
+    private val fridayMorning = ZonedDateTime.parse("2026-09-11T11:00:00+01:00[Europe/London]")
     private val fridayEvening = ZonedDateTime.parse("2026-09-11T18:30:00+01:00[Europe/London]")
     private val fridayDuring = ZonedDateTime.parse("2026-09-11T19:20:00+01:00[Europe/London]")
     private val fridayJustEnded = ZonedDateTime.parse("2026-09-11T20:00:00+01:00[Europe/London]")
@@ -100,7 +101,7 @@ class SessionLayoutTest {
             }
             """.trimIndent()
         )
-        val sessions = SessionLayout.visible(status, fridayEvening)
+        val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(2, sessions.size)
         assertEquals(SessionKind.PowerUp, sessions[0].kind)
         assertEquals("12pm", sessions[0].clock.from)
@@ -114,6 +115,9 @@ class SessionLayoutTest {
         assertFalse(sessions[1].optedIn)
         assertFalse(sessions.any { it.shortLabel.contains("mashed") })
         assertFalse(sessions.any { it.clock.oneLine.contains("and") })
+        val afterPowerUp = SessionLayout.visible(status, fridayEvening)
+        assertEquals(1, afterPowerUp.size)
+        assertEquals(SessionKind.PowerDown, afterPowerUp.single().kind)
     }
 
     @Test
@@ -126,7 +130,7 @@ class SessionLayoutTest {
             }
             """.trimIndent()
         )
-        val sessions = SessionLayout.visible(status, fridayEvening)
+        val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(1, sessions.size)
         assertEquals(SessionKind.PowerUp, sessions.single().kind)
         assertEquals("12pm - 2pm", sessions.single().clock.oneLine)
@@ -137,7 +141,7 @@ class SessionLayoutTest {
         val status = HomeStatusParser.parse(
             """{"booked_happy_hour":{"from":"12:00","to":"13:00","date":"2026-09-11","opted_in":true,"label":"Happy Hour","kind":"weekend_happy_hour"}}"""
         )
-        val sessions = SessionLayout.visible(status, fridayEvening)
+        val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(1, sessions.size)
         assertEquals(SessionKind.HappyHour, sessions.single().kind)
         assertEquals("Happy Hour", sessions.single().shortLabel)
@@ -203,7 +207,7 @@ class SessionLayoutTest {
             }
             """.trimIndent()
         )
-        val sessions = SessionLayout.visible(status, fridayEvening)
+        val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(2, sessions.size)
         assertTrue(
             SocLayout.headerFits(

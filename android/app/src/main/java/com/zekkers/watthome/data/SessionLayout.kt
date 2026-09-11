@@ -55,7 +55,8 @@ object SessionLayout {
             status.bookedHappyHour to inferredKind(status.bookedHappyHour, SessionKind.HappyHour),
             status.bookedPowerDown to inferredKind(status.bookedPowerDown, SessionKind.PowerDown)
         )
-        for ((window, fallback) in candidates) {
+        for ((raw, fallback) in candidates) {
+            val window = raw ?: continue
             val clock = PowerUpLayout.clock(window, now) ?: continue
             val kind = inferredKind(window, fallback)
             val key = windowKey(window, kind)
