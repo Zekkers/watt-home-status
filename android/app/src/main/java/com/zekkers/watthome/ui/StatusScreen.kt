@@ -41,12 +41,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.zekkers.watthome.R
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.GraphSeriesStyle
 import com.zekkers.watthome.data.HomeStatus
+import com.zekkers.watthome.data.SessionKind
+import com.zekkers.watthome.data.SessionLayout
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusUiState
+import com.zekkers.watthome.data.VisibleSession
+import com.zekkers.watthome.ui.theme.PowerDownCoral
 import com.zekkers.watthome.widget.SparklineRenderer
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -165,15 +171,13 @@ fun StatusScreen(
             StatusRow("Overnight slot", StatusFormatter.overnight(status?.overnight))
             StatusRow("16:00 target", StatusFormatter.percent(status?.target1600Percent))
             StatusRow("Peak window", StatusFormatter.dash(status?.peakWindow))
-            StatusRow("Next Power Up", StatusFormatter.powerUpSpokenWindow(status?.nextPowerUp))
+            SessionLayout.visible(status).forEach { session ->
+                SessionFactRow(session)
+            }
             if (status?.batteryW != null) {
                 StatusRow("Battery power", StatusFormatter.signedWatts(status.batteryW))
             }
-            if (status?.weatherTomorrow != null) {
-                StatusRow("Tomorrow", StatusFormatter.weatherLabel(status.weatherTomorrow))
-            }
             StatusFormatter.savingsDetailLine(status?.lastSavings)?.let { StatusRow("Power Up results", it) }
-            StatusRow("Last action", StatusFormatter.lastAction(status?.lastAction))
             StatusRow("Updated", StatusFormatter.formatUpdated(status?.updated))
 
             Text(
@@ -268,6 +272,57 @@ private fun EnergyLegend(series: GraphSeriesSelection) {
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SessionFactRow(session: VisibleSession) {
+    val accent = if (session.kind.isFreeElectric) {
+        MaterialTheme.colorScheme.secondary
+    } else {
+        PowerDownCoral
+    }
+    val icon = if (session.kind == SessionKind.PowerDown) {
+        R.drawable.ic_power_down_badge
+    } else {
+        R.drawable.ic_power_up_badge
+    }
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Image(
+                painter = painterResource(icon),
+                contentDescription = session.shortLabel,
+                modifier = Modifier.size(28.dp)
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = session.shortLabel,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = accent
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = session.clock.oneLine,
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            if (session.optedIn) {
+                Image(
+                    painter = painterResource(R.drawable.ic_session_tick),
+                    contentDescription = "opted in",
+                    modifier = Modifier.size(20.dp)
                 )
             }
         }

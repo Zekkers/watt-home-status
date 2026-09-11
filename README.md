@@ -47,17 +47,17 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | Centered SOC (keeps `%`, including `100%` — never `10…`). Small live array-1 solar W under it. Lower half: Power Up times with the bolt to their right, not next to the %. |
-| **Watt Home · Battery + session** | 2×1 | SOC and live solar W, Power Up times as two lines, bolt fully visible when opted in, plus a compact sparkline with a left-side `0W` mark. Never `63%pm`. |
-| **Watt Home · Glance** | 2×2 | Top identical to 2×1’s header (SOC, `battery`, times, bolt). Power graph along the bottom with a left-side `0W` at the zero line. Savings `£36.95 · 9 sess` if it fits. |
-| **Watt Home · Overview** | ~3×2 / 4×2 | Numbers on the left (SOC, solar, overnight, 16:00, peak, Power Up, savings). Graph fills the right pane at that pane’s real size — not a letterboxed strip under the text. `0W` sits on the left of the plot at the zero line. |
-| **Watt Home · Strip** | 4×1 | `63%` \| `12–14` \| weather \| results £ — handy on a dock. |
+| **Watt Home · Battery** | 1×1 | Centered SOC (keeps `%`, including `100%` — never `10…`). Small live array-1 solar W under it. Each of today’s sessions is its own chip: bolt + times for Power Up / Happy Hour, down-arrow + times for Power Down, tick if opted in. Future days stay hidden. |
+| **Watt Home · Battery + session** | 2×1 | SOC and live solar W, then the same session chips (icon + bare clock times). Two sessions today are two rows, not one mashed string. Compact sparkline with a left-side `0W` mark. Never `63%pm`. |
+| **Watt Home · Glance** | 2×2 | Top identical to 2×1’s header (SOC, `battery`, session chips). Power graph along the bottom with a left-side `0W` at the zero line. Savings `£36.95 · 9 sess` if it fits. |
+| **Watt Home · Overview** | ~3×2 / 4×2 | Numbers on the left (SOC, solar, overnight, 16:00, peak, one row per session with icon + label + times + tick, savings). Graph fills the right pane at that pane’s real size — not a letterboxed strip under the text. `0W` sits on the left of the plot at the zero line. |
+| **Watt Home · Strip** | 4×1 | `63%` \| icon + times per session \| weather icon \| results £ — handy on a dock. |
 
 2×1 and 2×2 keep a power sparkline (Options ticks on Overview / the app; compact tiles show solar + battery). A cream `0W` label sits on the left of the zero line whenever a power trace is drawn. Wide Overview puts that plot on the right of the numbers. Missing extras stay hidden.
 
 WorkManager’s periodic poll is **15 minutes** when the pack is quiet (Android’s minimum for repeating work). After a successful live GivEnergy GET, if the battery is moving — `|battery_w|` over ~500 W, a Power Up window from `status.json` is in progress, or SOC just changed — the app schedules a one-shot follow-up in **90 seconds**. When things go quiet again it drops back to 15 minutes, so the phone is not polled every minute all day. All widget sizes share one DataStore cache and refresh together. Tap a widget to open the app immediately; a live refresh runs after the first frame, not before the tap. AppWidget `updatePeriodMillis` is 0; the 15-minute floor is WorkManager, not the launcher.
 
-With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min on the full poll; fast follow-ups only hit `/system-data/latest` and pin the graph tip). Public `status.json` still supplies Power Up, overnight, 16:00 target, last action, weather, and savings.
+With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min on the full poll; fast follow-ups only hit `/system-data/latest` and pin the graph tip). Public `status.json` still supplies today’s booked sessions (Power Up / Happy Hour / Power Down), overnight, 16:00 target, weather icon, and savings. The app does not show `last_action` or long weather paragraphs.
 
 ## Rebuild from this repo
 

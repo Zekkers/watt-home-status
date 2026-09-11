@@ -2,6 +2,7 @@ package com.zekkers.watthome
 
 import com.zekkers.watthome.data.HomeStatusParser
 import com.zekkers.watthome.data.PowerUpLayout
+import com.zekkers.watthome.data.SessionLayout
 import com.zekkers.watthome.data.SocLayout
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.WidgetTextMeasure
@@ -101,5 +102,25 @@ class SocLayoutTest {
         assertFalse(StatusFormatter.optedInPowerUp(skipped.nextPowerUp, midday))
         assertFalse(StatusFormatter.optedInPowerUp(null, midday))
         assertTrue(StatusFormatter.hasPowerUp(skipped.nextPowerUp))
+    }
+
+    @Test
+    fun powerDownChipReservesIconAndTickWithoutClippingTimes() {
+        val status = HomeStatusParser.parse(
+            """{"booked_power_down":{"from":"19:00","to":"20:00","date":"2026-09-03","opted_in":true,"kind":"power_down"},"soc_percent":100}"""
+        )
+        val session = SessionLayout.visible(status, midday).single()
+        val reserved = SocLayout.headerTrailingDp(listOf(session), density = 1f)
+        assertTrue(reserved > SocLayout.HeaderBoltDp + SocLayout.HeaderTickDp)
+        assertTrue(
+            SocLayout.headerFits(
+                percent = 100,
+                innerWidthDp = SocLayout.CompactHeaderInnerDp,
+                sessions = listOf(session),
+                density = 1f
+            )
+        )
+        val used = WidgetTextMeasure.widthDp("100\u2060%", SocLayout.PreferredSp, 1f, bold = true) + reserved
+        assertTrue(used <= SocLayout.CompactHeaderInnerDp + 8f)
     }
 }

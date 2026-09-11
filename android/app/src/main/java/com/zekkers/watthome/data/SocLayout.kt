@@ -17,10 +17,13 @@ object SocLayout {
     /** Typical 1×1 inner width on a phone launcher after 2dp card padding. */
     const val OneByOneInnerDp = 66f
 
-    /** 2×1 / 2×2 header: stacked times stay wrap-content; bolt is reserved. */
+    /** 2×1 / 2×2 header: stacked times stay wrap-content; kind icon + tick reserved. */
     const val HeaderTimeSp = 13f
     const val HeaderBoltDp = 16f
     const val HeaderBoltPadDp = 2f
+    const val HeaderTickDp = 12f
+    const val HeaderTickPadDp = 2f
+    const val HeaderSessionGapDp = 6f
 
     /** ~2 launcher cells minus compact card padding. */
     const val CompactHeaderInnerDp = 142f
@@ -74,12 +77,51 @@ object SocLayout {
         return time + bolt
     }
 
+    fun sessionChipWidth(
+        session: VisibleSession,
+        density: Float,
+        timeSp: Float = HeaderTimeSp,
+        oneLine: Boolean = false,
+        iconDp: Float = HeaderBoltDp,
+        iconPadDp: Float = HeaderBoltPadDp,
+        tickDp: Float = HeaderTickDp,
+        tickPadDp: Float = HeaderTickPadDp
+    ): Float {
+        val time = if (oneLine) {
+            WidgetTextMeasure.widthDp(session.clock.tightLine, timeSp, density)
+        } else {
+            maxOf(
+                WidgetTextMeasure.widthDp(session.clock.from, timeSp, density),
+                WidgetTextMeasure.widthDp(session.clock.to, timeSp, density)
+            )
+        }
+        val tick = if (session.optedIn) tickDp + tickPadDp else 0f
+        return iconDp + iconPadDp + time + tick
+    }
+
+    fun headerTrailingDp(
+        sessions: List<VisibleSession>,
+        density: Float,
+        timeSp: Float = HeaderTimeSp,
+        oneLine: Boolean = false
+    ): Float {
+        if (sessions.isEmpty()) return 0f
+        return sessions.maxOf { sessionChipWidth(it, density, timeSp, oneLine) }
+    }
+
     fun headerSocBudget(
         innerWidthDp: Float,
         clock: PowerUpClock?,
         showBolt: Boolean,
         density: Float
     ): Float = (innerWidthDp - headerTrailingDp(clock, showBolt, density)).coerceAtLeast(0f)
+
+    fun headerSocBudget(
+        innerWidthDp: Float,
+        sessions: List<VisibleSession>,
+        density: Float,
+        oneLine: Boolean = false
+    ): Float = (innerWidthDp - headerTrailingDp(sessions, density, oneLine = oneLine)).coerceAtLeast(0f)
 
     fun headerFits(
         percent: Int?,
@@ -92,6 +134,20 @@ object SocLayout {
         val token = token(percent, headerSocBudget(innerWidthDp, clock, showBolt, density), density, preferredSp)
         val used = WidgetTextMeasure.widthDp(token.text, token.sizeSp, density, bold = true) +
             headerTrailingDp(clock, showBolt, density)
+        return used <= innerWidthDp && !token.text.contains('…') && token.text.startsWith(percent?.toString() ?: "—")
+    }
+
+    fun headerFits(
+        percent: Int?,
+        innerWidthDp: Float,
+        sessions: List<VisibleSession>,
+        density: Float,
+        preferredSp: Float = PreferredSp,
+        oneLine: Boolean = false
+    ): Boolean {
+        val token = token(percent, headerSocBudget(innerWidthDp, sessions, density, oneLine), density, preferredSp)
+        val used = WidgetTextMeasure.widthDp(token.text, token.sizeSp, density, bold = true) +
+            headerTrailingDp(sessions, density, oneLine = oneLine)
         return used <= innerWidthDp && !token.text.contains('…') && token.text.startsWith(percent?.toString() ?: "—")
     }
 }

@@ -14,6 +14,7 @@ object WidgetTextMeasure {
             units += when (ch) {
                 ' ' -> 0.33f
                 '-' -> 0.40f
+                '–' -> 0.40f
                 '·' -> 0.50f
                 '%' -> 0.85f
                 'm' -> 0.90f
@@ -52,6 +53,7 @@ object WidgetTextMeasure {
 
 data class PowerUpClock(val from: String, val to: String) {
     val oneLine: String get() = "$from - $to"
+    val tightLine: String get() = "$from–$to"
 }
 
 enum class PowerUpClockMode { Hidden, Stacked, OneLine }

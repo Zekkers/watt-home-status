@@ -15,7 +15,6 @@ import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
-import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
@@ -28,10 +27,12 @@ import com.zekkers.watthome.R
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.PowerUpClock
 import com.zekkers.watthome.data.PowerUpClockMode
-import com.zekkers.watthome.data.PowerUpLayout
+import com.zekkers.watthome.data.SessionKind
+import com.zekkers.watthome.data.SessionLayout
 import com.zekkers.watthome.data.SocLayout
 import com.zekkers.watthome.data.SocTokenSpec
 import com.zekkers.watthome.data.StatusFormatter
+import com.zekkers.watthome.data.VisibleSession
 
 @Composable
 internal fun SocToken(
@@ -83,6 +84,96 @@ internal fun PowerUpBolt(
         contentDescription = "Power Up",
         modifier = GlanceModifier.padding(start = startPad).size(size)
     )
+}
+
+@Composable
+internal fun SessionKindIcon(
+    kind: SessionKind,
+    size: Dp = CompactHeaderBoltSize,
+    endPad: Dp = 2.dp
+) {
+    val res = if (kind.isFreeElectric) R.drawable.ic_power_up_badge else R.drawable.ic_power_down_badge
+    Image(
+        provider = ImageProvider(res),
+        contentDescription = kind.shortLabel,
+        modifier = GlanceModifier.padding(end = endPad).size(size)
+    )
+}
+
+@Composable
+internal fun SessionTick(size: Dp = SessionTickSize, startPad: Dp = 2.dp) {
+    Image(
+        provider = ImageProvider(R.drawable.ic_session_tick),
+        contentDescription = "opted in",
+        modifier = GlanceModifier.padding(start = startPad).size(size)
+    )
+}
+
+@Composable
+internal fun SessionChip(
+    session: VisibleSession,
+    fontSize: TextUnit,
+    oneLine: Boolean,
+    showLabel: Boolean = false,
+    iconSize: Dp = CompactHeaderBoltSize,
+    alignEnd: Boolean = true
+) {
+    val timeColor = if (session.kind.isFreeElectric) Cream else PowerDownCoral
+    Row(
+        modifier = GlanceModifier.wrapContentSize(),
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        SessionKindIcon(session.kind, size = iconSize)
+        Column(horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start) {
+            if (showLabel) {
+                Text(
+                    text = session.shortLabel,
+                    style = TextStyle(
+                        color = ColorProvider(timeColor, timeColor),
+                        fontSize = fontSize,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    maxLines = 1
+                )
+            }
+            if (oneLine) {
+                Text(
+                    text = session.clock.tightLine,
+                    style = TextStyle(
+                        color = ColorProvider(timeColor, timeColor),
+                        fontSize = fontSize,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    maxLines = 1
+                )
+            } else {
+                Text(
+                    text = session.clock.from,
+                    modifier = GlanceModifier.wrapContentSize(),
+                    style = TextStyle(
+                        color = ColorProvider(timeColor, timeColor),
+                        fontSize = fontSize,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    maxLines = 1
+                )
+                Text(
+                    text = session.clock.to,
+                    modifier = GlanceModifier.wrapContentSize(),
+                    style = TextStyle(
+                        color = ColorProvider(timeColor, timeColor),
+                        fontSize = fontSize,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    maxLines = 1
+                )
+            }
+        }
+        if (session.optedIn) {
+            SessionTick()
+        }
+    }
 }
 
 @Composable
@@ -144,10 +235,10 @@ internal fun BatterySocStack(
     timeSize: TextUnit = 10.sp,
     contentPaddingDp: Float = 4f
 ) {
-    val clock = PowerUpLayout.clock(status?.nextPowerUp)
-    val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
+    val sessions = SessionLayout.visible(status)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - contentPaddingDp
+    val oneLine = sessions.size > 1
     val soc = SocLayout.token(
         percent = status?.socPercent,
         availableDp = innerWidth,
@@ -160,23 +251,16 @@ internal fun BatterySocStack(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         FittedSocToken(soc)
-        SolarWattsLine(status, timeSize)
-        if (clock != null) {
-            Row(
-                modifier = GlanceModifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(
-                    modifier = GlanceModifier.defaultWeight(),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    PowerUpTimeLine(clock.from, timeSize)
-                    PowerUpTimeLine(clock.to, timeSize)
-                }
-                if (showBolt) {
-                    PowerUpBolt(size = CompactHeaderBoltSize, startPad = 2.dp)
-                }
-            }
+        if (sessions.size < 2) {
+            SolarWattsLine(status, timeSize)
+        }
+        sessions.forEach { session ->
+            SessionChip(
+                session = session,
+                fontSize = timeSize,
+                oneLine = oneLine,
+                alignEnd = false
+            )
         }
     }
 }
@@ -189,13 +273,13 @@ internal fun SessionHeader(
     showSolar: Boolean = false,
     modifier: GlanceModifier = GlanceModifier.fillMaxWidth()
 ) {
-    val clock = PowerUpLayout.clock(status?.nextPowerUp)
-    val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
+    val sessions = SessionLayout.visible(status)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = availableWidthDp ?: (LocalSize.current.width.value - contentPaddingDp)
+    val oneLine = sessions.size > 1
     val soc = SocLayout.token(
         percent = status?.socPercent,
-        availableDp = SocLayout.headerSocBudget(innerWidth, clock, showBolt, density),
+        availableDp = SocLayout.headerSocBudget(innerWidth, sessions, density, oneLine),
         density = density
     )
     Row(
@@ -214,18 +298,13 @@ internal fun SessionHeader(
                 )
             }
         }
-        if (clock != null) {
-            Row(
-                modifier = GlanceModifier.wrapContentSize(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(horizontalAlignment = Alignment.End) {
-                    PowerUpTimeLine(clock.from, SocLayout.HeaderTimeSp.sp)
-                    PowerUpTimeLine(clock.to, SocLayout.HeaderTimeSp.sp)
-                }
-                if (showBolt) {
-                    PowerUpBolt(size = CompactHeaderBoltSize, startPad = 2.dp)
-                }
+        Column(horizontalAlignment = Alignment.End) {
+            sessions.forEach { session ->
+                SessionChip(
+                    session = session,
+                    fontSize = SocLayout.HeaderTimeSp.sp,
+                    oneLine = oneLine
+                )
             }
         }
     }

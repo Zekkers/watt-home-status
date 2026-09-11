@@ -9,6 +9,9 @@ data class HomeStatus(
     val overnight: Overnight? = null,
     val peakWindow: String? = null,
     val nextPowerUp: PowerUp? = null,
+    val bookedPowerUp: PowerUp? = null,
+    val bookedHappyHour: PowerUp? = null,
+    val bookedPowerDown: PowerUp? = null,
     val lastAction: String? = null,
     val weatherTomorrow: WeatherTomorrow? = null,
     val batteryW: Double? = null,
@@ -32,7 +35,9 @@ data class PowerUp(
     val to: String? = null,
     val date: String? = null,
     val optedIn: Boolean? = null,
-    val label: String? = null
+    val label: String? = null,
+    val kind: String? = null,
+    val sessionId: String? = null
 )
 
 data class WeatherTomorrow(

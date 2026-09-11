@@ -1,7 +1,6 @@
 package com.zekkers.watthome.widget
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
@@ -17,6 +16,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.data.HomeStatus
+import com.zekkers.watthome.data.SessionLayout
 import com.zekkers.watthome.data.StatusFormatter
 
 class StripWidget : WattGlanceWidget() {
@@ -24,33 +24,39 @@ class StripWidget : WattGlanceWidget() {
     override fun Content(status: HomeStatus?) {
         val weatherRes = WeatherIcons.drawableRes(status?.weatherTomorrow)
         val savings = StatusFormatter.savingsPounds(status?.lastSavings) ?: "—"
+        val sessions = SessionLayout.visible(status)
         Row(
             modifier = GlanceModifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             SocToken(status?.socPercent, numberSize = 20.sp)
-            Text(
-                text = StatusFormatter.powerUpCompactHours(status?.nextPowerUp),
-                style = TextStyle(
-                    color = ColorProvider(Cream, Cream),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center
-                ),
-                maxLines = 1,
-                modifier = GlanceModifier.defaultWeight()
-            )
+            if (sessions.isEmpty()) {
+                Text(
+                    text = "—",
+                    style = TextStyle(
+                        color = ColorProvider(Cream, Cream),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
+                    ),
+                    maxLines = 1,
+                    modifier = GlanceModifier.defaultWeight()
+                )
+            } else {
+                sessions.forEach { session ->
+                    SessionChip(
+                        session = session,
+                        fontSize = 12.sp,
+                        oneLine = true,
+                        alignEnd = false
+                    )
+                }
+            }
             if (weatherRes != null) {
                 Image(
                     provider = ImageProvider(weatherRes),
-                    contentDescription = StatusFormatter.weatherLabel(status?.weatherTomorrow),
+                    contentDescription = status?.weatherTomorrow?.code ?: "weather",
                     modifier = GlanceModifier.size(18.dp)
-                )
-            } else {
-                Text(
-                    text = "—",
-                    style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 13.sp),
-                    maxLines = 1
                 )
             }
             Text(

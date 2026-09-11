@@ -139,7 +139,7 @@ object StatusFormatter {
         val londonNow = now.withZoneSameInstant(london)
         val today = londonNow.toLocalDate()
         val sessionDate = parseLocalDate(powerUp.date)
-        // Do not preview a free window (Power Up / Weekend Happy Hour) before its London calendar day.
+        // Hide Power Up, Happy Hour, and Power Down until their London calendar day.
         if (sessionDate != null && sessionDate.isAfter(today)) return false
         val expireAt = powerUpExpiresAt(powerUp, now) ?: return true
         return londonNow.isBefore(expireAt)
