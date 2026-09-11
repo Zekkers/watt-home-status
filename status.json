@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-11T15:04:27+01:00",
+  "updated_at": "2026-09-11T16:31:07+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 61,
-  "solar_w": 1017,
-  "house_w": 964,
-  "battery_w": 14,
-  "grid_w": 31,
+  "soc_percent": 55,
+  "solar_w": 177,
+  "house_w": null,
+  "battery_w": 937,
+  "grid_w": 60,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-11T14:01:05Z",
+  "sample_time_utc": "2026-09-11T15:27:07Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "15:00 peak check: SOC 61% \u2265 60% target \u2192 no top-up write; kept overnight 02:00\u201302:58 @ 71%/6 kW; no Power Up/Happy Hour in progress; Power Down tonight 19:00\u201320:00 (AOL ACTION mail, opted_in false \u2014 16:00 check will propose); pack ready for PD at 61% (est ~45% into PD after peak; house ~964 W); next_power_up null; solar ~1017 W house ~964 W batt +14 W grid ~31 W; Gateway not written; no email.",
-  "updated": "2026-09-11T15:04:27+01:00",
+  "last_action": "16:00 Saving Session: Power Down tonight 19:00\u201320:00 opted in via optimistic-opt-in API (session 7d10b3d0\u2026, A-5314B4CC, since 16:30 London); live SOC 55% house ~None W; pack adequate for house-on-pack (no pre-window top-up; Flux peak \u2014 do not grid-charge); no immersion, no timed-charge overlap (overnight remains 02:00\u201302:58 @ 71%); ping Ian discuss-first; Happy Hour Sun plan still pending from 08:00; Gateway not written.",
+  "updated": "2026-09-11T16:31:07+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
