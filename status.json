@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-11T01:51:39+01:00",
+  "updated_at": "2026-09-11T08:11:33+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 35,
-  "solar_w": 0,
-  "house_w": 292,
-  "battery_w": -383,
-  "grid_w": 21,
+  "soc_percent": 60,
+  "solar_w": 167,
+  "house_w": 318,
+  "battery_w": -215,
+  "grid_w": 5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-11T00:46:30Z",
+  "sample_time_utc": "2026-09-11T07:06:04Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "01:30 overnight: no free window today (Fri 11 Sep); no late Power Up/Happy Hour in Gmail or AOL (AOL latest Thu 10 Sep Power Down 19:00\u201320:00 already done); SOC 35% house ~292 W; Solcast Garage+Home 12:00\u201314:00 ~4.51 kWh PV (immersion net ~1.49 kWh), 08:00\u201316:00 ~16.6 kWh; wrote CH2414G328 02:00\u201302:58 @ 71%/6 kW (~4.86 kWh / 58 min at 5.56 kW); extras cleared; next_power_up null; Gateway not written; no email (lean Solcast sunny sizing, not unusual).",
-  "updated": "2026-09-11T01:51:39+01:00",
+  "last_action": "08:00 check ON_PLAN: overnight 02:00\u201302:58 @ 71%/6 kW charged 35%\u219271% (peak 71%; ~5.3 kWh pack / ~5.7 kWh AC import), hit cap on time; brief idle at cap ~02:57 then continuous discharge. No EPS (min 35%). Morning SOC 60%, solar ~167 W, house ~318 W. No Power Up; 20% floor until 16:00 \u2014 leftover high but intentional lean Solcast sunny sizing. Forecast Solcast Garage+Home; early PV lagging (inverter ~0.14\u20130.17 kW vs Solcast ~0.597\u20131.078 kW around 07:30\u201308:30). No inverter write; no rule change.",
+  "updated": "2026-09-11T08:11:33+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -32,21 +32,9 @@
   },
   "weather_tomorrow": {
     "code": "sunny",
-    "label": "Fri Solcast sum Garage+Home: overnight used noon ~4.51 / 08\u201316 ~16.6 kWh. Lean overnight 71%."
+    "label": "Fri Solcast Garage+Home used overnight (noon ~4.51 / 08\u201316 ~16.6 kWh). Lean overnight 71%. Morning: early PV lagging (inverter ~0.14\u20130.17 kW vs Solcast ~0.597\u20131.078 kW around 07:30\u201308:30)."
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-07T01:41:17+01:00",
-      "w": 224
-    },
-    {
-      "t": "2026-09-07T08:30:56+01:00",
-      "w": 245
-    },
-    {
-      "t": "2026-09-07T15:37:58+01:00",
-      "w": 199
-    },
     {
       "t": "2026-09-07T17:44:10+01:00",
       "w": 777
@@ -178,13 +166,57 @@
     {
       "t": "2026-09-11T01:51:39+01:00",
       "w": -383
+    },
+    {
+      "t": "2026-09-11T02:01:41+01:00",
+      "w": 5673
+    },
+    {
+      "t": "2026-09-11T02:16:52+01:00",
+      "w": 5671
+    },
+    {
+      "t": "2026-09-11T02:32:03+01:00",
+      "w": 5665
+    },
+    {
+      "t": "2026-09-11T02:47:14+01:00",
+      "w": 5663
+    },
+    {
+      "t": "2026-09-11T02:57:21+01:00",
+      "w": 0
+    },
+    {
+      "t": "2026-09-11T03:02:25+01:00",
+      "w": -285
+    },
+    {
+      "t": "2026-09-11T03:58:05+01:00",
+      "w": -354
+    },
+    {
+      "t": "2026-09-11T04:58:49+01:00",
+      "w": -284
+    },
+    {
+      "t": "2026-09-11T07:00:17+01:00",
+      "w": -259
+    },
+    {
+      "t": "2026-09-11T07:30:39+01:00",
+      "w": -190
+    },
+    {
+      "t": "2026-09-11T08:01:01+01:00",
+      "w": -269
+    },
+    {
+      "t": "2026-09-11T08:06:04+01:00",
+      "w": -215
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-09-07T08:30:56+01:00",
-      "soc": 89
-    },
     {
       "t": "2026-09-07T15:37:58+01:00",
       "soc": 85
@@ -316,6 +348,54 @@
     {
       "t": "2026-09-11T01:51:39+01:00",
       "soc": 35
+    },
+    {
+      "t": "2026-09-11T02:01:41+01:00",
+      "soc": 35
+    },
+    {
+      "t": "2026-09-11T02:16:52+01:00",
+      "soc": 45
+    },
+    {
+      "t": "2026-09-11T02:32:03+01:00",
+      "soc": 55
+    },
+    {
+      "t": "2026-09-11T02:47:14+01:00",
+      "soc": 65
+    },
+    {
+      "t": "2026-09-11T02:57:21+01:00",
+      "soc": 71
+    },
+    {
+      "t": "2026-09-11T03:02:25+01:00",
+      "soc": 71
+    },
+    {
+      "t": "2026-09-11T03:58:05+01:00",
+      "soc": 69
+    },
+    {
+      "t": "2026-09-11T04:58:49+01:00",
+      "soc": 67
+    },
+    {
+      "t": "2026-09-11T07:00:17+01:00",
+      "soc": 62
+    },
+    {
+      "t": "2026-09-11T07:30:39+01:00",
+      "soc": 61
+    },
+    {
+      "t": "2026-09-11T08:01:01+01:00",
+      "soc": 60
+    },
+    {
+      "t": "2026-09-11T08:06:04+01:00",
+      "soc": 60
     }
   ],
   "booked_power_up": {
