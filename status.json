@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-11T16:31:45+01:00",
+  "updated_at": "2026-09-11T17:46:52+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 55,
-  "solar_w": 177,
-  "house_w": 917,
-  "battery_w": 937,
-  "grid_w": 60,
+  "soc_percent": 46,
+  "solar_w": 290,
+  "house_w": 1488,
+  "battery_w": 1307,
+  "grid_w": -30,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-11T15:27:07Z",
+  "sample_time_utc": "2026-09-11T16:43:02Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "16:00 Saving Session: Power Down tonight 19:00\u201320:00 opted in via optimistic-opt-in API (session 7d10b3d0\u2026, A-5314B4CC, since 16:30 London); live SOC 55% house ~917 W; pack adequate for house-on-pack (no pre-window top-up; Flux peak \u2014 do not grid-charge); no immersion, no timed-charge overlap (overnight remains 02:00\u201302:58 @ 71%); ping Ian discuss-first; Happy Hour Sun plan still pending from 08:00; Gateway not written.",
-  "updated": "2026-09-11T16:31:45+01:00",
+  "last_action": "17:30 Power Up catch: no new Power Up / Happy Hour (Gmail + Laura AOL). Power Down tonight 19:00\u201320:00 already opted in at 16:00 (session 7d10b3d0\u2026). SOC 46% < overnight cap 71% \u2192 kept CH2414G328 overnight 02:00\u201302:58 @ 71%/6 kW; no inverter write; Gateway not written; no email.",
+  "updated": "2026-09-11T17:46:52+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -218,6 +218,10 @@
     {
       "t": "2026-09-11T15:04:27+01:00",
       "w": 14
+    },
+    {
+      "t": "2026-09-11T17:46:52+01:00",
+      "w": 1307
     }
   ],
   "soc_series": [
