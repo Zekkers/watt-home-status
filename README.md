@@ -47,11 +47,11 @@ Sizes in the picker (under **Watt Home**, no search needed):
 
 | Picker name | Size | Shows |
 | --- | --- | --- |
-| **Watt Home · Battery** | 1×1 | Centered SOC (keeps `%`, including `100%` — never `10…`). Small live array-1 solar W under it. Each of today’s sessions is its own chip: bolt + times for Power Up / Happy Hour, down-arrow + times for Power Down, tick if opted in. Future days stay hidden. |
-| **Watt Home · Battery + session** | 2×1 | SOC and live solar W, then the same session chips (icon + bare clock times). Two sessions today are two rows, not one mashed string. Compact sparkline with a left-side `0W` mark. Never `63%pm`. |
-| **Watt Home · Glance** | 2×2 | Top identical to 2×1’s header (SOC, `battery`, session chips). Power graph along the bottom with a left-side `0W` at the zero line. Savings `£36.95 · 9 sess` if it fits. |
-| **Watt Home · Overview** | ~3×2 / 4×2 | Numbers on the left (SOC, solar, overnight, 16:00, peak, one row per session with icon + label + times + tick, savings). Graph fills the right pane at that pane’s real size — not a letterboxed strip under the text. `0W` sits on the left of the plot at the zero line. |
-| **Watt Home · Strip** | 4×1 | `63%` \| icon + times per session \| weather icon \| results £ — handy on a dock. |
+| **Watt Home · Battery** | 1×1 | Centered SOC (keeps `%`, including `100%` — never `10…`). Small live array-1 solar W under it. Today’s session chip if one is in-window; otherwise a weather icon so the tile is not blank. |
+| **Watt Home · Battery + session** | 2×1 | SOC and live solar W, plus always-on overnight (moon + times + cap) and weather icon. Session chips only while that window is on its London day. Compact sparkline with a left-side `0W` mark. |
+| **Watt Home · Glance** | 2×2 | Same header as 2×1 (SOC, overnight, weather, session chips). Power graph along the bottom with a left-side `0W`. Savings `£36.95 · 9 sess` if it fits. |
+| **Watt Home · Overview** | ~3×2 / 4×2 | Numbers on the left: SOC, solar, then one icon row each for overnight, weather code, 16:00, peak, and any in-window session. Graph fills the right pane. `0W` on the left of the plot. |
+| **Watt Home · Strip** | 4×1 | `63%` \| session or overnight \| weather icon \| results £ — handy on a dock. |
 
 2×1 and 2×2 keep a power sparkline (Options ticks on Overview / the app; compact tiles show solar + battery). A cream `0W` label sits on the left of the zero line whenever a power trace is drawn. Wide Overview puts that plot on the right of the numbers. Missing extras stay hidden.
 

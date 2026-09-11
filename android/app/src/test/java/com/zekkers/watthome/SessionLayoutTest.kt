@@ -1,5 +1,7 @@
 package com.zekkers.watthome
 
+import com.zekkers.watthome.data.FactKind
+import com.zekkers.watthome.data.FactLayout
 import com.zekkers.watthome.data.HomeStatusParser
 import com.zekkers.watthome.data.PowerUpClockMode
 import com.zekkers.watthome.data.PowerUpLayout
@@ -161,6 +163,56 @@ class SessionLayoutTest {
         assertFalse(blob.contains(status.lastAction.orEmpty().take(20)))
         assertEquals("sunny", status.weatherTomorrow?.code)
         assertTrue(status.weatherTomorrow?.label.orEmpty().length > 40)
+    }
+
+    @Test
+    fun overnightAndWeatherFactsStayAfterPowerDownExpires() {
+        val status = HomeStatusParser.parse(livePowerDown)
+        assertTrue(SessionLayout.visible(status, fridayFiveAfter).isEmpty())
+        val facts = FactLayout.facts(status)
+        val header = FactLayout.headerFacts(status)
+        assertEquals(listOf(FactKind.Overnight, FactKind.Weather), header.map { it.kind })
+        assertEquals("02:00–02:58 · cap 71%", facts.first { it.kind == FactKind.Overnight }.value)
+        assertEquals("02:00–02:58 · 71\u2060%", facts.first { it.kind == FactKind.Overnight }.compact)
+        assertEquals("Sunny", facts.first { it.kind == FactKind.Weather }.value)
+        assertFalse(facts.any { it.value.contains("Solcast") })
+        assertFalse(facts.any { it.value.contains("already opted in") })
+        assertFalse(header.any { it.value.contains("Power Up catch") })
+        assertEquals("Sunny", StatusFormatter.weatherCodeLabel(status.weatherTomorrow))
+        assertTrue(StatusFormatter.weatherLabel(status.weatherTomorrow).contains("Solcast"))
+    }
+
+    @Test
+    fun factsDoNotNeedAPowerUpWindow() {
+        val status = HomeStatusParser.parse(
+            """
+            {
+              "overnight":{"from":"02:00","to":"02:58","percent_limit":71},
+              "weather_tomorrow":{"code":"partly_cloudy","label":"a very long solcast paragraph"},
+              "target_1600_percent":60,
+              "peak_window":"16:00-19:00",
+              "next_power_up":null
+            }
+            """.trimIndent()
+        )
+        val facts = FactLayout.facts(status)
+        assertEquals(4, facts.size)
+        assertEquals(FactKind.Overnight, facts[0].kind)
+        assertEquals(FactKind.Weather, facts[1].kind)
+        assertEquals("Partly cloudy", facts[1].value)
+        assertEquals("60\u2060%", facts.first { it.kind == FactKind.Target1600 }.value)
+        assertEquals("16:00-19:00", facts.first { it.kind == FactKind.Peak }.value)
+        assertTrue(SessionLayout.visible(status, fridayFiveAfter).isEmpty())
+        assertTrue(
+            SocLayout.headerFactRowWidth(
+                overnightLine = facts[0].compact,
+                showWeather = true,
+                density = 1f
+            ) > SocLayout.HeaderBoltDp
+        )
+        assertTrue(
+            WidgetTextMeasure.fits(facts[0].compact, 11f, SocLayout.CompactHeaderInnerDp, 1f)
+        )
     }
 
     @Test

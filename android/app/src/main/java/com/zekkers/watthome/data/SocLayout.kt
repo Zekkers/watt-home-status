@@ -123,6 +123,40 @@ object SocLayout {
         oneLine: Boolean = false
     ): Float = (innerWidthDp - headerTrailingDp(sessions, density, oneLine = oneLine)).coerceAtLeast(0f)
 
+    fun headerFactRowWidth(
+        overnightLine: String?,
+        showWeather: Boolean,
+        density: Float,
+        timeSp: Float = 11f,
+        iconDp: Float = HeaderBoltDp,
+        iconPadDp: Float = HeaderBoltPadDp
+    ): Float {
+        var width = 0f
+        if (overnightLine != null) {
+            width += iconDp + iconPadDp + WidgetTextMeasure.widthDp(overnightLine, timeSp, density)
+        }
+        if (showWeather) {
+            if (width > 0f) width += HeaderSessionGapDp
+            width += iconDp
+        }
+        return width
+    }
+
+    fun headerSocBudget(
+        innerWidthDp: Float,
+        sessions: List<VisibleSession>,
+        overnightLine: String?,
+        showWeather: Boolean,
+        density: Float,
+        oneLine: Boolean = false
+    ): Float {
+        val trailing = maxOf(
+            headerTrailingDp(sessions, density, oneLine = oneLine),
+            headerFactRowWidth(overnightLine, showWeather, density)
+        )
+        return (innerWidthDp - trailing).coerceAtLeast(0f)
+    }
+
     fun headerFits(
         percent: Int?,
         innerWidthDp: Float,

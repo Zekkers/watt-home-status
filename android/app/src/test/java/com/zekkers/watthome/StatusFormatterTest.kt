@@ -118,6 +118,7 @@ class StatusFormatterTest {
         assertTrue(StatusFormatter.optedInPowerUp(status.nextPowerUp, during25Aug))
         assertEquals("partly_cloudy", status.weatherTomorrow?.code)
         assertEquals("Partly cloudy", status.weatherTomorrow?.label)
+        assertEquals("Partly cloudy", StatusFormatter.weatherCodeLabel(status.weatherTomorrow))
         assertEquals(-320.0, status.batteryW)
         assertEquals(2, status.batteryWSeries.size)
         assertTrue(StatusFormatter.hasTodayCurve(status))

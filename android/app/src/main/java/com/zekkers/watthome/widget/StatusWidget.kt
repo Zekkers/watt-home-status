@@ -31,7 +31,9 @@ import androidx.glance.text.TextStyle
 import com.zekkers.watthome.data.GraphSeriesPrefs
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatus
+import com.zekkers.watthome.data.FactLayout
 import com.zekkers.watthome.data.SessionLayout
+import com.zekkers.watthome.data.StatusFact
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.VisibleSession
 import com.zekkers.watthome.data.StatusRepository
@@ -121,16 +123,9 @@ private fun OverviewNumbers(
             )
         }
         Spacer(GlanceModifier.height(6.dp))
-        Text(
-            text = "Overnight ${StatusFormatter.overnight(status?.overnight)}",
-            style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
-            maxLines = 1
-        )
-        Text(
-            text = "16:00 ${StatusFormatter.percent(status?.target1600Percent)}  ·  Peak ${StatusFormatter.dash(status?.peakWindow)}",
-            style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
-            maxLines = 1
-        )
+        FactLayout.facts(status).forEach { fact ->
+            OverviewFactChip(fact, status)
+        }
         sessions.forEach { session ->
             SessionChip(
                 session = session,
@@ -162,6 +157,21 @@ private fun OverviewNumbers(
         Text(
             text = StatusFormatter.formatUpdated(status?.updated),
             style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
+            maxLines = 1
+        )
+    }
+}
+
+@Composable
+private fun OverviewFactChip(fact: StatusFact, status: HomeStatus?) {
+    Row(
+        modifier = GlanceModifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        FactKindIcon(fact.kind, weather = status?.weatherTomorrow, endPad = 4.dp)
+        Text(
+            text = "${fact.title}  ${fact.compact}",
+            style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
             maxLines = 1
         )
     }

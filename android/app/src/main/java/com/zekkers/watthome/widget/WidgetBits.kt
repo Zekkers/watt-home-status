@@ -24,7 +24,9 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.R
+import com.zekkers.watthome.data.FactKind
 import com.zekkers.watthome.data.HomeStatus
+import com.zekkers.watthome.data.Overnight
 import com.zekkers.watthome.data.PowerUpClock
 import com.zekkers.watthome.data.PowerUpClockMode
 import com.zekkers.watthome.data.SessionKind
@@ -33,6 +35,7 @@ import com.zekkers.watthome.data.SocLayout
 import com.zekkers.watthome.data.SocTokenSpec
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.VisibleSession
+import com.zekkers.watthome.data.WeatherTomorrow
 
 @Composable
 internal fun SocToken(
@@ -210,6 +213,84 @@ internal fun PowerUpClockBlock(
 }
 
 @Composable
+internal fun FactKindIcon(
+    kind: FactKind,
+    weather: WeatherTomorrow? = null,
+    size: Dp = CompactHeaderBoltSize,
+    endPad: Dp = 2.dp
+) {
+    val res = when (kind) {
+        FactKind.Overnight -> R.drawable.ic_overnight_badge
+        FactKind.Weather -> WeatherIcons.drawableRes(weather) ?: R.drawable.ic_weather_cloudy
+        FactKind.Target1600 -> R.drawable.ic_target_badge
+        FactKind.Peak -> R.drawable.ic_peak_badge
+    }
+    Image(
+        provider = ImageProvider(res),
+        contentDescription = kind.name,
+        modifier = GlanceModifier.padding(end = endPad).size(size)
+    )
+}
+
+@Composable
+internal fun OvernightChip(
+    overnight: Overnight?,
+    fontSize: TextUnit,
+    alignEnd: Boolean = true
+) {
+    val line = StatusFormatter.overnightChipLine(overnight) ?: return
+    Row(
+        modifier = GlanceModifier.wrapContentSize(),
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        FactKindIcon(FactKind.Overnight)
+        Text(
+            text = line,
+            style = TextStyle(
+                color = ColorProvider(Cream, Cream),
+                fontSize = fontSize,
+                fontWeight = FontWeight.Medium
+            ),
+            maxLines = 1
+        )
+    }
+}
+
+@Composable
+internal fun WeatherCodeChip(
+    weather: WeatherTomorrow?,
+    fontSize: TextUnit,
+    showCode: Boolean = true,
+    alignEnd: Boolean = true
+) {
+    val res = WeatherIcons.drawableRes(weather) ?: return
+    val code = StatusFormatter.weatherCodeLabel(weather)
+    Row(
+        modifier = GlanceModifier.wrapContentSize(),
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            provider = ImageProvider(res),
+            contentDescription = code ?: "weather",
+            modifier = GlanceModifier.size(CompactHeaderBoltSize)
+        )
+        if (showCode && code != null) {
+            Text(
+                text = code,
+                style = TextStyle(
+                    color = ColorProvider(Mint, Mint),
+                    fontSize = fontSize,
+                    fontWeight = FontWeight.Medium
+                ),
+                maxLines = 1
+            )
+        }
+    }
+}
+
+@Composable
 internal fun SolarWattsLine(
     status: HomeStatus?,
     fontSize: TextUnit = 10.sp
@@ -251,9 +332,7 @@ internal fun BatterySocStack(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         FittedSocToken(soc)
-        if (sessions.size < 2) {
-            SolarWattsLine(status, timeSize)
-        }
+        SolarWattsLine(status, timeSize)
         sessions.forEach { session ->
             SessionChip(
                 session = session,
@@ -261,6 +340,9 @@ internal fun BatterySocStack(
                 oneLine = oneLine,
                 alignEnd = false
             )
+        }
+        if (sessions.isEmpty()) {
+            WeatherCodeChip(status?.weatherTomorrow, timeSize, showCode = false, alignEnd = false)
         }
     }
 }
@@ -274,12 +356,21 @@ internal fun SessionHeader(
     modifier: GlanceModifier = GlanceModifier.fillMaxWidth()
 ) {
     val sessions = SessionLayout.visible(status)
+    val overnightLine = StatusFormatter.overnightChipLine(status?.overnight)
+    val showWeather = WeatherIcons.drawableRes(status?.weatherTomorrow) != null
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = availableWidthDp ?: (LocalSize.current.width.value - contentPaddingDp)
     val oneLine = sessions.size > 1
     val soc = SocLayout.token(
         percent = status?.socPercent,
-        availableDp = SocLayout.headerSocBudget(innerWidth, sessions, density, oneLine),
+        availableDp = SocLayout.headerSocBudget(
+            innerWidth,
+            sessions,
+            overnightLine,
+            showWeather,
+            density,
+            oneLine
+        ),
         density = density
     )
     Row(
@@ -299,6 +390,20 @@ internal fun SessionHeader(
             }
         }
         Column(horizontalAlignment = Alignment.End) {
+            if (overnightLine != null || showWeather) {
+                Row(
+                    modifier = GlanceModifier.wrapContentSize(),
+                    horizontalAlignment = Alignment.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OvernightChip(status?.overnight, 11.sp)
+                    WeatherCodeChip(
+                        weather = status?.weatherTomorrow,
+                        fontSize = 11.sp,
+                        showCode = sessions.isEmpty() && overnightLine == null
+                    )
+                }
+            }
             sessions.forEach { session ->
                 SessionChip(
                     session = session,

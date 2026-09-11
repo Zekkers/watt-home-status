@@ -23,8 +23,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:maxLines="1"
-        android:text="↓ 7–8"
-        android:textColor="#FF8A65"
+        android:text="02:00–02:58"
+        android:textColor="#E8F5E9"
         android:textSize="11sp" />
 
     <TextView

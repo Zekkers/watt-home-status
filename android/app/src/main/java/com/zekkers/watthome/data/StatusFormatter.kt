@@ -35,18 +35,33 @@ object StatusFormatter {
         return "${if (value > 0) "+" else ""}$rounded W"
     }
 
-    fun overnight(overnight: Overnight?): String {
-        if (overnight == null) return "—"
+    fun overnight(overnight: Overnight?): String = overnightLineOrNull(overnight) ?: "—"
+
+    fun overnightWindowOrNull(overnight: Overnight?): String? {
+        if (overnight == null) return null
         val start = overnight.start?.takeIf { it.isNotBlank() }
         val end = overnight.end?.takeIf { it.isNotBlank() }
-        val window = when {
+        return when {
             start != null && end != null -> "$start–$end"
             start != null -> start
             end != null -> end
             else -> null
         }
-        val cap = overnight.capPercent?.let { "cap $it%" }
-        return listOfNotNull(window, cap).joinToString(" · ").ifBlank { "—" }
+    }
+
+    fun overnightCapLabel(overnight: Overnight?): String? =
+        overnight?.capPercent?.let { "$it\u2060%" }
+
+    fun overnightLineOrNull(overnight: Overnight?): String? {
+        val window = overnightWindowOrNull(overnight)
+        val cap = overnight?.capPercent?.let { "cap $it%" }
+        return listOfNotNull(window, cap).joinToString(" · ").ifBlank { null }
+    }
+
+    fun overnightChipLine(overnight: Overnight?): String? {
+        val window = overnightWindowOrNull(overnight) ?: return overnightCapLabel(overnight)
+        val cap = overnightCapLabel(overnight) ?: return window
+        return "$window · $cap"
     }
 
     fun powerUpWindow(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
@@ -198,8 +213,16 @@ object StatusFormatter {
 
     fun weatherLabel(weather: WeatherTomorrow?): String =
         weather?.label?.takeIf { it.isNotBlank() }
-            ?: weather?.code?.replace('_', ' ')?.replaceFirstChar { it.titlecase(Locale.UK) }
+            ?: weatherCodeLabel(weather)
             ?: "—"
+
+    /** Short code only — never the long weather_tomorrow.label essay. */
+    fun weatherCodeLabel(weather: WeatherTomorrow?): String? {
+        val code = weather?.code?.trim()?.takeIf { it.isNotBlank() && it != "null" } ?: return null
+        return code.replace('_', ' ').replace('-', ' ')
+            .lowercase(Locale.UK)
+            .replaceFirstChar { it.titlecase(Locale.UK) }
+    }
 
     fun lastAction(value: String?): String = dash(value)
 
