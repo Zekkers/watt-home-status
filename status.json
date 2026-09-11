@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-11T08:11:33+01:00",
+  "updated_at": "2026-09-11T15:04:27+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 60,
-  "solar_w": 167,
-  "house_w": 318,
-  "battery_w": -215,
-  "grid_w": 5,
+  "soc_percent": 61,
+  "solar_w": 1017,
+  "house_w": 964,
+  "battery_w": 14,
+  "grid_w": 31,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-11T07:06:04Z",
+  "sample_time_utc": "2026-09-11T14:01:05Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "08:00 check ON_PLAN: overnight 02:00\u201302:58 @ 71%/6 kW charged 35%\u219271% (peak 71%; ~5.3 kWh pack / ~5.7 kWh AC import), hit cap on time; brief idle at cap ~02:57 then continuous discharge. No EPS (min 35%). Morning SOC 60%, solar ~167 W, house ~318 W. No Power Up; 20% floor until 16:00 \u2014 leftover high but intentional lean Solcast sunny sizing. Forecast Solcast Garage+Home; early PV lagging (inverter ~0.14\u20130.17 kW vs Solcast ~0.597\u20131.078 kW around 07:30\u201308:30). No inverter write; no rule change.",
-  "updated": "2026-09-11T08:11:33+01:00",
+  "last_action": "15:00 peak check: SOC 61% \u2265 60% target \u2192 no top-up write; kept overnight 02:00\u201302:58 @ 71%/6 kW; no Power Up/Happy Hour in progress; Power Down tonight 19:00\u201320:00 (AOL ACTION mail, opted_in false \u2014 16:00 check will propose); pack ready for PD at 61% (est ~45% into PD after peak; house ~964 W); next_power_up null; solar ~1017 W house ~964 W batt +14 W grid ~31 W; Gateway not written; no email.",
+  "updated": "2026-09-11T15:04:27+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -214,6 +214,10 @@
     {
       "t": "2026-09-11T08:06:04+01:00",
       "w": -215
+    },
+    {
+      "t": "2026-09-11T15:04:27+01:00",
+      "w": 14
     }
   ],
   "soc_series": [
@@ -396,6 +400,10 @@
     {
       "t": "2026-09-11T08:06:04+01:00",
       "soc": 60
+    },
+    {
+      "t": "2026-09-11T15:04:27+01:00",
+      "soc": 61
     }
   ],
   "booked_power_up": {
@@ -417,13 +425,13 @@
     "kind": "weekend_happy_hour"
   },
   "booked_power_down": {
-    "date": "2026-09-10",
+    "date": "2026-09-11",
     "from": "19:00",
     "to": "20:00",
     "opted_in": false,
     "label": "Power Down",
     "kind": "power_down",
-    "session_id": "1d403e29-634a-4297-9e36-ce7575e4087f"
+    "session_id": "7d10b3d0-fa59-4f5c-96c4-d98389c10bc8"
   },
   "peak_topup": null
 }
