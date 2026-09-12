@@ -201,6 +201,7 @@ class GivEnergyParserTest {
               "battery_w": 5,
               "target_1600_percent": 55,
               "next_power_up": {"from":"12:00","to":"14:00","opted_in":true},
+              "booked_power_down": {"from":"19:00","to":"20:00","date":"2026-09-11","opted_in":true,"label":"Power Down","kind":"power_down","session_id":"pd-1"},
               "last_savings": {"gbp": 36.95, "window_label": "21 Jul–1 Aug 2026 (9 sessions)"},
               "weather_tomorrow": {"code":"partly_cloudy","label":"Partly cloudy"},
               "soc_series": [{"t":"2026-08-24T00:00:00+01:00","soc":10},{"t":"2026-08-24T01:00:00+01:00","soc":12}],
@@ -229,6 +230,8 @@ class GivEnergyParserTest {
         assertEquals(406.0, merged.houseWSeries.last().w!!, 0.01)
         assertEquals(-210.0, merged.gridWSeries.last().w!!, 0.01)
         assertEquals("12:00", merged.nextPowerUp?.from)
+        assertEquals("19:00", merged.bookedPowerDown?.from)
+        assertEquals("Power Down", merged.bookedPowerDown?.label)
         assertEquals(55, merged.target1600Percent)
         assertEquals(36.95, merged.lastSavings?.gbp)
         assertEquals("Partly cloudy", merged.weatherTomorrow?.label)
@@ -242,6 +245,8 @@ class GivEnergyParserTest {
         assertEquals(406.0, roundTrip.houseWSeries.last().w!!, 0.01)
         assertEquals(-210.0, roundTrip.gridWSeries.last().w!!, 0.01)
         assertEquals("12:00", roundTrip.nextPowerUp?.from)
+        assertEquals("19:00", roundTrip.bookedPowerDown?.from)
+        assertEquals("pd-1", roundTrip.bookedPowerDown?.sessionId)
     }
 
     @Test

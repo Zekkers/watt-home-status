@@ -68,6 +68,13 @@ class StatusFormatterTest {
         assertNull(status.target1600Percent)
         assertEquals("02:00", status.overnight?.start)
         assertNull(HomeStatusParser.parse("""{"overnight_slot":"02:00-03:00"}""").overnight)
+        val liveOvernight = HomeStatusParser.parse(
+            """{"overnight":{"from":"02:00","to":"02:58","percent_limit":71,"kw":6,"cleared":false}}"""
+        )
+        assertEquals("02:00", liveOvernight.overnight?.start)
+        assertEquals("02:58", liveOvernight.overnight?.end)
+        assertEquals(71, liveOvernight.overnight?.capPercent)
+        assertEquals("02:00–02:58 · cap 71%", StatusFormatter.overnight(liveOvernight.overnight))
     }
 
     @Test
@@ -111,6 +118,7 @@ class StatusFormatterTest {
         assertTrue(StatusFormatter.optedInPowerUp(status.nextPowerUp, during25Aug))
         assertEquals("partly_cloudy", status.weatherTomorrow?.code)
         assertEquals("Partly cloudy", status.weatherTomorrow?.label)
+        assertEquals("Partly cloudy", StatusFormatter.weatherCodeLabel(status.weatherTomorrow))
         assertEquals(-320.0, status.batteryW)
         assertEquals(2, status.batteryWSeries.size)
         assertTrue(StatusFormatter.hasTodayCurve(status))
