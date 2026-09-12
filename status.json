@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-12T08:11:19+01:00",
+  "updated_at": "2026-09-12T15:19:51+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 73,
-  "solar_w": 428,
-  "house_w": 161,
-  "battery_w": 192,
-  "grid_w": 5,
+  "soc_percent": 53,
+  "solar_w": 1131,
+  "house_w": 2262,
+  "battery_w": -1145,
+  "grid_w": -52,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-12T07:08:27Z",
+  "sample_time_utc": "2026-09-12T14:18:38Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201304:02 @ 84%/6 kW charged 4%\u219279% (~11.5 kWh pack / ~12.3 kWh import), ~5 pp short of 84%; no hold-at-cap; continuous discharge after slot.\n\ud83d\udd0b Pre-slot at 4% EPS until ~02:00 (known); no EPS during/after charge. Morning SOC 73%, solar ~428 W, house ~161 W, batt +192 W. No Power Up; 20% floor \u2014 EPS-recovery leftover (intentional).\n\u2600\ufe0f Forecast Solcast Garage+Home; early PV tracking OK (inverter ~0.249 kW avg 07:30\u201308:30 \u2248 Solcast ~0.249 kW). Daytime Solcast vs live AIO: Thu ~16.167 kWh vs ~17.2 (ratio 0.94); Fri ~8.912 kWh vs ~16.6 (ratio 0.537). Not yet several-day systematic high \u2014 keep watching; no derate/config tweak yet. No inverter write; no rule change.",
-  "updated": "2026-09-12T08:11:19+01:00",
+  "last_action": "\u26a1 15:00 peak top-up 15:20\u201315:36 @ 60%/6 kW (SOC 53%\u219260%, ~0.95 kWh / 16 min @ 5.56 kW)\n\ud83d\udd0b overnight kept 02:00\u201304:02 @ 84%/6 kW; no Power Up in progress; no same-day Power Down\n\u2600\ufe0f solar ~1131 W house ~2262 W batt -1145 W grid ~-52 W",
+  "updated": "2026-09-12T15:19:51+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -234,6 +234,10 @@
     {
       "t": "2026-09-12T08:08:27+01:00",
       "w": 192
+    },
+    {
+      "t": "2026-09-12T15:19:51+01:00",
+      "w": -1145
     }
   ],
   "soc_series": [
@@ -436,6 +440,10 @@
     {
       "t": "2026-09-12T08:08:27+01:00",
       "soc": 73
+    },
+    {
+      "t": "2026-09-12T15:19:51+01:00",
+      "soc": 53
     }
   ],
   "booked_power_up": {
@@ -456,14 +464,12 @@
     "label": "Happy Hour",
     "kind": "weekend_happy_hour"
   },
-  "booked_power_down": {
-    "date": "2026-09-11",
-    "from": "19:00",
-    "to": "20:00",
-    "opted_in": false,
-    "label": "Power Down",
-    "kind": "power_down",
-    "session_id": "7d10b3d0-fa59-4f5c-96c4-d98389c10bc8"
-  },
-  "peak_topup": null
+  "booked_power_down": null,
+  "peak_topup": {
+    "from": "15:20",
+    "to": "15:36",
+    "percent_limit": 60,
+    "kw": 6,
+    "at": "2026-09-12T15:19:51+01:00"
+  }
 }
