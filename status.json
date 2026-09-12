@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-12T01:43:55+01:00",
+  "updated_at": "2026-09-12T08:11:19+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 4,
-  "solar_w": 0,
-  "house_w": 151,
-  "battery_w": 0,
-  "grid_w": -233,
+  "soc_percent": 73,
+  "solar_w": 428,
+  "house_w": 161,
+  "battery_w": 192,
+  "grid_w": 5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-12T00:38:45Z",
+  "sample_time_utc": "2026-09-12T07:08:27Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udd0b overnight 02:00\u201304:02 @ 84%/6 kW (SOC 4%\u219284%, ~10.8 kWh / 122 min @ 5.56; EPS recovery; extras cleared)\n\u2600\ufe0f Solcast Garage+Home noon ~4.063 / 08\u201316 ~13.947 kWh (ghi 0.73); immersion net ~1.937 kWh; no free window Sat; next_power_up null; Gateway not written; emailed (unusual EPS overnight)",
-  "updated": "2026-09-12T01:43:55+01:00",
+  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201304:02 @ 84%/6 kW charged 4%\u219279% (~11.5 kWh pack / ~12.3 kWh import), ~5 pp short of 84%; no hold-at-cap; continuous discharge after slot.\n\ud83d\udd0b Pre-slot at 4% EPS until ~02:00 (known); no EPS during/after charge. Morning SOC 73%, solar ~428 W, house ~161 W, batt +192 W. No Power Up; 20% floor \u2014 EPS-recovery leftover (intentional).\n\u2600\ufe0f Forecast Solcast Garage+Home; early PV tracking OK (inverter ~0.249 kW avg 07:30\u201308:30 \u2248 Solcast ~0.249 kW). Daytime Solcast vs live AIO: Thu ~16.167 kWh vs ~17.2 (ratio 0.94); Fri ~8.912 kWh vs ~16.6 (ratio 0.537). Not yet several-day systematic high \u2014 keep watching; no derate/config tweak yet. No inverter write; no rule change.",
+  "updated": "2026-09-12T08:11:19+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -32,49 +32,9 @@
   },
   "weather_tomorrow": {
     "code": "sunny",
-    "label": "Sat Solcast Garage+Home (noon ~4.063 / 08\u201316 ~13.947 kWh). EPS recovery overnight 02:00\u201304:02 @ 84%. Immersion net ~1.937 kWh."
+    "label": "Sat Solcast Garage+Home (noon ~4.063 / 08\u201316 ~13.947 kWh). Early PV tracking; Fri daytime was high vs Solcast \u2014 watching. EPS recovery overnight 02:00\u201304:02 @ 84%."
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-07T17:44:10+01:00",
-      "w": 777
-    },
-    {
-      "t": "2026-09-08T01:36:21+01:00",
-      "w": 377
-    },
-    {
-      "t": "2026-09-08T01:59:37+01:00",
-      "w": -851
-    },
-    {
-      "t": "2026-09-08T02:29:59+01:00",
-      "w": 5667
-    },
-    {
-      "t": "2026-09-08T03:00:21+01:00",
-      "w": 5662
-    },
-    {
-      "t": "2026-09-08T03:25:39+01:00",
-      "w": 5662
-    },
-    {
-      "t": "2026-09-08T04:01:05+01:00",
-      "w": 5657
-    },
-    {
-      "t": "2026-09-08T04:16:16+01:00",
-      "w": -338
-    },
-    {
-      "t": "2026-09-08T05:01:49+01:00",
-      "w": -250
-    },
-    {
-      "t": "2026-09-08T06:58:13+01:00",
-      "w": -333
-    },
     {
       "t": "2026-09-08T07:58:57+01:00",
       "w": -186
@@ -226,45 +186,57 @@
     {
       "t": "2026-09-12T01:38:45+01:00",
       "w": 0
+    },
+    {
+      "t": "2026-09-12T01:59:00+01:00",
+      "w": 0
+    },
+    {
+      "t": "2026-09-12T02:29:22+01:00",
+      "w": 5670
+    },
+    {
+      "t": "2026-09-12T02:59:44+01:00",
+      "w": 5662
+    },
+    {
+      "t": "2026-09-12T03:30:06+01:00",
+      "w": 5660
+    },
+    {
+      "t": "2026-09-12T04:00:28+01:00",
+      "w": 5661
+    },
+    {
+      "t": "2026-09-12T04:15:39+01:00",
+      "w": -210
+    },
+    {
+      "t": "2026-09-12T04:30:50+01:00",
+      "w": -209
+    },
+    {
+      "t": "2026-09-12T05:01:12+01:00",
+      "w": -287
+    },
+    {
+      "t": "2026-09-12T06:57:36+01:00",
+      "w": -554
+    },
+    {
+      "t": "2026-09-12T07:27:58+01:00",
+      "w": -174
+    },
+    {
+      "t": "2026-09-12T07:58:20+01:00",
+      "w": 95
+    },
+    {
+      "t": "2026-09-12T08:08:27+01:00",
+      "w": 192
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-09-07T15:37:58+01:00",
-      "soc": 85
-    },
-    {
-      "t": "2026-09-07T17:44:10+01:00",
-      "soc": 75
-    },
-    {
-      "t": "2026-09-08T01:36:21+01:00",
-      "soc": 12
-    },
-    {
-      "t": "2026-09-08T01:59:37+01:00",
-      "soc": 10
-    },
-    {
-      "t": "2026-09-08T02:29:59+01:00",
-      "soc": 29
-    },
-    {
-      "t": "2026-09-08T03:00:21+01:00",
-      "soc": 48
-    },
-    {
-      "t": "2026-09-08T03:25:39+01:00",
-      "soc": 65
-    },
-    {
-      "t": "2026-09-08T04:01:05+01:00",
-      "soc": 88
-    },
-    {
-      "t": "2026-09-08T04:16:16+01:00",
-      "soc": 96
-    },
     {
       "t": "2026-09-08T05:01:49+01:00",
       "soc": 96
@@ -416,6 +388,54 @@
     {
       "t": "2026-09-12T01:38:45+01:00",
       "soc": 4
+    },
+    {
+      "t": "2026-09-12T01:59:00+01:00",
+      "soc": 4
+    },
+    {
+      "t": "2026-09-12T02:29:22+01:00",
+      "soc": 21
+    },
+    {
+      "t": "2026-09-12T02:59:44+01:00",
+      "soc": 39
+    },
+    {
+      "t": "2026-09-12T03:30:06+01:00",
+      "soc": 58
+    },
+    {
+      "t": "2026-09-12T04:00:28+01:00",
+      "soc": 77
+    },
+    {
+      "t": "2026-09-12T04:15:39+01:00",
+      "soc": 79
+    },
+    {
+      "t": "2026-09-12T04:30:50+01:00",
+      "soc": 79
+    },
+    {
+      "t": "2026-09-12T05:01:12+01:00",
+      "soc": 78
+    },
+    {
+      "t": "2026-09-12T06:57:36+01:00",
+      "soc": 75
+    },
+    {
+      "t": "2026-09-12T07:27:58+01:00",
+      "soc": 74
+    },
+    {
+      "t": "2026-09-12T07:58:20+01:00",
+      "soc": 73
+    },
+    {
+      "t": "2026-09-12T08:08:27+01:00",
+      "soc": 73
     }
   ],
   "booked_power_up": {
