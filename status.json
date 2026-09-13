@@ -1,25 +1,33 @@
 {
-  "updated_at": "2026-09-12T17:41:33+01:00",
+  "updated_at": "2026-09-13T01:49:24+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 37,
-  "solar_w": 270,
-  "house_w": 2027,
-  "battery_w": 1836,
-  "grid_w": 3,
+  "soc_percent": 6,
+  "solar_w": 0,
+  "house_w": 270,
+  "battery_w": 0,
+  "grid_w": -352,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-12T16:40:20Z",
+  "sample_time_utc": "2026-09-13T00:46:12Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
-    "to": "04:02",
-    "percent_limit": 84,
+    "to": "02:40",
+    "percent_limit": 30,
     "kw": 6,
     "cleared": false
   },
-  "next_power_up": null,
-  "last_action": "17:30: no Power Up today. Happy Hour Sun 12:00\u201313:00 still booked. Overnight 02:00\u201304:02 @ 84% kept (SOC 37% < cap). Solar 270 W house 2027 W batt 1836 W.",
-  "updated": "2026-09-12T17:41:33+01:00",
+  "next_power_up": {
+    "date": "2026-09-13",
+    "from": "12:00",
+    "to": "13:00",
+    "opted_in": true,
+    "percent_limit": 100,
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour"
+  },
+  "last_action": "\u26a1 Happy Hour 12:00\u201313:00 @ 100%\n\ud83c\udf19 overnight 02:00\u201302:40 @ 30% / 6 kW (~3.24 kWh)\n\u2600\ufe0f Solcast Garage+Home noon ~2.92 / 08\u201316 ~8.6 kWh (mixed)\n\ud83d\udd0b SOC 6% house 270 W \u2014 HH-day 30% cap, peak leftover cleared",
+  "updated": "2026-09-13T01:49:24+01:00",
   "peak_window": "16:00-19:00",
   "last_savings": {
     "gbp": 36.95,
@@ -31,14 +39,10 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "weather_tomorrow": {
-    "code": "sunny",
-    "label": "Sat Solcast Garage+Home (noon ~4.063 / 08\u201316 ~13.947 kWh). Early PV tracking; Fri daytime was high vs Solcast \u2014 watching. EPS recovery overnight 02:00\u201304:02 @ 84%."
+    "code": "mixed",
+    "label": "Sun Solcast Garage+Home (noon ~2.917 / 08\u201316 ~8.580 kWh). Happy Hour 12:00\u201313:00; overnight HH-day 30% cap 02:00\u201302:40."
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-08T08:09:05+01:00",
-      "w": -302
-    },
     {
       "t": "2026-09-08T15:07:35+01:00",
       "w": -462
@@ -238,13 +242,13 @@
     {
       "t": "2026-09-12T17:40:20+01:00",
       "w": 1836
+    },
+    {
+      "t": "2026-09-13T01:46:12+01:00",
+      "w": 0
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-09-08T06:58:13+01:00",
-      "soc": 91
-    },
     {
       "t": "2026-09-08T07:58:57+01:00",
       "soc": 88
@@ -444,6 +448,10 @@
     {
       "t": "2026-09-12T17:40:20+01:00",
       "soc": 37
+    },
+    {
+      "t": "2026-09-13T01:46:12+01:00",
+      "soc": 6
     }
   ],
   "booked_power_up": {
@@ -465,11 +473,5 @@
     "kind": "weekend_happy_hour"
   },
   "booked_power_down": null,
-  "peak_topup": {
-    "from": "15:20",
-    "to": "15:36",
-    "percent_limit": 60,
-    "kw": 6,
-    "at": "2026-09-12T15:19:51+01:00"
-  }
+  "peak_topup": null
 }
