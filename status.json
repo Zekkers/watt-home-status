@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-13T08:10:16+01:00",
+  "updated_at": "2026-09-13T15:02:32+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 16,
-  "solar_w": 217,
-  "house_w": 177,
-  "battery_w": -39,
-  "grid_w": 3,
+  "soc_percent": 21,
+  "solar_w": 812,
+  "house_w": 1768,
+  "battery_w": 1068,
+  "grid_w": 12,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-13T07:05:46Z",
+  "sample_time_utc": "2026-09-13T14:00:46Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -17,17 +17,9 @@
     "kw": 6,
     "cleared": false
   },
-  "next_power_up": {
-    "date": "2026-09-13",
-    "from": "12:00",
-    "to": "13:00",
-    "opted_in": true,
-    "percent_limit": 100,
-    "label": "Happy Hour",
-    "kind": "weekend_happy_hour"
-  },
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201302:40 @ 30% charged 6%\u219229% (~3.1 kWh pack / ~3.3 kWh import), ~1 pp short of 30%; no hold-at-cap; continuous discharge after slot\n\u26a1 Happy Hour 12:00\u201313:00 @ 100% (opted in)\n\ud83d\udd0b SOC 16% solar ~217 W house ~177 W \u2014 10% floor until HH, leftover +6 pp lean\n\u2600\ufe0f Solcast Garage+Home; early PV lagging (inverter ~0.048 kW avg 07:30\u201308:30 vs Solcast ~0.104 kW)\n\ud83d\udcc9 Solcast daytime bias Thu 0.94 / Fri 0.537 / Sat 0.747 \u2014 propose derate \u00d70.75 next 01:30",
-  "updated": "2026-09-13T08:10:16+01:00",
+  "next_power_up": null,
+  "last_action": "\u26a1 15:00 peak: SOC 21% < 60% \u2192 wrote CH2414G328 15:05\u201316:00 @ 60%/6 kW (~5.1 kWh / 55 min at 5.56 kW; lean, never past 16:00)\n\ud83e\uddf9 cleared spent Happy Hour 12:00\u201313:00 slot (ended >5 min ago)\n\ud83c\udf19 kept overnight 02:00\u201302:40 @ 30%/6 kW\n\ud83d\udd0b SOC 21% solar ~812 W house ~1768 W batt +1068 W grid ~12 W\n\ud83d\udcc9 no same-day Power Down (Sun; AOL latest Fri PD / Sat HH FYI)",
+  "updated": "2026-09-13T15:02:32+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "mixed",
@@ -202,6 +194,10 @@
     {
       "t": "2026-09-13T08:09:48+01:00",
       "w": -39
+    },
+    {
+      "t": "2026-09-13T15:02:32+01:00",
+      "w": 1068
     }
   ]
 }
