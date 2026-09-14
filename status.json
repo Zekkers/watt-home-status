@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-14T15:24:24+01:00",
+  "updated_at": "2026-09-14T17:49:19+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 35,
-  "solar_w": 1024,
-  "house_w": 1203,
-  "battery_w": 234,
-  "grid_w": -121,
+  "soc_percent": 48,
+  "solar_w": 113,
+  "house_w": 1306,
+  "battery_w": 1286,
+  "grid_w": -5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-14T14:23:24Z",
+  "sample_time_utc": "2026-09-14T16:45:06Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
-    "from": "02:00",
-    "to": "04:05",
-    "percent_limit": 88,
+    "from": "00:00",
+    "to": "00:00",
+    "percent_limit": 100,
     "kw": 6,
-    "cleared": false
+    "cleared": true
   },
   "next_power_up": null,
-  "last_action": "\u26a1 15:00 peak top-up 15:25\u201316:07 @ 60%/6 kW (SOC 35%\u219260%, ~3.375 kWh / 42 min @ 5.56 kW)\n\u2b07\ufe0f Power Down tonight 18:00\u201319:00 opted in (session 90d85341\u2026); est ~47% into PD @ house ~1203 W; adequate_after_topup; no charge into PD\n\ud83d\udd0b overnight kept 02:00\u201304:05 @ 88%/6 kW; no Power Up in progress\n\u2600\ufe0f solar ~1024 W house ~1203 W batt +234 W grid ~-121 W",
-  "updated": "2026-09-14T15:24:24+01:00",
+  "last_action": "\u26a1 Typeform opted in Tue 15 Sep Power Up 14:00\u201316:00; CH2414G328 charge 14:00\u201316:00 @ 100%/6 kW (today\u2019s 14\u201316 already past)\n\ud83c\udf19 overnight cleared (SOC 48% \u2265 30% PU-day cap); 01:30 will re-size if needed\n\u2b07\ufe0f Power Down tonight 18:00\u201319:00 already opted in (session 90d85341\u2026)\n\u2600\ufe0f solar ~113 W house ~1306 W batt +1286 W grid ~-5 W",
+  "updated": "2026-09-14T17:49:19+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "mixed",
@@ -202,6 +202,10 @@
     {
       "t": "2026-09-14T15:24:24+01:00",
       "w": 234
+    },
+    {
+      "t": "2026-09-14T17:49:19+01:00",
+      "w": 1286
     }
   ],
   "soc_series": [
@@ -216,9 +220,21 @@
     {
       "t": "2026-09-14T15:24:24+01:00",
       "soc": 35
+    },
+    {
+      "t": "2026-09-14T17:49:19+01:00",
+      "soc": 48
     }
   ],
-  "booked_power_up": null,
+  "booked_power_up": {
+    "date": "2026-09-15",
+    "from": "14:00",
+    "to": "16:00",
+    "opted_in": true,
+    "percent_limit": 100,
+    "label": "Power Up",
+    "kind": "power_up"
+  },
   "booked_happy_hour": null,
   "booked_power_down": {
     "date": "2026-09-14",
@@ -230,12 +246,5 @@
     "session_id": "90d85341-1b00-43e8-9cdf-b5c9c9c7032e",
     "opted_in_since": "2026-09-14T14:23:23.814631"
   },
-  "peak_topup": {
-    "from": "15:25",
-    "to": "16:07",
-    "percent_limit": 60,
-    "kw": 6,
-    "kwh": 3.375,
-    "mins": 42
-  }
+  "peak_topup": null
 }
