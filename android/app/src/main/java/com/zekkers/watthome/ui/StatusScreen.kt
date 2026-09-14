@@ -42,7 +42,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.zekkers.watthome.R
 import com.zekkers.watthome.data.ActionLayout
@@ -341,7 +340,7 @@ private fun ActionFactRow(action: ActionLine) {
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Image(
@@ -357,11 +356,9 @@ private fun ActionFactRow(action: ActionLine) {
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = action.text,
+                    text = ActionLayout.displayText(action),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

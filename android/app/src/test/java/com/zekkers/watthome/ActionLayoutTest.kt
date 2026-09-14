@@ -44,6 +44,14 @@ class ActionLayoutTest {
         assertTrue(lines[0].compact.length <= ActionLayout.COMPACT_MAX_CHARS)
         assertTrue(lines[1].compact.startsWith("overnight cleared"))
         assertTrue(lines[1].compact.length <= ActionLayout.COMPACT_MAX_CHARS)
+        assertTrue(ActionLayout.displayText(lines[0]).contains("already past"))
+        assertTrue(ActionLayout.displayText(lines[1]).contains("re-size if needed"))
+        assertTrue(ActionLayout.displayText(lines[2]).contains("already opted in"))
+        assertFalse(ActionLayout.displayText(lines[0]).contains("..."))
+        assertEquals(
+            "solar ~113 W\nhouse ~1306 W\nbatt +1286 W\ngrid ~-5 W",
+            ActionLayout.displayText(lines[3])
+        )
     }
 
     @Test

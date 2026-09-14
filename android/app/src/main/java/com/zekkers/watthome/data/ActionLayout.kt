@@ -47,6 +47,16 @@ object ActionLayout {
     fun compact(status: HomeStatus?, limit: Int = WIDGET_LIMIT): List<ActionLine> =
         from(status).take(limit.coerceAtLeast(0))
 
+    fun displayText(action: ActionLine): String = when (action.kind) {
+        ActionKind.LivePower -> densifyLiveWatts(action.text)
+        else -> action.text
+    }
+
+    internal fun densifyLiveWatts(text: String): String {
+        val pieces = LIVE_CLAUSE.split(text).map { it.trim() }.filter { it.isNotEmpty() }
+        return if (pieces.size >= 2) pieces.joinToString("\n") else text
+    }
+
     private fun parseLine(raw: String): ActionLine? {
         val (emojiKind, rest) = stripLeadingGlyph(raw)
         val text = rest.trim().ifEmpty { return null }
@@ -131,6 +141,7 @@ object ActionLayout {
     }
 
     private val WATTS = Regex("""\d\s*w\b""")
+    private val LIVE_CLAUSE = Regex("""(?i)\s+(?=(?:house|batt(?:ery)?|grid)\b)""")
 
     private val KNOWN_PREFIXES = listOf(
         ActionKind.PowerUp to "⚡",
