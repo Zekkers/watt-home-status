@@ -327,7 +327,7 @@ internal fun BatterySocStack(
     val sessions = SessionLayout.visible(status, style = style)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - contentPaddingDp
-    val oneLine = sessions.size > 1
+    val oneLine = SocLayout.oneLineIfFits(status?.socPercent, innerWidth, sessions, density)
     val soc = SocLayout.token(
         percent = status?.socPercent,
         availableDp = innerWidth,
@@ -369,7 +369,7 @@ internal fun SessionHeader(
     val showWeather = WeatherIcons.drawableRes(status?.weatherTomorrow) != null
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = availableWidthDp ?: (LocalSize.current.width.value - contentPaddingDp)
-    val oneLine = sessions.size > 1
+    val oneLine = SocLayout.oneLineIfFits(status?.socPercent, innerWidth, sessions, density)
     val soc = SocLayout.token(
         percent = status?.socPercent,
         availableDp = SocLayout.headerSocBudget(

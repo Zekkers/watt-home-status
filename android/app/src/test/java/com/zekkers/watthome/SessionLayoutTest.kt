@@ -269,13 +269,19 @@ class SessionLayoutTest {
         )
         val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(2, sessions.size)
+        val oneLine = SocLayout.oneLineIfFits(
+            percent = 100,
+            innerWidthDp = SocLayout.CompactHeaderInnerDp,
+            sessions = sessions,
+            density = 1f
+        )
         assertTrue(
             SocLayout.headerFits(
                 percent = 100,
                 innerWidthDp = SocLayout.CompactHeaderInnerDp,
                 sessions = sessions,
                 density = 1f,
-                oneLine = true
+                oneLine = oneLine
             )
         )
         sessions.forEach { session ->

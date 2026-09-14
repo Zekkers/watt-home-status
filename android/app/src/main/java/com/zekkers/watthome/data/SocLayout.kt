@@ -184,4 +184,13 @@ object SocLayout {
             headerTrailingDp(sessions, density, oneLine = oneLine)
         return used <= innerWidthDp && !token.text.contains('…') && token.text.startsWith(percent?.toString() ?: "—")
     }
+
+    /** Two sessions prefer one line each; 24-hour tokens are wider, so fall back to stacked. */
+    fun oneLineIfFits(
+        percent: Int?,
+        innerWidthDp: Float,
+        sessions: List<VisibleSession>,
+        density: Float
+    ): Boolean = sessions.size > 1 &&
+        headerFits(percent, innerWidthDp, sessions, density, oneLine = true)
 }

@@ -1,5 +1,6 @@
 package com.zekkers.watthome
 
+import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.HomeStatusParser
 import com.zekkers.watthome.data.PowerUpLayout
 import com.zekkers.watthome.data.SessionLayout
@@ -122,5 +123,35 @@ class SocLayoutTest {
         )
         val used = WidgetTextMeasure.widthDp("100\u2060%", SocLayout.PreferredSp, 1f, bold = true) + reserved
         assertTrue(used <= SocLayout.CompactHeaderInnerDp + 8f)
+    }
+
+    @Test
+    fun compactHeaderStacksTwentyFourHourWhenTwoOneLineChipsAreTooWide() {
+        val status = HomeStatusParser.parse(
+            """
+            {
+              "soc_percent":100,
+              "next_power_up":{"from":"12:00","to":"14:00","date":"2026-09-03","opted_in":true,"kind":"power_up"},
+              "booked_power_down":{"from":"19:00","to":"20:00","date":"2026-09-03","opted_in":true,"kind":"power_down"}
+            }
+            """.trimIndent()
+        )
+        val twentyFour = SessionLayout.visible(status, midday)
+        assertFalse(
+            SocLayout.oneLineIfFits(100, SocLayout.CompactHeaderInnerDp, twentyFour, 1f)
+        )
+        assertTrue(
+            SocLayout.headerFits(100, SocLayout.CompactHeaderInnerDp, twentyFour, 1f, oneLine = false)
+        )
+        val twelve = SessionLayout.visible(status, midday, ClockStyle.TwelveHour)
+        assertTrue(
+            SocLayout.headerFits(
+                100,
+                SocLayout.CompactHeaderInnerDp,
+                twelve,
+                1f,
+                oneLine = SocLayout.oneLineIfFits(100, SocLayout.CompactHeaderInnerDp, twelve, 1f)
+            )
+        )
     }
 }
