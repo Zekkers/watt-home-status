@@ -146,7 +146,7 @@ private fun OverviewNumbers(
             )
         }
         ActionLayout.compact(status, limit = ActionLayout.WIDGET_LIMIT).forEach { action ->
-            ActionChip(action = action, fontSize = 12.sp)
+            ActionChip(action = action, fontSize = 12.sp, fillWidth = true)
         }
         Spacer(GlanceModifier.height(6.dp))
         if (!hasCurve) {

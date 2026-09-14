@@ -56,7 +56,6 @@ private fun GlanceTileContent(status: HomeStatus?, series: GraphSeriesSelection)
     val innerWidth = size.width.value - 16f
     val savingsLine = savings?.takeIf { WidgetTextMeasure.fits(it, 11f, innerWidth, density) }
     val action = ActionLayout.compact(status, limit = ActionLayout.GLANCE_LIMIT).firstOrNull()
-        ?.takeIf { WidgetTextMeasure.fits(it.compact, 11f, innerWidth - 20f, density) }
     val extraLines = (if (!hasCurve) 1 else 0) +
         (if (action != null) 1 else 0) +
         (if (savingsLine != null) 1 else 0)
@@ -92,7 +91,7 @@ private fun GlanceTileContent(status: HomeStatus?, series: GraphSeriesSelection)
         }
         if (action != null) {
             Spacer(GlanceModifier.height(4.dp))
-            ActionChip(action = action, fontSize = 11.sp)
+            ActionChip(action = action, fontSize = 11.sp, fillWidth = true)
         }
         if (savingsLine != null) {
             Spacer(GlanceModifier.height(4.dp))

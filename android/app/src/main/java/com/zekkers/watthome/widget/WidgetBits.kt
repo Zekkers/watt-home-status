@@ -257,16 +257,18 @@ internal fun ActionKindIcon(
 internal fun ActionChip(
     action: ActionLine,
     fontSize: TextUnit,
-    alignEnd: Boolean = false
+    alignEnd: Boolean = false,
+    fillWidth: Boolean = false
 ) {
     Row(
-        modifier = GlanceModifier.wrapContentSize(),
+        modifier = if (fillWidth) GlanceModifier.fillMaxWidth() else GlanceModifier.wrapContentSize(),
         horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
         ActionKindIcon(action.kind)
         Text(
             text = action.compact,
+            modifier = if (fillWidth) GlanceModifier.defaultWeight() else GlanceModifier.wrapContentSize(),
             style = TextStyle(
                 color = ColorProvider(Cream, Cream),
                 fontSize = fontSize,

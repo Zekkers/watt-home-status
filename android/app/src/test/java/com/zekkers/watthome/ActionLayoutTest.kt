@@ -119,5 +119,8 @@ class ActionLayoutTest {
         assertEquals(ActionKind.Overnight, compact[1].kind)
         assertTrue(compact.all { it.compact.length <= ActionLayout.COMPACT_MAX_CHARS })
         assertEquals(1, ActionLayout.compact(status, limit = 1).size)
+        val glance = ActionLayout.compact(status, limit = 1).single()
+        assertTrue(glance.compact.isNotBlank())
+        assertFalse(glance.text.isEmpty())
     }
 }
