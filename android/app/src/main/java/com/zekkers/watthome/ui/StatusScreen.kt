@@ -42,8 +42,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.zekkers.watthome.R
+import com.zekkers.watthome.data.ActionLayout
+import com.zekkers.watthome.data.ActionLine
 import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.FactKind
 import com.zekkers.watthome.data.FactLayout
@@ -57,6 +60,7 @@ import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.StatusUiState
 import com.zekkers.watthome.data.VisibleSession
 import com.zekkers.watthome.ui.theme.PowerDownCoral
+import com.zekkers.watthome.widget.ActionIcons
 import com.zekkers.watthome.widget.SparklineRenderer
 import com.zekkers.watthome.widget.WeatherIcons
 
@@ -179,6 +183,9 @@ fun StatusScreen(
             }
             SessionLayout.visible(status, style = clockStyle).forEach { session ->
                 SessionFactRow(session)
+            }
+            ActionLayout.from(status).forEach { action ->
+                ActionFactRow(action)
             }
             if (status?.batteryW != null) {
                 StatusRow("Battery power", StatusFormatter.signedWatts(status.batteryW))
@@ -319,6 +326,42 @@ private fun HouseFactRow(fact: StatusFact, status: HomeStatus?) {
                     text = fact.value,
                     style = MaterialTheme.typography.headlineMedium,
                     color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ActionFactRow(action: ActionLine) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Image(
+                painter = painterResource(ActionIcons.drawableRes(action.kind)),
+                contentDescription = action.kind.title,
+                modifier = Modifier.size(28.dp)
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = action.kind.title,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = action.text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }

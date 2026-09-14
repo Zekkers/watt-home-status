@@ -49,15 +49,15 @@ Sizes in the picker (under **Watt Home**, no search needed):
 | --- | --- | --- |
 | **Watt Home · Battery** | 1×1 | Centered SOC (keeps `%`, including `100%` — never `10…`). Small live array-1 solar W under it. Today’s session chip if one is in-window; otherwise a weather icon so the tile is not blank. |
 | **Watt Home · Battery + session** | 2×1 | SOC and live solar W, plus always-on overnight (moon + times + cap) and weather icon. Session chips only while that window is on its London day. Compact sparkline with a left-side `0W` mark. |
-| **Watt Home · Glance** | 2×2 | Same header as 2×1 (SOC, overnight, weather, session chips). Power graph along the bottom with a left-side `0W`. Savings `£36.95 · 9 sess` if it fits. |
-| **Watt Home · Overview** | ~3×2 / 4×2 | Numbers on the left: SOC, solar, then one icon row each for overnight, weather code, 16:00, peak, and any in-window session. Graph fills the right pane. `0W` on the left of the plot. |
+| **Watt Home · Glance** | 2×2 | Same header as 2×1 (SOC, overnight, weather, session chips). Power graph along the bottom with a left-side `0W`. One short last-action chip if it fits, then savings `£36.95 · 9 sess`. |
+| **Watt Home · Overview** | ~3×2 / 4×2 | Numbers on the left: SOC, solar, then one icon row each for overnight, weather code, 16:00, peak, in-window sessions, and up to two last-action chips. Graph fills the right pane. `0W` on the left of the plot. |
 | **Watt Home · Strip** | 4×1 | `63%` \| session or overnight \| weather icon \| results £ — handy on a dock. |
 
 2×1 and 2×2 keep a power sparkline (Options ticks on Overview / the app; compact tiles show solar + battery). A cream `0W` label sits on the left of the zero line whenever a power trace is drawn. Wide Overview puts that plot on the right of the numbers. Missing extras stay hidden.
 
 WorkManager’s periodic poll is **15 minutes** when the pack is quiet (Android’s minimum for repeating work). After a successful live GivEnergy GET, if the battery is moving — `|battery_w|` over ~500 W, a Power Up window from `status.json` is in progress, or SOC just changed — the app schedules a one-shot follow-up in **90 seconds**. When things go quiet again it drops back to 15 minutes, so the phone is not polled every minute all day. All widget sizes share one DataStore cache and refresh together. Tap a widget to open the app immediately; a live refresh runs after the first frame, not before the tap. AppWidget `updatePeriodMillis` is 0; the 15-minute floor is WorkManager, not the launcher.
 
-With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min on the full poll; fast follow-ups only hit `/system-data/latest` and pin the graph tip). Public `status.json` still supplies today’s booked sessions (Power Up / Happy Hour / Power Down), overnight, 16:00 target, weather icon, and savings. The app does not show `last_action` or long weather paragraphs.
+With a token it reads live SOC, array-1 solar W, and battery power from GivEnergy, plus today’s curve (downsampled to ~15 min on the full poll; fast follow-ups only hit `/system-data/latest` and pin the graph tip). Public `status.json` still supplies today’s booked sessions (Power Up / Happy Hour / Power Down), overnight, 16:00 target, weather icon, savings, and `last_action`. The app shows each `last_action` line as its own icon row (bolt / moon / down-arrow / sun), not one paragraph. Weather still uses the short code, not the Solcast essay.
 
 ## Rebuild from this repo
 

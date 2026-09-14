@@ -28,6 +28,7 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.zekkers.watthome.data.ActionLayout
 import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.ClockStylePrefs
 import com.zekkers.watthome.data.GraphSeriesPrefs
@@ -143,6 +144,9 @@ private fun OverviewNumbers(
                 showLabel = true,
                 alignEnd = false
             )
+        }
+        ActionLayout.compact(status, limit = ActionLayout.WIDGET_LIMIT).forEach { action ->
+            ActionChip(action = action, fontSize = 12.sp)
         }
         Spacer(GlanceModifier.height(6.dp))
         if (!hasCurve) {

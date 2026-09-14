@@ -24,6 +24,7 @@ import androidx.glance.layout.height
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.zekkers.watthome.data.ActionLayout
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.StatusFormatter
@@ -54,7 +55,11 @@ private fun GlanceTileContent(status: HomeStatus?, series: GraphSeriesSelection)
     val size = LocalSize.current
     val innerWidth = size.width.value - 16f
     val savingsLine = savings?.takeIf { WidgetTextMeasure.fits(it, 11f, innerWidth, density) }
-    val extraLines = (if (!hasCurve) 1 else 0) + (if (savingsLine != null) 1 else 0)
+    val action = ActionLayout.compact(status, limit = ActionLayout.GLANCE_LIMIT).firstOrNull()
+        ?.takeIf { WidgetTextMeasure.fits(it.compact, 11f, innerWidth - 20f, density) }
+    val extraLines = (if (!hasCurve) 1 else 0) +
+        (if (action != null) 1 else 0) +
+        (if (savingsLine != null) 1 else 0)
     val pane = WidgetPlotLayout.glanceBottom(size.width.value, size.height.value, extraLines)
     val curve = SparklineRenderer.renderToday(
         status = status,
@@ -84,6 +89,10 @@ private fun GlanceTileContent(status: HomeStatus?, series: GraphSeriesSelection)
                 style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
                 maxLines = 1
             )
+        }
+        if (action != null) {
+            Spacer(GlanceModifier.height(4.dp))
+            ActionChip(action = action, fontSize = 11.sp)
         }
         if (savingsLine != null) {
             Spacer(GlanceModifier.height(4.dp))

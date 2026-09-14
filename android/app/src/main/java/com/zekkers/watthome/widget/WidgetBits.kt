@@ -25,6 +25,8 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.R
+import com.zekkers.watthome.data.ActionKind
+import com.zekkers.watthome.data.ActionLine
 import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.ClockStylePrefs
 import com.zekkers.watthome.data.FactKind
@@ -236,6 +238,43 @@ internal fun FactKindIcon(
         contentDescription = kind.name,
         modifier = GlanceModifier.padding(end = endPad).size(size)
     )
+}
+
+@Composable
+internal fun ActionKindIcon(
+    kind: ActionKind,
+    size: Dp = CompactHeaderBoltSize,
+    endPad: Dp = 4.dp
+) {
+    Image(
+        provider = ImageProvider(ActionIcons.drawableRes(kind)),
+        contentDescription = kind.title,
+        modifier = GlanceModifier.padding(end = endPad).size(size)
+    )
+}
+
+@Composable
+internal fun ActionChip(
+    action: ActionLine,
+    fontSize: TextUnit,
+    alignEnd: Boolean = false
+) {
+    Row(
+        modifier = GlanceModifier.wrapContentSize(),
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ActionKindIcon(action.kind)
+        Text(
+            text = action.compact,
+            style = TextStyle(
+                color = ColorProvider(Cream, Cream),
+                fontSize = fontSize,
+                fontWeight = FontWeight.Medium
+            ),
+            maxLines = 1
+        )
+    }
 }
 
 @Composable
