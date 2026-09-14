@@ -44,7 +44,8 @@ object SessionLayout {
 
     fun visible(
         status: HomeStatus?,
-        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london),
+        style: ClockStyle = ClockStyle.DEFAULT
     ): List<VisibleSession> {
         if (status == null) return emptyList()
         val seen = linkedSetOf<String>()
@@ -57,7 +58,7 @@ object SessionLayout {
         )
         for ((raw, fallback) in candidates) {
             val window = raw ?: continue
-            val clock = PowerUpLayout.clock(window, now) ?: continue
+            val clock = PowerUpLayout.clock(window, now, style) ?: continue
             val kind = inferredKind(window, fallback)
             val key = windowKey(window, kind)
             if (!seen.add(key)) continue

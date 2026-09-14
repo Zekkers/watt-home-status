@@ -59,8 +59,8 @@ class SocLayoutTest {
     @Test
     fun compactHeaderKeepsFullChargeAndBolt() {
         val clock = PowerUpLayout.clock(halfHour.nextPowerUp, midday)!!
-        assertEquals("12:30pm", clock.from)
-        assertEquals("2:30pm", clock.to)
+        assertEquals("12:30", clock.from)
+        assertEquals("14:30", clock.to)
         assertTrue(StatusFormatter.optedInPowerUp(halfHour.nextPowerUp, midday))
         assertTrue(
             SocLayout.headerFits(

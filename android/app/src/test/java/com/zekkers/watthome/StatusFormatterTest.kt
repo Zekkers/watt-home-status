@@ -1,5 +1,6 @@
 package com.zekkers.watthome
 
+import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatusParser
 import com.zekkers.watthome.data.StatusFormatter
@@ -111,9 +112,13 @@ class StatusFormatterTest {
         assertEquals("12–14", StatusFormatter.powerUpCompactHours(status.nextPowerUp, during25Aug))
         assertEquals("12:00", StatusFormatter.powerUpStartLine(status.nextPowerUp, during25Aug))
         assertEquals("14:00", StatusFormatter.powerUpEndLine(status.nextPowerUp, during25Aug))
-        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindow(status.nextPowerUp, during25Aug))
-        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindowOrNull(status.nextPowerUp, during25Aug))
-        assertEquals("12pm - 2pm", StatusFormatter.powerUpLine(status.nextPowerUp, during25Aug))
+        assertEquals("12:00 - 14:00", StatusFormatter.powerUpSpokenWindow(status.nextPowerUp, during25Aug))
+        assertEquals("12:00 - 14:00", StatusFormatter.powerUpSpokenWindowOrNull(status.nextPowerUp, during25Aug))
+        assertEquals("12:00 - 14:00", StatusFormatter.powerUpLine(status.nextPowerUp, during25Aug))
+        assertEquals(
+            "12pm - 2pm",
+            StatusFormatter.powerUpSpokenWindow(status.nextPowerUp, during25Aug, ClockStyle.TwelveHour)
+        )
         assertTrue(StatusFormatter.hasPowerUp(status.nextPowerUp))
         assertTrue(StatusFormatter.optedInPowerUp(status.nextPowerUp, during25Aug))
         assertEquals("partly_cloudy", status.weatherTomorrow?.code)
@@ -171,6 +176,9 @@ class StatusFormatterTest {
 
         val winter = StatusFormatter.formatUpdated("2026-01-15T15:34:00Z")
         assertEquals("Thu 15 Jan 2026, 15:34 UK", winter)
+
+        val twelve = StatusFormatter.formatUpdated("2026-08-24T15:34:00+01:00", ClockStyle.TwelveHour)
+        assertEquals("Mon 24 Aug 2026, 3:34pm UK", twelve)
     }
 
     @Test
@@ -195,15 +203,51 @@ class StatusFormatterTest {
         assertEquals("14:00", StatusFormatter.powerUpEndLine(noon.nextPowerUp, midday))
         assertEquals("16:00", StatusFormatter.powerUpStartLine(peak.nextPowerUp, midday))
         assertEquals("19:00", StatusFormatter.powerUpEndLine(peak.nextPowerUp, midday))
-        assertEquals("12pm - 2pm", StatusFormatter.powerUpSpokenWindow(noon.nextPowerUp, midday))
-        assertEquals("4pm - 7pm", StatusFormatter.powerUpSpokenWindow(peak.nextPowerUp, midday))
-        assertEquals("12am - 1am", StatusFormatter.powerUpSpokenWindow(
+        assertEquals("12:00 - 14:00", StatusFormatter.powerUpSpokenWindow(noon.nextPowerUp, midday))
+        assertEquals("16:00 - 19:00", StatusFormatter.powerUpSpokenWindow(peak.nextPowerUp, midday))
+        assertEquals("00:00 - 01:00", StatusFormatter.powerUpSpokenWindow(
             HomeStatusParser.parse("""{"next_power_up":{"from":"00:00","to":"01:00"}}""").nextPowerUp,
             midnight
         ))
+        assertEquals(
+            "12pm - 2pm",
+            StatusFormatter.powerUpSpokenWindow(noon.nextPowerUp, midday, ClockStyle.TwelveHour)
+        )
+        assertEquals(
+            "4pm - 7pm",
+            StatusFormatter.powerUpSpokenWindow(peak.nextPowerUp, midday, ClockStyle.TwelveHour)
+        )
+        assertEquals(
+            "12am - 1am",
+            StatusFormatter.powerUpSpokenWindow(
+                HomeStatusParser.parse("""{"next_power_up":{"from":"00:00","to":"01:00"}}""").nextPowerUp,
+                midnight,
+                ClockStyle.TwelveHour
+            )
+        )
+        assertEquals("12:00", StatusFormatter.formatClock(noon.nextPowerUp?.from))
+        assertEquals("14:00", StatusFormatter.formatClock(noon.nextPowerUp?.to))
         assertEquals("12pm", StatusFormatter.twelveHourClock(noon.nextPowerUp?.from))
         assertEquals("2pm", StatusFormatter.twelveHourClock(noon.nextPowerUp?.to))
         assertNull(StatusFormatter.powerUpSpokenWindowOrNull(null, midday))
+    }
+
+    @Test
+    fun clockStyleFormatsEveryWindowTheSameWay() {
+        assertEquals("16:00", StatusFormatter.formatClock("16:00"))
+        assertEquals("4pm", StatusFormatter.formatClock("16:00", ClockStyle.TwelveHour))
+        assertEquals("16:00–19:00", StatusFormatter.formatClockWindow("16:00-19:00"))
+        assertEquals("4pm–7pm", StatusFormatter.formatClockWindow("16:00-19:00", ClockStyle.TwelveHour))
+        assertEquals(ClockStyle.TwentyFourHour, ClockStyle.DEFAULT)
+        assertEquals(ClockStyle.TwentyFourHour, ClockStyle.decode(null))
+        assertEquals(ClockStyle.TwelveHour, ClockStyle.decode("12"))
+        assertEquals("24", ClockStyle.TwentyFourHour.encode())
+        assertEquals("12", ClockStyle.TwelveHour.encode())
+        val overnight = HomeStatusParser.parse(
+            """{"overnight":{"from":"02:00","to":"02:58","percent_limit":71}}"""
+        ).overnight
+        assertEquals("02:00–02:58 · cap 71%", StatusFormatter.overnight(overnight))
+        assertEquals("2am–2:58am · cap 71%", StatusFormatter.overnight(overnight, ClockStyle.TwelveHour))
     }
 
     @Test

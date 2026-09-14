@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.zekkers.watthome.R
+import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.FactKind
 import com.zekkers.watthome.data.FactLayout
 import com.zekkers.watthome.data.GraphSeriesSelection
@@ -64,6 +65,7 @@ import com.zekkers.watthome.widget.WeatherIcons
 fun StatusScreen(
     state: StatusUiState,
     series: GraphSeriesSelection,
+    clockStyle: ClockStyle = ClockStyle.DEFAULT,
     onRefresh: () -> Unit,
     onOpenSettings: () -> Unit
 ) {
@@ -172,17 +174,17 @@ fun StatusScreen(
 
             TodayCurveCard(status, series)
 
-            FactLayout.facts(status).forEach { fact ->
+            FactLayout.facts(status, clockStyle).forEach { fact ->
                 HouseFactRow(fact, status)
             }
-            SessionLayout.visible(status).forEach { session ->
+            SessionLayout.visible(status, style = clockStyle).forEach { session ->
                 SessionFactRow(session)
             }
             if (status?.batteryW != null) {
                 StatusRow("Battery power", StatusFormatter.signedWatts(status.batteryW))
             }
             StatusFormatter.savingsDetailLine(status?.lastSavings)?.let { StatusRow("Power Up results", it) }
-            StatusRow("Updated", StatusFormatter.formatUpdated(status?.updated))
+            StatusRow("Updated", StatusFormatter.formatUpdated(status?.updated, clockStyle))
 
             Text(
                 text = if (state.hasToken) {

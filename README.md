@@ -26,7 +26,7 @@ Do this on each phone.
 2. Open the file. If Android blocks it, tap **Settings** and allow install from that app (Files / Chrome / Drive / Gmail).
 3. Install **Watt Home**.
 4. On first launch, paste a **GivEnergy API token** (or skip and keep the public `status.json` feed). Create a token in **Account Settings → Manage API Tokens** on [givenergy.cloud](https://givenergy.cloud). Tap **Save**. **Test** checks the token; **Remove** clears it from this phone. The token stays in EncryptedSharedPreferences on that phone only — never in `status.json`.
-5. Later: open the app → gear icon → same token screen.
+5. Later: open the app → gear icon → same Options screen (token, graph ticks, and a 24-hour / 12-hour clock toggle). Times default to 24-hour.
 6. Leave **battery optimisation** alone unless the widget stays stale; then set Watt Home to **Unrestricted** (Samsung: Settings → Apps → Watt Home → Battery → Unrestricted).
 
 If no token is saved, the app keeps polling public `status.json` and shows **Add GivEnergy token for live battery**.

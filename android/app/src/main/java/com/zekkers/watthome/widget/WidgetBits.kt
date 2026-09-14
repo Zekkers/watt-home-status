@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.LocalSize
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
@@ -24,6 +25,8 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.R
+import com.zekkers.watthome.data.ClockStyle
+import com.zekkers.watthome.data.ClockStylePrefs
 import com.zekkers.watthome.data.FactKind
 import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.Overnight
@@ -36,6 +39,9 @@ import com.zekkers.watthome.data.SocTokenSpec
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.VisibleSession
 import com.zekkers.watthome.data.WeatherTomorrow
+
+@Composable
+internal fun widgetClockStyle(): ClockStyle = ClockStylePrefs.read(LocalContext.current)
 
 @Composable
 internal fun SocToken(
@@ -236,9 +242,10 @@ internal fun FactKindIcon(
 internal fun OvernightChip(
     overnight: Overnight?,
     fontSize: TextUnit,
-    alignEnd: Boolean = true
+    alignEnd: Boolean = true,
+    style: ClockStyle = widgetClockStyle()
 ) {
-    val line = StatusFormatter.overnightChipLine(overnight) ?: return
+    val line = StatusFormatter.overnightChipLine(overnight, style) ?: return
     Row(
         modifier = GlanceModifier.wrapContentSize(),
         horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
@@ -316,7 +323,8 @@ internal fun BatterySocStack(
     timeSize: TextUnit = 10.sp,
     contentPaddingDp: Float = 4f
 ) {
-    val sessions = SessionLayout.visible(status)
+    val style = widgetClockStyle()
+    val sessions = SessionLayout.visible(status, style = style)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - contentPaddingDp
     val oneLine = sessions.size > 1
@@ -355,8 +363,9 @@ internal fun SessionHeader(
     showSolar: Boolean = false,
     modifier: GlanceModifier = GlanceModifier.fillMaxWidth()
 ) {
-    val sessions = SessionLayout.visible(status)
-    val overnightLine = StatusFormatter.overnightChipLine(status?.overnight)
+    val style = widgetClockStyle()
+    val sessions = SessionLayout.visible(status, style = style)
+    val overnightLine = StatusFormatter.overnightChipLine(status?.overnight, style)
     val showWeather = WeatherIcons.drawableRes(status?.weatherTomorrow) != null
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = availableWidthDp ?: (LocalSize.current.width.value - contentPaddingDp)

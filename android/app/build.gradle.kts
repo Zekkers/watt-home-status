@@ -48,8 +48,8 @@ android {
         applicationId = "com.zekkers.watthome"
         minSdk = 26
         targetSdk = 35
-        versionCode = 27
-        versionName = "1.2.15"
+        versionCode = 28
+        versionName = "1.2.16"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

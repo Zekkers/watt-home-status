@@ -20,28 +20,28 @@ data class StatusFact(
 )
 
 object FactLayout {
-    fun facts(status: HomeStatus?): List<StatusFact> {
+    fun facts(status: HomeStatus?, style: ClockStyle = ClockStyle.DEFAULT): List<StatusFact> {
         if (status == null) return emptyList()
         return listOfNotNull(
-            overnightFact(status.overnight),
+            overnightFact(status.overnight, style),
             weatherFact(status.weatherTomorrow),
-            targetFact(status.target1600Percent),
-            peakFact(status.peakWindow)
+            targetFact(status.target1600Percent, style),
+            peakFact(status.peakWindow, style)
         )
     }
 
     /** Compact tiles: overnight + weather stay up when no session is in-window. */
-    fun headerFacts(status: HomeStatus?): List<StatusFact> {
+    fun headerFacts(status: HomeStatus?, style: ClockStyle = ClockStyle.DEFAULT): List<StatusFact> {
         if (status == null) return emptyList()
         return listOfNotNull(
-            overnightFact(status.overnight),
+            overnightFact(status.overnight, style),
             weatherFact(status.weatherTomorrow)
         )
     }
 
-    fun overnightFact(overnight: Overnight?): StatusFact? {
-        val value = StatusFormatter.overnightLineOrNull(overnight) ?: return null
-        val compact = StatusFormatter.overnightChipLine(overnight) ?: value
+    fun overnightFact(overnight: Overnight?, style: ClockStyle = ClockStyle.DEFAULT): StatusFact? {
+        val value = StatusFormatter.overnightLineOrNull(overnight, style) ?: return null
+        val compact = StatusFormatter.overnightChipLine(overnight, style) ?: value
         return StatusFact(FactKind.Overnight, "Overnight", value, compact)
     }
 
@@ -50,14 +50,15 @@ object FactLayout {
         return StatusFact(FactKind.Weather, "Weather", code, code)
     }
 
-    fun targetFact(percent: Int?): StatusFact? {
+    fun targetFact(percent: Int?, style: ClockStyle = ClockStyle.DEFAULT): StatusFact? {
         if (percent == null) return null
         val value = StatusFormatter.percent(percent)
-        return StatusFact(FactKind.Target1600, "16:00 target", value, value)
+        val clock = StatusFormatter.formatClock("16:00", style) ?: "16:00"
+        return StatusFact(FactKind.Target1600, "$clock target", value, value)
     }
 
-    fun peakFact(peakWindow: String?): StatusFact? {
-        val value = peakWindow?.takeIf { it.isNotBlank() } ?: return null
+    fun peakFact(peakWindow: String?, style: ClockStyle = ClockStyle.DEFAULT): StatusFact? {
+        val value = StatusFormatter.formatClockWindow(peakWindow, style) ?: return null
         return StatusFact(FactKind.Peak, "Peak window", value, value)
     }
 }

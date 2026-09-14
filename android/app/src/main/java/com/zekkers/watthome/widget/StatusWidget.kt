@@ -28,6 +28,8 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.zekkers.watthome.data.ClockStyle
+import com.zekkers.watthome.data.ClockStylePrefs
 import com.zekkers.watthome.data.GraphSeriesPrefs
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatus
@@ -47,16 +49,21 @@ class StatusWidget : GlanceAppWidget() {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
         val series = GraphSeriesPrefs.read(context)
+        val clockStyle = ClockStylePrefs.read(context)
         provideContent {
             WidgetCard {
-                OverviewContent(status, series)
+                OverviewContent(status, series, clockStyle)
             }
         }
     }
 }
 
 @Composable
-private fun OverviewContent(status: HomeStatus?, series: GraphSeriesSelection) {
+private fun OverviewContent(
+    status: HomeStatus?,
+    series: GraphSeriesSelection,
+    clockStyle: ClockStyle
+) {
     val hasCurve = StatusFormatter.hasVisibleTodayCurve(status, series)
     val density = Resources.getSystem().displayMetrics.density
     val size = LocalSize.current
@@ -69,7 +76,7 @@ private fun OverviewContent(status: HomeStatus?, series: GraphSeriesSelection) {
         series = series,
         showLegend = true
     )
-    val sessions = SessionLayout.visible(status)
+    val sessions = SessionLayout.visible(status, style = clockStyle)
     Row(
         modifier = GlanceModifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,
@@ -79,6 +86,7 @@ private fun OverviewContent(status: HomeStatus?, series: GraphSeriesSelection) {
             status = status,
             sessions = sessions,
             hasCurve = hasCurve,
+            clockStyle = clockStyle,
             modifier = GlanceModifier.width(pane.leftWidthDp.dp).fillMaxHeight()
         )
         OverviewPlot(
@@ -93,6 +101,7 @@ private fun OverviewNumbers(
     status: HomeStatus?,
     sessions: List<VisibleSession>,
     hasCurve: Boolean,
+    clockStyle: ClockStyle,
     modifier: GlanceModifier
 ) {
     Column(
@@ -123,7 +132,7 @@ private fun OverviewNumbers(
             )
         }
         Spacer(GlanceModifier.height(6.dp))
-        FactLayout.facts(status).forEach { fact ->
+        FactLayout.facts(status, clockStyle).forEach { fact ->
             OverviewFactChip(fact, status)
         }
         sessions.forEach { session ->
@@ -155,7 +164,7 @@ private fun OverviewNumbers(
             )
         }
         Text(
-            text = StatusFormatter.formatUpdated(status?.updated),
+            text = StatusFormatter.formatUpdated(status?.updated, clockStyle),
             style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
             maxLines = 1
         )

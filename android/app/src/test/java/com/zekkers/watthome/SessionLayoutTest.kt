@@ -1,5 +1,6 @@
 package com.zekkers.watthome
 
+import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.FactKind
 import com.zekkers.watthome.data.FactLayout
 import com.zekkers.watthome.data.HomeStatusParser
@@ -64,10 +65,13 @@ class SessionLayoutTest {
         assertEquals(1, sessions.size)
         assertEquals(SessionKind.PowerDown, sessions.single().kind)
         assertEquals("Power Down", sessions.single().shortLabel)
-        assertEquals("7pm", sessions.single().clock.from)
-        assertEquals("8pm", sessions.single().clock.to)
-        assertEquals("7pm - 8pm", sessions.single().clock.oneLine)
-        assertEquals("7pm–8pm", sessions.single().clock.tightLine)
+        assertEquals("19:00", sessions.single().clock.from)
+        assertEquals("20:00", sessions.single().clock.to)
+        assertEquals("19:00 - 20:00", sessions.single().clock.oneLine)
+        assertEquals("19:00–20:00", sessions.single().clock.tightLine)
+        val twelve = SessionLayout.visible(status, fridayEvening, ClockStyle.TwelveHour).single()
+        assertEquals("7pm", twelve.clock.from)
+        assertEquals("8pm", twelve.clock.to)
         assertTrue(sessions.single().optedIn)
         assertFalse(sessions.single().kind.isFreeElectric)
         assertFalse(SessionLayout.usesBolt(sessions.single().kind))
@@ -106,14 +110,14 @@ class SessionLayoutTest {
         val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(2, sessions.size)
         assertEquals(SessionKind.PowerUp, sessions[0].kind)
-        assertEquals("12pm", sessions[0].clock.from)
-        assertEquals("2pm", sessions[0].clock.to)
+        assertEquals("12:00", sessions[0].clock.from)
+        assertEquals("14:00", sessions[0].clock.to)
         assertTrue(sessions[0].optedIn)
         assertTrue(sessions[0].kind.isFreeElectric)
         assertTrue(SessionLayout.usesBolt(sessions[0].kind))
         assertEquals(SessionKind.PowerDown, sessions[1].kind)
-        assertEquals("7pm", sessions[1].clock.from)
-        assertEquals("8pm", sessions[1].clock.to)
+        assertEquals("19:00", sessions[1].clock.from)
+        assertEquals("20:00", sessions[1].clock.to)
         assertFalse(sessions[1].optedIn)
         assertFalse(sessions.any { it.shortLabel.contains("mashed") })
         assertFalse(sessions.any { it.clock.oneLine.contains("and") })
@@ -135,7 +139,7 @@ class SessionLayoutTest {
         val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(1, sessions.size)
         assertEquals(SessionKind.PowerUp, sessions.single().kind)
-        assertEquals("12pm - 2pm", sessions.single().clock.oneLine)
+        assertEquals("12:00 - 14:00", sessions.single().clock.oneLine)
     }
 
     @Test
@@ -147,8 +151,8 @@ class SessionLayoutTest {
         assertEquals(1, sessions.size)
         assertEquals(SessionKind.HappyHour, sessions.single().kind)
         assertEquals("Happy Hour", sessions.single().shortLabel)
-        assertEquals("12pm", sessions.single().clock.from)
-        assertEquals("1pm", sessions.single().clock.to)
+        assertEquals("12:00", sessions.single().clock.from)
+        assertEquals("13:00", sessions.single().clock.to)
         assertTrue(SessionLayout.usesBolt(sessions.single().kind))
     }
 
@@ -201,7 +205,11 @@ class SessionLayoutTest {
         assertEquals(FactKind.Weather, facts[1].kind)
         assertEquals("Partly cloudy", facts[1].value)
         assertEquals("60\u2060%", facts.first { it.kind == FactKind.Target1600 }.value)
-        assertEquals("16:00-19:00", facts.first { it.kind == FactKind.Peak }.value)
+        assertEquals("16:00 target", facts.first { it.kind == FactKind.Target1600 }.title)
+        assertEquals("16:00–19:00", facts.first { it.kind == FactKind.Peak }.value)
+        val twelveFacts = FactLayout.facts(status, ClockStyle.TwelveHour)
+        assertEquals("4pm target", twelveFacts.first { it.kind == FactKind.Target1600 }.title)
+        assertEquals("4pm–7pm", twelveFacts.first { it.kind == FactKind.Peak }.value)
         assertTrue(SessionLayout.visible(status, fridayFiveAfter).isEmpty())
         assertTrue(
             SocLayout.headerFactRowWidth(
