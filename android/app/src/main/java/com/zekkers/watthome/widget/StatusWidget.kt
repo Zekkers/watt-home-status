@@ -77,7 +77,7 @@ private fun OverviewContent(
         series = series,
         showLegend = true
     )
-    val sessions = SessionLayout.visible(status, style = clockStyle)
+    val sessions = SessionLayout.widgetSessions(status, style = clockStyle)
     Row(
         modifier = GlanceModifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,

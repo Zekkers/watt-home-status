@@ -19,11 +19,13 @@ enum class SessionKind {
 
 data class VisibleSession(
     val kind: SessionKind,
-    val clock: PowerUpClock,
+    val clock: PowerUpClock?,
     val optedIn: Boolean,
     val window: PowerUp
 ) {
     val shortLabel: String get() = kind.shortLabel
+    val showTimes: Boolean get() = clock != null
+    val cueLabel: String get() = if (clock == null) SessionLayout.UPCOMING_CUE_LABEL else shortLabel
 }
 
 /**
@@ -32,6 +34,8 @@ data class VisibleSession(
  * Power Up.
  */
 object SessionLayout {
+    const val UPCOMING_CUE_LABEL = "opted in"
+
     fun bookedWindows(status: HomeStatus?): List<PowerUp> {
         if (status == null) return emptyList()
         return listOfNotNull(
@@ -50,13 +54,7 @@ object SessionLayout {
         if (status == null) return emptyList()
         val seen = linkedSetOf<String>()
         val sessions = mutableListOf<VisibleSession>()
-        val candidates = listOf(
-            status.nextPowerUp to inferredKind(status.nextPowerUp, SessionKind.PowerUp),
-            status.bookedPowerUp to inferredKind(status.bookedPowerUp, SessionKind.PowerUp),
-            status.bookedHappyHour to inferredKind(status.bookedHappyHour, SessionKind.HappyHour),
-            status.bookedPowerDown to inferredKind(status.bookedPowerDown, SessionKind.PowerDown)
-        )
-        for ((raw, fallback) in candidates) {
+        for ((raw, fallback) in candidates(status)) {
             val window = raw ?: continue
             val clock = PowerUpLayout.clock(window, now, style) ?: continue
             val kind = inferredKind(window, fallback)
@@ -71,6 +69,46 @@ object SessionLayout {
         }
         return sessions.sortedBy { StatusFormatter.parseLocalTime(it.window.from) }
     }
+
+    /**
+     * Widget chips: today's in-window sessions (with times) plus a compact
+     * opted-in cue for a future booked Power Up / Happy Hour / Power Down.
+     * No weekday or clock until the London calendar day.
+     */
+    fun widgetSessions(
+        status: HomeStatus?,
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): List<VisibleSession> {
+        if (status == null) return emptyList()
+        val seen = linkedSetOf<String>()
+        val sessions = mutableListOf<VisibleSession>()
+        for (session in visible(status, now, style)) {
+            seen += windowKey(session.window, session.kind)
+            sessions += session
+        }
+        for ((raw, fallback) in candidates(status)) {
+            val window = raw ?: continue
+            if (!StatusFormatter.isUpcomingOptedIn(window, now)) continue
+            val kind = inferredKind(window, fallback)
+            val key = windowKey(window, kind)
+            if (!seen.add(key)) continue
+            sessions += VisibleSession(
+                kind = kind,
+                clock = null,
+                optedIn = true,
+                window = window
+            )
+        }
+        return sessions
+    }
+
+    private fun candidates(status: HomeStatus): List<Pair<PowerUp?, SessionKind>> = listOf(
+        status.nextPowerUp to inferredKind(status.nextPowerUp, SessionKind.PowerUp),
+        status.bookedPowerUp to inferredKind(status.bookedPowerUp, SessionKind.PowerUp),
+        status.bookedHappyHour to inferredKind(status.bookedHappyHour, SessionKind.HappyHour),
+        status.bookedPowerDown to inferredKind(status.bookedPowerDown, SessionKind.PowerDown)
+    )
 
     fun kind(window: PowerUp?, fallback: SessionKind = SessionKind.PowerUp): SessionKind =
         inferredKind(window, fallback)

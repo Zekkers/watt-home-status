@@ -45,7 +45,15 @@ object ActionLayout {
     fun from(status: HomeStatus?): List<ActionLine> = lines(status?.lastAction)
 
     fun compact(status: HomeStatus?, limit: Int = WIDGET_LIMIT): List<ActionLine> =
-        from(status).take(limit.coerceAtLeast(0))
+        from(status).sortedBy { rank(it.kind) }.take(limit.coerceAtLeast(0))
+
+    private fun rank(kind: ActionKind): Int = when (kind) {
+        ActionKind.PowerUp -> 0
+        ActionKind.PowerDown -> 1
+        ActionKind.Overnight -> 2
+        ActionKind.LivePower -> 3
+        ActionKind.Other -> 4
+    }
 
     fun displayText(action: ActionLine): String = when (action.kind) {
         ActionKind.LivePower -> densifyLiveWatts(action.text)

@@ -21,7 +21,7 @@ class StripWidget : WattGlanceWidget() {
     override fun Content(status: HomeStatus?) {
         val savings = StatusFormatter.savingsPounds(status?.lastSavings) ?: "—"
         val style = widgetClockStyle()
-        val sessions = SessionLayout.visible(status, style = style)
+        val sessions = SessionLayout.widgetSessions(status, style = style)
         val overnight = StatusFormatter.overnightChipLine(status?.overnight, style)
         Row(
             modifier = GlanceModifier.fillMaxSize(),

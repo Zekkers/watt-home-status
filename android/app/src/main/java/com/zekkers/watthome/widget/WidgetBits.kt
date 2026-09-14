@@ -136,49 +136,52 @@ internal fun SessionChip(
         verticalAlignment = Alignment.CenterVertically
     ) {
         SessionKindIcon(session.kind, size = iconSize)
-        Column(horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start) {
-            if (showLabel) {
-                Text(
-                    text = session.shortLabel,
-                    style = TextStyle(
-                        color = ColorProvider(timeColor, timeColor),
-                        fontSize = fontSize,
-                        fontWeight = FontWeight.Medium
-                    ),
-                    maxLines = 1
-                )
-            }
-            if (oneLine) {
-                Text(
-                    text = session.clock.tightLine,
-                    style = TextStyle(
-                        color = ColorProvider(timeColor, timeColor),
-                        fontSize = fontSize,
-                        fontWeight = FontWeight.Medium
-                    ),
-                    maxLines = 1
-                )
-            } else {
-                Text(
-                    text = session.clock.from,
-                    modifier = GlanceModifier.wrapContentSize(),
-                    style = TextStyle(
-                        color = ColorProvider(timeColor, timeColor),
-                        fontSize = fontSize,
-                        fontWeight = FontWeight.Medium
-                    ),
-                    maxLines = 1
-                )
-                Text(
-                    text = session.clock.to,
-                    modifier = GlanceModifier.wrapContentSize(),
-                    style = TextStyle(
-                        color = ColorProvider(timeColor, timeColor),
-                        fontSize = fontSize,
-                        fontWeight = FontWeight.Medium
-                    ),
-                    maxLines = 1
-                )
+        val clock = session.clock
+        if (clock != null || showLabel) {
+            Column(horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start) {
+                if (showLabel) {
+                    Text(
+                        text = session.cueLabel,
+                        style = TextStyle(
+                            color = ColorProvider(timeColor, timeColor),
+                            fontSize = fontSize,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        maxLines = 1
+                    )
+                }
+                if (clock != null && oneLine) {
+                    Text(
+                        text = clock.tightLine,
+                        style = TextStyle(
+                            color = ColorProvider(timeColor, timeColor),
+                            fontSize = fontSize,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        maxLines = 1
+                    )
+                } else if (clock != null) {
+                    Text(
+                        text = clock.from,
+                        modifier = GlanceModifier.wrapContentSize(),
+                        style = TextStyle(
+                            color = ColorProvider(timeColor, timeColor),
+                            fontSize = fontSize,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        maxLines = 1
+                    )
+                    Text(
+                        text = clock.to,
+                        modifier = GlanceModifier.wrapContentSize(),
+                        style = TextStyle(
+                            color = ColorProvider(timeColor, timeColor),
+                            fontSize = fontSize,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        maxLines = 1
+                    )
+                }
             }
         }
         if (session.optedIn) {
@@ -365,7 +368,7 @@ internal fun BatterySocStack(
     contentPaddingDp: Float = 4f
 ) {
     val style = widgetClockStyle()
-    val sessions = SessionLayout.visible(status, style = style)
+    val sessions = SessionLayout.widgetSessions(status, style = style)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - contentPaddingDp
     val oneLine = SocLayout.oneLineIfFits(status?.socPercent, innerWidth, sessions, density)
@@ -405,7 +408,7 @@ internal fun SessionHeader(
     modifier: GlanceModifier = GlanceModifier.fillMaxWidth()
 ) {
     val style = widgetClockStyle()
-    val sessions = SessionLayout.visible(status, style = style)
+    val sessions = SessionLayout.widgetSessions(status, style = style)
     val overnightLine = StatusFormatter.overnightChipLine(status?.overnight, style)
     val showWeather = WeatherIcons.drawableRes(status?.weatherTomorrow) != null
     val density = Resources.getSystem().displayMetrics.density
@@ -458,7 +461,8 @@ internal fun SessionHeader(
                 SessionChip(
                     session = session,
                     fontSize = SocLayout.HeaderTimeSp.sp,
-                    oneLine = oneLine
+                    oneLine = oneLine,
+                    showLabel = session.clock == null
                 )
             }
         }

@@ -400,7 +400,7 @@ private fun SessionFactRow(session: VisibleSession) {
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = session.clock.oneLine,
+                    text = session.clock?.oneLine ?: SessionLayout.UPCOMING_CUE_LABEL,
                     style = MaterialTheme.typography.headlineMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )

@@ -115,20 +115,35 @@ class ActionLayoutTest {
         assertFalse(facts.any { it.value.contains("Solcast") })
         val sessions = SessionLayout.visible(status, fridayEvening)
         assertEquals(1, sessions.size)
-        assertFalse(sessions.any { it.clock.oneLine.contains("Typeform") })
+        assertFalse(sessions.any { it.clock?.oneLine.orEmpty().contains("Typeform") })
     }
 
     @Test
-    fun widgetCompactKeepsTheFirstDecisionLines() {
+    fun widgetCompactPrefersFreeElectricThenPowerDown() {
         val status = HomeStatus(lastAction = liveMultiline)
         val compact = ActionLayout.compact(status, limit = 2)
         assertEquals(2, compact.size)
         assertEquals(ActionKind.PowerUp, compact[0].kind)
-        assertEquals(ActionKind.Overnight, compact[1].kind)
+        assertEquals(ActionKind.PowerDown, compact[1].kind)
         assertTrue(compact.all { it.compact.length <= ActionLayout.COMPACT_MAX_CHARS })
         assertEquals(1, ActionLayout.compact(status, limit = 1).size)
         val glance = ActionLayout.compact(status, limit = 1).single()
+        assertEquals(ActionKind.PowerUp, glance.kind)
         assertTrue(glance.compact.isNotBlank())
         assertFalse(glance.text.isEmpty())
+    }
+
+    @Test
+    fun compactPrefersPowerUpOverOvernightWhenSpaceIsTight() {
+        val status = HomeStatus(
+            lastAction = """
+                overnight cleared (SOC 48% ≥ 30% PU-day cap)
+                Typeform opted in Tue 15 Sep Power Up 14:00–16:00
+                solar ~113 W house ~1306 W batt +1286 W
+            """.trimIndent()
+        )
+        val glance = ActionLayout.compact(status, limit = ActionLayout.GLANCE_LIMIT).single()
+        assertEquals(ActionKind.PowerUp, glance.kind)
+        assertTrue(glance.text.contains("Typeform opted in"))
     }
 }

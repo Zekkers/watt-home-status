@@ -6,14 +6,17 @@ import com.zekkers.watthome.data.FactLayout
 import com.zekkers.watthome.data.HomeStatusParser
 import com.zekkers.watthome.data.PowerUpClockMode
 import com.zekkers.watthome.data.PowerUpLayout
+import com.zekkers.watthome.data.PowerUpClock
 import com.zekkers.watthome.data.SessionKind
 import com.zekkers.watthome.data.SessionLayout
+import com.zekkers.watthome.data.VisibleSession
 import com.zekkers.watthome.data.SocLayout
 import com.zekkers.watthome.data.StatusFormatter
 import com.zekkers.watthome.data.WidgetTextMeasure
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.ZonedDateTime
@@ -27,6 +30,20 @@ class SessionLayoutTest {
     private val fridayFiveAfter = ZonedDateTime.parse("2026-09-11T20:05:00+01:00[Europe/London]")
     private val thursday = ZonedDateTime.parse("2026-09-10T18:00:00+01:00[Europe/London]")
     private val saturday = ZonedDateTime.parse("2026-09-12T10:00:00+01:00[Europe/London]")
+    private val mondayEvening = ZonedDateTime.parse("2026-09-14T21:00:00+01:00[Europe/London]")
+    private val tuesdayMorning = ZonedDateTime.parse("2026-09-15T10:00:00+01:00[Europe/London]")
+
+    private val VisibleSession.times: PowerUpClock
+        get() = requireNotNull(clock) { "expected today's clock" }
+
+    private val liveTomorrowPowerUp = """
+        {
+          "last_action": "⚡ Typeform opted in Tue 15 Sep Power Up 14:00–16:00; CH2414G328 charge 14:00–16:00 @ 100%/6 kW (today’s 14–16 already past)\n🌙 overnight cleared (SOC 48% ≥ 30% PU-day cap)\n⬇️ Power Down tonight 18:00–19:00 already opted in\n☀️ solar ~113 W house ~1306 W batt +1286 W grid ~-5 W",
+          "next_power_up": null,
+          "booked_power_up": {"date":"2026-09-15","from":"14:00","to":"16:00","opted_in":true,"label":"Power Up","kind":"power_up"},
+          "booked_power_down": {"date":"2026-09-14","from":"18:00","to":"19:00","opted_in":true,"label":"Power Down","kind":"power_down"}
+        }
+    """.trimIndent()
 
     private val livePowerDown = """
         {
@@ -65,13 +82,13 @@ class SessionLayoutTest {
         assertEquals(1, sessions.size)
         assertEquals(SessionKind.PowerDown, sessions.single().kind)
         assertEquals("Power Down", sessions.single().shortLabel)
-        assertEquals("19:00", sessions.single().clock.from)
-        assertEquals("20:00", sessions.single().clock.to)
-        assertEquals("19:00 - 20:00", sessions.single().clock.oneLine)
-        assertEquals("19:00–20:00", sessions.single().clock.tightLine)
+        assertEquals("19:00", sessions.single().times.from)
+        assertEquals("20:00", sessions.single().times.to)
+        assertEquals("19:00 - 20:00", sessions.single().times.oneLine)
+        assertEquals("19:00–20:00", sessions.single().times.tightLine)
         val twelve = SessionLayout.visible(status, fridayEvening, ClockStyle.TwelveHour).single()
-        assertEquals("7pm", twelve.clock.from)
-        assertEquals("8pm", twelve.clock.to)
+        assertEquals("7pm", twelve.times.from)
+        assertEquals("8pm", twelve.times.to)
         assertTrue(sessions.single().optedIn)
         assertFalse(sessions.single().kind.isFreeElectric)
         assertFalse(SessionLayout.usesBolt(sessions.single().kind))
@@ -110,17 +127,17 @@ class SessionLayoutTest {
         val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(2, sessions.size)
         assertEquals(SessionKind.PowerUp, sessions[0].kind)
-        assertEquals("12:00", sessions[0].clock.from)
-        assertEquals("14:00", sessions[0].clock.to)
+        assertEquals("12:00", sessions[0].times.from)
+        assertEquals("14:00", sessions[0].times.to)
         assertTrue(sessions[0].optedIn)
         assertTrue(sessions[0].kind.isFreeElectric)
         assertTrue(SessionLayout.usesBolt(sessions[0].kind))
         assertEquals(SessionKind.PowerDown, sessions[1].kind)
-        assertEquals("19:00", sessions[1].clock.from)
-        assertEquals("20:00", sessions[1].clock.to)
+        assertEquals("19:00", sessions[1].times.from)
+        assertEquals("20:00", sessions[1].times.to)
         assertFalse(sessions[1].optedIn)
         assertFalse(sessions.any { it.shortLabel.contains("mashed") })
-        assertFalse(sessions.any { it.clock.oneLine.contains("and") })
+        assertFalse(sessions.any { it.times.oneLine.contains("and") })
         val afterPowerUp = SessionLayout.visible(status, fridayEvening)
         assertEquals(1, afterPowerUp.size)
         assertEquals(SessionKind.PowerDown, afterPowerUp.single().kind)
@@ -139,7 +156,7 @@ class SessionLayoutTest {
         val sessions = SessionLayout.visible(status, fridayMorning)
         assertEquals(1, sessions.size)
         assertEquals(SessionKind.PowerUp, sessions.single().kind)
-        assertEquals("12:00 - 14:00", sessions.single().clock.oneLine)
+        assertEquals("12:00 - 14:00", sessions.single().times.oneLine)
     }
 
     @Test
@@ -151,8 +168,8 @@ class SessionLayoutTest {
         assertEquals(1, sessions.size)
         assertEquals(SessionKind.HappyHour, sessions.single().kind)
         assertEquals("Happy Hour", sessions.single().shortLabel)
-        assertEquals("12:00", sessions.single().clock.from)
-        assertEquals("13:00", sessions.single().clock.to)
+        assertEquals("12:00", sessions.single().times.from)
+        assertEquals("13:00", sessions.single().times.to)
         assertTrue(SessionLayout.usesBolt(sessions.single().kind))
     }
 
@@ -160,7 +177,7 @@ class SessionLayoutTest {
     fun lastActionAndWeatherProseAreNotSessions() {
         val status = HomeStatusParser.parse(livePowerDown)
         val sessions = SessionLayout.visible(status, fridayEvening)
-        val blob = sessions.joinToString { "${it.shortLabel} ${it.clock.oneLine}" }
+        val blob = sessions.joinToString { "${it.shortLabel} ${it.times.oneLine}" }
         assertFalse(blob.contains("last_action"))
         assertFalse(blob.contains("Solcast"))
         assertFalse(blob.contains("already opted in at 16:00"))
@@ -241,8 +258,8 @@ class SessionLayoutTest {
         )
         val session = SessionLayout.visible(status, fridayEvening).single()
         assertEquals(PowerUpClockMode.Stacked, PowerUpLayout.oneByOne(status.bookedPowerDown, fridayEvening))
-        assertTrue(WidgetTextMeasure.fits(session.clock.from, 10f, SocLayout.OneByOneInnerDp, 1f))
-        assertTrue(WidgetTextMeasure.fits(session.clock.to, 10f, SocLayout.OneByOneInnerDp, 1f))
+        assertTrue(WidgetTextMeasure.fits(session.times.from, 10f, SocLayout.OneByOneInnerDp, 1f))
+        assertTrue(WidgetTextMeasure.fits(session.times.to, 10f, SocLayout.OneByOneInnerDp, 1f))
         val chip = SocLayout.sessionChipWidth(session, density = 1f, timeSp = 10f)
         assertTrue(chip > SocLayout.HeaderBoltDp)
         assertTrue(chip <= SocLayout.OneByOneInnerDp)
@@ -285,8 +302,101 @@ class SessionLayoutTest {
             )
         )
         sessions.forEach { session ->
-            assertTrue(WidgetTextMeasure.fits(session.clock.tightLine, 12f, 120f, 1f))
-            assertFalse(session.clock.tightLine.contains("…"))
+            assertTrue(WidgetTextMeasure.fits(session.times.tightLine, 12f, 120f, 1f))
+            assertFalse(session.times.tightLine.contains("…"))
         }
+    }
+
+    @Test
+    fun tomorrowOptedInPowerUpIsAWidgetCueWithoutTimes() {
+        val status = HomeStatusParser.parse(liveTomorrowPowerUp)
+        assertTrue(SessionLayout.visible(status, mondayEvening).isEmpty())
+        assertNull(PowerUpLayout.clock(status.bookedPowerUp, mondayEvening))
+        assertTrue(StatusFormatter.isUpcomingOptedIn(status.bookedPowerUp, mondayEvening))
+        assertFalse(StatusFormatter.isUpcomingBooked(status.bookedPowerDown, mondayEvening))
+        val widgets = SessionLayout.widgetSessions(status, mondayEvening)
+        assertEquals(1, widgets.size)
+        val cue = widgets.single()
+        assertEquals(SessionKind.PowerUp, cue.kind)
+        assertTrue(cue.optedIn)
+        assertFalse(cue.showTimes)
+        assertNull(cue.clock)
+        assertEquals(SessionLayout.UPCOMING_CUE_LABEL, cue.cueLabel)
+        assertFalse(cue.cueLabel.contains("Tue"))
+        assertFalse(cue.cueLabel.contains("14:00"))
+        assertFalse(cue.cueLabel.contains("16:00"))
+        val compact = SocLayout.sessionChipWidth(cue, density = 1f, timeSp = 10f, showLabel = false)
+        assertTrue(compact > SocLayout.HeaderBoltDp + SocLayout.HeaderTickDp)
+        assertTrue(compact <= SocLayout.OneByOneInnerDp)
+        val labelled = SocLayout.sessionChipWidth(cue, density = 1f, timeSp = 10f, showLabel = true)
+        assertTrue(labelled > compact)
+    }
+
+    @Test
+    fun optedInPowerUpShowsTimesOnItsLondonCalendarDay() {
+        val status = HomeStatusParser.parse(liveTomorrowPowerUp)
+        val sessions = SessionLayout.visible(status, tuesdayMorning)
+        assertEquals(1, sessions.size)
+        assertEquals("14:00", sessions.single().times.from)
+        assertEquals("16:00", sessions.single().times.to)
+        assertTrue(sessions.single().optedIn)
+        val widgets = SessionLayout.widgetSessions(status, tuesdayMorning)
+        assertEquals(1, widgets.size)
+        assertEquals("14:00–16:00", widgets.single().times.tightLine)
+        assertEquals("Power Up", widgets.single().cueLabel)
+    }
+
+    @Test
+    fun futurePowerUpWithoutOptInIsNotAWidgetCue() {
+        val status = HomeStatusParser.parse(
+            """
+            {
+              "next_power_up": null,
+              "booked_power_up": {"date":"2026-09-15","from":"14:00","to":"16:00","opted_in":false,"kind":"power_up"}
+            }
+            """.trimIndent()
+        )
+        assertTrue(SessionLayout.visible(status, mondayEvening).isEmpty())
+        assertTrue(SessionLayout.widgetSessions(status, mondayEvening).isEmpty())
+        assertFalse(StatusFormatter.isUpcomingOptedIn(status.bookedPowerUp, mondayEvening))
+        assertTrue(StatusFormatter.isUpcomingBooked(status.bookedPowerUp, mondayEvening))
+    }
+
+    @Test
+    fun expiredTodayPowerDownIsNotAWidgetCue() {
+        val status = HomeStatusParser.parse(
+            """{"booked_power_down":{"date":"2026-09-14","from":"18:00","to":"19:00","opted_in":true,"kind":"power_down"}}"""
+        )
+        assertTrue(SessionLayout.visible(status, mondayEvening).isEmpty())
+        assertTrue(SessionLayout.widgetSessions(status, mondayEvening).isEmpty())
+    }
+
+    @Test
+    fun upcomingOptedInPowerDownIsAWidgetCueWithoutTimes() {
+        val status = HomeStatusParser.parse(livePowerDown)
+        assertTrue(SessionLayout.visible(status, thursday).isEmpty())
+        val widgets = SessionLayout.widgetSessions(status, thursday)
+        assertEquals(1, widgets.size)
+        assertEquals(SessionKind.PowerDown, widgets.single().kind)
+        assertTrue(widgets.single().optedIn)
+        assertNull(widgets.single().clock)
+        assertEquals(SessionLayout.UPCOMING_CUE_LABEL, widgets.single().cueLabel)
+        assertTrue(SessionLayout.widgetSessions(status, saturday).isEmpty())
+    }
+
+    @Test
+    fun nextPowerUpAndBookedPowerUpDedupAsOneUpcomingCue() {
+        val status = HomeStatusParser.parse(
+            """
+            {
+              "next_power_up": {"from":"14:00","to":"16:00","date":"2026-09-15","opted_in":true,"kind":"power_up"},
+              "booked_power_up": {"from":"14:00","to":"16:00","date":"2026-09-15","opted_in":true,"label":"Power Up","kind":"power_up"}
+            }
+            """.trimIndent()
+        )
+        val widgets = SessionLayout.widgetSessions(status, mondayEvening)
+        assertEquals(1, widgets.size)
+        assertEquals(SessionKind.PowerUp, widgets.single().kind)
+        assertNull(widgets.single().clock)
     }
 }

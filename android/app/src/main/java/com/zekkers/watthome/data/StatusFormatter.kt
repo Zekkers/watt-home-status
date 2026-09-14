@@ -191,6 +191,17 @@ object StatusFormatter {
     fun optedInPowerUp(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean =
         currentPowerUp(powerUp, now)?.optedIn == true
 
+    /** True when the booking is after today's London calendar date (times stay hidden). */
+    fun isUpcomingBooked(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean {
+        if (powerUp == null) return false
+        val today = now.withZoneSameInstant(london).toLocalDate()
+        val sessionDate = parseLocalDate(powerUp.date) ?: return false
+        return sessionDate.isAfter(today)
+    }
+
+    fun isUpcomingOptedIn(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean =
+        powerUp?.optedIn == true && isUpcomingBooked(powerUp, now)
+
     fun currentPowerUp(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): PowerUp? =
         powerUp?.takeIf { isPowerUpCurrent(it, now) }
 

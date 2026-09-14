@@ -85,15 +85,18 @@ object SocLayout {
         iconDp: Float = HeaderBoltDp,
         iconPadDp: Float = HeaderBoltPadDp,
         tickDp: Float = HeaderTickDp,
-        tickPadDp: Float = HeaderTickPadDp
+        tickPadDp: Float = HeaderTickPadDp,
+        showLabel: Boolean = session.clock == null
     ): Float {
-        val time = if (oneLine) {
-            WidgetTextMeasure.widthDp(session.clock.tightLine, timeSp, density)
-        } else {
-            maxOf(
-                WidgetTextMeasure.widthDp(session.clock.from, timeSp, density),
-                WidgetTextMeasure.widthDp(session.clock.to, timeSp, density)
+        val clock = session.clock
+        val time = when {
+            clock != null && oneLine -> WidgetTextMeasure.widthDp(clock.tightLine, timeSp, density)
+            clock != null -> maxOf(
+                WidgetTextMeasure.widthDp(clock.from, timeSp, density),
+                WidgetTextMeasure.widthDp(clock.to, timeSp, density)
             )
+            showLabel -> WidgetTextMeasure.widthDp(SessionLayout.UPCOMING_CUE_LABEL, timeSp, density)
+            else -> 0f
         }
         val tick = if (session.optedIn) tickDp + tickPadDp else 0f
         return iconDp + iconPadDp + time + tick
@@ -106,7 +109,9 @@ object SocLayout {
         oneLine: Boolean = false
     ): Float {
         if (sessions.isEmpty()) return 0f
-        return sessions.maxOf { sessionChipWidth(it, density, timeSp, oneLine) }
+        return sessions.maxOf {
+            sessionChipWidth(it, density, timeSp, oneLine, showLabel = it.clock == null)
+        }
     }
 
     fun headerSocBudget(
