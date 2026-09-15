@@ -21,7 +21,7 @@ object RefreshCadence {
         now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
     ): Boolean {
         if (abs(status.batteryW ?: 0.0) > MOVING_WATTS) return true
-        if (isPowerUpLive(status.nextPowerUp, now)) return true
+        if (SessionLayout.bookedWindows(status).any { isPowerUpLive(it, now) }) return true
         val soc = status.socPercent
         if (soc != null && previousSocPercent != null && soc != previousSocPercent) return true
         return false
