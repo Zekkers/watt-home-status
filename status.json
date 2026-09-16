@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-16T01:47:30+01:00",
+  "updated_at": "2026-09-16T08:07:59+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 28,
-  "solar_w": 0,
-  "house_w": 151,
-  "battery_w": 235,
-  "grid_w": -1,
+  "soc_percent": 72,
+  "solar_w": 265,
+  "house_w": 205,
+  "battery_w": -53,
+  "grid_w": -8,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-16T00:43:12Z",
+  "sample_time_utc": "2026-09-16T07:02:47Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\ud83c\udf19 overnight wrote 02:00\u201303:21 @ 80%/6 kW (Solcast\u00d70.75; immersion net ~2.66 kWh; no free window)\n\ud83e\uddf9 cleared dateless Power Up slot 14:00\u201316:00 (was Tue 15 Sep)\n\ud83d\udd0b live SOC 28% house ~151 W solar ~0 W batt +235 W grid ~-1 W\n\u2600\ufe0f Wed Solcast Garage+Home \u00d70.75: 12:00\u201314:00 ~3.34 kWh PV, 08:00\u201316:00 ~11.7 kWh",
-  "updated": "2026-09-16T01:47:30+01:00",
+  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201303:21 @ 80% charged 28%\u219280% (~7.02 kWh pack / ~8.0 kWh import); no hold-at-cap; discharging after slot\n\ud83d\udd0b SOC 72% solar ~265 W house ~205 W batt ~-53 W grid ~-8 W\n\ud83d\udcc9 20% floor until 16:00, leftover +52 pp (intentional immersion+sunny fill, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV lagging (inverter ~0.136 kW avg vs Solcast ~0.776 kW)\n\ud83d\udd2d derate \u00d70.75 live; Tue 15 08\u201316 live PV ~10.761 kWh; keep watching daytime",
+  "updated": "2026-09-16T08:07:59+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "sunny",
@@ -222,6 +222,10 @@
     {
       "t": "2026-09-16T01:47:30+01:00",
       "w": 235.0
+    },
+    {
+      "t": "2026-09-16T08:07:59+01:00",
+      "w": -53
     }
   ],
   "soc_series": [
@@ -252,6 +256,10 @@
     {
       "t": "2026-09-16T01:47:30+01:00",
       "soc": 28.0
+    },
+    {
+      "t": "2026-09-16T08:07:59+01:00",
+      "soc": 72
     }
   ],
   "booked_power_up": {
