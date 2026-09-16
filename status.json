@@ -1,37 +1,29 @@
 {
-  "updated_at": "2026-09-15T15:10:44+01:00",
+  "updated_at": "2026-09-16T01:47:30+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 93,
-  "solar_w": 1663,
-  "house_w": 8138,
-  "battery_w": -5361,
-  "grid_w": -12105,
+  "soc_percent": 28,
+  "solar_w": 0,
+  "house_w": 151,
+  "battery_w": 235,
+  "grid_w": -1,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-15T14:05:31Z",
+  "sample_time_utc": "2026-09-16T00:43:12Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
-    "to": "03:37",
-    "percent_limit": 60,
+    "to": "03:21",
+    "percent_limit": 80,
     "kw": 6,
     "cleared": false
   },
-  "next_power_up": {
-    "date": "2026-09-15",
-    "from": "14:00",
-    "to": "16:00",
-    "opted_in": true,
-    "percent_limit": 100,
-    "label": "Power Up",
-    "kind": "power_up"
-  },
-  "last_action": "\u26a1 Power Up IN PROGRESS 14:00\u201316:00 @ 100% (no inverter write this run)\n\u2b07\ufe0f Power Down tonight 18:00\u201319:00 opted in (session da56339d\u2026); SOC 93% adequate for house-on-pack; no charge into PD\n\ud83d\udd0b 15:00 peak: SOC 93% \u2265 60% lean target \u2014 no top-up (PU in progress anyway)\n\ud83c\udf19 overnight kept 02:00\u201303:37 @ 60%/6 kW\n\u2600\ufe0f solar ~1663 W house ~8138 W batt -5361 W grid ~-12105 W (PU load)",
-  "updated": "2026-09-15T15:10:44+01:00",
+  "next_power_up": null,
+  "last_action": "\ud83c\udf19 overnight wrote 02:00\u201303:21 @ 80%/6 kW (Solcast\u00d70.75; immersion net ~2.66 kWh; no free window)\n\ud83e\uddf9 cleared dateless Power Up slot 14:00\u201316:00 (was Tue 15 Sep)\n\ud83d\udd0b live SOC 28% house ~151 W solar ~0 W batt +235 W grid ~-1 W\n\u2600\ufe0f Wed Solcast Garage+Home \u00d70.75: 12:00\u201314:00 ~3.34 kWh PV, 08:00\u201316:00 ~11.7 kWh",
+  "updated": "2026-09-16T01:47:30+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
-    "code": "mixed",
-    "label": "Tue Solcast Garage+Home \u00d70.75: 12:00\u201314:00 ~2.96 kWh PV (immersion net ~3.04 kWh), 08:00\u201316:00 ~8.6 kWh. Power Up 14:00\u201316:00; overnight 02:00\u201303:37 @ 60%."
+    "code": "sunny",
+    "label": "Wed Solcast Garage+Home \u00d70.75: 12:00\u201314:00 ~3.34 kWh PV (immersion net ~2.66 kWh), 08:00\u201316:00 ~11.7 kWh. No free window; overnight 02:00\u201303:21 @ 80%."
   },
   "last_savings": {
     "gbp": 36.95,
@@ -226,6 +218,10 @@
     {
       "t": "2026-09-15T15:10:44+01:00",
       "w": -5361
+    },
+    {
+      "t": "2026-09-16T01:47:30+01:00",
+      "w": 235.0
     }
   ],
   "soc_series": [
@@ -252,6 +248,10 @@
     {
       "t": "2026-09-15T08:16:38+01:00",
       "soc": 48
+    },
+    {
+      "t": "2026-09-16T01:47:30+01:00",
+      "soc": 28.0
     }
   ],
   "booked_power_up": {
