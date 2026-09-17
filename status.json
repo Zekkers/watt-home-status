@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-17T01:46:23+01:00",
+  "updated_at": "2026-09-17T08:18:04+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 49.0,
-  "solar_w": 0.0,
-  "house_w": 227.0,
-  "battery_w": 313.0,
-  "grid_w": 4.0,
+  "soc_percent": 65.0,
+  "solar_w": 83.0,
+  "house_w": 533.0,
+  "battery_w": -547.0,
+  "grid_w": 2.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-17T00:45:35Z",
+  "sample_time_utc": "2026-09-17T07:10:13Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,12 +18,12 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\ud83c\udf19 overnight wrote 02:00\u201302:46 @ 77%/6 kW (Solcast\u00d70.75; immersion net ~2.29 kWh; no free window)\n\ud83d\udd0b live SOC 49% house ~227 W solar ~0 W batt +313 W grid ~4 W\n\u2600\ufe0f Thu Solcast Garage+Home \u00d70.75: 12:00\u201314:00 ~3.71 kWh PV, 08:00\u201316:00 ~9.4 kWh",
-  "updated": "2026-09-17T01:46:23+01:00",
+  "last_action": "\u26a1 overnight 02:00\u201302:46 @ 77%/6 kW \u2192 49%\u219277% on time (~4.2 kWh pack / ~4.3 kWh import); brief end-of-slot then discharge\n\ud83d\udd0b morning SOC 65% solar ~83 W house ~533 W batt -547 W grid ~2 W; no Power Up \u2014 20% floor to 16:00\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV mild lag (live ~0.08 kW vs ~0.17 kW to 08:30) \u2014 keep derate",
+  "updated": "2026-09-17T08:18:04+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
-    "code": "sunny",
-    "label": "Thu Solcast Garage+Home \u00d70.75: 12:00\u201314:00 ~3.71 kWh PV (immersion net ~2.29 kWh), 08:00\u201316:00 ~9.4 kWh. No free window; overnight 02:00\u201302:46 @ 77%."
+    "code": "mixed",
+    "label": "Thu Solcast Garage+Home \u00d70.75; overnight hit 77% on plan; early PV mild lag \u2014 keep derate. No free window; 20% floor to 16:00."
   },
   "last_savings": {
     "gbp": 36.95,
@@ -234,6 +234,10 @@
     {
       "t": "2026-09-17T01:46:23+01:00",
       "w": 313.0
+    },
+    {
+      "t": "2026-09-17T08:18:04+01:00",
+      "w": -547.0
     }
   ],
   "soc_series": [
@@ -276,6 +280,10 @@
     {
       "t": "2026-09-17T01:46:23+01:00",
       "soc": 49.0
+    },
+    {
+      "t": "2026-09-17T08:18:04+01:00",
+      "soc": 65.0
     }
   ],
   "booked_power_up": null,
