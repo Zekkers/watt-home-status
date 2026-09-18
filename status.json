@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-18T08:18:54+01:00",
+  "updated_at": "2026-09-18T15:35:18+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 78,
-  "solar_w": 283,
-  "house_w": 269,
-  "battery_w": -29,
-  "grid_w": -5,
+  "soc_percent": 98,
+  "solar_w": 586,
+  "house_w": 1377,
+  "battery_w": 847,
+  "grid_w": 12,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-18T07:12:36Z",
+  "sample_time_utc": "2026-09-18T14:32:54Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201304:02 @ 84% charged 5%\u219284% (~10.67 kWh pack / ~12.2 kWh import); hit 84% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 78% solar ~283 W house ~269 W batt ~-29 W grid ~-5 W\n\ud83d\udcc9 20% floor until 16:00, leftover +58 pp (intentional near-EPS recovery + immersion, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV lagging (inverter ~0.22 kW avg vs Solcast ~0.571 kW)\n\ud83d\udd2d derate \u00d70.75 live; Thu 17 08\u201316 live PV ~9.981 kWh; keep watching daytime",
-  "updated": "2026-09-18T08:18:54+01:00",
+  "last_action": "\ud83d\udd0b 15:00 peak: SOC 98% \u2265 60% lean target \u2013 no top-up\n\ud83c\udf19 overnight kept 02:00\u201304:02 @ 84%/6 kW\n\u2600\ufe0f solar ~586 W house ~1377 W batt +847 W grid ~12 W\n\u2b07\ufe0f no same-day Power Down (AOL+Gmail+GraphQL)",
+  "updated": "2026-09-18T15:35:18+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "mixed",
@@ -250,6 +250,10 @@
     {
       "t": "2026-09-18T08:18:54+01:00",
       "w": -29
+    },
+    {
+      "t": "2026-09-18T15:35:18+01:00",
+      "w": 847.0
     }
   ],
   "soc_series": [
@@ -304,6 +308,10 @@
     {
       "t": "2026-09-18T08:18:54+01:00",
       "soc": 78
+    },
+    {
+      "t": "2026-09-18T15:35:18+01:00",
+      "soc": 98.0
     }
   ],
   "booked_power_up": null,
