@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-18T15:35:18+01:00",
+  "updated_at": "2026-09-18T18:00:53+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 98,
-  "solar_w": 586,
-  "house_w": 1377,
-  "battery_w": 847,
-  "grid_w": 12,
+  "soc_percent": 78,
+  "solar_w": 76,
+  "house_w": 1305,
+  "battery_w": 1449,
+  "grid_w": 76,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-18T14:32:54Z",
+  "sample_time_utc": "2026-09-18T16:59:40Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udd0b 15:00 peak: SOC 98% \u2265 60% lean target \u2013 no top-up\n\ud83c\udf19 overnight kept 02:00\u201304:02 @ 84%/6 kW\n\u2600\ufe0f solar ~586 W house ~1377 W batt +847 W grid ~12 W\n\u2b07\ufe0f no same-day Power Down (AOL+Gmail+GraphQL)",
-  "updated": "2026-09-18T15:35:18+01:00",
+  "last_action": "\u26a1 17:30 Power Up catch: no new Power-ups / Typeform / Happy Hour / Power Down today (Gmail + AOL)\n\ud83c\udf19 overnight kept 02:00\u201304:02 @ 84%/6 kW (SOC 78% < cap)\n\u2600\ufe0f solar ~76 W house ~1305 W batt +1449 W grid ~76 W",
+  "updated": "2026-09-18T18:00:53+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "mixed",
@@ -254,6 +254,10 @@
     {
       "t": "2026-09-18T15:35:18+01:00",
       "w": 847.0
+    },
+    {
+      "t": "2026-09-18T18:00:53+01:00",
+      "w": 1449.0
     }
   ],
   "soc_series": [
@@ -312,6 +316,10 @@
     {
       "t": "2026-09-18T15:35:18+01:00",
       "soc": 98.0
+    },
+    {
+      "t": "2026-09-18T18:00:53+01:00",
+      "soc": 78.0
     }
   ],
   "booked_power_up": null,
