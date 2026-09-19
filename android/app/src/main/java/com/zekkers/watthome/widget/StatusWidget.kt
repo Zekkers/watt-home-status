@@ -25,17 +25,20 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.width
-import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.zekkers.watthome.data.ActionLayout
+import com.zekkers.watthome.data.ClockStyle
+import com.zekkers.watthome.data.ClockStylePrefs
 import com.zekkers.watthome.data.GraphSeriesPrefs
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.HomeStatus
-import com.zekkers.watthome.data.PowerUpClock
-import com.zekkers.watthome.data.PowerUpClockMode
-import com.zekkers.watthome.data.PowerUpLayout
+import com.zekkers.watthome.data.FactLayout
+import com.zekkers.watthome.data.SessionLayout
+import com.zekkers.watthome.data.StatusFact
 import com.zekkers.watthome.data.StatusFormatter
+import com.zekkers.watthome.data.VisibleSession
 import com.zekkers.watthome.data.StatusRepository
 import com.zekkers.watthome.data.WidgetPlotLayout
 import com.zekkers.watthome.worker.StatusRefreshScheduler
@@ -47,16 +50,21 @@ class StatusWidget : GlanceAppWidget() {
         StatusRefreshScheduler.enqueuePeriodic(context)
         val status = StatusRepository.get(context).cachedStatus()
         val series = GraphSeriesPrefs.read(context)
+        val clockStyle = ClockStylePrefs.read(context)
         provideContent {
             WidgetCard {
-                OverviewContent(status, series)
+                OverviewContent(status, series, clockStyle)
             }
         }
     }
 }
 
 @Composable
-private fun OverviewContent(status: HomeStatus?, series: GraphSeriesSelection) {
+private fun OverviewContent(
+    status: HomeStatus?,
+    series: GraphSeriesSelection,
+    clockStyle: ClockStyle
+) {
     val hasCurve = StatusFormatter.hasVisibleTodayCurve(status, series)
     val density = Resources.getSystem().displayMetrics.density
     val size = LocalSize.current
@@ -69,15 +77,7 @@ private fun OverviewContent(status: HomeStatus?, series: GraphSeriesSelection) {
         series = series,
         showLegend = true
     )
-    val clock = PowerUpLayout.clock(status?.nextPowerUp)
-    val showBolt = StatusFormatter.optedInPowerUp(status?.nextPowerUp)
-    val clockMode = PowerUpLayout.wide(
-        powerUp = status?.nextPowerUp,
-        availableDp = pane.leftWidthDp,
-        timeSp = 12f,
-        density = density,
-        showBolt = showBolt
-    )
+    val sessions = SessionLayout.widgetSessions(status, style = clockStyle)
     Row(
         modifier = GlanceModifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,
@@ -85,10 +85,9 @@ private fun OverviewContent(status: HomeStatus?, series: GraphSeriesSelection) {
     ) {
         OverviewNumbers(
             status = status,
-            clock = clock,
-            clockMode = clockMode,
-            showBolt = showBolt,
+            sessions = sessions,
             hasCurve = hasCurve,
+            clockStyle = clockStyle,
             modifier = GlanceModifier.width(pane.leftWidthDp.dp).fillMaxHeight()
         )
         OverviewPlot(
@@ -101,10 +100,9 @@ private fun OverviewContent(status: HomeStatus?, series: GraphSeriesSelection) {
 @Composable
 private fun OverviewNumbers(
     status: HomeStatus?,
-    clock: PowerUpClock?,
-    clockMode: PowerUpClockMode,
-    showBolt: Boolean,
+    sessions: List<VisibleSession>,
     hasCurve: Boolean,
+    clockStyle: ClockStyle,
     modifier: GlanceModifier
 ) {
     Column(
@@ -135,24 +133,21 @@ private fun OverviewNumbers(
             )
         }
         Spacer(GlanceModifier.height(6.dp))
-        Text(
-            text = "Overnight ${StatusFormatter.overnight(status?.overnight)}",
-            style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
-            maxLines = 1
-        )
-        Text(
-            text = "16:00 ${StatusFormatter.percent(status?.target1600Percent)}  ·  Peak ${StatusFormatter.dash(status?.peakWindow)}",
-            style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
-            maxLines = 1
-        )
-        PowerUpClockBlock(
-            clock = clock,
-            mode = clockMode,
-            fontSize = 12.sp,
-            showBolt = showBolt,
-            modifier = GlanceModifier.wrapContentSize(),
-            alignEnd = false
-        )
+        FactLayout.facts(status, clockStyle).forEach { fact ->
+            OverviewFactChip(fact, status)
+        }
+        sessions.forEach { session ->
+            SessionChip(
+                session = session,
+                fontSize = 12.sp,
+                oneLine = true,
+                showLabel = true,
+                alignEnd = false
+            )
+        }
+        ActionLayout.compact(status, limit = ActionLayout.WIDGET_LIMIT).forEach { action ->
+            ActionChip(action = action, fontSize = 12.sp, fillWidth = true)
+        }
         Spacer(GlanceModifier.height(6.dp))
         if (!hasCurve) {
             Text(
@@ -173,8 +168,23 @@ private fun OverviewNumbers(
             )
         }
         Text(
-            text = StatusFormatter.formatUpdated(status?.updated),
+            text = StatusFormatter.formatUpdated(status?.updated, clockStyle),
             style = TextStyle(color = ColorProvider(Mint, Mint), fontSize = 11.sp),
+            maxLines = 1
+        )
+    }
+}
+
+@Composable
+private fun OverviewFactChip(fact: StatusFact, status: HomeStatus?) {
+    Row(
+        modifier = GlanceModifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        FactKindIcon(fact.kind, weather = status?.weatherTomorrow, endPad = 4.dp)
+        Text(
+            text = "${fact.title}  ${fact.compact}",
+            style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
             maxLines = 1
         )
     }

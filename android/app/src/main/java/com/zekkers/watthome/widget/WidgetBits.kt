@@ -10,12 +10,12 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.LocalSize
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
-import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
@@ -25,13 +25,25 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.zekkers.watthome.R
+import com.zekkers.watthome.data.ActionKind
+import com.zekkers.watthome.data.ActionLine
+import com.zekkers.watthome.data.ClockStyle
+import com.zekkers.watthome.data.ClockStylePrefs
+import com.zekkers.watthome.data.FactKind
 import com.zekkers.watthome.data.HomeStatus
+import com.zekkers.watthome.data.Overnight
 import com.zekkers.watthome.data.PowerUpClock
 import com.zekkers.watthome.data.PowerUpClockMode
-import com.zekkers.watthome.data.PowerUpLayout
+import com.zekkers.watthome.data.SessionKind
+import com.zekkers.watthome.data.SessionLayout
 import com.zekkers.watthome.data.SocLayout
 import com.zekkers.watthome.data.SocTokenSpec
 import com.zekkers.watthome.data.StatusFormatter
+import com.zekkers.watthome.data.VisibleSession
+import com.zekkers.watthome.data.WeatherTomorrow
+
+@Composable
+internal fun widgetClockStyle(): ClockStyle = ClockStylePrefs.read(LocalContext.current)
 
 @Composable
 internal fun SocToken(
@@ -86,6 +98,99 @@ internal fun PowerUpBolt(
 }
 
 @Composable
+internal fun SessionKindIcon(
+    kind: SessionKind,
+    size: Dp = CompactHeaderBoltSize,
+    endPad: Dp = 2.dp
+) {
+    val res = if (kind.isFreeElectric) R.drawable.ic_power_up_badge else R.drawable.ic_power_down_badge
+    Image(
+        provider = ImageProvider(res),
+        contentDescription = kind.shortLabel,
+        modifier = GlanceModifier.padding(end = endPad).size(size)
+    )
+}
+
+@Composable
+internal fun SessionTick(size: Dp = SessionTickSize, startPad: Dp = 2.dp) {
+    Image(
+        provider = ImageProvider(R.drawable.ic_session_tick),
+        contentDescription = "opted in",
+        modifier = GlanceModifier.padding(start = startPad).size(size)
+    )
+}
+
+@Composable
+internal fun SessionChip(
+    session: VisibleSession,
+    fontSize: TextUnit,
+    oneLine: Boolean,
+    showLabel: Boolean = false,
+    iconSize: Dp = CompactHeaderBoltSize,
+    alignEnd: Boolean = true
+) {
+    val timeColor = if (session.kind.isFreeElectric) Cream else PowerDownCoral
+    Row(
+        modifier = GlanceModifier.wrapContentSize(),
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        SessionKindIcon(session.kind, size = iconSize)
+        val clock = session.clock
+        if (clock != null || showLabel) {
+            Column(horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start) {
+                if (showLabel) {
+                    Text(
+                        text = session.cueLabel,
+                        style = TextStyle(
+                            color = ColorProvider(timeColor, timeColor),
+                            fontSize = fontSize,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        maxLines = 1
+                    )
+                }
+                if (clock != null && oneLine) {
+                    Text(
+                        text = clock.tightLine,
+                        style = TextStyle(
+                            color = ColorProvider(timeColor, timeColor),
+                            fontSize = fontSize,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        maxLines = 1
+                    )
+                } else if (clock != null) {
+                    Text(
+                        text = clock.from,
+                        modifier = GlanceModifier.wrapContentSize(),
+                        style = TextStyle(
+                            color = ColorProvider(timeColor, timeColor),
+                            fontSize = fontSize,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        maxLines = 1
+                    )
+                    Text(
+                        text = clock.to,
+                        modifier = GlanceModifier.wrapContentSize(),
+                        style = TextStyle(
+                            color = ColorProvider(timeColor, timeColor),
+                            fontSize = fontSize,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        maxLines = 1
+                    )
+                }
+            }
+        }
+        if (session.optedIn) {
+            SessionTick()
+        }
+    }
+}
+
+@Composable
 internal fun PowerUpClockBlock(
     clock: PowerUpClock?,
     mode: PowerUpClockMode,
@@ -119,6 +224,124 @@ internal fun PowerUpClockBlock(
 }
 
 @Composable
+internal fun FactKindIcon(
+    kind: FactKind,
+    weather: WeatherTomorrow? = null,
+    size: Dp = CompactHeaderBoltSize,
+    endPad: Dp = 2.dp
+) {
+    val res = when (kind) {
+        FactKind.Overnight -> R.drawable.ic_overnight_badge
+        FactKind.Weather -> WeatherIcons.drawableRes(weather) ?: R.drawable.ic_weather_cloudy
+        FactKind.Target1600 -> R.drawable.ic_target_badge
+        FactKind.Peak -> R.drawable.ic_peak_badge
+    }
+    Image(
+        provider = ImageProvider(res),
+        contentDescription = kind.name,
+        modifier = GlanceModifier.padding(end = endPad).size(size)
+    )
+}
+
+@Composable
+internal fun ActionKindIcon(
+    kind: ActionKind,
+    size: Dp = CompactHeaderBoltSize,
+    endPad: Dp = 4.dp
+) {
+    Image(
+        provider = ImageProvider(ActionIcons.drawableRes(kind)),
+        contentDescription = kind.title,
+        modifier = GlanceModifier.padding(end = endPad).size(size)
+    )
+}
+
+@Composable
+internal fun ActionChip(
+    action: ActionLine,
+    fontSize: TextUnit,
+    alignEnd: Boolean = false,
+    fillWidth: Boolean = false
+) {
+    Row(
+        modifier = if (fillWidth) GlanceModifier.fillMaxWidth() else GlanceModifier.wrapContentSize(),
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ActionKindIcon(action.kind)
+        Text(
+            text = action.compact,
+            modifier = if (fillWidth) GlanceModifier.defaultWeight() else GlanceModifier.wrapContentSize(),
+            style = TextStyle(
+                color = ColorProvider(Cream, Cream),
+                fontSize = fontSize,
+                fontWeight = FontWeight.Medium
+            ),
+            maxLines = 1
+        )
+    }
+}
+
+@Composable
+internal fun OvernightChip(
+    overnight: Overnight?,
+    fontSize: TextUnit,
+    alignEnd: Boolean = true,
+    style: ClockStyle = widgetClockStyle()
+) {
+    val line = StatusFormatter.overnightChipLine(overnight, style) ?: return
+    Row(
+        modifier = GlanceModifier.wrapContentSize(),
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        FactKindIcon(FactKind.Overnight)
+        Text(
+            text = line,
+            style = TextStyle(
+                color = ColorProvider(Cream, Cream),
+                fontSize = fontSize,
+                fontWeight = FontWeight.Medium
+            ),
+            maxLines = 1
+        )
+    }
+}
+
+@Composable
+internal fun WeatherCodeChip(
+    weather: WeatherTomorrow?,
+    fontSize: TextUnit,
+    showCode: Boolean = true,
+    alignEnd: Boolean = true
+) {
+    val res = WeatherIcons.drawableRes(weather) ?: return
+    val code = StatusFormatter.weatherCodeLabel(weather)
+    Row(
+        modifier = GlanceModifier.wrapContentSize(),
+        horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            provider = ImageProvider(res),
+            contentDescription = code ?: "weather",
+            modifier = GlanceModifier.size(CompactHeaderBoltSize)
+        )
+        if (showCode && code != null) {
+            Text(
+                text = code,
+                style = TextStyle(
+                    color = ColorProvider(Mint, Mint),
+                    fontSize = fontSize,
+                    fontWeight = FontWeight.Medium
+                ),
+                maxLines = 1
+            )
+        }
+    }
+}
+
+@Composable
 internal fun SolarWattsLine(
     status: HomeStatus?,
     fontSize: TextUnit = 10.sp
@@ -144,10 +367,11 @@ internal fun BatterySocStack(
     timeSize: TextUnit = 10.sp,
     contentPaddingDp: Float = 4f
 ) {
-    val clock = PowerUpLayout.clock(status?.nextPowerUp)
-    val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
+    val style = widgetClockStyle()
+    val sessions = SessionLayout.widgetSessions(status, style = style)
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = LocalSize.current.width.value - contentPaddingDp
+    val oneLine = SocLayout.oneLineIfFits(status?.socPercent, innerWidth, sessions, density)
     val soc = SocLayout.token(
         percent = status?.socPercent,
         availableDp = innerWidth,
@@ -161,22 +385,16 @@ internal fun BatterySocStack(
     ) {
         FittedSocToken(soc)
         SolarWattsLine(status, timeSize)
-        if (clock != null) {
-            Row(
-                modifier = GlanceModifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(
-                    modifier = GlanceModifier.defaultWeight(),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    PowerUpTimeLine(clock.from, timeSize)
-                    PowerUpTimeLine(clock.to, timeSize)
-                }
-                if (showBolt) {
-                    PowerUpBolt(size = CompactHeaderBoltSize, startPad = 2.dp)
-                }
-            }
+        sessions.forEach { session ->
+            SessionChip(
+                session = session,
+                fontSize = timeSize,
+                oneLine = oneLine,
+                alignEnd = false
+            )
+        }
+        if (sessions.isEmpty()) {
+            WeatherCodeChip(status?.weatherTomorrow, timeSize, showCode = false, alignEnd = false)
         }
     }
 }
@@ -189,13 +407,23 @@ internal fun SessionHeader(
     showSolar: Boolean = false,
     modifier: GlanceModifier = GlanceModifier.fillMaxWidth()
 ) {
-    val clock = PowerUpLayout.clock(status?.nextPowerUp)
-    val showBolt = clock != null && StatusFormatter.optedInPowerUp(status?.nextPowerUp)
+    val style = widgetClockStyle()
+    val sessions = SessionLayout.widgetSessions(status, style = style)
+    val overnightLine = StatusFormatter.overnightChipLine(status?.overnight, style)
+    val showWeather = WeatherIcons.drawableRes(status?.weatherTomorrow) != null
     val density = Resources.getSystem().displayMetrics.density
     val innerWidth = availableWidthDp ?: (LocalSize.current.width.value - contentPaddingDp)
+    val oneLine = SocLayout.oneLineIfFits(status?.socPercent, innerWidth, sessions, density)
     val soc = SocLayout.token(
         percent = status?.socPercent,
-        availableDp = SocLayout.headerSocBudget(innerWidth, clock, showBolt, density),
+        availableDp = SocLayout.headerSocBudget(
+            innerWidth,
+            sessions,
+            overnightLine,
+            showWeather,
+            density,
+            oneLine
+        ),
         density = density
     )
     Row(
@@ -214,18 +442,28 @@ internal fun SessionHeader(
                 )
             }
         }
-        if (clock != null) {
-            Row(
-                modifier = GlanceModifier.wrapContentSize(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(horizontalAlignment = Alignment.End) {
-                    PowerUpTimeLine(clock.from, SocLayout.HeaderTimeSp.sp)
-                    PowerUpTimeLine(clock.to, SocLayout.HeaderTimeSp.sp)
+        Column(horizontalAlignment = Alignment.End) {
+            if (overnightLine != null || showWeather) {
+                Row(
+                    modifier = GlanceModifier.wrapContentSize(),
+                    horizontalAlignment = Alignment.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OvernightChip(status?.overnight, 11.sp)
+                    WeatherCodeChip(
+                        weather = status?.weatherTomorrow,
+                        fontSize = 11.sp,
+                        showCode = sessions.isEmpty() && overnightLine == null
+                    )
                 }
-                if (showBolt) {
-                    PowerUpBolt(size = CompactHeaderBoltSize, startPad = 2.dp)
-                }
+            }
+            sessions.forEach { session ->
+                SessionChip(
+                    session = session,
+                    fontSize = SocLayout.HeaderTimeSp.sp,
+                    oneLine = oneLine,
+                    showLabel = session.clock == null
+                )
             }
         }
     }
