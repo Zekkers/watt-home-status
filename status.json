@@ -1,29 +1,29 @@
 {
-  "updated_at": "2026-09-19T15:14:47+01:00",
+  "updated_at": "2026-09-20T01:41:26+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 17.0,
-  "solar_w": 1111.0,
-  "house_w": 1100.0,
-  "battery_w": 73.0,
-  "grid_w": -2.0,
+  "soc_percent": 6.0,
+  "solar_w": 0.0,
+  "house_w": 303.0,
+  "battery_w": 0.0,
+  "grid_w": -383.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-19T14:09:58Z",
+  "sample_time_utc": "2026-09-20T00:37:32Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
-    "to": "03:40",
-    "percent_limit": 89,
+    "to": "03:57",
+    "percent_limit": 79,
     "kw": 6,
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u26a1 15:00 peak top-up 15:15\u201316:00 @ 60%/6 kW (SOC 17%\u219260%, need ~5.805 kWh / 68 min @ 5.56 kW; capped at 16:00 \u2192 ~45 min, est ~47.9% into peak)\n\ud83d\udd0b SOC 17% solar ~1111 W house ~1100 W batt ~+73 W grid ~-2 W\n\ud83c\udf19 overnight kept 02:00\u201303:40 @ 89%/6 kW\n\u2b07\ufe0f no Power Down today; no free window; lean 16:00 target 60%",
-  "updated": "2026-09-19T15:14:47+01:00",
+  "last_action": "\ud83d\udd0b overnight 02:00\u201303:57 @ 79%/6 kW (SOC 6%\u219279%; near EPS +5pp slack; Solcast noon~4.176 kWh \u00d70.75, immersion net~1.82)\n\u2600\ufe0f Sun Solcast Garage+Home \u00d70.75; noon~4.176 kWh derated; day~13.917 kWh. No free window; 20% floor to 16:00.\n\ud83e\uddf9 extras cleared (incl leftover 15:15 peak slot); next_power_up null; Gateway not written\n\u26a1 solar ~0 W house ~303 W batt ~+0 W grid ~-383 W",
+  "updated": "2026-09-20T01:41:26+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
-    "code": "cloudy",
-    "label": "Sat Solcast Garage+Home \u00d70.75; noon~2.08 kWh derated; day~6.042 kWh. No free window; 20% floor to 16:00. Overnight 02:00\u201303:40 @89% from 27.0%."
+    "code": "sunny",
+    "label": "Sun Solcast Garage+Home \u00d70.75; noon~4.176 kWh derated; day~13.917 kWh. No free window; 20% floor to 16:00. Overnight 02:00\u201303:57 @79% from 6%."
   },
   "last_savings": {
     "gbp": 36.95,
@@ -35,10 +35,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-10T17:42:10+01:00",
-      "w": 815
-    },
     {
       "t": "2026-09-11T01:51:39+01:00",
       "w": -383
@@ -274,6 +270,10 @@
     {
       "t": "2026-09-19T15:14:47+01:00",
       "w": 73.0
+    },
+    {
+      "t": "2026-09-20T01:41:26+01:00",
+      "w": 0.0
     }
   ],
   "soc_series": [
@@ -372,18 +372,14 @@
     {
       "t": "2026-09-19T15:14:47+01:00",
       "soc": 17.0
+    },
+    {
+      "t": "2026-09-20T01:41:26+01:00",
+      "soc": 6.0
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
   "booked_power_down": null,
-  "peak_topup": {
-    "from": "15:15",
-    "to": "16:00",
-    "percent_limit": 60,
-    "kw": 6,
-    "soc_from": 17.0,
-    "mins_actual": 45,
-    "written_at": "2026-09-19T15:14:47+01:00"
-  }
+  "peak_topup": null
 }
