@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-21T08:33:45+01:00",
+  "updated_at": "2026-09-21T15:41:02+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 67.0,
-  "solar_w": 383.0,
-  "house_w": 206.0,
-  "battery_w": -97.0,
-  "grid_w": -4.0,
+  "soc_percent": 95.0,
+  "solar_w": 786.0,
+  "house_w": 1027.0,
+  "battery_w": 317.0,
+  "grid_w": 12.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-21T07:24:46Z",
+  "sample_time_utc": "2026-09-21T14:40:01Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u26a1 overnight ON_PLAN 02:00\u201303:55 @ 78%/6 kW: 5%\u219278% (~9.86 kWh pack), hit cap ~03:51 then discharged (no idle-at-cap on grid)\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV lagging (live 0.38 kW vs Solcast~1.29 @09:00). Daytime EA bias ~15\u201324% high last 3 days \u2014 keep \u00d70.75\n\ud83d\udd0b morning SOC 67% solar ~383 W house ~206 W on pack; no Power Up; 20% floor \u2014 leftover intentional near-EPS fill\n\ud83e\uddf9 no inverter write; lean 15:00 still 60%",
-  "updated": "2026-09-21T08:33:45+01:00",
+  "last_action": "\u2705 15:00 peak: SOC 95% \u2265 60% lean target \u2013 no top-up\n\ud83d\udd0b SOC 95% solar ~786 W house ~1027 W batt ~+317 W grid ~12 W\n\ud83c\udf19 overnight kept 02:00\u201303:55 @ 78%/6 kW\n\u2b07\ufe0f Power Down 18:00\u201319:00 found (adequate, need ~60%); opt-in TBD at 16:00",
+  "updated": "2026-09-21T15:41:02+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "sunny",
@@ -35,10 +35,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-11T08:01:01+01:00",
-      "w": -269
-    },
     {
       "t": "2026-09-11T08:06:04+01:00",
       "w": -215
@@ -274,6 +270,10 @@
     {
       "t": "2026-09-21T08:33:45+01:00",
       "w": -97
+    },
+    {
+      "t": "2026-09-21T15:41:02+01:00",
+      "w": 317.0
     }
   ],
   "soc_series": [
@@ -407,11 +407,22 @@
     },
     {
       "t": "2026-09-21T08:33:45+01:00",
-      "w": 67
+      "soc": 67
+    },
+    {
+      "t": "2026-09-21T15:41:02+01:00",
+      "soc": 95.0
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": null,
+  "booked_power_down": {
+    "from": "18:00",
+    "to": "19:00",
+    "date": "2026-09-21",
+    "opted_in": false,
+    "subject": "ACTION: Power Down from 6-7pm tonight",
+    "source": "aol"
+  },
   "peak_topup": null
 }
