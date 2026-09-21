@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-21T01:49:00+01:00",
+  "updated_at": "2026-09-21T08:33:45+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 6.0,
-  "solar_w": 0.0,
-  "house_w": 229.0,
-  "battery_w": 311.0,
-  "grid_w": 3.0,
+  "soc_percent": 67.0,
+  "solar_w": 383.0,
+  "house_w": 206.0,
+  "battery_w": -97.0,
+  "grid_w": -4.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-21T00:44:57Z",
+  "sample_time_utc": "2026-09-21T07:24:46Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,12 +18,12 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udd0b overnight 02:00\u201303:55 @ 78%/6 kW (SOC 6%\u219278%; near EPS +5pp slack; Solcast noon~4.215 kWh \u00d70.75, immersion net~1.78)\n\u2600\ufe0f Mon Solcast Garage+Home \u00d70.75; noon~4.215 kWh derated; day~16.034 kWh. No free window; 20% floor to 16:00.\n\ud83e\uddf9 extras cleared; next_power_up null; Gateway not written\n\u26a1 solar ~0 W house ~229 W batt ~+311 W grid ~3 W",
-  "updated": "2026-09-21T01:49:00+01:00",
+  "last_action": "\u26a1 overnight ON_PLAN 02:00\u201303:55 @ 78%/6 kW: 5%\u219278% (~9.86 kWh pack), hit cap ~03:51 then discharged (no idle-at-cap on grid)\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV lagging (live 0.38 kW vs Solcast~1.29 @09:00). Daytime EA bias ~15\u201324% high last 3 days \u2014 keep \u00d70.75\n\ud83d\udd0b morning SOC 67% solar ~383 W house ~206 W on pack; no Power Up; 20% floor \u2014 leftover intentional near-EPS fill\n\ud83e\uddf9 no inverter write; lean 15:00 still 60%",
+  "updated": "2026-09-21T08:33:45+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "sunny",
-    "label": "Sun Solcast Garage+Home \u00d70.75; noon~4.215 kWh derated; day~16.034 kWh. No free window; 20% floor to 16:00. Overnight 02:00\u201303:55 @78% from 6%."
+    "label": "Mon Solcast Garage+Home \u00d70.75; noon~4.12 kWh derated. No free window; 20% floor. Overnight hit 78% on plan."
   },
   "last_savings": {
     "gbp": 36.95,
@@ -35,10 +35,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-11T07:30:39+01:00",
-      "w": -190
-    },
     {
       "t": "2026-09-11T08:01:01+01:00",
       "w": -269
@@ -274,6 +270,10 @@
     {
       "t": "2026-09-21T01:49:00+01:00",
       "w": 311.0
+    },
+    {
+      "t": "2026-09-21T08:33:45+01:00",
+      "w": -97
     }
   ],
   "soc_series": [
@@ -404,6 +404,10 @@
     {
       "t": "2026-09-21T01:49:00+01:00",
       "soc": 6.0
+    },
+    {
+      "t": "2026-09-21T08:33:45+01:00",
+      "w": 67
     }
   ],
   "booked_power_up": null,
