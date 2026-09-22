@@ -1,44 +1,40 @@
 {
-  "updated_at": "2026-09-21T15:43:35+01:00",
+  "updated_at": "2026-09-22T01:54:14+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 95.0,
-  "solar_w": 786.0,
-  "house_w": 1027.0,
-  "battery_w": 317.0,
-  "grid_w": 12.0,
+  "soc_percent": 38.0,
+  "solar_w": 0.0,
+  "house_w": 165.0,
+  "battery_w": 245.0,
+  "grid_w": -1.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-21T14:40:01Z",
+  "sample_time_utc": "2026-09-22T00:47:20Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
-    "to": "03:55",
-    "percent_limit": 78,
+    "to": "03:10",
+    "percent_limit": 86,
     "kw": 6,
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2b07\ufe0f Power Down tonight 18:00\u201319:00 opted in (session 51ec131c\u2026); SOC 95% adequate for house-on-pack (~1.3 kWh need / ~12.3 kWh above EPS); no charge into PD\n\u2705 15:00 peak: SOC 95% \u2265 60% lean target \u2013 no top-up\n\ud83c\udf19 overnight kept 02:00\u201303:55 @ 78%/6 kW\n\u2600\ufe0f solar ~786 W house ~1027 W batt +317 W grid ~12 W",
-  "updated": "2026-09-21T15:43:35+01:00",
+  "last_action": "🔋 overnight 02:00–03:10 @ 86%/6 kW (SOC 38%→86%; 6.48 kWh; no free window)\n☀️ Tue Solcast Garage+Home ×0.75; noon~2.539 kWh; day~9.003 kWh; immersion net~3.461 kWh\n🧹 extras cleared; next_power_up null; Gateway not written\n⚡ solar ~0 W house ~165 W batt ~+245 W grid ~-1 W",
+  "updated": "2026-09-22T01:54:14+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
-    "code": "sunny",
-    "label": "Mon Solcast Garage+Home \u00d70.75; noon~4.12 kWh derated. No free window; 20% floor. Overnight hit 78% on plan."
+    "code": "mixed",
+    "label": "Tue Solcast Garage+Home ×0.75; noon~2.539 kWh derated; day~9.003 kWh. No free window; 20% floor. Overnight 02:00–03:10 @86% from 38%."
   },
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-11T08:06:04+01:00",
-      "w": -215
-    },
     {
       "t": "2026-09-11T15:04:27+01:00",
       "w": 14
@@ -274,6 +270,10 @@
     {
       "t": "2026-09-21T15:41:02+01:00",
       "w": 317.0
+    },
+    {
+      "t": "2026-09-22T01:54:14+01:00",
+      "w": 245.0
     }
   ],
   "soc_series": [
@@ -412,6 +412,10 @@
     {
       "t": "2026-09-21T15:41:02+01:00",
       "soc": 95.0
+    },
+    {
+      "t": "2026-09-22T01:54:14+01:00",
+      "soc": 38.0
     }
   ],
   "booked_power_up": null,
