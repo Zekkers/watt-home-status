@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-22T08:12:53+01:00",
+  "updated_at": "2026-09-22T15:43:58+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 76,
-  "solar_w": 527,
-  "house_w": 301,
-  "battery_w": 138,
-  "grid_w": 3,
+  "soc_percent": 99.0,
+  "solar_w": 840.0,
+  "house_w": 711.0,
+  "battery_w": 41.0,
+  "grid_w": -4.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-22T07:11:58Z",
+  "sample_time_utc": "2026-09-22T14:37:20Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201303:10 @ 86% charged 38%\u219284% (~6.21 kWh pack / ~6.9 kWh import); hit 84% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 76% solar ~527 W house ~301 W batt ~138 W grid ~3 W\n\ud83d\udcc9 20% floor until 16:00, leftover +56 pp (intentional Solcast\u00d70.75 immersion+cloudy lean sizing, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV roughly on track (inverter ~0.171 kW vs Solcast ~0.192 kW)\n\ud83d\udd27 derate \u00d70.75 live; keep watching daytime vs derated forecast (~23 Sep trial end)",
-  "updated": "2026-09-22T08:12:53+01:00",
+  "last_action": "\u2b07\ufe0f Power Down tonight 18:00\u201319:00 opted in (session 7d35712e\u2026); SOC 99% adequate for house-on-pack (~0.9 kWh need / ~10.7 kWh above EPS); no charge into PD\n\u2705 15:00 peak: SOC 99% \u2265 60% lean target \u2013 no top-up\n\ud83c\udf19 overnight kept 02:00\u201303:10 @ 86%/6 kW\n\u2600\ufe0f solar ~840 W house ~711 W batt +41 W grid ~-4 W",
+  "updated": "2026-09-22T15:43:58+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "mixed",
@@ -35,10 +35,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-12T04:15:39+01:00",
-      "w": -210
-    },
     {
       "t": "2026-09-12T04:30:50+01:00",
       "w": -209
@@ -274,6 +270,10 @@
     {
       "t": "2026-09-22T08:12:53+01:00",
       "w": 138
+    },
+    {
+      "t": "2026-09-22T15:43:58+01:00",
+      "w": 41
     }
   ],
   "soc_series": [
@@ -396,21 +396,24 @@
     {
       "t": "2026-09-22T08:12:53+01:00",
       "soc": 76
+    },
+    {
+      "t": "2026-09-22T15:43:58+01:00",
+      "pct": 99.0
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
   "booked_power_down": {
-    "date": "2026-09-21",
+    "date": "2026-09-22",
     "from": "18:00",
     "to": "19:00",
     "opted_in": true,
-    "session_id": "51ec131c-c8d4-4cc1-8043-d27832ce2c86",
-    "since": "2026-09-21T14:43:35.845971",
+    "session_id": "7d35712e-184f-4d65-992a-bf65ecacf71d",
+    "since": "2026-09-22T14:43:23.245721",
     "label": "Power Down",
     "kind": "power_down",
-    "octopoints_per_kwh": 75,
-    "event_code": "EVENT_84_210926",
+    "octopoints_per_kwh": 79,
     "source": "aol_optimistic_opt_in"
   },
   "peak_topup": null
