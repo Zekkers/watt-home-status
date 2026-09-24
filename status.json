@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24T08:31:25+01:00",
+  "updated_at": "2026-09-24T08:32:28+01:00",
   "timezone": "Europe/London",
   "soc_percent": 68,
   "solar_w": 288,
@@ -18,8 +18,8 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201303:53 @ 79% charged None%\u2192None% (~None kWh pack / ~None kWh import); hit None% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 68% solar ~288 W house ~160 W batt ~48 W grid ~1 W\n\ud83d\udcc9 20% floor until 16:00, leftover +48 pp (intentional Solcast\u00d70.75 immersion+cloudy lean sizing, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV ahead of Solcast (inverter ~0.288 kW vs Solcast ~0.038 kW) \u2014 morning only\n\ud83d\udd27 derate \u00d70.75 live; keep watching daytime vs derated forecast (~23 Sep trial end)",
-  "updated": "2026-09-24T08:31:25+01:00",
+  "last_action": "\u2705 08:00 SLIGHTLY_UNDER: overnight 02:00\u201303:53 @ 79% charged 5%\u219274% (~9.31 kWh pack / ~11.1 kWh import); hit 74% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 68% solar ~288 W house ~160 W batt ~48 W grid ~1 W\n\ud83d\udcc9 20% floor until 16:00, leftover +48 pp (intentional Solcast\u00d70.75 immersion+cloudy lean sizing, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV ahead of Solcast (inverter ~0.141 kW vs Solcast ~0.056 kW) \u2014 morning only\n\ud83d\udd27 derate \u00d70.75 live; keep watching daytime vs derated forecast (~23 Sep trial end)",
+  "updated": "2026-09-24T08:32:28+01:00",
   "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "mixed",
@@ -234,37 +234,37 @@
     {
       "t": "2026-09-24T08:31:25+01:00",
       "w": 48
+    },
+    {
+      "t": "2026-09-24T02:02:13+01:00",
+      "w": 5664
+    },
+    {
+      "t": "2026-09-24T02:57:53+01:00",
+      "w": 5664
+    },
+    {
+      "t": "2026-09-24T03:08:00+01:00",
+      "w": 5664
+    },
+    {
+      "t": "2026-09-24T04:59:21+01:00",
+      "w": -268
+    },
+    {
+      "t": "2026-09-24T07:00:49+01:00",
+      "w": -228
+    },
+    {
+      "t": "2026-09-24T08:01:32+01:00",
+      "w": -2328
+    },
+    {
+      "t": "2026-09-24T08:32:28+01:00",
+      "w": 48
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-09-20T03:59:14+01:00",
-      "soc": 78
-    },
-    {
-      "t": "2026-09-20T04:59:58+01:00",
-      "soc": 77
-    },
-    {
-      "t": "2026-09-20T07:01:26+01:00",
-      "soc": 73
-    },
-    {
-      "t": "2026-09-20T07:57:06+01:00",
-      "soc": 72
-    },
-    {
-      "t": "2026-09-20T08:11:01+01:00",
-      "soc": 72
-    },
-    {
-      "t": "2026-09-20T15:11:37+01:00",
-      "soc": 81.0
-    },
-    {
-      "t": "2026-09-21T01:49:00+01:00",
-      "soc": 6.0
-    },
     {
       "t": "2026-09-21T08:33:45+01:00",
       "soc": 67
@@ -355,6 +355,34 @@
     },
     {
       "t": "2026-09-24T08:31:25+01:00",
+      "soc": 68
+    },
+    {
+      "t": "2026-09-24T02:02:13+01:00",
+      "soc": 5
+    },
+    {
+      "t": "2026-09-24T02:57:53+01:00",
+      "soc": 38
+    },
+    {
+      "t": "2026-09-24T03:08:00+01:00",
+      "soc": 44
+    },
+    {
+      "t": "2026-09-24T04:59:21+01:00",
+      "soc": 74
+    },
+    {
+      "t": "2026-09-24T07:00:49+01:00",
+      "soc": 70
+    },
+    {
+      "t": "2026-09-24T08:01:32+01:00",
+      "soc": 69
+    },
+    {
+      "t": "2026-09-24T08:32:28+01:00",
       "soc": 68
     }
   ],
