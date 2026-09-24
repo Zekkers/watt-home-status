@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-24T08:32:28+01:00",
+  "updated_at": "2026-09-24T15:15:21+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 68,
-  "solar_w": 288,
-  "house_w": 160,
-  "battery_w": 48,
-  "grid_w": 1,
+  "soc_percent": 86,
+  "solar_w": 1050,
+  "house_w": 855,
+  "battery_w": -90,
+  "grid_w": -39,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-24T07:26:50Z",
+  "sample_time_utc": "2026-09-24T14:11:43Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,9 +18,15 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 SLIGHTLY_UNDER: overnight 02:00\u201303:53 @ 79% charged 5%\u219274% (~9.31 kWh pack / ~11.1 kWh import); hit 74% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 68% solar ~288 W house ~160 W batt ~48 W grid ~1 W\n\ud83d\udcc9 20% floor until 16:00, leftover +48 pp (intentional Solcast\u00d70.75 immersion+cloudy lean sizing, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV ahead of Solcast (inverter ~0.141 kW vs Solcast ~0.056 kW) \u2014 morning only\n\ud83d\udd27 derate \u00d70.75 live; keep watching daytime vs derated forecast (~23 Sep trial end)",
-  "updated": "2026-09-24T08:32:28+01:00",
-  "peak_window": "16:00-19:00",
+  "last_action": "\u2b07\ufe0f Power Down tonight 18:00\u201319:00 opted in (session 09cc30ce\u2026, 68 Octopoints/kWh); SOC 86% adequate for house-on-pack (~0.85 kWh need / ~11.07 kWh above EPS); no charge into PD\n\u2705 15:00 peak: SOC 86% \u2265 60% lean target \u2013 no top-up\n\ud83c\udf19 overnight kept 02:00\u201303:53 @ 79%/6 kW\n\u2600\ufe0f solar ~1050 W house ~855 W batt -90 W grid ~-39 W",
+  "updated": "2026-09-24T15:15:21+01:00",
+  "peak_window": {
+    "from": "15:00",
+    "to": "16:00",
+    "target_percent": 60,
+    "applied": false,
+    "reason": "soc_above_lean_target"
+  },
   "weather_tomorrow": {
     "code": "mixed",
     "label": "Tue Solcast Garage+Home \u00d70.75; noon~4.1 kWh derated; day~13.521 kWh. No free window; 20% floor to 16:00. Overnight 02:00\u201303:53 @79% from 4.0%."
@@ -262,6 +268,10 @@
     {
       "t": "2026-09-24T08:32:28+01:00",
       "w": 48
+    },
+    {
+      "t": "2026-09-24T15:15:21+01:00",
+      "w": -90
     }
   ],
   "soc_series": [
@@ -384,10 +394,26 @@
     {
       "t": "2026-09-24T08:32:28+01:00",
       "soc": 68
+    },
+    {
+      "t": "2026-09-24T15:15:21+01:00",
+      "soc": 86
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": null,
+  "booked_power_down": {
+    "date": "2026-09-24",
+    "from": "18:00",
+    "to": "19:00",
+    "opted_in": true,
+    "session_id": "09cc30ce-19c3-4776-8c08-8175e0e21e5c",
+    "since": "2026-09-24T14:14:30.664076",
+    "label": "Power Down",
+    "kind": "power_down",
+    "octopoints_per_kwh": 68,
+    "source": "aol_optimistic_opt_in",
+    "account_id": "A-5314B4CC"
+  },
   "peak_topup": null
 }
