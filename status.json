@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-24T01:49:58+01:00",
+  "updated_at": "2026-09-24T08:31:25+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 4.0,
-  "solar_w": 0.0,
-  "house_w": 144.0,
-  "battery_w": 0.0,
-  "grid_w": -232.0,
+  "soc_percent": 68,
+  "solar_w": 288,
+  "house_w": 160,
+  "battery_w": 48,
+  "grid_w": 1,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-24T00:47:02Z",
+  "sample_time_utc": "2026-09-24T07:26:50Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -18,25 +18,19 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "🔋 overnight 02:00–03:53 @ 79%/6 kW (SOC 4%→79%; 10.12 kWh; no free window; +5pp EPS slack)\n☀️ Thu Solcast Garage+Home ×0.75; noon~4.1 kWh; day~13.521 kWh; immersion net~1.9 kWh\n🧹 extras cleared; next_power_up null; Gateway not written\n⚡ solar ~0 W house ~144 W batt ~+0 W grid ~-232 W",
-  "updated": "2026-09-24T01:49:58+01:00",
-  "peak_window": {
-    "from": "15:00",
-    "to": "16:00",
-    "target_percent": 60,
-    "applied": false,
-    "reason": "soc_above_lean_target"
-  },
+  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201303:53 @ 79% charged None%\u2192None% (~None kWh pack / ~None kWh import); hit None% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 68% solar ~288 W house ~160 W batt ~48 W grid ~1 W\n\ud83d\udcc9 20% floor until 16:00, leftover +48 pp (intentional Solcast\u00d70.75 immersion+cloudy lean sizing, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV ahead of Solcast (inverter ~0.288 kW vs Solcast ~0.038 kW) \u2014 morning only\n\ud83d\udd27 derate \u00d70.75 live; keep watching daytime vs derated forecast (~23 Sep trial end)",
+  "updated": "2026-09-24T08:31:25+01:00",
+  "peak_window": "16:00-19:00",
   "weather_tomorrow": {
     "code": "mixed",
-    "label": "Thu Solcast Garage+Home ×0.75; noon~4.1 kWh derated; day~13.521 kWh. No free window; 20% floor. Overnight 02:00–03:53 @79% from 4% (+5pp low-SOC slack)."
+    "label": "Tue Solcast Garage+Home \u00d70.75; noon~4.1 kWh derated; day~13.521 kWh. No free window; 20% floor to 16:00. Overnight 02:00\u201303:53 @79% from 4.0%."
   },
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
@@ -236,21 +230,13 @@
     {
       "t": "2026-09-24T01:49:58+01:00",
       "w": 0.0
+    },
+    {
+      "t": "2026-09-24T08:31:25+01:00",
+      "w": 48
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-09-20T01:57:46+01:00",
-      "soc": 6
-    },
-    {
-      "t": "2026-09-20T02:58:30+01:00",
-      "soc": 40
-    },
-    {
-      "t": "2026-09-20T03:59:14+01:00",
-      "soc": 78
-    },
     {
       "t": "2026-09-20T03:59:14+01:00",
       "soc": 78
@@ -366,6 +352,10 @@
     {
       "t": "2026-09-24T01:49:58+01:00",
       "soc": 4.0
+    },
+    {
+      "t": "2026-09-24T08:31:25+01:00",
+      "soc": 68
     }
   ],
   "booked_power_up": null,
