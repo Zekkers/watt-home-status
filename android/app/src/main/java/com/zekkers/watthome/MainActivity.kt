@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
                 val tokenFeedback by viewModel.tokenFeedback.collectAsStateWithLifecycle()
                 val fromSettings by viewModel.openedFromSettings.collectAsStateWithLifecycle()
                 val series by viewModel.graphSeries.collectAsStateWithLifecycle()
+                val clockStyle by viewModel.clockStyle.collectAsStateWithLifecycle()
                 if (showToken) {
                     TokenScreen(
                         hasToken = state.hasToken,
@@ -33,6 +34,8 @@ class MainActivity : ComponentActivity() {
                         canSkip = !fromSettings && !state.hasToken,
                         series = series,
                         onSeriesChange = viewModel::setGraphSeries,
+                        clockStyle = clockStyle,
+                        onClockStyleChange = viewModel::setClockStyle,
                         onSave = viewModel::saveToken,
                         onTest = viewModel::testToken,
                         onRemove = viewModel::removeToken,
@@ -43,6 +46,7 @@ class MainActivity : ComponentActivity() {
                     StatusScreen(
                         state = state,
                         series = series,
+                        clockStyle = clockStyle,
                         onRefresh = viewModel::refresh,
                         onOpenSettings = viewModel::openTokenScreen
                     )

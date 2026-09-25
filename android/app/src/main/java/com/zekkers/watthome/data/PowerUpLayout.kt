@@ -14,6 +14,7 @@ object WidgetTextMeasure {
             units += when (ch) {
                 ' ' -> 0.33f
                 '-' -> 0.40f
+                '–' -> 0.40f
                 '·' -> 0.50f
                 '%' -> 0.85f
                 'm' -> 0.90f
@@ -52,6 +53,7 @@ object WidgetTextMeasure {
 
 data class PowerUpClock(val from: String, val to: String) {
     val oneLine: String get() = "$from - $to"
+    val tightLine: String get() = "$from–$to"
 }
 
 enum class PowerUpClockMode { Hidden, Stacked, OneLine }
@@ -59,24 +61,27 @@ enum class PowerUpClockMode { Hidden, Stacked, OneLine }
 object PowerUpLayout {
     fun clock(
         powerUp: PowerUp?,
-        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london),
+        style: ClockStyle = ClockStyle.DEFAULT
     ): PowerUpClock? {
         val visible = StatusFormatter.currentPowerUp(powerUp, now) ?: return null
-        val from = StatusFormatter.twelveHourClock(visible.from) ?: return null
-        val to = StatusFormatter.twelveHourClock(visible.to) ?: return null
+        val from = StatusFormatter.formatClock(visible.from, style) ?: return null
+        val to = StatusFormatter.formatClock(visible.to, style) ?: return null
         return PowerUpClock(from, to)
     }
 
     fun oneByOne(
         powerUp: PowerUp?,
-        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london),
+        style: ClockStyle = ClockStyle.DEFAULT
     ): PowerUpClockMode =
-        if (clock(powerUp, now) == null) PowerUpClockMode.Hidden else PowerUpClockMode.Stacked
+        if (clock(powerUp, now, style) == null) PowerUpClockMode.Hidden else PowerUpClockMode.Stacked
 
     fun twoByTwo(
         powerUp: PowerUp?,
-        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
-    ): PowerUpClockMode = oneByOne(powerUp, now)
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): PowerUpClockMode = oneByOne(powerUp, now, style)
 
     fun twoByOne(
         powerUp: PowerUp?,
@@ -84,9 +89,10 @@ object PowerUpLayout {
         timeSp: Float = 13f,
         boltDp: Float = 0f,
         density: Float = 1f,
-        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london),
+        style: ClockStyle = ClockStyle.DEFAULT
     ): PowerUpClockMode {
-        if (clock(powerUp, now) == null) return PowerUpClockMode.Hidden
+        if (clock(powerUp, now, style) == null) return PowerUpClockMode.Hidden
         return PowerUpClockMode.Stacked
     }
 
@@ -98,9 +104,10 @@ object PowerUpLayout {
         showBolt: Boolean = false,
         boltDp: Float = 24f,
         boltPadDp: Float = 6f,
-        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london)
+        now: ZonedDateTime = ZonedDateTime.now(StatusFormatter.london),
+        style: ClockStyle = ClockStyle.DEFAULT
     ): PowerUpClockMode {
-        val clock = clock(powerUp, now) ?: return PowerUpClockMode.Hidden
+        val clock = clock(powerUp, now, style) ?: return PowerUpClockMode.Hidden
         val bolt = if (showBolt) boltDp + boltPadDp else 0f
         val need = WidgetTextMeasure.widthDp(clock.oneLine, timeSp, density) * 1.3f + bolt
         return if (need <= availableDp) PowerUpClockMode.OneLine else PowerUpClockMode.Stacked

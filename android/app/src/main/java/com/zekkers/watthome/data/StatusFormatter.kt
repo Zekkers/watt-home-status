@@ -15,11 +15,12 @@ object StatusFormatter {
     val london: ZoneId = ZoneId.of("Europe/London")
     const val POWER_UP_HIDE_AFTER_MINUTES = 5L
 
-    private val displayFormat: DateTimeFormatter =
-        DateTimeFormatter.ofPattern("EEE d MMM yyyy, HH:mm", Locale.UK)
+    private val dateFormat: DateTimeFormatter =
+        DateTimeFormatter.ofPattern("EEE d MMM yyyy", Locale.UK)
     private val clockFormat: DateTimeFormatter =
         DateTimeFormatter.ofPattern("HH:mm", Locale.UK)
     private val sessionCount = Regex("""\((\d+)\s+sessions?\)""", RegexOption.IGNORE_CASE)
+    private val clockWindow = Regex("""(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})""")
 
     fun dash(value: String?): String = value?.takeIf { it.isNotBlank() } ?: "—"
 
@@ -35,44 +36,92 @@ object StatusFormatter {
         return "${if (value > 0) "+" else ""}$rounded W"
     }
 
-    fun overnight(overnight: Overnight?): String {
-        if (overnight == null) return "—"
+    fun overnight(overnight: Overnight?, style: ClockStyle = ClockStyle.DEFAULT): String =
+        overnightLineOrNull(overnight, style) ?: "—"
+
+    fun formatClock(raw: String?, style: ClockStyle = ClockStyle.DEFAULT): String? = when (style) {
+        ClockStyle.TwentyFourHour -> displayClock(raw)
+        ClockStyle.TwelveHour -> twelveHourClock(raw)
+    }
+
+    fun formatClockRange(
+        from: String?,
+        to: String?,
+        style: ClockStyle = ClockStyle.DEFAULT,
+        sep: String = "–"
+    ): String? {
+        val start = formatClock(from, style) ?: return null
+        val end = formatClock(to, style) ?: return null
+        return "$start$sep$end"
+    }
+
+    fun formatClockWindow(raw: String?, style: ClockStyle = ClockStyle.DEFAULT): String? {
+        val text = raw?.trim()?.takeIf { it.isNotBlank() } ?: return null
+        val match = clockWindow.find(text) ?: return text
+        return formatClockRange(match.groupValues[1], match.groupValues[2], style) ?: text
+    }
+
+    fun overnightWindowOrNull(
+        overnight: Overnight?,
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String? {
+        if (overnight == null) return null
         val start = overnight.start?.takeIf { it.isNotBlank() }
         val end = overnight.end?.takeIf { it.isNotBlank() }
-        val window = when {
-            start != null && end != null -> "$start–$end"
-            start != null -> start
-            end != null -> end
-            else -> null
-        }
-        val cap = overnight.capPercent?.let { "cap $it%" }
-        return listOfNotNull(window, cap).joinToString(" · ").ifBlank { "—" }
+        return formatClockRange(start, end, style)
     }
 
-    fun powerUpWindow(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
-        powerUpWindowOrNull(powerUp, now) ?: "No Power Up"
+    fun overnightCapLabel(overnight: Overnight?): String? =
+        overnight?.capPercent?.let { "$it\u2060%" }
 
-    fun powerUpWindowOrNull(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String? {
+    fun overnightLineOrNull(
+        overnight: Overnight?,
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String? {
+        val window = overnightWindowOrNull(overnight, style)
+        val cap = overnight?.capPercent?.let { "cap $it%" }
+        return listOfNotNull(window, cap).joinToString(" · ").ifBlank { null }
+    }
+
+    fun overnightChipLine(
+        overnight: Overnight?,
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String? {
+        val window = overnightWindowOrNull(overnight, style) ?: return overnightCapLabel(overnight)
+        val cap = overnightCapLabel(overnight) ?: return window
+        return "$window · $cap"
+    }
+
+    fun powerUpWindow(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String = powerUpWindowOrNull(powerUp, now, style) ?: "No Power Up"
+
+    fun powerUpWindowOrNull(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String? {
         val visible = currentPowerUp(powerUp, now) ?: return null
-        val from = displayClock(visible.from)
-        val to = displayClock(visible.to)
-        return when {
-            from != null && to != null -> "$from–$to"
-            from != null -> from
-            to != null -> to
-            else -> visible.label?.takeIf { it.isNotBlank() }
-        }
+        return formatClockRange(visible.from, visible.to, style)
+            ?: visible.label?.takeIf { it.isNotBlank() }
     }
 
-    fun powerUpSpokenWindowOrNull(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String? {
+    fun powerUpSpokenWindowOrNull(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String? {
         val visible = currentPowerUp(powerUp, now) ?: return null
-        val from = twelveHourClock(visible.from)
-        val to = twelveHourClock(visible.to)
-        return if (from != null && to != null) "$from - $to" else null
+        return formatClockRange(visible.from, visible.to, style, sep = " - ")
     }
 
-    fun powerUpSpokenWindow(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
-        powerUpSpokenWindowOrNull(powerUp, now) ?: "—"
+    fun powerUpSpokenWindow(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String = powerUpSpokenWindowOrNull(powerUp, now, style) ?: "—"
 
     fun twelveHourClock(raw: String?): String? {
         val clock = displayClock(raw) ?: return null
@@ -86,17 +135,28 @@ object StatusFormatter {
         return if (minute == 0) "$hour12$suffix" else String.format(Locale.UK, "%d:%02d%s", hour12, minute, suffix)
     }
 
-    fun powerUpLine(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
-        powerUpSpokenWindow(powerUp, now)
+    fun powerUpLine(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String = powerUpSpokenWindow(powerUp, now, style)
 
-    fun powerUpStartLine(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String {
+    fun powerUpStartLine(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String {
         val visible = currentPowerUp(powerUp, now) ?: return "No"
-        return displayClock(visible.from) ?: "Power Up"
+        return formatClock(visible.from, style) ?: "Power Up"
     }
 
-    fun powerUpEndLine(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String {
+    fun powerUpEndLine(
+        powerUp: PowerUp?,
+        now: ZonedDateTime = ZonedDateTime.now(london),
+        style: ClockStyle = ClockStyle.DEFAULT
+    ): String {
         val visible = currentPowerUp(powerUp, now) ?: return "Power Up"
-        return displayClock(visible.to) ?: "set"
+        return formatClock(visible.to, style) ?: "set"
     }
 
     fun powerUpCompactHours(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String {
@@ -131,6 +191,17 @@ object StatusFormatter {
     fun optedInPowerUp(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean =
         currentPowerUp(powerUp, now)?.optedIn == true
 
+    /** True when the booking is after today's London calendar date (times stay hidden). */
+    fun isUpcomingBooked(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean {
+        if (powerUp == null) return false
+        val today = now.withZoneSameInstant(london).toLocalDate()
+        val sessionDate = parseLocalDate(powerUp.date) ?: return false
+        return sessionDate.isAfter(today)
+    }
+
+    fun isUpcomingOptedIn(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): Boolean =
+        powerUp?.optedIn == true && isUpcomingBooked(powerUp, now)
+
     fun currentPowerUp(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): PowerUp? =
         powerUp?.takeIf { isPowerUpCurrent(it, now) }
 
@@ -139,7 +210,7 @@ object StatusFormatter {
         val londonNow = now.withZoneSameInstant(london)
         val today = londonNow.toLocalDate()
         val sessionDate = parseLocalDate(powerUp.date)
-        // Do not preview a free window (Power Up / Weekend Happy Hour) before its London calendar day.
+        // Hide Power Up, Happy Hour, and Power Down until their London calendar day.
         if (sessionDate != null && sessionDate.isAfter(today)) return false
         val expireAt = powerUpExpiresAt(powerUp, now) ?: return true
         return londonNow.isBefore(expireAt)
@@ -198,15 +269,25 @@ object StatusFormatter {
 
     fun weatherLabel(weather: WeatherTomorrow?): String =
         weather?.label?.takeIf { it.isNotBlank() }
-            ?: weather?.code?.replace('_', ' ')?.replaceFirstChar { it.titlecase(Locale.UK) }
+            ?: weatherCodeLabel(weather)
             ?: "—"
+
+    /** Short code only — never the long weather_tomorrow.label essay. */
+    fun weatherCodeLabel(weather: WeatherTomorrow?): String? {
+        val code = weather?.code?.trim()?.takeIf { it.isNotBlank() && it != "null" } ?: return null
+        return code.replace('_', ' ').replace('-', ' ')
+            .lowercase(Locale.UK)
+            .replaceFirstChar { it.titlecase(Locale.UK) }
+    }
 
     fun lastAction(value: String?): String = dash(value)
 
-    fun formatUpdated(raw: String?): String {
+    fun formatUpdated(raw: String?, style: ClockStyle = ClockStyle.DEFAULT): String {
         if (raw.isNullOrBlank()) return "Unknown"
         val offsetDateTime = parseTimestamp(raw) ?: return raw
-        return offsetDateTime.atZoneSameInstant(london).format(displayFormat) + " UK"
+        val zoned = offsetDateTime.atZoneSameInstant(london)
+        val time = formatClock(zoned.format(clockFormat), style) ?: zoned.format(clockFormat)
+        return "${zoned.format(dateFormat)}, $time UK"
     }
 
     fun parseTimestamp(raw: String): OffsetDateTime? {

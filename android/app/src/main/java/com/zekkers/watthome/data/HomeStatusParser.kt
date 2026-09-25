@@ -33,7 +33,10 @@ object HomeStatusParser {
             target1600Percent = obj.int("target_1600_percent"),
             overnight = parseOvernight(obj["overnight"]),
             peakWindow = obj.string("peak_window"),
-            nextPowerUp = parsePowerUp(obj["next_power_up"]),
+            nextPowerUp = parseSession(obj["next_power_up"]),
+            bookedPowerUp = parseSession(obj["booked_power_up"]),
+            bookedHappyHour = parseSession(obj["booked_happy_hour"]),
+            bookedPowerDown = parseSession(obj["booked_power_down"]),
             lastAction = obj.string("last_action"),
             weatherTomorrow = parseWeather(obj["weather_tomorrow"]),
             batteryW = obj.double("battery_w"),
@@ -70,13 +73,13 @@ object HomeStatusParser {
     private fun parseOvernight(element: JsonElement?): Overnight? {
         val nested = element as? JsonObject ?: return null
         return Overnight(
-            start = nested.string("start"),
-            end = nested.string("end"),
-            capPercent = nested.int("cap_percent")
+            start = nested.string("start") ?: nested.string("from"),
+            end = nested.string("end") ?: nested.string("to"),
+            capPercent = nested.int("cap_percent") ?: nested.int("percent_limit")
         )
     }
 
-    private fun parsePowerUp(element: JsonElement?): PowerUp? {
+    private fun parseSession(element: JsonElement?): PowerUp? {
         return when (element) {
             null, is JsonNull -> null
             is JsonPrimitive -> {
@@ -90,22 +93,26 @@ object HomeStatusParser {
                 )
             }
             is JsonObject -> {
-                val powerUp = PowerUp(
+                val session = PowerUp(
                     from = element.string("from"),
                     to = element.string("to"),
                     date = element.string("date"),
                     optedIn = element.boolean("opted_in"),
-                    label = element.string("label")
+                    label = element.string("label"),
+                    kind = element.string("kind"),
+                    sessionId = element.string("session_id")
                 )
-                if (powerUp.from == null &&
-                    powerUp.to == null &&
-                    powerUp.date == null &&
-                    powerUp.optedIn == null &&
-                    powerUp.label == null
+                if (session.from == null &&
+                    session.to == null &&
+                    session.date == null &&
+                    session.optedIn == null &&
+                    session.label == null &&
+                    session.kind == null &&
+                    session.sessionId == null
                 ) {
                     null
                 } else {
-                    powerUp
+                    session
                 }
             }
             else -> null
