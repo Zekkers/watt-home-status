@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-26T08:22:04+01:00",
+  "updated_at": "2026-09-26T15:00:22+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 67,
-  "solar_w": 354,
-  "house_w": 231,
-  "battery_w": 44,
-  "grid_w": 6,
+  "soc_percent": 72.0,
+  "solar_w": 1258.0,
+  "house_w": 2459.0,
+  "battery_w": -1330.0,
+  "grid_w": -20.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-26T07:21:28Z",
+  "sample_time_utc": "2026-09-26T13:56:13Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -20,9 +20,15 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201302:42 @ 76% charged 51%\u219275% (~3.24 kWh pack / ~3.2 kWh import); hit 75% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 67% solar ~354 W house ~231 W batt ~44 W grid ~6 W\n\ud83d\udcc9 20% floor until 16:00, leftover +47 pp (intentional Solcast\u00d70.75 immersion+cloudy lean sizing, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV ahead of Solcast (inverter ~0.203 kW vs Solcast ~0.16 kW) \u2014 morning only\n\ud83d\udd27 derate \u00d70.75 live; Solcast trial ~2 weeks from ~9 Sep; morning lag alone \u2260 daytime bias",
-  "updated": "2026-09-26T08:22:04+01:00",
-  "peak_window": "16:00-19:00",
+  "last_action": "\u2705 15:00 peak: SOC 72% \u2265 60% lean target \u2013 no top-up\n\ud83c\udf19 overnight kept 02:00\u201302:42 @ 76%/6 kW\n\u2600\ufe0f solar ~1258 W house ~2459 W batt -1330 W grid ~-20 W\n\u2b07\ufe0f no Power Down today (Sat); Fri 25 PD past; HH booked Sun 27 12:00\u201313:00",
+  "updated": "2026-09-26T15:00:22+01:00",
+  "peak_window": {
+    "from": "15:00",
+    "to": "16:00",
+    "target_percent": 60,
+    "applied": false,
+    "reason": "soc_above_lean_target"
+  },
   "weather_tomorrow": {
     "code": "mixed",
     "label": "Sat Solcast Garage+Home \u00d70.75; noon~3.831 kWh derated; day~13.436 kWh. No free window; 20% floor to 16:00. Overnight 02:00\u201302:42 @76% from 48.0%."
@@ -37,38 +43,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-21T08:33:45+01:00",
-      "w": -97
-    },
-    {
-      "t": "2026-09-21T15:41:02+01:00",
-      "w": 317.0
-    },
-    {
-      "t": "2026-09-22T01:54:14+01:00",
-      "w": 245.0
-    },
-    {
-      "t": "2026-09-22T02:02:31+01:00",
-      "w": 5676
-    },
-    {
-      "t": "2026-09-22T02:58:11+01:00",
-      "w": 5666
-    },
-    {
-      "t": "2026-09-22T03:08:19+01:00",
-      "w": 5662
-    },
-    {
-      "t": "2026-09-22T04:59:39+01:00",
-      "w": -209
-    },
-    {
-      "t": "2026-09-22T07:01:07+01:00",
-      "w": -242
-    },
     {
       "t": "2026-09-22T08:01:51+01:00",
       "w": -622
@@ -224,6 +198,10 @@
     {
       "t": "2026-09-26T08:22:04+01:00",
       "w": 44
+    },
+    {
+      "t": "2026-09-26T15:00:22+01:00",
+      "w": -1330.0
     }
   ],
   "soc_series": [
@@ -346,6 +324,10 @@
     {
       "t": "2026-09-26T08:22:04+01:00",
       "soc": 67
+    },
+    {
+      "t": "2026-09-26T15:00:22+01:00",
+      "soc": 72.0
     }
   ],
   "booked_power_up": null,
@@ -375,11 +357,5 @@
     "source": "aol_optimistic_opt_in",
     "account_id": "A-5314B4CC"
   },
-  "peak_topup": {
-    "needed": false,
-    "applied": false,
-    "soc_live": 98.0,
-    "target": 60,
-    "reason": "soc_above_lean_target"
-  }
+  "peak_topup": null
 }
