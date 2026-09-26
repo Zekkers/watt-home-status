@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-26T01:34:20+01:00",
+  "updated_at": "2026-09-26T08:22:04+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 48.0,
-  "solar_w": 0.0,
-  "house_w": 151.0,
-  "battery_w": -231.0,
-  "grid_w": -0.0,
+  "soc_percent": 67,
+  "solar_w": 354,
+  "house_w": 231,
+  "battery_w": 44,
+  "grid_w": 6,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-26T00:31:31Z",
+  "sample_time_utc": "2026-09-26T07:21:28Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -15,25 +15,16 @@
     "to": "02:42",
     "percent_limit": 76,
     "kw": 6,
-    "cleared": false,
     "kwh": 3.78,
-    "mins": 42
+    "mins": 42,
+    "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 01:30 overnight: no_free_solcast_derate_lean\n\ud83d\udd0b SOC 48% solar ~0 W house ~151 W batt ~-231 W grid ~0 W\n\ud83c\udf19 overnight 02:00\u201302:42 @76%/6 kW (~3.78 kWh / 42 min @5.56)\n\u2600\ufe0f Solcast Garage+Home \u00d70.75: noon~3.831 kWh day~13.436 kWh (immersion net~2.169)\n\u26a1 no free window today; floor 20%; lean 16:00 target 60%; HH booked Sun 12:00\u201313:00 (not today)",
-  "updated": "2026-09-26T01:34:20+01:00",
-  "peak_window": {
-    "from": "16:00",
-    "to": "19:00",
-    "label": "Flux peak"
-  },
+  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201302:42 @ 76% charged 51%\u219275% (~3.24 kWh pack / ~3.2 kWh import); hit 75% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 67% solar ~354 W house ~231 W batt ~44 W grid ~6 W\n\ud83d\udcc9 20% floor until 16:00, leftover +47 pp (intentional Solcast\u00d70.75 immersion+cloudy lean sizing, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV ahead of Solcast (inverter ~0.203 kW vs Solcast ~0.16 kW) \u2014 morning only\n\ud83d\udd27 derate \u00d70.75 live; Solcast trial ~2 weeks from ~9 Sep; morning lag alone \u2260 daytime bias",
+  "updated": "2026-09-26T08:22:04+01:00",
+  "peak_window": "16:00-19:00",
   "weather_tomorrow": {
-    "source": "Solcast Garage+Home \u00d70.75",
-    "noon_pv_kwh_derated": 3.831,
-    "day_pv_kwh_derated": 13.436,
-    "derate": 0.75,
-    "note": "Solcast Garage+Home raw noon 5.109 / day 17.915; \u00d70.75 applied. No free window Sat 26; floor 20%; immersion net~2.169.",
-    "code": "sunny",
+    "code": "mixed",
     "label": "Sat Solcast Garage+Home \u00d70.75; noon~3.831 kWh derated; day~13.436 kWh. No free window; 20% floor to 16:00. Overnight 02:00\u201302:42 @76% from 48.0%."
   },
   "last_savings": {
@@ -205,45 +196,37 @@
     {
       "t": "2026-09-25T17:25:28+01:00",
       "w": -871
+    },
+    {
+      "t": "2026-09-26T02:06:57+01:00",
+      "w": 5671
+    },
+    {
+      "t": "2026-09-26T02:57:34+01:00",
+      "w": -231
+    },
+    {
+      "t": "2026-09-26T03:07:41+01:00",
+      "w": -202
+    },
+    {
+      "t": "2026-09-26T04:59:01+01:00",
+      "w": -277
+    },
+    {
+      "t": "2026-09-26T07:00:29+01:00",
+      "w": -306
+    },
+    {
+      "t": "2026-09-26T08:01:13+01:00",
+      "w": -151
+    },
+    {
+      "t": "2026-09-26T08:22:04+01:00",
+      "w": 44
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-09-22T08:01:51+01:00",
-      "soc": 77
-    },
-    {
-      "t": "2026-09-22T08:11:52+01:00",
-      "soc": 76
-    },
-    {
-      "t": "2026-09-22T08:12:53+01:00",
-      "soc": 76
-    },
-    {
-      "t": "2026-09-22T15:43:58+01:00",
-      "soc": 99.0
-    },
-    {
-      "t": "2026-09-23T01:48:25+01:00",
-      "soc": 44.0
-    },
-    {
-      "t": "2026-09-23T01:59:50+01:00",
-      "soc": 43
-    },
-    {
-      "t": "2026-09-23T03:00:34+01:00",
-      "soc": 80
-    },
-    {
-      "t": "2026-09-23T03:10:41+01:00",
-      "soc": 80
-    },
-    {
-      "t": "2026-09-23T05:02:02+01:00",
-      "soc": 78
-    },
     {
       "t": "2026-09-23T06:58:26+01:00",
       "soc": 74
@@ -335,6 +318,34 @@
     {
       "t": "2026-09-25T17:25:28+01:00",
       "soc": 89
+    },
+    {
+      "t": "2026-09-26T02:06:57+01:00",
+      "soc": 51
+    },
+    {
+      "t": "2026-09-26T02:57:34+01:00",
+      "soc": 75
+    },
+    {
+      "t": "2026-09-26T03:07:41+01:00",
+      "soc": 75
+    },
+    {
+      "t": "2026-09-26T04:59:01+01:00",
+      "soc": 72
+    },
+    {
+      "t": "2026-09-26T07:00:29+01:00",
+      "soc": 68
+    },
+    {
+      "t": "2026-09-26T08:01:13+01:00",
+      "soc": 67
+    },
+    {
+      "t": "2026-09-26T08:22:04+01:00",
+      "soc": 67
     }
   ],
   "booked_power_up": null,
