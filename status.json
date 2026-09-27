@@ -1,27 +1,32 @@
 {
-  "updated_at": "2026-09-27T15:00:13+01:00",
+  "updated_at": "2026-09-27T17:25:24+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 61,
-  "solar_w": 886,
-  "house_w": 1783,
-  "battery_w": 1024,
-  "grid_w": -8,
+  "soc_percent": 42,
+  "solar_w": 75,
+  "house_w": 1315,
+  "battery_w": 1282,
+  "grid_w": -9,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-27T13:58:35Z",
+  "sample_time_utc": "2026-09-27T16:20:17Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
-    "from": "02:00",
-    "to": "02:43",
-    "percent_limit": 30,
+    "from": "00:00",
+    "to": "00:00",
+    "percent_limit": 100,
     "kw": 6,
-    "kwh": 3.51,
-    "mins": 43,
-    "cleared": false
+    "cleared": true,
+    "cleared_reason": "SOC 42% >= overnight cap 30% at 17:30 catch; midnight owns re-size",
+    "was": {
+      "from": "02:00",
+      "to": "02:43",
+      "percent_limit": 30,
+      "kw": 6
+    }
   },
   "next_power_up": null,
-  "last_action": "\u2705 15:00 peak: SOC 61% \u2265 60% lean target \u2013 no top-up\n\ud83e\uddf9 cleared spent Happy Hour slot 12:00\u201313:00 (ended >5 min ago; date-less would repeat Mon)\n\ud83c\udf19 overnight kept 02:00\u201302:43 @ 30%/6 kW\n\u2600\ufe0f solar ~886 W house ~1783 W batt +1024 W grid ~-8 W\n\u2b07\ufe0f no Power Down today (Sun); Fri 25 PD past; next_power_up null",
-  "updated": "2026-09-27T15:00:13+01:00",
+  "last_action": "\ud83e\uddf9 17:30 Power Up catch: no new Octopus PD/PU/HH today (Gmail Fri 25 Results only; AOL today_hits 0)\n\ud83c\udf19 cleared overnight timed-charge (was 02:00\u201302:43 @ 30%/6 kW; live SOC 42% \u2265 cap 30% \u2014 slot at cap would hold 0 W)\n\u2600\ufe0f solar ~75 W house ~1315 W batt +1282 W grid ~-9 W\n\u2b07\ufe0f Happy Hour Sun 12:00\u201313:00 already used/cleared; next_power_up null; Gateway not written",
+  "updated": "2026-09-27T17:25:24+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -48,10 +53,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-22T08:11:52+01:00",
-      "w": -2098
-    },
     {
       "t": "2026-09-22T08:12:53+01:00",
       "w": 138
@@ -239,6 +240,10 @@
     {
       "t": "2026-09-27T15:00:13+01:00",
       "w": 1024
+    },
+    {
+      "t": "2026-09-27T17:25:24+01:00",
+      "w": 1282
     }
   ],
   "soc_series": [
@@ -361,6 +366,10 @@
     {
       "t": "2026-09-27T15:00:13+01:00",
       "soc": 61
+    },
+    {
+      "t": "2026-09-27T17:25:24+01:00",
+      "soc": 42
     }
   ],
   "booked_power_up": null,
