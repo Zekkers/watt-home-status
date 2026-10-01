@@ -52,6 +52,9 @@ class PowerUpExpiryTest {
         assertHidden(tomorrow, fiveMinutesAfter)
         assertHidden(tomorrow, upcoming)
         assertHidden(sundayHappyHour, fridayAfternoon)
+        assertTrue(StatusFormatter.isUpcomingOptedIn(tomorrow, evening))
+        assertTrue(StatusFormatter.isUpcomingOptedIn(sundayHappyHour, fridayAfternoon))
+        assertFalse(StatusFormatter.optedInPowerUp(tomorrow, evening))
         assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.oneByOne(tomorrow, evening))
         assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.twoByTwo(sundayHappyHour, fridayAfternoon))
         assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.twoByOne(sundayHappyHour, now = fridayAfternoon))
@@ -62,9 +65,9 @@ class PowerUpExpiryTest {
         assertTrue(StatusFormatter.isPowerUpCurrent(sundayHappyHour, sundayInProgress))
         val sundayClock = PowerUpLayout.clock(sundayHappyHour, sundayInProgress)
         assertNotNull(sundayClock)
-        assertEquals("12pm", sundayClock!!.from)
-        assertEquals("1pm", sundayClock.to)
-        assertEquals("12pm - 1pm", StatusFormatter.powerUpSpokenWindow(sundayHappyHour, sundayInProgress))
+        assertEquals("12:00", sundayClock!!.from)
+        assertEquals("13:00", sundayClock.to)
+        assertEquals("12:00 - 13:00", StatusFormatter.powerUpSpokenWindow(sundayHappyHour, sundayInProgress))
         assertTrue(StatusFormatter.optedInPowerUp(sundayHappyHour, sundayInProgress))
     }
 
@@ -121,10 +124,10 @@ class PowerUpExpiryTest {
     private fun assertVisible(powerUp: PowerUp?, now: ZonedDateTime) {
         val clock = PowerUpLayout.clock(powerUp, now)
         assertNotNull(clock)
-        assertEquals("12:30pm", clock!!.from)
-        assertEquals("2:30pm", clock.to)
-        assertEquals("12:30pm - 2:30pm", StatusFormatter.powerUpSpokenWindow(powerUp, now))
-        assertEquals("12:30pm - 2:30pm", StatusFormatter.powerUpSpokenWindowOrNull(powerUp, now))
+        assertEquals("12:30", clock!!.from)
+        assertEquals("14:30", clock.to)
+        assertEquals("12:30 - 14:30", StatusFormatter.powerUpSpokenWindow(powerUp, now))
+        assertEquals("12:30 - 14:30", StatusFormatter.powerUpSpokenWindowOrNull(powerUp, now))
         assertEquals(powerUp?.optedIn == true, StatusFormatter.optedInPowerUp(powerUp, now))
         assertTrue(StatusFormatter.isPowerUpCurrent(powerUp, now))
     }

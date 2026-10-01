@@ -1,5 +1,6 @@
 package com.zekkers.watthome
 
+import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.HomeStatusParser
 import com.zekkers.watthome.data.PowerUpClockMode
 import com.zekkers.watthome.data.PowerUpLayout
@@ -26,11 +27,17 @@ class PowerUpLayoutTest {
     ).nextPowerUp
 
     @Test
-    fun spokenPartsAreTwelvePmAndTwoPm() {
+    fun defaultClockIsTwentyFourHour() {
         val clock = PowerUpLayout.clock(noon, midday)!!
-        assertEquals("12pm", clock.from)
-        assertEquals("2pm", clock.to)
-        assertEquals("12pm - 2pm", clock.oneLine)
+        assertEquals("12:00", clock.from)
+        assertEquals("14:00", clock.to)
+        assertEquals("12:00 - 14:00", clock.oneLine)
+        assertEquals("12:00", StatusFormatter.formatClock(noon?.from))
+        assertEquals("14:00", StatusFormatter.formatClock(noon?.to))
+        val twelve = PowerUpLayout.clock(noon, midday, ClockStyle.TwelveHour)!!
+        assertEquals("12pm", twelve.from)
+        assertEquals("2pm", twelve.to)
+        assertEquals("12pm - 2pm", twelve.oneLine)
         assertEquals("12pm", StatusFormatter.twelveHourClock(noon?.from))
         assertEquals("2pm", StatusFormatter.twelveHourClock(noon?.to))
         assertFalse(clock.from.contains("-"))
@@ -50,14 +57,14 @@ class PowerUpLayoutTest {
     }
 
     @Test
-    fun twoByOneAlwaysStacksTwelvePmAndTwoPm() {
+    fun twoByOneAlwaysStacksNoonAndTwo() {
         assertEquals(PowerUpClockMode.Stacked, PowerUpLayout.twoByOne(noon, now = midday))
         assertEquals(PowerUpClockMode.Stacked, PowerUpLayout.twoByOne(noon, availableTimeDp = 220f, now = midday))
         assertEquals(PowerUpClockMode.Hidden, PowerUpLayout.twoByOne(null, now = midday))
         assertNotEquals(PowerUpClockMode.OneLine, PowerUpLayout.twoByOne(noon, now = midday))
         val clock = PowerUpLayout.clock(noon, midday)!!
-        assertEquals("12pm", clock.from)
-        assertEquals("2pm", clock.to)
+        assertEquals("12:00", clock.from)
+        assertEquals("14:00", clock.to)
     }
 
     @Test
@@ -83,12 +90,15 @@ class PowerUpLayoutTest {
     }
 
     @Test
-    fun peakWindowUsesFourPmAndSevenPmTokens() {
+    fun peakWindowUsesSixteenAndNineteenTokens() {
         val clock = PowerUpLayout.clock(peak, midday)!!
-        assertEquals("4pm", clock.from)
-        assertEquals("7pm", clock.to)
-        assertEquals("4pm - 7pm", clock.oneLine)
+        assertEquals("16:00", clock.from)
+        assertEquals("19:00", clock.to)
+        assertEquals("16:00 - 19:00", clock.oneLine)
         assertEquals(PowerUpClockMode.Stacked, PowerUpLayout.oneByOne(peak, midday))
+        val twelve = PowerUpLayout.clock(peak, midday, ClockStyle.TwelveHour)!!
+        assertEquals("4pm", twelve.from)
+        assertEquals("7pm", twelve.to)
     }
 
     @Test
@@ -104,6 +114,9 @@ class PowerUpLayoutTest {
         assertTrue(WidgetTextMeasure.fits("21\u2060%", 26f, 56f, 1f, bold = true))
         assertFalse(WidgetTextMeasure.fits("21\u2060%", 32f, 56f, 1f, bold = true))
         assertFalse(WidgetTextMeasure.fits("100\u2060%", 26f, 66f, 1f, bold = true))
+        assertTrue(WidgetTextMeasure.fits("12:00", 10f, 40f, 1f))
+        assertTrue(WidgetTextMeasure.fits("14:00", 10f, 40f, 1f))
+        assertFalse(WidgetTextMeasure.fits("12:00 - 14:00", 13f, 40f, 1f))
         assertTrue(WidgetTextMeasure.fits("12pm", 10f, 40f, 1f))
         assertTrue(WidgetTextMeasure.fits("2pm", 10f, 40f, 1f))
         assertFalse(WidgetTextMeasure.fits("12pm - 2pm", 13f, 40f, 1f))

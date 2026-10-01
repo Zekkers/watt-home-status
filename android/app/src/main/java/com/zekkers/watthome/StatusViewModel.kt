@@ -3,6 +3,8 @@ package com.zekkers.watthome
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.zekkers.watthome.data.ClockStyle
+import com.zekkers.watthome.data.ClockStylePrefs
 import com.zekkers.watthome.data.GraphSeriesPrefs
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.RefreshErrors
@@ -41,6 +43,9 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _graphSeries = MutableStateFlow(GraphSeriesPrefs.read(application))
     val graphSeries = _graphSeries.asStateFlow()
+
+    private val _clockStyle = MutableStateFlow(ClockStylePrefs.read(application))
+    val clockStyle = _clockStyle.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -133,6 +138,14 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
     fun setGraphSeries(selection: GraphSeriesSelection) {
         GraphSeriesPrefs.write(getApplication(), selection)
         _graphSeries.value = selection
+        viewModelScope.launch(Dispatchers.IO) {
+            WidgetUpdater.updateAll(getApplication())
+        }
+    }
+
+    fun setClockStyle(style: ClockStyle) {
+        ClockStylePrefs.write(getApplication(), style)
+        _clockStyle.value = style
         viewModelScope.launch(Dispatchers.IO) {
             WidgetUpdater.updateAll(getApplication())
         }

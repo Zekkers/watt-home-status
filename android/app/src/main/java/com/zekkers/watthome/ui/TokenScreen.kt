@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -39,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.zekkers.watthome.data.ClockStyle
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.GraphSeriesStyle
 
@@ -51,6 +53,8 @@ fun TokenScreen(
     canSkip: Boolean,
     series: GraphSeriesSelection,
     onSeriesChange: (GraphSeriesSelection) -> Unit,
+    clockStyle: ClockStyle,
+    onClockStyleChange: (ClockStyle) -> Unit,
     onSave: (String) -> Unit,
     onTest: (String) -> Unit,
     onRemove: () -> Unit,
@@ -135,6 +139,44 @@ fun TokenScreen(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
             )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = "Clock",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = "One style for every time on the app and widgets: sessions, peak, 16:00 target, overnight, and last updated.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "24-hour clock",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = if (clockStyle == ClockStyle.TwentyFourHour) {
+                            "17:00 · 02:00–02:58"
+                        } else {
+                            "5pm · 2am–2:58am"
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                }
+                Switch(
+                    checked = clockStyle == ClockStyle.TwentyFourHour,
+                    onCheckedChange = { on ->
+                        onClockStyleChange(
+                            if (on) ClockStyle.TwentyFourHour else ClockStyle.TwelveHour
+                        )
+                    }
+                )
+            }
             Spacer(Modifier.height(8.dp))
             Text(
                 text = "Today’s energy",

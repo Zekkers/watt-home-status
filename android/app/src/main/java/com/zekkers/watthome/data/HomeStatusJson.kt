@@ -24,18 +24,10 @@ object HomeStatusJson {
             )
         }
         status.peakWindow?.let { put("peak_window", JsonPrimitive(it)) }
-        status.nextPowerUp?.let { powerUp ->
-            put(
-                "next_power_up",
-                buildJsonObject {
-                    powerUp.from?.let { put("from", JsonPrimitive(it)) }
-                    powerUp.to?.let { put("to", JsonPrimitive(it)) }
-                    powerUp.date?.let { put("date", JsonPrimitive(it)) }
-                    powerUp.optedIn?.let { put("opted_in", JsonPrimitive(it)) }
-                    powerUp.label?.let { put("label", JsonPrimitive(it)) }
-                }
-            )
-        }
+        status.nextPowerUp?.let { put("next_power_up", sessionObject(it)) }
+        status.bookedPowerUp?.let { put("booked_power_up", sessionObject(it)) }
+        status.bookedHappyHour?.let { put("booked_happy_hour", sessionObject(it)) }
+        status.bookedPowerDown?.let { put("booked_power_down", sessionObject(it)) }
         status.lastAction?.let { put("last_action", JsonPrimitive(it)) }
         status.weatherTomorrow?.let { weather ->
             put(
@@ -78,6 +70,16 @@ object HomeStatusJson {
             )
         }
     }.toString()
+
+    private fun sessionObject(session: PowerUp): JsonObject = buildJsonObject {
+        session.from?.let { put("from", JsonPrimitive(it)) }
+        session.to?.let { put("to", JsonPrimitive(it)) }
+        session.date?.let { put("date", JsonPrimitive(it)) }
+        session.optedIn?.let { put("opted_in", JsonPrimitive(it)) }
+        session.label?.let { put("label", JsonPrimitive(it)) }
+        session.kind?.let { put("kind", JsonPrimitive(it)) }
+        session.sessionId?.let { put("session_id", JsonPrimitive(it)) }
+    }
 
     private fun seriesArray(
         samples: List<BatterySample>,

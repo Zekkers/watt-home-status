@@ -80,6 +80,24 @@ class RefreshCadenceTest {
     }
 
     @Test
+    fun fastDuringLivePowerDownWindow() {
+        val status = HomeStatus(
+            socPercent = 46,
+            batteryW = -80.0,
+            bookedPowerDown = PowerUp(
+                from = "19:00",
+                to = "20:00",
+                date = "2026-08-27",
+                optedIn = true,
+                kind = "power_down"
+            )
+        )
+        val during = ZonedDateTime.parse("2026-08-27T19:15:00+01:00[Europe/London]")
+        assertTrue(RefreshCadence.needsFastPoll(status, previousSocPercent = 46, now = during))
+        assertFalse(RefreshCadence.needsFastPoll(status, previousSocPercent = 46, now = londonMorning))
+    }
+
+    @Test
     fun parsesPowerUpFromLiveStatusJson() {
         val status = HomeStatusParser.parse(
             """
