@@ -1,42 +1,42 @@
 {
-  "updated_at": "2026-09-30T14:56:01+01:00",
+  "updated_at": "2026-10-01T01:35:13+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 81,
-  "solar_w": 1325.0,
-  "house_w": 761.0,
-  "battery_w": 545.0,
-  "grid_w": -11.0,
+  "soc_percent": 10.0,
+  "solar_w": 0.0,
+  "house_w": 172.0,
+  "battery_w": -238.0,
+  "grid_w": 4.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-09-30T13:55:37Z",
+  "sample_time_utc": "2026-10-01T00:28:14Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
     "from": "02:00",
-    "to": "04:12",
-    "percent_limit": 87,
+    "to": "03:37",
+    "percent_limit": 74,
     "kw": 6,
-    "kwh": 11.21,
-    "mins": 132,
+    "kwh": 8.64,
+    "mins": 97,
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2b07\ufe0f 15:00 peak: Power Down tonight 18:00\u201319:00 opted in (64 Octopoints/kWh)\n\ud83d\udd0b SOC 81% \u2265 60% lean \u2013 no top-up; pack adequate for PD (~0.95 kWh need / ~10.39 kWh above EPS)\n\ud83d\udced no Power Up / Happy Hour / Typeform today (Gmail payment FYI only; Laura AOL PD ACTION)\n\ud83c\udf19 overnight kept 02:00\u201304:12 @ 87%/6 kW\n\u2600\ufe0f solar ~1325 W house ~761 W batt 545 W grid ~-11 W\n\ud83c\udf89 Happy Hour Sun 27 kept (spent); next_power_up null",
-  "updated": "2026-09-30T14:56:01+01:00",
+  "last_action": "\u2705 01:30 overnight: no_free_solcast_derate_lean\n\ud83d\udd0b SOC 10% solar ~0 W house ~172 W batt ~-238 W grid ~4 W\n\ud83c\udf19 overnight 02:00\u201303:37 @74%/6 kW (~8.64 kWh / 97 min @5.56)\n\u2600\ufe0f Solcast Garage+Home \u00d70.75: noon~4.065 kWh day~12.161 kWh (immersion net~1.935)\n\ud83e\uddf9 no free window Thu 1 Oct; extras cleared; next_power_up null; floor 20%; Gateway not written",
+  "updated": "2026-10-01T01:35:13+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
     "target_percent": 60,
     "applied": false,
-    "reason": "soc_above_lean_target_pd_adequate"
+    "reason": "lean_overnight_sized_await_1500"
   },
   "weather_tomorrow": {
-    "code": "partly_sunny",
+    "code": "partly_cloudy",
     "source": "Solcast Garage+Home \u00d70.75",
-    "noon_pv_kwh_derated": 3.06,
-    "day_pv_kwh_derated": 7.364,
+    "noon_pv_kwh_derated": 4.065,
+    "day_pv_kwh_derated": 12.161,
     "derate": 0.75,
-    "note": "Solcast Garage+Home raw noon 4.08 / day 9.819; \u00d70.75 applied. No free window Wed 30; floor 20% until 16:00; immersion_net=2.94; low_soc_slack_pp=5.",
-    "label": "Wed Solcast Garage+Home \u00d70.75; noon~3.06 kWh derated; day~7.364 kWh. No free window; 20% floor to 16:00. Overnight 02:00\u201304:12 @87% from 4.0% near EPS."
+    "note": "Solcast Garage+Home raw noon 5.42 / day 16.215; \u00d70.75 applied. No free window Thu 1 Oct; floor 20%; immersion_net=1.935; low_soc_slack=0pp.",
+    "label": "Thu Solcast Garage+Home \u00d70.75; noon~4.065 kWh derated; day~12.161 kWh. No free window; 20% floor. Overnight 02:00\u201303:37 @74% from 10.0%."
   },
   "last_savings": {
     "gbp": 36.95,
@@ -207,6 +207,10 @@
     {
       "t": "2026-09-30T14:56:01+01:00",
       "w": 545.0
+    },
+    {
+      "t": "2026-10-01T01:35:13+01:00",
+      "w": -238
     }
   ],
   "soc_series": [
@@ -333,6 +337,10 @@
     {
       "t": "2026-09-30T14:56:01+01:00",
       "soc": 81.0
+    },
+    {
+      "t": "2026-10-01T01:35:13+01:00",
+      "soc": 10
     }
   ],
   "booked_power_up": null,
