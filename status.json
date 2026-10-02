@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-02T08:24:15+01:00",
+  "updated_at": "2026-10-02T15:06:41+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 67,
-  "solar_w": 231,
-  "house_w": 145,
-  "battery_w": 0,
-  "grid_w": -3,
+  "soc_percent": 89,
+  "solar_w": 424,
+  "house_w": 987,
+  "battery_w": 663,
+  "grid_w": -25,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-02T07:20:33Z",
+  "sample_time_utc": "2026-10-02T14:00:22Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -20,14 +20,14 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201303:10 @ 77% charged 34%\u219277% (~5.8 kWh pack / ~6.7 kWh import); hit 77% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 67% solar ~231 W house ~145 W batt ~0 W grid ~-3 W\n\ud83d\udcc9 20% floor until 16:00, leftover +47 pp (intentional Solcast\u00d70.75 lean from 35% overnight start, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV still lagging Solcast (inverter ~0.101 kW avg vs Solcast ~0.252 kW) \u2014 morning lag, not daytime bias\n\ud83d\udd27 derate \u00d70.75 live; Solcast trial ~3 weeks from ~9 Sep; morning lag alone \u2260 daytime bias",
-  "updated": "2026-10-02T08:24:15+01:00",
+  "last_action": "\u2705 15:00 peak: QUIET_NOOP \u2013 SOC 89% \u2265 60% lean; no top-up\n\ud83d\udd0b SOC 89% solar ~424 W house ~987 W batt 663 W grid ~-25 W\n\u2b07\ufe0f no Power Down tonight (Laura AOL: no ACTION PD Fri 2; Gmail: none today)\n\ud83c\udf89 Happy Hour FYI in (13:19): Sun 4 Oct slots 11am\u201312pm / 12pm\u20131pm / 1pm\u20132pm / 2pm\u20133pm (\u22651 banked); not auto-booked\n\ud83c\udf19 overnight kept 02:00\u201303:10 @ 77%/6 kW; next_power_up null",
+  "updated": "2026-10-02T15:06:41+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
     "target_percent": 60,
     "applied": false,
-    "reason": "lean_overnight_sized_await_1500"
+    "reason": "soc_above_lean_target"
   },
   "weather_tomorrow": {
     "code": "partly_sunny",
@@ -271,13 +271,13 @@
     {
       "t": "2026-10-02T08:24:15+01:00",
       "w": 0
+    },
+    {
+      "t": "2026-10-02T15:06:41+01:00",
+      "w": 663
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-09-29T15:13:57+01:00",
-      "soc": 76
-    },
     {
       "t": "2026-09-30T01:31:05+01:00",
       "soc": 4
@@ -393,6 +393,10 @@
     {
       "t": "2026-10-02T08:24:15+01:00",
       "soc": 67
+    },
+    {
+      "t": "2026-10-02T15:06:41+01:00",
+      "soc": 89.0
     }
   ],
   "booked_power_up": null,
@@ -426,8 +430,8 @@
   "peak_topup": {
     "applied": false,
     "reason": "soc_above_lean_target",
-    "soc": 99.0,
+    "soc": 89.0,
     "target": 60,
-    "at": "2026-10-01T14:58:56+01:00"
+    "at": "2026-10-02T15:06:41+01:00"
   }
 }
