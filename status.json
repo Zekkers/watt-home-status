@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-03T08:19:00+01:00",
+  "updated_at": "2026-10-03T14:55:40.467046+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 86,
-  "solar_w": 159,
-  "house_w": 541,
-  "battery_w": -437,
-  "grid_w": -21,
+  "soc_percent": 58,
+  "solar_w": 688,
+  "house_w": 1344,
+  "battery_w": -747,
+  "grid_w": 20,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-03T07:17:52Z",
+  "sample_time_utc": "2026-10-03T13:42:31Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -20,14 +20,14 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201304:33 @ 100% charged 4%\u219298% (~12.69 kWh pack / ~15.9 kWh import); hit 98% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 86% solar ~159 W house ~541 W batt ~-437 W grid ~-21 W\n\ud83d\udcc9 20% floor until 16:00, leftover +66 pp (intentional near-EPS recovery + immersion + Solcast\u00d70.75 lean to 100% on cloudy day, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV ahead of Solcast (inverter ~0.093 kW vs Solcast ~0.037 kW) \u2014 morning only\n\ud83d\udd27 derate \u00d70.75 live; Solcast trial ~3 weeks from ~9 Sep; morning lag alone \u2260 daytime bias",
-  "updated": "2026-10-03T08:19:00+01:00",
+  "last_action": "\u26a1 15:00 peak top-up 14:56\u201315:04 @ 60%/6 kW (SOC 58%\u219260%, ~0.27 kWh / 8 min @ 5.56 kW)\n\ud83d\udd0b SOC 58% solar ~688 W house ~1344 W batt -747 W grid ~20 W\n\u2b07\ufe0f no Power Down tonight (Laura AOL today_hits 0; Gmail: no today PD/PU/HH)\n\ud83c\udf19 overnight kept 02:00\u201304:33 @ 100%/6 kW; next_power_up null\n\ud83c\udf89 Happy Hour booked Sun 4 Oct 12:00\u201313:00 (kept)",
+  "updated": "2026-10-03T14:55:40.467046+01:00",
   "peak_window": {
-    "from": "15:00",
-    "to": "16:00",
+    "from": "14:56",
+    "to": "15:04",
     "target_percent": 60,
-    "applied": false,
-    "reason": "lean_overnight_sized_await_1500"
+    "applied": true,
+    "reason": "soc_below_lean_target_topup"
   },
   "weather_tomorrow": {
     "code": "partly_sunny",
@@ -48,90 +48,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-28T01:37:36+01:00",
-      "w": 0.0
-    },
-    {
-      "t": "2026-09-28T02:01:34+01:00",
-      "w": 5663
-    },
-    {
-      "t": "2026-09-28T03:02:18+01:00",
-      "w": 5661
-    },
-    {
-      "t": "2026-09-28T03:57:58+01:00",
-      "w": 5656
-    },
-    {
-      "t": "2026-09-28T04:08:06+01:00",
-      "w": 5658
-    },
-    {
-      "t": "2026-09-28T04:58:43+01:00",
-      "w": -293
-    },
-    {
-      "t": "2026-09-28T07:00:11+01:00",
-      "w": -276
-    },
-    {
-      "t": "2026-09-28T08:00:54+01:00",
-      "w": -154
-    },
-    {
-      "t": "2026-09-28T08:19:30+01:00",
-      "w": -66
-    },
-    {
-      "t": "2026-09-28T15:13:00+01:00",
-      "w": -725.0
-    },
-    {
-      "t": "2026-09-29T01:31:54+01:00",
-      "w": 238.0
-    },
-    {
-      "t": "2026-09-29T01:58:54+01:00",
-      "w": -321
-    },
-    {
-      "t": "2026-09-29T02:59:38+01:00",
-      "w": 5666
-    },
-    {
-      "t": "2026-09-29T03:14:49+01:00",
-      "w": -214
-    },
-    {
-      "t": "2026-09-29T04:00:22+01:00",
-      "w": -226
-    },
-    {
-      "t": "2026-09-29T05:01:06+01:00",
-      "w": -322
-    },
-    {
-      "t": "2026-09-29T06:57:30+01:00",
-      "w": -305
-    },
-    {
-      "t": "2026-09-29T07:58:14+01:00",
-      "w": -339
-    },
-    {
-      "t": "2026-09-29T08:15:40+01:00",
-      "w": -311
-    },
-    {
-      "t": "2026-09-29T15:13:57+01:00",
-      "w": -257.0
-    },
-    {
-      "t": "2026-09-30T01:31:05+01:00",
-      "w": 0
-    },
     {
       "t": "2026-09-30T02:01:17+01:00",
       "w": 5664
@@ -287,6 +203,10 @@
     {
       "t": "2026-10-03T08:19:00+01:00",
       "w": -437
+    },
+    {
+      "t": "2026-10-03T14:55:40.467046+01:00",
+      "w": -747.0
     }
   ],
   "soc_series": [
@@ -409,6 +329,10 @@
     {
       "t": "2026-10-03T08:19:00+01:00",
       "soc": 86
+    },
+    {
+      "t": "2026-10-03T14:55:40.467046+01:00",
+      "soc": 58
     }
   ],
   "booked_power_up": null,
@@ -425,25 +349,22 @@
     "account_id": "A-5314B4CC",
     "timezone": "Europe/London"
   },
-  "booked_power_down": {
-    "date": "2026-10-01",
-    "from": "18:00",
-    "to": "19:00",
-    "opted_in": true,
-    "session_id": "3d18b8f0-8796-424c-9ee4-a7bfdf2c748e",
-    "since": "2026-10-01T13:58:29.211614",
-    "label": "Power Down",
-    "kind": "power_down",
-    "octopoints_per_kwh": 68,
-    "source": "aol_optimistic_opt_in",
-    "account_id": "A-5314B4CC",
-    "timezone": "Europe/London"
-  },
+  "booked_power_down": null,
   "peak_topup": {
-    "applied": false,
-    "reason": "soc_above_lean_target",
-    "soc": 89.0,
+    "applied": true,
+    "reason": "soc_below_lean_target",
+    "soc": 58.0,
     "target": 60,
-    "at": "2026-10-02T15:06:41+01:00"
+    "at": "2026-10-03T14:55:40.467046+01:00",
+    "slot": {
+      "from": "14:56",
+      "to": "15:04",
+      "percent_limit": 60,
+      "kwh": 0.27,
+      "mins_sized": 8,
+      "mins_actual": 8,
+      "mins_raw": 2.91,
+      "gap_pp": 2.0
+    }
   }
 }
