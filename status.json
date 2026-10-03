@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-03T14:56:34.201177+01:00",
+  "updated_at": "2026-10-03T17:26:50.578346+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 58,
-  "solar_w": 688,
-  "house_w": 1344,
-  "battery_w": -747,
-  "grid_w": 20,
+  "soc_percent": 48,
+  "solar_w": 283,
+  "house_w": 1502,
+  "battery_w": -1306,
+  "grid_w": -14,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-03T13:42:31Z",
+  "sample_time_utc": "2026-10-03T16:24:28Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -20,14 +20,14 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u26a1 15:00 peak top-up 15:52\u201316:00 @ 60%/6 kW (SOC 58%\u219260%, ~0.27 kWh / 8 min @ 5.56 kW; aligned to end at 16:00)\n\ud83d\udd0b SOC 58% solar ~688 W house ~1344 W batt -747 W grid ~20 W\n\u2b07\ufe0f no Power Down tonight (Laura AOL today_hits 0; Gmail: no today PD/PU/HH)\n\ud83c\udf19 overnight kept 02:00\u201304:33 @ 100%/6 kW; next_power_up null\n\ud83c\udf89 Happy Hour booked Sun 4 Oct 12:00\u201313:00 (kept)",
-  "updated": "2026-10-03T14:56:34.201177+01:00",
+  "last_action": "\u2705 17:30 Power Up catch: QUIET_NOOP \u2013 no Power Up/Typeform today\n\ud83d\udd0b SOC 48% solar ~283 W house ~1502 W batt -1306 W grid ~-14 W\n\u2b07\ufe0f no Power Down tonight (Gmail: payment FYI 28 Sep + Results 25 Sep only; AOL: Fri 2 HH FYI already booked, no Sat 3 PD/PU)\n\ud83c\udf19 overnight kept 02:00\u201304:33 @ 100%/6 kW (SOC 48% < 100% cap); cleared spent peak 15:52\u201316:00\n\ud83c\udf89 Happy Hour booked Sun 4 Oct 12:00\u201313:00 (kept); next_power_up null",
+  "updated": "2026-10-03T17:26:50.578346+01:00",
   "peak_window": {
-    "from": "15:52",
+    "from": "15:00",
     "to": "16:00",
     "target_percent": 60,
     "applied": true,
-    "reason": "soc_below_lean_target_topup_aligned_1600"
+    "reason": "spent_15:52-16:00_cleared_at_1730"
   },
   "weather_tomorrow": {
     "code": "partly_sunny",
@@ -207,6 +207,10 @@
     {
       "t": "2026-10-03T14:55:40.467046+01:00",
       "w": -747.0
+    },
+    {
+      "t": "2026-10-03T17:26:50.578346+01:00",
+      "w": -1306
     }
   ],
   "soc_series": [
@@ -333,6 +337,10 @@
     {
       "t": "2026-10-03T14:55:40.467046+01:00",
       "soc": 58
+    },
+    {
+      "t": "2026-10-03T17:26:50.578346+01:00",
+      "soc": 48
     }
   ],
   "booked_power_up": null,
@@ -350,22 +358,5 @@
     "timezone": "Europe/London"
   },
   "booked_power_down": null,
-  "peak_topup": {
-    "applied": true,
-    "reason": "soc_below_lean_target",
-    "soc": 58.0,
-    "target": 60,
-    "at": "2026-10-03T14:56:34.201177+01:00",
-    "slot": {
-      "from": "15:52",
-      "to": "16:00",
-      "percent_limit": 60,
-      "kwh": 0.27,
-      "mins_sized": 8,
-      "mins_actual": 8,
-      "mins_raw": 2.91,
-      "gap_pp": 2.0,
-      "aligned_to_1600": true
-    }
-  }
+  "peak_topup": null
 }
