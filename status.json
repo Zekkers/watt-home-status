@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T14:55:40.467046+01:00",
+  "updated_at": "2026-10-03T14:56:34.201177+01:00",
   "timezone": "Europe/London",
   "soc_percent": 58,
   "solar_w": 688,
@@ -20,14 +20,14 @@
     "cleared": false
   },
   "next_power_up": null,
-  "last_action": "\u26a1 15:00 peak top-up 14:56\u201315:04 @ 60%/6 kW (SOC 58%\u219260%, ~0.27 kWh / 8 min @ 5.56 kW)\n\ud83d\udd0b SOC 58% solar ~688 W house ~1344 W batt -747 W grid ~20 W\n\u2b07\ufe0f no Power Down tonight (Laura AOL today_hits 0; Gmail: no today PD/PU/HH)\n\ud83c\udf19 overnight kept 02:00\u201304:33 @ 100%/6 kW; next_power_up null\n\ud83c\udf89 Happy Hour booked Sun 4 Oct 12:00\u201313:00 (kept)",
-  "updated": "2026-10-03T14:55:40.467046+01:00",
+  "last_action": "\u26a1 15:00 peak top-up 15:52\u201316:00 @ 60%/6 kW (SOC 58%\u219260%, ~0.27 kWh / 8 min @ 5.56 kW; aligned to end at 16:00)\n\ud83d\udd0b SOC 58% solar ~688 W house ~1344 W batt -747 W grid ~20 W\n\u2b07\ufe0f no Power Down tonight (Laura AOL today_hits 0; Gmail: no today PD/PU/HH)\n\ud83c\udf19 overnight kept 02:00\u201304:33 @ 100%/6 kW; next_power_up null\n\ud83c\udf89 Happy Hour booked Sun 4 Oct 12:00\u201313:00 (kept)",
+  "updated": "2026-10-03T14:56:34.201177+01:00",
   "peak_window": {
-    "from": "14:56",
-    "to": "15:04",
+    "from": "15:52",
+    "to": "16:00",
     "target_percent": 60,
     "applied": true,
-    "reason": "soc_below_lean_target_topup"
+    "reason": "soc_below_lean_target_topup_aligned_1600"
   },
   "weather_tomorrow": {
     "code": "partly_sunny",
@@ -355,16 +355,17 @@
     "reason": "soc_below_lean_target",
     "soc": 58.0,
     "target": 60,
-    "at": "2026-10-03T14:55:40.467046+01:00",
+    "at": "2026-10-03T14:56:34.201177+01:00",
     "slot": {
-      "from": "14:56",
-      "to": "15:04",
+      "from": "15:52",
+      "to": "16:00",
       "percent_limit": 60,
       "kwh": 0.27,
       "mins_sized": 8,
       "mins_actual": 8,
       "mins_raw": 2.91,
-      "gap_pp": 2.0
+      "gap_pp": 2.0,
+      "aligned_to_1600": true
     }
   }
 }
