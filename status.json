@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-04T08:22:26+01:00",
+  "updated_at": "2026-10-04T14:57:05.552033+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 20,
-  "solar_w": 233,
-  "house_w": 148,
-  "battery_w": 9,
-  "grid_w": 6,
+  "soc_percent": 87.0,
+  "solar_w": 1107.0,
+  "house_w": 1720.0,
+  "battery_w": -714.0,
+  "grid_w": 0.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-04T07:20:16Z",
+  "sample_time_utc": "2026-10-04T13:55:02Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -19,24 +19,15 @@
     "mins": 38,
     "cleared": false
   },
-  "next_power_up": {
-    "date": "2026-10-04",
-    "from": "12:00",
-    "to": "13:00",
-    "opted_in": true,
-    "percent_limit": 100,
-    "label": "Happy Hour",
-    "kind": "weekend_happy_hour",
-    "session_id": "d2015397-b043-46fb-9a1d-cc6facfe08bb"
-  },
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201302:38 @ 30% charged 4%\u219228% (~3.24 kWh pack / ~3.2 kWh import); hit 28% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 20% solar ~233 W house ~148 W batt ~9 W grid ~6 W\n\ud83d\udcc9 10% floor (Happy Hour today 12:00\u201313:00), leftover +10 pp; lean 15:00 target still 60%\n\u26a1 Happy Hour TODAY 12:00\u201313:00 @100%/6 kW (session d2015397\u2026); free-noon 30% cap / 10% floor\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV still lagging Solcast (inverter ~0.1 kW avg vs Solcast ~0.232 kW) \u2014 morning lag, not daytime bias\n\ud83d\udd27 derate \u00d70.75 live; Solcast trial ~3 weeks from ~9 Sep; morning lag alone \u2260 daytime bias",
-  "updated": "2026-10-04T08:22:26+01:00",
+  "next_power_up": null,
+  "last_action": "\u2705 15:00 peak: SOC 87% \u2265 60% lean target \u2013 no top-up\n\ud83e\uddf9 cleared spent Happy Hour slot 12:00\u201313:00 (ended >5 min ago; session d2015397\u2026)\n\ud83d\udd0b SOC 87% solar ~1107 W house ~1720 W batt -714 W grid ~0 W\n\u2b07\ufe0f no Power Down tonight (Laura AOL today_hits 0; Gmail: payment FYI 28 Sep + Results 25 Sep only)\n\ud83c\udf19 overnight kept 02:00\u201302:38 @ 30%/6 kW; next_power_up null",
+  "updated": "2026-10-04T14:57:05.552033+01:00",
   "peak_window": {
-    "from": "15:00",
-    "to": "16:00",
+    "from": null,
+    "to": null,
     "target_percent": 60,
     "applied": false,
-    "reason": "lean_overnight_sized_await_1500"
+    "reason": "soc_at_or_above_lean_target_no_topup"
   },
   "weather_tomorrow": {
     "code": "partly_sunny",
@@ -57,46 +48,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-09-30T02:01:17+01:00",
-      "w": 5664
-    },
-    {
-      "t": "2026-09-30T03:02:01+01:00",
-      "w": 5654
-    },
-    {
-      "t": "2026-09-30T03:57:42+01:00",
-      "w": 5654
-    },
-    {
-      "t": "2026-09-30T04:12:53+01:00",
-      "w": 0
-    },
-    {
-      "t": "2026-09-30T04:58:25+01:00",
-      "w": -291
-    },
-    {
-      "t": "2026-09-30T06:59:53+01:00",
-      "w": -361
-    },
-    {
-      "t": "2026-09-30T07:55:33+01:00",
-      "w": -310
-    },
-    {
-      "t": "2026-09-30T08:20:54+01:00",
-      "w": -204
-    },
-    {
-      "t": "2026-09-30T14:56:01+01:00",
-      "w": 545.0
-    },
-    {
-      "t": "2026-10-01T01:35:13+01:00",
-      "w": -238
-    },
     {
       "t": "2026-10-01T01:58:36+01:00",
       "w": -238
@@ -252,6 +203,10 @@
     {
       "t": "2026-10-04T08:22:26+01:00",
       "w": 9
+    },
+    {
+      "t": "2026-10-04T14:57:05.552033+01:00",
+      "w": -714.0
     }
   ],
   "soc_series": [
@@ -374,6 +329,10 @@
     {
       "t": "2026-10-04T08:22:26+01:00",
       "soc": 20
+    },
+    {
+      "t": "2026-10-04T14:57:05.552033+01:00",
+      "pct": 87.0
     }
   ],
   "booked_power_up": null,
@@ -391,5 +350,18 @@
     "timezone": "Europe/London"
   },
   "booked_power_down": null,
-  "peak_topup": null
+  "peak_topup": {
+    "applied": false,
+    "reason": "soc_at_or_above_lean_target",
+    "soc": 87.0,
+    "target": 60,
+    "at": "2026-10-04T14:57:05.552033+01:00",
+    "slot": null,
+    "cleared_spent_hh": {
+      "from": "12:00",
+      "to": "13:00",
+      "session_id": "d2015397-b043-46fb-9a1d-cc6facfe08bb",
+      "kind": "weekend_happy_hour"
+    }
+  }
 }
