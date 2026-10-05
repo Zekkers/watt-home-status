@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-05T15:04:49+01:00",
+  "updated_at": "2026-10-05T17:30:09+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 98,
-  "solar_w": 1324,
-  "house_w": 795,
-  "battery_w": 392,
-  "grid_w": -32,
+  "soc_percent": 92.0,
+  "solar_w": 87.0,
+  "house_w": 511.0,
+  "battery_w": -508.0,
+  "grid_w": -3.0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-05T13:57:24Z",
+  "sample_time_utc": "2026-10-05T16:29:14Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -15,13 +15,18 @@
     "to": "03:48",
     "percent_limit": 81,
     "kw": 6,
-    "kwh": 9.72,
-    "mins": 108,
-    "cleared": false
+    "cleared": true,
+    "cleared_reason": "SOC 92% >= overnight cap 81% at 17:30 catch; midnight owns re-size",
+    "was": {
+      "from": "02:00",
+      "to": "03:48",
+      "percent_limit": 81,
+      "kw": 6
+    }
   },
   "next_power_up": null,
-  "last_action": "📉 Power Down tonight 18:00–19:00 opted in at 15:04 (68 Octopoints/kWh); house on pack, no charging or immersion in window\n🔋 15:00 SOC 98% solar ~1324 W house ~795 W, no peak top-up needed (lean target 60%)\n🌙 Overnight kept 02:00–03:48 @ 81% / 6 kW",
-  "updated": "2026-10-05T15:04:49+01:00",
+  "last_action": "✅ 17:30 Power Up catch: no Power Up/Typeform today\n🔋 SOC 92% solar ~87 W house ~511 W batt -508 W grid ~-3 W\n⬇️ Power Down tonight 18:00–19:00 opted in (house on pack, no charge in window)\n🌙 overnight cleared (was 02:00–03:48 @ 81%/6 kW; SOC 92% ≥ 81% cap); midnight re-sizes\n📬 Gmail + AOL: no new Power Up / Happy Hour; next_power_up null",
+  "updated": "2026-10-05T17:30:09+01:00",
   "peak_window": {
     "from": null,
     "to": null,
