@@ -420,7 +420,19 @@
     }
   ],
   "booked_power_up": null,
-  "booked_happy_hour": null,
+  "booked_happy_hour": {
+    "date": "2026-10-11",
+    "from": "12:00",
+    "to": "13:00",
+    "opted_in": true,
+    "session_id": "591602b0-0a91-4305-999d-62fea0b52fc7",
+    "since": "2026-10-10T22:24:30.819321",
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour",
+    "source": "aol_optimistic_opt_in",
+    "account_id": "A-5314B4CC",
+    "timezone": "Europe/London"
+  },
   "booked_power_down": null,
   "peak_topup": {
     "applied": false,
