@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-11T08:17:28+01:00",
+  "updated_at": "2026-10-11T14:59:34+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 21,
-  "solar_w": 300,
-  "house_w": 144,
-  "battery_w": 74,
-  "grid_w": 0,
+  "soc_percent": 26,
+  "solar_w": 868,
+  "house_w": 1179,
+  "battery_w": -400,
+  "grid_w": -20,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-11T07:16:39Z",
+  "sample_time_utc": "2026-10-11T13:56:28Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -20,29 +20,15 @@
     "cleared": false,
     "path": "happy_hour_day_30cap"
   },
-  "next_power_up": {
-    "date": "2026-10-11",
-    "from": "12:00",
-    "to": "13:00",
-    "opted_in": true,
-    "session_id": "591602b0-0a91-4305-999d-62fea0b52fc7",
-    "since": "2026-10-10T22:24:30.819321",
-    "label": "Happy Hour",
-    "kind": "weekend_happy_hour",
-    "source": "aol_optimistic_opt_in",
-    "account_id": "A-5314B4CC",
-    "timezone": "Europe/London",
-    "promoted_from": "booked_happy_hour",
-    "promoted_at": "2026-10-11T01:31:03+01:00"
-  },
-  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201302:40 @ 30% charged 5%\u219229% (~3.24 kWh pack / ~3.7 kWh import); hit 29% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 21% solar ~300 W house ~144 W batt ~74 W grid ~0 W\n\ud83d\udcc9 10% floor (Happy Hour today 12:00\u201313:00), leftover +11 pp (intentional free-noon 30% lean; leftover normal for HH day); lean 15:00 target still 60%\n\u26a1 Happy Hour TODAY 12:00\u201313:00 @100%/6 kW (session 591602b0\u2026); free-noon 30% cap / 10% floor\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV roughly on track (inverter ~0.13 kW vs Solcast ~0.112 kW)\n\ud83d\udd27 derate \u00d70.75 live; Solcast trial ~4+ weeks from ~9 Sep; morning lag alone \u2260 daytime bias",
-  "updated": "2026-10-11T08:17:28+01:00",
+  "next_power_up": null,
+  "last_action": "\u26a1 15:00 peak top-up: SOC 26% below lean 60%, cleared spent HH 12:00\u201313:00, charging 15:05\u201316:00 @ 60% / 6 kW (~4.59 kWh, ends at 16:00)\n\ud83d\udd0b SOC 26% solar ~868 W house ~1179 W batt ~-400 W grid ~-20 W\n\ud83d\udcec No Power Down tonight; no Power Up today (Gmail Flux rates only; AOL webmail no today Octopus hits)\n\ud83c\udf19 Overnight kept 02:00\u201302:40 @ 30% / 6 kW\n\ud83c\udf89 Happy Hour booking kept in history (Sun 11 Oct 12:00\u201313:00, spent)",
+  "updated": "2026-10-11T14:59:34+01:00",
   "peak_window": {
-    "from": null,
-    "to": null,
+    "from": "15:05",
+    "to": "16:00",
     "target_percent": 60,
-    "applied": false,
-    "reason": "soc_at_or_above_lean_target_quiet_noop"
+    "applied": true,
+    "reason": "soc_below_lean_target_topup"
   },
   "weather_tomorrow": {
     "code": "partly_sunny",
@@ -302,6 +288,10 @@
     {
       "t": "2026-10-11T08:17:28+01:00",
       "w": 74
+    },
+    {
+      "t": "2026-10-11T14:59:34+01:00",
+      "w": -400
     }
   ],
   "soc_series": [
@@ -424,6 +414,10 @@
     {
       "t": "2026-10-11T08:17:28+01:00",
       "soc": 21
+    },
+    {
+      "t": "2026-10-11T14:59:34+01:00",
+      "soc": 26
     }
   ],
   "booked_power_up": null,
@@ -442,12 +436,20 @@
   },
   "booked_power_down": null,
   "peak_topup": {
-    "applied": false,
-    "reason": "soc_at_or_above_lean_target",
-    "soc": 71,
+    "applied": true,
+    "reason": "soc_below_lean_target",
+    "soc": 26,
     "target": 60,
-    "at": "2026-10-10T14:53:07+01:00",
-    "slot": null,
-    "power_down_adequacy": null
+    "at": "2026-10-11T14:59:34+01:00",
+    "slot": {
+      "from": "15:05",
+      "to": "16:00",
+      "percent_limit": 60,
+      "kw": 6,
+      "kwh": 4.59,
+      "mins": 55
+    },
+    "power_down_adequacy": null,
+    "cleared_spent_happy_hour": true
   }
 }
