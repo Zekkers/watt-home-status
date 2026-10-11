@@ -1,34 +1,38 @@
 {
-  "updated_at": "2026-10-11T14:59:34+01:00",
+  "updated_at": "2026-10-11T17:22:50+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 26,
-  "solar_w": 868,
-  "house_w": 1179,
-  "battery_w": -400,
-  "grid_w": -20,
+  "soc_percent": 54,
+  "solar_w": 80,
+  "house_w": 810,
+  "battery_w": -797,
+  "grid_w": -9,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-11T13:56:28Z",
+  "sample_time_utc": "2026-10-11T16:18:10Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
-    "from": "02:00",
-    "to": "02:40",
-    "percent_limit": 30,
+    "from": "00:00",
+    "to": "00:00",
+    "percent_limit": 100,
     "kw": 6,
-    "kwh": 3.51,
-    "mins": 40,
-    "cleared": false,
-    "path": "happy_hour_day_30cap"
+    "cleared": true,
+    "cleared_reason": "SOC 54% >= overnight cap 30% at 17:30 catch; also cleared spent peak 15:05\u201316:00; midnight owns re-size",
+    "was": {
+      "from": "02:00",
+      "to": "02:40",
+      "percent_limit": 30,
+      "kw": 6
+    }
   },
   "next_power_up": null,
-  "last_action": "\u26a1 15:00 peak top-up: SOC 26% below lean 60%, cleared spent HH 12:00\u201313:00, charging 15:05\u201316:00 @ 60% / 6 kW (~4.59 kWh, ends at 16:00)\n\ud83d\udd0b SOC 26% solar ~868 W house ~1179 W batt ~-400 W grid ~-20 W\n\ud83d\udcec No Power Down tonight; no Power Up today (Gmail Flux rates only; AOL webmail no today Octopus hits)\n\ud83c\udf19 Overnight kept 02:00\u201302:40 @ 30% / 6 kW\n\ud83c\udf89 Happy Hour booking kept in history (Sun 11 Oct 12:00\u201313:00, spent)",
-  "updated": "2026-10-11T14:59:34+01:00",
+  "last_action": "\ud83e\uddf9 17:30 Power Up catch: no new Power Up / Typeform / Happy Hour / same-day Power Down (Gmail: Oct 6 Flux only; AOL webmail signed_in today_hits 0, newest Fri 9 HH FYI already booked/spent)\n\ud83c\udf19 cleared overnight + spent peak timed-charge (was overnight 02:00\u201302:40 @ 30%/6 kW and peak 15:05\u201316:00 @ 60%; live SOC 54% \u2265 cap 30% \u2014 slot at cap would hold 0 W)\n\u2600\ufe0f solar ~80 W house ~810 W batt -797 W grid -9 W \u00b7 SOC 54% \u00b7 next_power_up null \u00b7 midnight owns re-size",
+  "updated": "2026-10-11T17:22:50+01:00",
   "peak_window": {
     "from": "15:05",
     "to": "16:00",
     "target_percent": 60,
-    "applied": true,
-    "reason": "soc_below_lean_target_topup"
+    "applied": false,
+    "reason": "cleared_spent_after_window_at_1730_catch"
   },
   "weather_tomorrow": {
     "code": "partly_sunny",
@@ -292,6 +296,10 @@
     {
       "t": "2026-10-11T14:59:34+01:00",
       "w": -400
+    },
+    {
+      "t": "2026-10-11T17:22:50+01:00",
+      "w": -797
     }
   ],
   "soc_series": [
@@ -418,6 +426,10 @@
     {
       "t": "2026-10-11T14:59:34+01:00",
       "soc": 26
+    },
+    {
+      "t": "2026-10-11T17:22:50+01:00",
+      "pct": 54
     }
   ],
   "booked_power_up": null,
