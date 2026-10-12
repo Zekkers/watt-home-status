@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-12T15:18:27+01:00",
+  "updated_at": "2026-10-12T16:15:33+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 68,
-  "solar_w": 267,
-  "house_w": 948,
-  "battery_w": -781,
-  "grid_w": 1,
+  "soc_percent": 63.0,
+  "solar_w": 116,
+  "house_w": 1010,
+  "battery_w": -983,
+  "grid_w": -2,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-12T14:14:01Z",
+  "sample_time_utc": "2026-10-12T15:14:45Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_near_eps_recovery"
   },
   "next_power_up": null,
-  "last_action": "📉 Power Down tonight 18:00–19:00 opted in at 15:17 (73 Octopoints/kWh); house on pack, no charging or immersion in window\n🔋 15:00 SOC 68% solar ~267 W house ~948 W batt ~-781 W grid ~1 W — no peak top-up (lean 60%; pack adequate ~8.64 kWh above EPS vs ~1.45 kWh need)\n🌙 Overnight kept 02:00–04:22 @ 99% / 6 kW",
-  "updated": "2026-10-12T15:18:27+01:00",
+  "last_action": "📉 16:00 confirm: Power Down 18:00–19:00 already opted in (session c2c9fdcd…, 73 Octopoints/kWh); house on pack, no charge/immersion in window\n🔋 Live SOC 63% solar ~116 W house ~1010 W batt ~-983 W grid ~-2 W — pack adequate ~7.96 kWh above EPS vs ~1.21 kWh need; no pre-window top-up\n🌙 Overnight kept 02:00–04:22 @ 99% / 6 kW (no overlap with PD)",
+  "updated": "2026-10-12T16:15:33+01:00",
   "peak_window": {
     "from": null,
     "to": null,
@@ -49,10 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-06T06:58:59+01:00",
-      "w": -283
-    },
     {
       "t": "2026-10-06T07:59:43+01:00",
       "w": -75
@@ -288,6 +284,10 @@
     {
       "t": "2026-10-12T08:27:34+01:00",
       "w": -32
+    },
+    {
+      "t": "2026-10-12T16:15:33+01:00",
+      "w": -983
     }
   ],
   "soc_series": [
@@ -410,6 +410,10 @@
     {
       "t": "2026-10-12T08:27:34+01:00",
       "soc": 90
+    },
+    {
+      "t": "2026-10-12T16:15:33+01:00",
+      "soc": 63.0
     }
   ],
   "booked_power_up": null,
@@ -428,8 +432,8 @@
     "octopoints_per_kwh": 73,
     "timezone": "Europe/London",
     "pack_adequate": true,
-    "need_kwh_est": 1.45,
-    "above_eps_kwh": 8.64
+    "need_kwh_est": 1.21,
+    "above_eps_kwh": 7.96
   },
   "peak_topup": null
 }
