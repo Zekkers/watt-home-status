@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-15T01:32:50+01:00",
+  "updated_at": "2026-10-15T01:33:34+01:00",
   "timezone": "Europe/London",
   "soc_percent": 42.0,
   "solar_w": 0.0,
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_lean"
   },
   "next_power_up": null,
-  "last_action": "✅ 01:30 overnight: 02:00–03:13 @ 89%/6 kW (~6.34 kWh / 73 min) from SOC 42%\n🔋 SOC 42% house ~286 W solar 0 W grid ~0 W\n☀️ Solcast ×0.75: noon ~2.088 kWh, day ~5.809 kWh; immersion net ~3.912 kWh covered overnight\n📉 No free window Thu 15 Oct; 20% floor; lean 15:00 target 60%; path no_free_solcast_derate_lean\n📬 Gmail: no late PU/HH (only Flux Oct rates). Laura AOL webmail check unfinished at status write — treated unread this run",
-  "updated": "2026-10-15T01:32:50+01:00",
+  "last_action": "✅ 01:30 overnight: 02:00–03:13 @ 89%/6 kW (~6.34 kWh / 73 min) from SOC 42%\n🔋 SOC 42% house ~286 W solar 0 W grid ~0 W\n☀️ Solcast ×0.75: noon ~2.088 kWh, day ~5.809 kWh; immersion net ~3.912 kWh covered overnight\n📉 No free window Thu 15 Oct; 20% floor; lean 15:00 target 60%; path no_free_solcast_derate_lean\n📬 Gmail clear of late PU/HH. Laura AOL webmail outage (browser ERR_TUNNEL_CONNECTION_FAILED); emailed Laura once to check Octopus herself",
+  "updated": "2026-10-15T01:33:34+01:00",
   "peak_window": {
     "from": null,
     "to": null,
@@ -36,7 +36,7 @@
     "noon_pv_kwh_derated": 2.088,
     "day_pv_kwh_derated": 5.809,
     "derate": 0.75,
-    "note": "Solcast Garage+Home raw noon 2.784 / day 7.745 kWh; ×0.75 applied. No free window Thu 15 Oct; floor 20%; immersion_net 3.912 kWh; low_soc_slack_pp=0.",
+    "note": "Solcast Garage+Home raw noon 2.784 / day 7.745 kWh; ×0.75 applied. No free window Thu 15 Oct; floor 20%; immersion_net 3.912 kWh; low_soc_slack_pp=0. AOL webmail browser outage; Laura emailed 2026-10-15.",
     "label": "Thu Solcast Garage+Home ×0.75; noon~2.088 kWh derated; day~5.809 kWh. No free window; 20% floor. Overnight 02:00–03:13 @89% from 42%."
   },
   "last_savings": {
