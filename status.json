@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-15T01:33:34+01:00",
+  "updated_at": "2026-10-15T08:17:43+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 42.0,
-  "solar_w": 0.0,
-  "house_w": 286.0,
-  "battery_w": -377.0,
-  "grid_w": 0.0,
+  "soc_percent": 78,
+  "solar_w": 158,
+  "house_w": 278,
+  "battery_w": -210,
+  "grid_w": 6,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-15T00:31:08Z",
+  "sample_time_utc": "2026-10-15T07:16:01Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -15,14 +15,14 @@
     "to": "03:13",
     "percent_limit": 89,
     "kw": 6,
-    "cleared": false,
     "kwh": 6.34,
     "mins": 73,
+    "cleared": false,
     "path": "no_free_solcast_derate_lean"
   },
   "next_power_up": null,
-  "last_action": "✅ 01:30 overnight: 02:00–03:13 @ 89%/6 kW (~6.34 kWh / 73 min) from SOC 42%\n🔋 SOC 42% house ~286 W solar 0 W grid ~0 W\n☀️ Solcast ×0.75: noon ~2.088 kWh, day ~5.809 kWh; immersion net ~3.912 kWh covered overnight\n📉 No free window Thu 15 Oct; 20% floor; lean 15:00 target 60%; path no_free_solcast_derate_lean\n📬 Gmail clear of late PU/HH. Laura AOL webmail outage (browser ERR_TUNNEL_CONNECTION_FAILED); emailed Laura once to check Octopus herself",
-  "updated": "2026-10-15T01:33:34+01:00",
+  "last_action": "\u2705 08:00 ON_PLAN: overnight 02:00\u201303:13 @ 89% charged None%\u2192None% (~None kWh pack / ~None kWh import); hit None% just after slot end then continuous discharge (no idle-at-cap on grid)\n\ud83d\udd0b SOC 78% solar ~158 W house ~278 W batt ~-210 W grid ~6 W\n\ud83d\udcc9 20% floor until 16:00, leftover +58 pp (intentional immersion_net + Solcastx0.75 lean, no free window); lean 15:00 target still 60%\n\u2600\ufe0f Solcast Garage+Home \u00d70.75; early PV ahead of Solcast (inverter ~0.158 kW vs Solcast ~0.028 kW) \u2014 morning only\n\ud83d\udd27 derate \u00d70.75 live; Solcast trial ~4+ weeks from ~9 Sep; morning lag alone \u2260 daytime bias",
+  "updated": "2026-10-15T08:17:43+01:00",
   "peak_window": {
     "from": null,
     "to": null,
@@ -31,32 +31,24 @@
     "reason": "lean_60_overnight_owns_recovery"
   },
   "weather_tomorrow": {
-    "code": "cloudy",
-    "source": "Solcast Garage+Home ×0.75",
+    "code": "cloud",
+    "source": "Solcast Garage+Home \u00d70.75",
     "noon_pv_kwh_derated": 2.088,
     "day_pv_kwh_derated": 5.809,
     "derate": 0.75,
-    "note": "Solcast Garage+Home raw noon 2.784 / day 7.745 kWh; ×0.75 applied. No free window Thu 15 Oct; floor 20%; immersion_net 3.912 kWh; low_soc_slack_pp=0. AOL webmail browser outage; Laura emailed 2026-10-15.",
-    "label": "Thu Solcast Garage+Home ×0.75; noon~2.088 kWh derated; day~5.809 kWh. No free window; 20% floor. Overnight 02:00–03:13 @89% from 42%."
+    "note": "Solcast Garage+Home raw noon 2.784 / day 7.745; x0.75 applied. No free window Thu 15 Oct; overnight near-EPS recovery cap 89% / floor 20%; immersion_net=3.912; low_soc_slack_pp=0.",
+    "label": "Wed Solcast Garage+Home x0.75; noon~2.088 kWh derated; day~5.809 kWh. No free window; 89% overnight cap / 20% floor. Overnight 02:00-03:13 @89% from 42.0%."
   },
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-08T06:58:41+01:00",
-      "w": -399
-    },
-    {
-      "t": "2026-10-08T07:59:25+01:00",
-      "w": -2097
-    },
     {
       "t": "2026-10-08T08:18:39+01:00",
       "w": -161
@@ -292,17 +284,13 @@
     {
       "t": "2026-10-14T15:02:06+01:00",
       "w": -11
+    },
+    {
+      "t": "2026-10-15T08:17:43+01:00",
+      "w": -210
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-11T08:17:28+01:00",
-      "soc": 21
-    },
-    {
-      "t": "2026-10-11T14:59:34+01:00",
-      "soc": 26
-    },
     {
       "t": "2026-10-11T17:22:50+01:00",
       "pct": 54
@@ -418,11 +406,14 @@
     {
       "t": "2026-10-14T15:02:06+01:00",
       "soc": 99
+    },
+    {
+      "t": "2026-10-15T08:17:43+01:00",
+      "soc": 78
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
   "booked_power_down": null,
-  "peak_topup": null,
-  "free_window_in_progress": false
+  "peak_topup": null
 }
