@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-16T15:00:43+01:00",
+  "updated_at": "2026-10-16T17:21:09+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 56,
-  "solar_w": 279,
-  "house_w": 1147,
-  "battery_w": -990,
-  "grid_w": -19,
+  "soc_percent": 44,
+  "solar_w": 200,
+  "house_w": 1358,
+  "battery_w": -1247,
+  "grid_w": 5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-16T13:48:05Z",
+  "sample_time_utc": "2026-10-16T16:14:52Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -21,14 +21,14 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "⚡ 15:00 peak top-up: SOC 56% < lean 60% → wrote 15:00–15:13 @ 60% / 6 kW (~0.6 kWh)\n🔋 SOC 56% solar ~279 W house ~1147 W batt ~-990 W grid ~-19 W\n📬 Gmail only Oct 15 statement; Laura AOL webmail back up — no Octopus mail today (newest Thu 15 PD 18–19 spent), no PD/PU/HH tonight\n🌙 Overnight kept 02:00–03:37 @ 77% / 6 kW (01:30 resizes)",
-  "updated": "2026-10-16T15:00:43+01:00",
+  "last_action": "⚡ 17:30 Power Up catch: no new Power-ups / Typeform today\n📬 Gmail: Oct 15 statement only; AOL webmail signed_in today_hits=1 HH FYI 15:49 (already booked Sun 12:00–13:00) — no Power Up/Typeform/Power Down\n🔋 SOC 44% solar ~200 W house ~1358 W batt ~-1247 W grid ~5 W\n🌙 Overnight kept 02:00–03:37 @ 77%/6 kW (SOC 44% < cap); cleared spent 15:00–15:13 peak slot\n🗓️ Happy Hour Sun 18 Oct 12:00–13:00 booked (session 53408d72…)",
+  "updated": "2026-10-16T17:21:09+01:00",
   "peak_window": {
-    "from": "15:00",
-    "to": "15:13",
+    "from": null,
+    "to": null,
     "target_percent": 60,
-    "applied": true,
-    "reason": "soc_56_below_lean_60_topup"
+    "applied": false,
+    "reason": "spent_15_peak_cleared_at_1730_soc_below_overnight_cap"
   },
   "weather_tomorrow": {
     "code": "cloud",
@@ -49,14 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-10T07:59:05+01:00",
-      "w": -150
-    },
-    {
-      "t": "2026-10-10T08:19:26+01:00",
-      "w": -1509
-    },
     {
       "t": "2026-10-10T14:53:07+01:00",
       "w": -374
@@ -292,6 +284,10 @@
     {
       "t": "2026-10-16T15:00:43+01:00",
       "w": -990
+    },
+    {
+      "t": "2026-10-16T17:21:09+01:00",
+      "w": -1247
     }
   ],
   "soc_series": [
@@ -418,17 +414,27 @@
     {
       "t": "2026-10-16T15:00:43+01:00",
       "soc": 56
+    },
+    {
+      "t": "2026-10-16T17:21:09+01:00",
+      "soc": 44
     }
   ],
   "booked_power_up": null,
-  "booked_happy_hour": null,
-  "booked_power_down": null,
-  "peak_topup": {
-    "from": "15:00",
-    "to": "15:13",
-    "target_percent": 60,
-    "max_power_watts": 6000,
-    "applied": true
+  "booked_happy_hour": {
+    "date": "2026-10-18",
+    "from": "12:00",
+    "to": "13:00",
+    "opted_in": true,
+    "session_id": "53408d72-1460-4323-9306-7236b5904a43",
+    "account_id": "A-5314B4CC",
+    "kind": "happy_hour",
+    "label": "Weekend Happy Hour",
+    "source": "email_link_book_2026-10-16",
+    "timezone": "Europe/London",
+    "since": "2026-10-16T16:39:00+01:00"
   },
+  "booked_power_down": null,
+  "peak_topup": null,
   "free_window_in_progress": false
 }
