@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-17T16:04:29+01:00",
+  "updated_at": "2026-10-17T17:18:43+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 76,
-  "solar_w": 425,
-  "house_w": 463,
-  "battery_w": 166,
-  "grid_w": -74,
+  "soc_percent": 72,
+  "solar_w": 152,
+  "house_w": 1110,
+  "battery_w": -1045,
+  "grid_w": -20,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-17T15:01:21Z",
+  "sample_time_utc": "2026-10-17T16:17:15Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 60,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 16:00 Saving Session: QUIET_NOOP \u2014 no Power Down / late Power Up today\n\ud83d\udcec Gmail only Oct 15 statement; Laura AOL signed in, from:hello@octopus.energy newest is Thu 16 HH FYI (Sun already booked) \u2014 no Octopus mail Sat 17\n\ud83d\udd0b SOC 76% solar ~425 W house ~463 W batt ~166 W grid ~-74 W\n\ud83c\udf19 Overnight kept 02:00\u201304:05 @ 86%/6 kW; Happy Hour Sun 18 Oct 12:00\u201313:00 still booked",
-  "updated": "2026-10-17T16:04:29+01:00",
+  "last_action": "✅ 17:30 Power Up check: QUIET_NOOP — no Power Up / Happy Hour / Power Down today\n📬 Gmail no Octopus mail since Oct 15 statement; Laura AOL signed in, no Octopus mail Sat 17 (newest Fri 16 HH FYI, Sun already booked)\n🔋 SOC 72% solar ~152 W house ~1110 W batt ~-1045 W grid ~-20 W\n🌙 Overnight kept 02:00–04:05 @ 86%/6 kW (SOC below cap; 01:30 resizes); Happy Hour Sun 18 Oct 12:00–13:00 booked",
+  "updated": "2026-10-17T17:18:43+01:00",
   "peak_window": {
     "from": null,
     "to": null,
@@ -32,7 +32,7 @@
   },
   "weather_tomorrow": {
     "code": "cloud",
-    "source": "Solcast Garage+Home \u00d70.75",
+    "source": "Solcast Garage+Home ×0.75",
     "noon_pv_kwh_derated": 3.202,
     "day_pv_kwh_derated": 11.286,
     "derate": 0.75,
@@ -44,7 +44,7 @@
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
@@ -288,6 +288,10 @@
     {
       "t": "2026-10-17T16:04:29+01:00",
       "w": 166
+    },
+    {
+      "t": "2026-10-17T17:18:43+01:00",
+      "w": -1045
     }
   ],
   "soc_series": [
@@ -418,6 +422,10 @@
     {
       "t": "2026-10-17T16:04:29+01:00",
       "soc": 76
+    },
+    {
+      "t": "2026-10-17T17:18:43+01:00",
+      "soc": 72
     }
   ],
   "booked_power_up": null,
