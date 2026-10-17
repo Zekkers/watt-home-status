@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T01:34:47+01:00",
+  "updated_at": "2026-10-17T01:35:05+01:00",
   "timezone": "Europe/London",
   "soc_percent": 4.0,
   "solar_w": 0.0,
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "✅ 01:30 overnight: 02:00–04:05 @ 86%/6 kW (~11.07 kWh / 125 min) from SOC 4%\n🔋 SOC 4% house ~227 W solar 0 W grid ~-310 W\n☀️ Solcast ×0.75: noon ~3.202 kWh, day ~11.286 kWh; immersion net ~2.798 kWh covered overnight\n📉 No free window Sat 17 Oct; 20% floor; lean 15:00 target 60%\n📬 Gmail: no late Power Up / Happy Hour / Power Down; AOL check pending; Happy Hour Sun 18 Oct 12:00–13:00 booked (slot written Sun 01:30); next_power_up null",
-  "updated": "2026-10-17T01:34:47+01:00",
+  "last_action": "✅ 01:30 overnight: 02:00–04:05 @ 86%/6 kW (~11.07 kWh / 125 min) from SOC 4%\n🔋 SOC 4% house ~227 W solar 0 W grid ~-310 W\n☀️ Solcast ×0.75: noon ~3.202 kWh, day ~11.286 kWh; immersion net ~2.798 kWh covered overnight\n📉 No free window Sat 17 Oct; 20% floor; lean 15:00 target 60%\n📬 Gmail: no late Power Up / Happy Hour / Power Down; Laura AOL webmail: no new Octopus mail; Happy Hour Sun 18 Oct 12:00–13:00 booked (slot written Sun 01:30); next_power_up null",
+  "updated": "2026-10-17T01:35:05+01:00",
   "peak_window": {
     "from": null,
     "to": null,
