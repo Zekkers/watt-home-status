@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-18T08:23:23+01:00",
+  "updated_at": "2026-10-18T15:00:40+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 35,
-  "solar_w": 83,
-  "house_w": 234,
-  "battery_w": -242,
-  "grid_w": 0,
+  "soc_percent": 67,
+  "solar_w": 195,
+  "house_w": 1362,
+  "battery_w": -1266,
+  "grid_w": 7,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-18T07:18:06Z",
+  "sample_time_utc": "2026-10-18T13:52:51Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -20,45 +20,31 @@
     "mins": 45,
     "path": "happy_hour_day_30cap_plus_immersion_13_14"
   },
-  "next_power_up": {
-    "date": "2026-10-18",
-    "from": "12:00",
-    "to": "13:00",
-    "opted_in": true,
-    "session_id": "53408d72-1460-4323-9306-7236b5904a43",
-    "account_id": "A-5314B4CC",
-    "kind": "happy_hour",
-    "label": "Weekend Happy Hour",
-    "source": "email_link_book_2026-10-16",
-    "timezone": "Europe/London",
-    "since": "2026-10-16T16:39:00+01:00",
-    "promoted_from": "booked_happy_hour",
-    "promoted_at": "2026-10-18T01:33:35+01:00"
-  },
-  "last_action": "\u26a1 Happy Hour today 12:00\u201313:00 @ 100%/6 kW (booked, slot set)\n\u2705 08:00 check: overnight 02:00\u201302:45 @ 44% went 16%\u219244% (~3.78 kWh pack, on plan; no hold-at-cap, no EPS)\n\ud83d\udd0b SOC 35% house ~234 W solar ~83 W grid ~0 W\n\u2600\ufe0f Solcast \u00d70.75: day ~8.1 kWh; early PV just starting (morning lag)\n\ud83d\udcc9 10% floor until Happy Hour; 15:00 top-up target 75%",
-  "updated": "2026-10-18T08:23:23+01:00",
+  "next_power_up": null,
+  "last_action": "⚡ 15:00 peak top-up: SOC 67% < 75%, wrote 15:00–15:20 @ 75% / 6 kW (~1.1 kWh)\n🔋 SOC 67% solar ~195 W house ~1362 W batt ~-1266 W grid ~7 W\n📬 Gmail no Octopus mail today; Laura AOL webmail signed in, no Octopus mail today (newest Fri 16 HH FYI); no Power Down\n🧹 Spent Happy Hour 12:00–13:00 slot cleared\n🌙 Overnight 02:00 slot kept for 01:30 resize",
+  "updated": "2026-10-18T15:00:40+01:00",
   "peak_window": {
-    "from": null,
-    "to": null,
+    "from": "15:00",
+    "to": "15:20",
     "target_percent": 75,
-    "applied": false,
-    "reason": "soc_76_at_or_above_lean_60_no_topup"
+    "applied": true,
+    "reason": "soc_67_below_75_topup_written"
   },
   "weather_tomorrow": {
     "code": "sunny_intervals",
-    "source": "Solcast Garage+Home \u00d70.75",
+    "source": "Solcast Garage+Home ×0.75",
     "noon_pv_kwh_derated": 2.279,
     "day_pv_kwh_derated": 8.126,
     "derate": 0.75,
-    "note": "Sun: Solcast Garage+Home raw noon 3.038 / day 10.835 kWh; \u00d70.75 applied (noon 2.279, day 8.126). Happy Hour 12:00\u201313:00 covers first immersion hour; 13:00\u201314:00 PV ~1.087 kWh derated so ~1.913 kWh immersion added overnight. Floor 10%.",
-    "label": "Sun Solcast \u00d70.75: noon ~2.279 kWh, day ~8.126 kWh. Happy Hour 12:00\u201313:00; 10% floor. Overnight 02:00\u201302:45 @44% from 16%."
+    "note": "Sun: Solcast Garage+Home raw noon 3.038 / day 10.835 kWh; ×0.75 applied (noon 2.279, day 8.126). Happy Hour 12:00–13:00 covers first immersion hour; 13:00–14:00 PV ~1.087 kWh derated so ~1.913 kWh immersion added overnight. Floor 10%.",
+    "label": "Sun Solcast ×0.75: noon ~2.279 kWh, day ~8.126 kWh. Happy Hour 12:00–13:00; 10% floor. Overnight 02:00–02:45 @44% from 16%."
   },
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
@@ -302,6 +288,10 @@
     {
       "t": "2026-10-18T08:18:06+01:00",
       "w": -242
+    },
+    {
+      "t": "2026-10-18T15:00:40+01:00",
+      "w": -1266
     }
   ],
   "soc_series": [
@@ -424,23 +414,21 @@
     {
       "t": "2026-10-18T08:18:06+01:00",
       "soc": 35
+    },
+    {
+      "t": "2026-10-18T15:00:40+01:00",
+      "soc": 67
     }
   ],
   "booked_power_up": null,
-  "booked_happy_hour": {
-    "date": "2026-10-18",
-    "from": "12:00",
-    "to": "13:00",
-    "opted_in": true,
-    "session_id": "53408d72-1460-4323-9306-7236b5904a43",
-    "account_id": "A-5314B4CC",
-    "kind": "happy_hour",
-    "label": "Weekend Happy Hour",
-    "source": "email_link_book_2026-10-16",
-    "timezone": "Europe/London",
-    "since": "2026-10-16T16:39:00+01:00"
-  },
+  "booked_happy_hour": null,
   "booked_power_down": null,
-  "peak_topup": null,
+  "peak_topup": {
+    "from": "15:00",
+    "to": "15:20",
+    "target_percent": 75,
+    "power_w": 6000,
+    "kwh_est": 1.1
+  },
   "free_window_in_progress": false
 }
