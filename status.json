@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-18T15:00:40+01:00",
+  "updated_at": "2026-10-18T17:25:27+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 67,
-  "solar_w": 195,
-  "house_w": 1362,
-  "battery_w": -1266,
-  "grid_w": 7,
+  "soc_percent": 59,
+  "solar_w": 0,
+  "house_w": 327,
+  "battery_w": -368,
+  "grid_w": 5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-18T13:52:51Z",
+  "sample_time_utc": "2026-10-18T16:19:38Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "happy_hour_day_30cap_plus_immersion_13_14"
   },
   "next_power_up": null,
-  "last_action": "⚡ 15:00 peak top-up: SOC 67% < 75%, wrote 15:00–15:20 @ 75% / 6 kW (~1.1 kWh)\n🔋 SOC 67% solar ~195 W house ~1362 W batt ~-1266 W grid ~7 W\n📬 Gmail no Octopus mail today; Laura AOL webmail signed in, no Octopus mail today (newest Fri 16 HH FYI); no Power Down\n🧹 Spent Happy Hour 12:00–13:00 slot cleared\n🌙 Overnight 02:00 slot kept for 01:30 resize",
-  "updated": "2026-10-18T15:00:40+01:00",
+  "last_action": "✅ 17:30 Power Up check: QUIET_NOOP — no Power Up / Happy Hour / Power Down today\n📬 No new Octopus mail today (Gmail none; Laura AOL webmail signed in, newest Fri 16 Oct Happy Hour FYI)\n🔋 SOC 59% solar ~0 W house ~327 W batt ~-368 W grid ~5 W\n🌙 Overnight 02:00–02:45 @44% cleared (SOC 59% already above cap) and spent 15:00–15:20 top-up cleared; 01:30 sizes tonight's charge",
+  "updated": "2026-10-18T17:25:27+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "15:20",
@@ -292,6 +292,10 @@
     {
       "t": "2026-10-18T15:00:40+01:00",
       "w": -1266
+    },
+    {
+      "t": "2026-10-18T17:25:27+01:00",
+      "w": -368
     }
   ],
   "soc_series": [
@@ -418,6 +422,10 @@
     {
       "t": "2026-10-18T15:00:40+01:00",
       "soc": 67
+    },
+    {
+      "t": "2026-10-18T17:25:27+01:00",
+      "soc": 59
     }
   ],
   "booked_power_up": null,
