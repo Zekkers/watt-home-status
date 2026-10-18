@@ -35,7 +35,7 @@
     "promoted_from": "booked_happy_hour",
     "promoted_at": "2026-10-18T01:33:35+01:00"
   },
-  "last_action": "⚡ Happy Hour today 12:00–13:00 @ 100%/6 kW slot written\n✅ 01:30 overnight: 02:00–02:45 @ 44%/6 kW (~3.78 kWh / 45 min) from SOC 16%\n🔋 SOC 16% house ~168 W solar 0 W grid ~0 W\n☀️ Solcast ×0.75: noon ~2.279 kWh, day ~8.126 kWh; 13:00–14:00 immersion net ~1.913 kWh added overnight\n📉 Free-noon day: 30% cap + immersion, 10% floor; 15:00 target 75%\n📬 Gmail: no late Power Up / Happy Hour; next_power_up = today's Happy Hour",
+  "last_action": "⚡ Happy Hour today 12:00–13:00 @ 100%/6 kW slot written\n✅ 01:30 overnight: 02:00–02:45 @ 44%/6 kW (~3.78 kWh / 45 min) from SOC 16%\n🔋 SOC 16% house ~168 W solar 0 W grid ~0 W\n☀️ Solcast ×0.75: noon ~2.279 kWh, day ~8.126 kWh; 13:00–14:00 immersion net ~1.913 kWh added overnight\n📉 Free-noon day: 30% cap + immersion, 10% floor; 15:00 target 75%\n📬 Gmail + Laura AOL webmail: no new Octopus mail since Fri 16 HH FYI; next_power_up = today's Happy Hour",
   "updated": "2026-10-18T01:33:35+01:00",
   "peak_window": {
     "from": null,
