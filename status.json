@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-19T14:57:00+01:00",
+  "updated_at": "2026-10-19T17:46:00+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 68,
-  "solar_w": 248,
-  "house_w": 983,
-  "battery_w": -831,
-  "grid_w": 8,
+  "soc_percent": 64,
+  "solar_w": 0,
+  "house_w": 888,
+  "battery_w": -1029,
+  "grid_w": 74,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-19T13:50:10Z",
+  "sample_time_utc": "2026-10-19T16:42:15Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,14 +21,14 @@
     "path": "no_free_solcast_derate_near_eps_recovery"
   },
   "next_power_up": null,
-  "last_action": "⚡ 15:00 peak top-up: SOC 68% < 75%, wrote 15:00–15:18 @ 75% / 6 kW (~1.0 kWh)\n⬇️ Power Down tonight 18:00–19:00 (82 pts/kWh): Laura opted in 14:55; pack ~75%% at 16:00 covers it easily\n🔋 SOC 68% solar ~248 W house ~983 W batt ~-831 W grid ~8 W\n🌙 Overnight 02:00–04:08 slot kept for 01:30 resize",
-  "updated": "2026-10-19T14:57:00+01:00",
+  "last_action": "⬇️ Power Down tonight 18:00–19:00 (82 pts/kWh): opted in, pack 64% covers it\n✉️ 17:30 mail check: no Power Up, Typeform or Happy Hour today\n🔋 SOC 64% solar ~0 W house ~888 W batt ~-1029 W grid ~74 W\n🌙 Overnight 02:00–04:08 @ 89%% kept for 01:30 resize; spent 15:00 top-up slot cleared",
+  "updated": "2026-10-19T17:46:00+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "15:18",
     "target_percent": 75,
-    "applied": true,
-    "reason": "soc_68_below_75_topup_written"
+    "applied": false,
+    "reason": "spent_slot_cleared_1730"
   },
   "weather_tomorrow": {
     "code": "cloud",
@@ -292,6 +292,10 @@
     {
       "t": "2026-10-19T14:57:00+01:00",
       "w": -831
+    },
+    {
+      "t": "2026-10-19T17:46:00+01:00",
+      "w": -1029
     }
   ],
   "soc_series": [
@@ -418,6 +422,10 @@
     {
       "t": "2026-10-19T14:57:00+01:00",
       "soc": 68
+    },
+    {
+      "t": "2026-10-19T17:46:00+01:00",
+      "soc": 64
     }
   ],
   "booked_power_up": null,
@@ -432,12 +440,6 @@
     "points_per_kwh": 82,
     "source": "Laura AOL 13:29"
   },
-  "peak_topup": {
-    "from": "15:00",
-    "to": "15:18",
-    "target_percent": 75,
-    "power_w": 6000,
-    "kwh_est": 1.0
-  },
+  "peak_topup": null,
   "free_window_in_progress": false
 }
