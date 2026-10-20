@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-20T08:15:34+01:00",
+  "updated_at": "2026-10-20T14:53:00+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 92,
+  "soc_percent": 50,
   "solar_w": 0,
-  "house_w": 213,
-  "battery_w": -299,
-  "grid_w": 0,
+  "house_w": 807,
+  "battery_w": -843,
+  "grid_w": -8,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-20T07:12:44Z",
+  "sample_time_utc": "2026-10-20T13:47:30Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,14 +21,14 @@
     "path": "no_free_solcast_derate_cloudy_full"
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 check: overnight 02:00\u201304:13 @ 100% went 15%\u219298% (~12.8 kWh in, 13.4 kWh import; on plan, taper left it 2 pp short; no hold-at-cap grid, no EPS, min 15%)\n\ud83d\udd0b SOC 92% house ~213 W solar ~0 W grid ~0 W\n\u2600\ufe0f Solcast \u00d70.75: today ~1.6 kWh (very dull); Mon 19 live PV 6.8 vs 8.55 derated (3rd day high)\n\ud83d\udcc9 No free window Tue 20 Oct; 20% floor; 15:00 top-up target 75%",
-  "updated": "2026-10-20T08:15:34+01:00",
+  "last_action": "⚡ 15:00 peak top-up: SOC 50% < 75%, wrote 15:00–15:50 @ 75% / 6 kW (~3.85 kWh, sized at 5.15 kW + 5 min)\n⬇️ No Power Down or Power Up today (Gmail + Laura AOL checked)\n🔋 SOC 50% solar ~0 W house ~807 W batt ~-843 W grid ~-8 W\n🌙 Overnight 02:00–04:13 slot kept for 01:30 resize",
+  "updated": "2026-10-20T14:53:00+01:00",
   "peak_window": {
     "from": "15:00",
-    "to": "15:18",
+    "to": "15:50",
     "target_percent": 75,
-    "applied": false,
-    "reason": "pending_1500_check"
+    "applied": true,
+    "reason": "soc_50_below_75_topup_written"
   },
   "weather_tomorrow": "Tue 20 Oct: dull/cloudy. Solcast Garage+Home x0.75 about 1.6 kWh PV 08:00-16:00 (0.6 kWh at noon), so midday immersion is mostly from the pack",
   "last_savings": {
@@ -36,7 +36,7 @@
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
@@ -280,6 +280,10 @@
     {
       "t": "2026-10-20T08:12:44+01:00",
       "w": -299
+    },
+    {
+      "t": "2026-10-20T14:53:00+01:00",
+      "w": -843
     }
   ],
   "soc_series": [
@@ -402,20 +406,21 @@
     {
       "t": "2026-10-20T08:12:44+01:00",
       "soc": 92
+    },
+    {
+      "t": "2026-10-20T14:53:00+01:00",
+      "soc": 50
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": {
-    "date": "2026-10-19",
-    "from": "18:00",
-    "to": "19:00",
-    "opted_in": true,
-    "opted_in_at": "2026-10-19T14:55:00+01:00",
-    "session_id": "f7776f77-67d6-4fad-aeb9-f60af404afd1",
-    "points_per_kwh": 82,
-    "source": "Laura AOL 13:29"
+  "booked_power_down": null,
+  "peak_topup": {
+    "from": "15:00",
+    "to": "15:50",
+    "target_percent": 75,
+    "power_w": 6000,
+    "kwh_est": 3.85
   },
-  "peak_topup": null,
   "free_window_in_progress": false
 }
