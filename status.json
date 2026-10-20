@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-20T14:53:00+01:00",
+  "updated_at": "2026-10-20T17:19:48+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 50,
+  "soc_percent": 68,
   "solar_w": 0,
-  "house_w": 807,
-  "battery_w": -843,
-  "grid_w": -8,
+  "house_w": 982,
+  "battery_w": -1017,
+  "grid_w": -4,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-20T13:47:30Z",
+  "sample_time_utc": "2026-10-20T16:14:16Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_cloudy_full"
   },
   "next_power_up": null,
-  "last_action": "⚡ 15:00 peak top-up: SOC 50% < 75%, wrote 15:00–15:50 @ 75% / 6 kW (~3.85 kWh, sized at 5.15 kW + 5 min)\n⬇️ No Power Down or Power Up today (Gmail + Laura AOL checked)\n🔋 SOC 50% solar ~0 W house ~807 W batt ~-843 W grid ~-8 W\n🌙 Overnight 02:00–04:13 slot kept for 01:30 resize",
-  "updated": "2026-10-20T14:53:00+01:00",
+  "last_action": "\u2705 17:30 Power Up check: no Power Up, Happy Hour or Power Down for today\n\ud83d\udd0b SOC 68% house ~982 W solar ~0 W\n\ud83e\uddf9 Cleared spent 15:00\u201315:50 top-up slot; overnight 02:00\u201304:13 @ 100% kept (01:30 resizes)",
+  "updated": "2026-10-20T17:19:48+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "15:50",
@@ -36,19 +36,11 @@
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-14T02:59:52+01:00",
-      "w": 5665
-    },
-    {
-      "t": "2026-10-14T04:00:36+01:00",
-      "w": -311
-    },
     {
       "t": "2026-10-14T04:20:50+01:00",
       "w": -297
@@ -284,17 +276,13 @@
     {
       "t": "2026-10-20T14:53:00+01:00",
       "w": -843
+    },
+    {
+      "t": "2026-10-20T17:14:16+01:00",
+      "w": -1017
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-17T04:02:41+01:00",
-      "soc": 80
-    },
-    {
-      "t": "2026-10-17T03:57:37+01:00",
-      "soc": 77
-    },
     {
       "t": "2026-10-17T04:58:21+01:00",
       "soc": 82
@@ -410,6 +398,10 @@
     {
       "t": "2026-10-20T14:53:00+01:00",
       "soc": 50
+    },
+    {
+      "t": "2026-10-20T17:14:16+01:00",
+      "soc": 68
     }
   ],
   "booked_power_up": null,
