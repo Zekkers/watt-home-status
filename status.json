@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-21T01:31:22+01:00",
+  "updated_at": "2026-10-21T08:19:40+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 7,
+  "soc_percent": 89,
   "solar_w": 0,
-  "house_w": 222,
-  "battery_w": -301,
-  "grid_w": 0,
+  "house_w": 218,
+  "battery_w": -269,
+  "grid_w": 2,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-21T00:30:14Z",
+  "sample_time_utc": "2026-10-21T07:15:07Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,14 +21,14 @@
     "path": "no_free_solcast_derate_cloudy_full"
   },
   "next_power_up": null,
-  "last_action": "\ud83c\udf19 Overnight 02:00\u201304:27 @ 100% (6 kW): SOC 7% now, cloudy day plus immersion, so full fill\n\u26c5 Solcast \u00d70.65: ~2.2 kWh PV today (~0.8 kWh at noon)\n\u2709\ufe0f 01:30 mail check: no Power Up or Happy Hour today\n\ud83d\udd0b SOC 7% house ~222 W batt ~-301 W grid ~0 W; 15:00 top-up target 75%",
-  "updated": "2026-10-21T01:31:22+01:00",
+  "last_action": "\u2705 08:00 check: overnight 02:00\u201304:27 @ 100% went 6%\u219298% (~13.9 kWh in, 14.9 kWh import; on plan, taper above 92% left it 2 pp short; no hold-at-cap grid, no EPS, min 6%)\n\ud83d\udd0b SOC 89% house ~218 W solar ~0 W grid ~2 W\n\u2600\ufe0f Solcast \u00d70.65: today ~2.3 kWh (dull); Tue 20 live PV ~1.0 vs 1.48 at \u00d70.65 (still high)\n\ud83d\udcc9 No free window Wed 21 Oct; 20% floor; 15:00 top-up target 75%",
+  "updated": "2026-10-21T08:19:40+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "15:50",
     "target_percent": 75,
-    "applied": true,
-    "reason": "soc_50_below_75_topup_written"
+    "applied": false,
+    "reason": "pending_1500_check"
   },
   "weather_tomorrow": "Wed 21 Oct: dull/cloudy. Solcast Garage+Home x0.65 about 2.2 kWh PV 08:00-16:00 (0.8 kWh at noon), so midday immersion is mostly from the pack",
   "last_savings": {
@@ -41,26 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-14T05:01:19+01:00",
-      "w": -288
-    },
-    {
-      "t": "2026-10-14T06:57:43+01:00",
-      "w": -273
-    },
-    {
-      "t": "2026-10-14T07:58:27+01:00",
-      "w": -114
-    },
-    {
-      "t": "2026-10-14T08:23:19+01:00",
-      "w": -80
-    },
-    {
-      "t": "2026-10-14T15:02:06+01:00",
-      "w": -11
-    },
     {
       "t": "2026-10-15T08:17:43+01:00",
       "w": -210
@@ -280,29 +260,29 @@
     {
       "t": "2026-10-21T01:30:14+01:00",
       "w": -301
+    },
+    {
+      "t": "2026-10-21T01:55:33+01:00",
+      "w": -294
+    },
+    {
+      "t": "2026-10-21T04:27:22+01:00",
+      "w": 1799
+    },
+    {
+      "t": "2026-10-21T06:03:32+01:00",
+      "w": -373
+    },
+    {
+      "t": "2026-10-21T07:59:56+01:00",
+      "w": -299
+    },
+    {
+      "t": "2026-10-21T08:15:07+01:00",
+      "w": -269
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-17T06:59:49+01:00",
-      "soc": 78
-    },
-    {
-      "t": "2026-10-17T08:00:33+01:00",
-      "soc": 75
-    },
-    {
-      "t": "2026-10-17T08:20:55+01:00",
-      "soc": 75
-    },
-    {
-      "t": "2026-10-17T14:52:54+01:00",
-      "soc": 76
-    },
-    {
-      "t": "2026-10-17T16:04:29+01:00",
-      "soc": 76
-    },
     {
       "t": "2026-10-17T17:18:43+01:00",
       "soc": 72
@@ -402,6 +382,26 @@
     {
       "t": "2026-10-21T01:30:14+01:00",
       "soc": 7
+    },
+    {
+      "t": "2026-10-21T01:55:33+01:00",
+      "soc": 6
+    },
+    {
+      "t": "2026-10-21T04:27:22+01:00",
+      "soc": 98
+    },
+    {
+      "t": "2026-10-21T06:03:32+01:00",
+      "soc": 96
+    },
+    {
+      "t": "2026-10-21T07:59:56+01:00",
+      "soc": 90
+    },
+    {
+      "t": "2026-10-21T08:15:07+01:00",
+      "soc": 89
     }
   ],
   "booked_power_up": null,
