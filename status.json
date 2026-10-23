@@ -408,7 +408,8 @@
   "booked_happy_hour": {
     "date": "2026-10-25",
     "from": "12:00",
-    "to": "13:00",
+    "to": "14:00",
+    "note": "Two booked hours: 12:00-13:00 and 13:00-14:00 (second confirmed on Octopus dashboard 23 Oct ~16:01 BST)",
     "opted_in": true,
     "session_id": "60a70efc-fee9-4d7f-8ae2-1a9234a1d892",
     "since": "2026-10-23T15:55:44+01:00",
