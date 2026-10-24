@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-24T08:15:20+01:00",
+  "updated_at": "2026-10-24T14:51:24+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 86,
-  "solar_w": 163,
-  "house_w": 218,
-  "battery_w": -125,
-  "grid_w": 8,
+  "soc_percent": 35,
+  "solar_w": 113,
+  "house_w": 534,
+  "battery_w": -512,
+  "grid_w": 6,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-24T07:12:07Z",
+  "sample_time_utc": "2026-10-24T13:46:52Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_dull_full_fill"
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 check: overnight 02:00\u201304:40 @ 100% went 4%\u219299% (99% by 04:34, tapered, no idle-at-cap import; ~14.7 kWh into pack, ~15.5 kWh cheap import vs ~12.9 planned)\n\ud83d\udd0b SOC 86% house ~218 W solar ~163 W grid ~8 W\n\u26a0\ufe0f Pack hit 4% at 23:46 Fri (house on grid ~2h before 02:00)\n\u2600\ufe0f Solcast \u00d70.65: Fri 23 actual 3.5 vs 1.47 derated (238%); 14-day implied \u00d70.67\n\ud83d\udcc9 No free window Sat 24 Oct; 20% floor; 15:00 top-up target 75%; Sun 25 HH 12:00\u201314:00 booked",
-  "updated": "2026-10-24T08:15:20+01:00",
+  "last_action": "\ud83d\udd0b 15:00 peak top-up: SOC 35% below 75% target\n\u26a1 Wrote 14:55\u201316:00 @ 75% / 6 kW (~5.6 kWh, may land ~71%)\n\ud83c\udf19 Overnight 02:00\u201304:40 @ 100% kept\n\ud83d\udced No Power Up today; Power Down check pending",
+  "updated": "2026-10-24T14:51:24+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-17T06:59:49+01:00",
-      "w": -367
-    },
     {
       "t": "2026-10-17T08:00:33+01:00",
       "w": -306
@@ -280,13 +276,13 @@
     {
       "t": "2026-10-24T08:12:07+01:00",
       "w": -125
+    },
+    {
+      "t": "2026-10-24T14:46:52+01:00",
+      "w": -512
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-21T01:55:33+01:00",
-      "soc": 6
-    },
     {
       "t": "2026-10-21T04:27:22+01:00",
       "soc": 98
@@ -402,6 +398,10 @@
     {
       "t": "2026-10-24T08:12:07+01:00",
       "soc": 86
+    },
+    {
+      "t": "2026-10-24T14:46:52+01:00",
+      "soc": 35
     }
   ],
   "booked_power_up": null,
@@ -421,12 +421,12 @@
   },
   "booked_power_down": null,
   "peak_topup": {
-    "from": "15:00",
-    "to": "15:22",
+    "from": "14:55",
+    "to": "16:00",
     "percent_limit": 75,
     "kw": 6,
-    "kwh": 1.4,
-    "mins": 22
+    "kwh": 5.6,
+    "mins": 65
   },
   "free_window_in_progress": false,
   "weather_note": "Solcast Garage+Home x0.65: Sat 24 Oct dull, ~2.1 kWh day, ~0.7 kWh 12:00-14:00 (Sun 25 brighter)"
