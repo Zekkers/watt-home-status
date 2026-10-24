@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-24T14:51:53+01:00",
+  "updated_at": "2026-10-24T17:25:55+01:00",
   "timezone": "Europe/London",
-  "soc_percent": 35,
-  "solar_w": 113,
-  "house_w": 534,
-  "battery_w": -512,
-  "grid_w": 6,
+  "soc_percent": 66,
+  "solar_w": 0,
+  "house_w": 354,
+  "battery_w": -552,
+  "grid_w": 153,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-24T13:46:52Z",
+  "sample_time_utc": "2026-10-24T16:23:45Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_dull_full_fill"
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udd0b 15:00 peak top-up: SOC 35% below 75% target\n\u26a1 Wrote 14:55\u201316:00 @ 75% / 6 kW (~5.6 kWh, may land ~71%)\n\ud83c\udf19 Overnight 02:00\u201304:40 @ 100% kept\n\ud83d\udced No Power Down / Power Up today",
-  "updated": "2026-10-24T14:51:53+01:00",
+  "last_action": "\u2705 17:30 Power Up check: no Power Up or Power Down today (Sun Happy Hours 12:00\u201314:00 already booked)\n\ud83d\udd0b SOC 66% house ~354 W solar ~0 W\n\ud83c\udf19 Overnight 02:00\u201304:40 @ 100% kept, spent 15:00 top-up cleared (01:30 resizes)",
+  "updated": "2026-10-24T17:25:55+01:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-17T08:20:55+01:00",
-      "w": -160
-    },
     {
       "t": "2026-10-17T14:52:54+01:00",
       "w": 268
@@ -280,13 +276,13 @@
     {
       "t": "2026-10-24T14:46:52+01:00",
       "w": -512
+    },
+    {
+      "t": "2026-10-24T17:23:45+01:00",
+      "w": -552
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-21T06:03:32+01:00",
-      "soc": 96
-    },
     {
       "t": "2026-10-21T07:59:56+01:00",
       "soc": 90
@@ -402,6 +398,10 @@
     {
       "t": "2026-10-24T14:46:52+01:00",
       "soc": 35
+    },
+    {
+      "t": "2026-10-24T17:23:45+01:00",
+      "soc": 66
     }
   ],
   "booked_power_up": null,
