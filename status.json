@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-25T14:53:17+00:00",
+  "updated_at": "2026-10-25T17:24:03+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 91,
-  "solar_w": 750,
-  "house_w": 1084,
-  "battery_w": -421,
-  "grid_w": 11,
+  "soc_percent": 74,
+  "solar_w": 0,
+  "house_w": 1122,
+  "battery_w": -1207,
+  "grid_w": -1,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-25T14:49:58Z",
+  "sample_time_utc": "2026-10-25T17:16:44Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -23,8 +23,8 @@
     "path": "happy_hour_day_30cap_clock_offset"
   },
   "next_power_up": null,
-  "last_action": "\u2705 15:00 check: SOC 91% already above 75% target, no top-up\n\ud83c\udf81 Happy Hour 12:00\u201314:00 GMT finished; spent slot cleared\n\ud83c\udf19 Overnight 02:00\u201304:40 @ 100% placeholder (01:30 run resizes)\n\ud83d\udced No Power Down / Power Up today",
-  "updated": "2026-10-25T14:53:17+00:00",
+  "last_action": "\u2705 17:30 Power Up check: no Power Up or Power Down today (Happy Hour 12:00\u201314:00 done)\n\ud83d\udd0b SOC 74% house ~1122 W solar ~0 W\n\ud83c\udf19 Overnight 02:00\u201304:40 @ 100% kept (01:30 resizes)",
+  "updated": "2026-10-25T17:24:03+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -43,10 +43,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-18T15:00:40+01:00",
-      "w": -1266
-    },
     {
       "t": "2026-10-18T17:25:27+01:00",
       "w": -368
@@ -282,13 +278,13 @@
     {
       "t": "2026-10-25T14:49:58+00:00",
       "w": -421
+    },
+    {
+      "t": "2026-10-25T17:16:44+00:00",
+      "w": -1207
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-22T14:57:00+01:00",
-      "soc": 84
-    },
     {
       "t": "2026-10-22T17:19:00+01:00",
       "soc": 78
@@ -404,6 +400,10 @@
     {
       "t": "2026-10-25T14:49:58+00:00",
       "soc": 91
+    },
+    {
+      "t": "2026-10-25T17:16:44+00:00",
+      "soc": 74
     }
   ],
   "booked_power_up": null,
