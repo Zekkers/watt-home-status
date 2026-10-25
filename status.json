@@ -1,28 +1,44 @@
 {
-  "updated_at": "2026-10-24T17:25:55+01:00",
+  "updated_at": "2026-10-25T01:31:49+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 66,
+  "soc_percent": 27,
   "solar_w": 0,
-  "house_w": 354,
-  "battery_w": -552,
-  "grid_w": 153,
+  "house_w": 155,
+  "battery_w": -231,
+  "grid_w": -1,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-24T16:23:45Z",
+  "sample_time_utc": "2026-10-25T01:30:21Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
-    "from": "02:00",
-    "to": "04:40",
-    "percent_limit": 100,
+    "from": "03:00",
+    "to": "03:05",
+    "real_from": "02:00",
+    "real_to": "02:05",
+    "percent_limit": 30,
     "kw": 6,
     "cleared": false,
-    "kwh": 12.9,
-    "mins": 160,
-    "path": "no_free_solcast_derate_dull_full_fill"
+    "kwh": 0.4,
+    "mins": 5,
+    "path": "happy_hour_day_30cap_clock_offset"
   },
-  "next_power_up": null,
-  "last_action": "\u2705 17:30 Power Up check: no Power Up or Power Down today (Sun Happy Hours 12:00\u201314:00 already booked)\n\ud83d\udd0b SOC 66% house ~354 W solar ~0 W\n\ud83c\udf19 Overnight 02:00\u201304:40 @ 100% kept, spent 15:00 top-up cleared (01:30 resizes)",
-  "updated": "2026-10-24T17:25:55+01:00",
+  "next_power_up": {
+    "date": "2026-10-25",
+    "from": "12:00",
+    "to": "14:00",
+    "note": "Two booked hours: 12:00-13:00 and 13:00-14:00 (second confirmed on Octopus dashboard 23 Oct ~16:01 BST)",
+    "opted_in": true,
+    "session_id": "60a70efc-fee9-4d7f-8ae2-1a9234a1d892",
+    "since": "2026-10-23T15:55:44+01:00",
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour",
+    "source": "aol_optimistic_opt_in",
+    "account_id": "A-5314B4CC",
+    "timezone": "Europe/London",
+    "inverter_slot": "13:00-15:00 (inverter clock still on BST, +1h)"
+  },
+  "last_action": "\ud83c\udf19 01:30 overnight: Happy Hour today 12:00\u201314:00\n\u23f0 Inverter clock still on BST: old 02:00 slot started 01:00 GMT (~2.8 kWh at day rate, SOC 10\u219227%)\n\ud83d\udd0b SOC 27% house ~155 W\n\u2600\ufe0f Solcast \u00d70.65: ~10.7 kWh day, ~2.6 kWh noon\n\u26a1 Wrote (inverter time +1h) 03:00\u201303:05 @30% + HH 13:00\u201315:00 @100% / 6 kW",
+  "updated": "2026-10-25T01:31:49+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +57,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-17T14:52:54+01:00",
-      "w": 268
-    },
     {
       "t": "2026-10-17T16:04:29+01:00",
       "w": 166
@@ -280,13 +292,13 @@
     {
       "t": "2026-10-24T17:23:45+01:00",
       "w": -552
+    },
+    {
+      "t": "2026-10-25T01:30:21+00:00",
+      "w": -231
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-21T07:59:56+01:00",
-      "soc": 90
-    },
     {
       "t": "2026-10-21T08:15:07+01:00",
       "soc": 89
@@ -402,6 +414,10 @@
     {
       "t": "2026-10-24T17:23:45+01:00",
       "soc": 66
+    },
+    {
+      "t": "2026-10-25T01:30:21+00:00",
+      "soc": 27
     }
   ],
   "booked_power_up": null,
@@ -429,5 +445,6 @@
     "mins": 65
   },
   "free_window_in_progress": false,
-  "weather_note": "Solcast Garage+Home x0.65: Sat 24 Oct dull, ~2.1 kWh day, ~0.7 kWh 12:00-14:00 (Sun 25 brighter)"
+  "weather_note": "Solcast Garage+Home x0.65: Sun 25 Oct bright, ~10.7 kWh day, ~6.8 kWh before noon, ~2.6 kWh 12:00-14:00 (Happy Hour covers immersion)",
+  "inverter_clock_offset_note": "25 Oct: CH2414G328 clock did not follow the BST->GMT change; it runs 1h ahead. Slots written in inverter time (+1h) until Ian fixes the clock."
 }
