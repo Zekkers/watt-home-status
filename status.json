@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-10-26T17:20:36+00:00",
+  "updated_at": "2026-10-27T01:33:38+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 51,
+  "soc_percent": 4,
   "solar_w": 0,
-  "house_w": 1404,
-  "battery_w": -1503,
-  "grid_w": 6,
+  "house_w": 224,
+  "battery_w": 0,
+  "grid_w": -314,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-26T17:19:07Z",
+  "sample_time_utc": "2026-10-27T01:30:01Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
     "from": "02:00",
-    "to": "04:40",
-    "percent_limit": 100,
+    "to": "04:20",
+    "percent_limit": 92,
     "kw": 6,
     "cleared": false,
-    "kwh": 11.5,
-    "mins": 160,
-    "path": "no_free_solcast_derate_dull_full_fill_kept_no_write"
+    "kwh": 11.9,
+    "mins": 140,
+    "path": "no_free_solcast_derate_near_eps_recovery"
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udcec 17:30 Power Up check: no new Power Up\n\ud83e\uddf9 Cleared spent 14:57\u201316:00 peak slot\n\ud83c\udf19 Overnight 02:00\u201304:40 @ 100% kept (SOC 51%)\n\u2b07\ufe0f Power Down 18:00\u201319:00 tonight, opted in",
-  "updated": "2026-10-26T17:20:36+00:00",
+  "last_action": "\ud83c\udf19 01:30 overnight: no free window Tue 27 Oct, SOC near EPS\n\ud83d\udd0b SOC 4% house ~224 W \n\u2601\ufe0f Solcast \u00d70.65: ~7.0 kWh day, ~2.4 kWh noon\n\u26a1 Set 02:00\u201304:20 @ 92% / 6 kW (~11.9 kWh refill)",
+  "updated": "2026-10-27T01:33:38+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-20T01:58:14+01:00",
-      "w": -293
-    },
     {
       "t": "2026-10-20T04:14:53+01:00",
       "w": -284
@@ -280,13 +276,13 @@
     {
       "t": "2026-10-26T17:19:07+00:00",
       "w": -1503
+    },
+    {
+      "t": "2026-10-27T01:30:01+00:00",
+      "w": 0
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-23T17:16:19+01:00",
-      "soc": 63
-    },
     {
       "t": "2026-10-24T01:22:10+01:00",
       "soc": 4
@@ -402,6 +398,10 @@
     {
       "t": "2026-10-26T17:19:07+00:00",
       "soc": 51
+    },
+    {
+      "t": "2026-10-27T01:30:01+00:00",
+      "soc": 4
     }
   ],
   "booked_power_up": null,
@@ -438,5 +438,5 @@
   },
   "peak_topup": null,
   "free_window_in_progress": false,
-  "weather_note": "Solcast Garage+Home x0.65: Mon 26 Oct dull, ~1.2 kWh day, ~0.3 kWh 12:00-14:00 (Tue 27 brighter ~6.0); inverter clock on GMT"
+  "weather_note": "Solcast Garage+Home x0.65: Tue 27 Oct brighter, ~7.0 kWh day, ~2.4 kWh 12:00-14:00 (Wed 28 ~5.0); inverter clock on GMT"
 }
