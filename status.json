@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-28T17:21:17+00:00",
+  "updated_at": "2026-10-28T17:21:23+00:00",
   "timezone": "Europe/London",
   "soc_percent": 66,
   "solar_w": 0,
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_dull_low_soc_full_fill"
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udcec 17:30 check: no Power Up or Happy Hour mail today\n\u2b07\ufe0f Power Down 18:00\u201319:00 tonight, opted in; SOC 66%, enough\n\ud83c\udf19 Overnight 02:00\u201304:20 @ 92% kept; spent 14:20\u201316:00 top-up cleared",
-  "updated": "2026-10-28T17:21:17+00:00",
+  "last_action": "\ud83d\udcec 17:30 check: no Power Up, Power Down or Happy Hour mail today\n\ud83d\udd0b SOC 66%, evening on battery\n\ud83c\udf19 Overnight 02:00\u201304:40 @ 100% kept for now; 01:30 run does final sizing",
+  "updated": "2026-10-28T17:21:23+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-22T07:57:14+01:00",
-      "w": -612
-    },
     {
       "t": "2026-10-22T08:12:25+01:00",
       "w": -240
@@ -280,13 +276,13 @@
     {
       "t": "2026-10-28T17:18:48+00:00",
       "w": -1387
+    },
+    {
+      "t": "2026-10-28T17:18:48+00:00",
+      "w": -1387
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-25T09:05:50+00:00",
-      "soc": 19
-    },
     {
       "t": "2026-10-25T14:49:58+00:00",
       "soc": 91
@@ -398,6 +394,10 @@
     {
       "t": "2026-10-28T14:16:36+00:00",
       "soc": 72
+    },
+    {
+      "t": "2026-10-28T17:18:48+00:00",
+      "soc": 66
     },
     {
       "t": "2026-10-28T17:18:48+00:00",
