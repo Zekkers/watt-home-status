@@ -1,6 +1,7 @@
 package com.zekkers.watthome.data
 
 import android.graphics.Paint
+import java.time.Instant
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.min
@@ -385,7 +386,14 @@ object TodayEnergyProbe {
             GraphSeriesSelection.ID_SOC -> socSamples(status.socSeries, true)
             else -> emptyList()
         }
-        return samples.maxByOrNull { minutesFromMidnight(it.t) ?: Double.NEGATIVE_INFINITY }
+        if (samples.isEmpty()) return null
+        // Rank by the full timestamp. Clock time alone treats 23:45 yesterday as
+        // later than 00:20 today, including a live tip appended after midnight.
+        return samples.withIndex().maxWith(
+            compareBy<IndexedValue<BatterySample>> { indexed ->
+                indexed.value.t?.let { StatusFormatter.parseTimestamp(it)?.toInstant() } ?: Instant.MIN
+            }.thenBy { it.index }
+        ).value
     }
 
     private data class SeriesSpec(

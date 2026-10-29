@@ -178,6 +178,15 @@ class TodayEnergyProbeTest {
         val tip = TodayEnergyProbe.latest(status, GraphSeriesSelection.ID_SOLAR)
         assertEquals("12:15", tip.timeText)
         assertEquals("390", tip.readings.single().valueText)
+        val acrossMidnight = day(
+            solar = listOf(
+                sample("2026-08-27T00:20:00+01:00", 12.0),
+                sample("2026-08-26T23:45:00+01:00", 80.0)
+            )
+        )
+        val afterMidnight = TodayEnergyProbe.latest(acrossMidnight, GraphSeriesSelection.ID_SOLAR)
+        assertEquals("00:20", afterMidnight.timeText)
+        assertEquals("12", afterMidnight.readings.single().valueText)
         assertEquals("W", tip.readings.single().unit)
         assertEquals("Power from the solar array", tip.readings.single().meaning)
         val missing = TodayEnergyProbe.latest(status, GraphSeriesSelection.ID_HOUSE)
