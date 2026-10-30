@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-30T14:17:48+00:00",
+  "updated_at": "2026-10-30T17:21:47+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 60,
-  "solar_w": 364,
-  "house_w": 348,
-  "battery_w": -67,
-  "grid_w": 13,
+  "soc_percent": 73,
+  "solar_w": 0,
+  "house_w": 136,
+  "battery_w": -214,
+  "grid_w": -1,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-30T14:16:18Z",
+  "sample_time_utc": "2026-10-30T17:18:30Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_top_to_90"
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udd52 14:00 top-up: SOC 60%, house ~350 W now (heating ~3.5 kW 12:40\u201313:40 stopped), PV ~0.4 kW\n\ud83d\udcc9 Projected ~50\u201359% by 16:00, short of 75%\n\u26a1 Set 15:00\u201316:00 cap 75% / 6 kW; overnight 02:00\u201303:25 @90% kept",
-  "updated": "2026-10-30T14:17:48+00:00",
+  "last_action": "\ud83d\udcec 17:30 check: no Power Up, Power Down or Happy Hour mail today\n\ud83d\udd0b SOC 73%, evening on battery\n\ud83c\udf19 Overnight 02:00\u201303:25 @ 90% kept for now; 01:30 run does final sizing",
+  "updated": "2026-10-30T17:21:47+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-25T01:30:21+00:00",
-      "w": -231
-    },
     {
       "t": "2026-10-25T02:00:43+00:00",
       "w": 5674
@@ -280,13 +276,13 @@
     {
       "t": "2026-10-30T14:16:18+00:00",
       "w": -67
+    },
+    {
+      "t": "2026-10-30T17:18:30+00:00",
+      "w": -214
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-28T04:19:25+00:00",
-      "soc": 98
-    },
     {
       "t": "2026-10-28T04:49:47+00:00",
       "soc": 99
@@ -402,6 +398,10 @@
     {
       "t": "2026-10-30T14:16:18+00:00",
       "soc": 60
+    },
+    {
+      "t": "2026-10-30T17:18:30+00:00",
+      "soc": 73
     }
   ],
   "booked_power_up": null,
