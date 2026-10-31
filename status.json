@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-31T14:12:25+00:00",
+  "updated_at": "2026-10-31T17:26:00+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 47,
-  "solar_w": 574,
-  "house_w": 2981,
-  "battery_w": -2535,
-  "grid_w": -12,
+  "soc_percent": 63,
+  "solar_w": 0,
+  "house_w": 1067,
+  "battery_w": -1175,
+  "grid_w": -9,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-10-31T14:03:29Z",
+  "sample_time_utc": "2026-10-31T17:20:52Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_top_to_90"
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udd25 14:00 top-up: house ~3.7 kW heating\n\ud83d\udd0b SOC 47% at 14:03\n\u26a1 Started 14:12\u201316:00, cap 75% / 6 kW\n\ud83c\udf19 Overnight 02:00\u201303:05 @ 90% kept",
-  "updated": "2026-10-31T14:12:25+00:00",
+  "last_action": "\ud83d\udcec 17:30 check: no Power Up, Power Down or Happy Hour mail today\n\ud83d\udd0b SOC 63%, evening on battery\n\ud83c\udf19 Overnight 02:00\u201303:05 @ 90% kept for now; 01:30 run does final sizing",
+  "updated": "2026-10-31T17:26:00+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-26T04:04:32+00:00",
-      "w": 1087
-    },
     {
       "t": "2026-10-26T04:45:02+00:00",
       "w": -198
@@ -280,13 +276,13 @@
     {
       "t": "2026-10-31T14:03:29+00:00",
       "w": -2535
+    },
+    {
+      "t": "2026-10-31T17:20:52+00:00",
+      "w": -1175
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-29T04:01:33+00:00",
-      "soc": 90
-    },
     {
       "t": "2026-10-29T04:16:44+00:00",
       "soc": 90
@@ -402,6 +398,10 @@
     {
       "t": "2026-10-31T14:03:29+00:00",
       "soc": 47
+    },
+    {
+      "t": "2026-10-31T17:20:52+00:00",
+      "soc": 63
     }
   ],
   "booked_power_up": null,
@@ -420,13 +420,7 @@
     "timezone": "Europe/London"
   },
   "booked_power_down": null,
-  "peak_topup": {
-    "from": "14:12",
-    "to": "16:00",
-    "percent_limit": 75,
-    "kw": 6,
-    "reason": "house ~3.7 kW heating sustained 13:00-14:00"
-  },
+  "peak_topup": null,
   "free_window_in_progress": false,
   "weather_note": "Solcast Garage+Home x0.65: Sat 31 Oct ~4.7 kWh day, ~1.3 kWh 12:00-14:00 (Sun 1 Nov ~2.1)",
   "afternoon_topup": {
