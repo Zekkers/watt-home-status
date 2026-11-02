@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-02T14:18:20+00:00",
+  "updated_at": "2026-11-02T17:19:45+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 73,
-  "solar_w": 355,
-  "house_w": 450,
-  "battery_w": -160,
-  "grid_w": -22,
+  "soc_percent": 68,
+  "solar_w": 0,
+  "house_w": 1084,
+  "battery_w": -1162,
+  "grid_w": -27,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-02T14:08:15Z",
+  "sample_time_utc": "2026-11-02T17:15:30Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 top-up: SOC 73% at 14:08, house ~0.45 kW (no heating, brief ~3 kW burst 13:07\u201313:17), PV ~0.35 kW, projected ~70% by 16:00\n\ud83d\udd0b wrote 15:40\u201316:00 cap 75% to top up to 75% before the peak\n\ud83c\udf19 overnight 02:00\u201304:15 @95% kept; no Power Down found in Gmail",
-  "updated": "2026-11-02T14:18:20+00:00",
+  "last_action": "\ud83d\udcec 17:30 check: no new Power Up, Power Down or Happy Hour mail\n\ud83d\udd0b SOC 68%, evening on battery\n\ud83c\udf19 Overnight 02:00\u201304:15 @ 95% kept for now; 01:30 run does final sizing",
+  "updated": "2026-11-02T17:19:45+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-29T01:24:39+00:00",
-      "w": -303
-    },
     {
       "t": "2026-10-29T02:00:05+00:00",
       "w": -240
@@ -280,13 +276,13 @@
     {
       "t": "2026-11-02T14:08:15+00:00",
       "w": -160
+    },
+    {
+      "t": "2026-11-02T17:15:30+00:00",
+      "w": -1162
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-31T07:03:26+00:00",
-      "soc": 85
-    },
     {
       "t": "2026-10-31T08:14:17+00:00",
       "soc": 84
@@ -402,6 +398,10 @@
     {
       "t": "2026-11-02T14:08:15+00:00",
       "soc": 73
+    },
+    {
+      "t": "2026-11-02T17:15:30+00:00",
+      "soc": 68
     }
   ],
   "booked_power_up": null,
