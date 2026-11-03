@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-03T15:48:19+00:00",
+  "updated_at": "2026-11-03T16:00:50+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 33,
-  "solar_w": 211,
-  "house_w": 1067,
-  "battery_w": -916,
-  "grid_w": 16,
+  "soc_percent": 75,
+  "solar_w": 0,
+  "house_w": 952,
+  "battery_w": 0,
+  "grid_w": -1009,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-03T14:15:41Z",
+  "sample_time_utc": "2026-11-03T15:56:54Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 top-up: SOC 33% at 14:15, house ~3.4 kW heating 13:00\u201314:00 (eased to ~0.7\u20131.1 kW since 14:00), PV ~0.2\u20130.5 kW, projected ~25% by 16:00\n\ud83d\udd0b started 14:20\u201316:00 cap 75% to catch up before the peak\n\ud83c\udf19 overnight 02:00\u201304:30 @95% kept; no Power Down found in Gmail\n\u26a0\ufe0f Power Down 17:30\u201318:30 tonight found (Laura AOL 13:05); opt-in pending, Octopus sign-in needed",
-  "updated": "2026-11-03T15:48:19+00:00",
+  "last_action": "\u2705 Power Down 17:30\u201318:30 opted in (90 pts/kWh)\n\ud83d\udd0b SOC 75% at 15:57, top-up ends 16:00, pack ~10.5 kWh above EPS vs ~1.2 kWh needed\n\ud83c\udfe0 house on battery through the window, no charge slot overlaps",
+  "updated": "2026-11-03T16:00:50+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -284,10 +284,6 @@
   ],
   "soc_series": [
     {
-      "t": "2026-11-01T08:06:33+00:00",
-      "soc": 15
-    },
-    {
       "t": "2026-11-01T14:10:57+00:00",
       "soc": 49
     },
@@ -402,6 +398,10 @@
     {
       "t": "2026-11-03T14:15:41+00:00",
       "soc": 33
+    },
+    {
+      "t": "2026-11-03T15:56:54+00:00",
+      "soc": 75
     }
   ],
   "booked_power_up": null,
@@ -412,7 +412,15 @@
     "to": "18:30",
     "points_per_kwh": 90,
     "opted_in": true,
-    "source": "Laura AOL email 13:05"
+    "source": "Laura AOL email 13:05",
+    "kind": "power_down",
+    "label": "Power Down",
+    "account_id": "A-5314B4CC",
+    "timezone": "Europe/London",
+    "pack_adequate": true,
+    "need_kwh_est": 1.2,
+    "above_eps_kwh": 10.5,
+    "opt_in_source": "Octoplus dashboard Accept challenge ~15:47"
   },
   "peak_topup": null,
   "free_window_in_progress": false,
