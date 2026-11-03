@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-11-02T17:19:45+00:00",
+  "updated_at": "2026-11-03T01:27:28+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 68,
+  "soc_percent": 4,
   "solar_w": 0,
-  "house_w": 1084,
-  "battery_w": -1162,
-  "grid_w": -27,
+  "house_w": 233,
+  "battery_w": 0,
+  "grid_w": -309,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-02T17:15:30Z",
+  "sample_time_utc": "2026-11-03T01:26:25Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
     "from": "02:00",
-    "to": "04:15",
+    "to": "04:30",
     "percent_limit": 95,
     "kw": 6,
     "cleared": false,
-    "kwh": 11.3,
-    "mins": 135,
+    "kwh": 13.5,
+    "mins": 150,
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udcec 17:30 check: no new Power Up, Power Down or Happy Hour mail\n\ud83d\udd0b SOC 68%, evening on battery\n\ud83c\udf19 Overnight 02:00\u201304:15 @ 95% kept for now; 01:30 run does final sizing",
-  "updated": "2026-11-02T17:19:45+00:00",
+  "last_action": "\ud83c\udf19 01:30 overnight: no free window Tue 3 Nov\n\ud83d\udd0b SOC 4% house ~233 W \n\u2601\ufe0f Solcast \u00d70.65: ~4.2 kWh day, ~1.2 kWh noon\n\u26a1 Set 02:00\u201304:15 @ 95% / 6 kW (~13.5 kWh), extra slots cleared",
+  "updated": "2026-11-03T01:27:28+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-29T02:00:05+00:00",
-      "w": -240
-    },
     {
       "t": "2026-10-29T02:15:16+00:00",
       "w": 5679
@@ -280,13 +276,13 @@
     {
       "t": "2026-11-02T17:15:30+00:00",
       "w": -1162
+    },
+    {
+      "t": "2026-11-03T01:26:25+00:00",
+      "w": 0
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-10-31T08:14:17+00:00",
-      "soc": 84
-    },
     {
       "t": "2026-10-31T08:19:21+00:00",
       "soc": 84
@@ -402,6 +398,10 @@
     {
       "t": "2026-11-02T17:15:30+00:00",
       "soc": 68
+    },
+    {
+      "t": "2026-11-03T01:26:25+00:00",
+      "soc": 4
     }
   ],
   "booked_power_up": null,
@@ -409,7 +409,7 @@
   "booked_power_down": null,
   "peak_topup": null,
   "free_window_in_progress": false,
-  "weather_note": "Solcast Garage+Home x0.65: Mon 2 Nov ~4.4 kWh day, ~1.0 kWh 12:00-14:00 (Tue 3 Nov ~4.4)",
+  "weather_note": "Solcast Garage+Home x0.65: Tue 3 Nov ~4.2 kWh day, ~1.2 kWh 12:00-14:00",
   "afternoon_topup": {
     "from": "15:00",
     "to": "16:00",
