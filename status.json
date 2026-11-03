@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-03T14:20:25+00:00",
+  "updated_at": "2026-11-03T15:48:19+00:00",
   "timezone": "Europe/London",
   "soc_percent": 33,
   "solar_w": 211,
@@ -22,7 +22,7 @@
   },
   "next_power_up": null,
   "last_action": "\u26a1 14:00 top-up: SOC 33% at 14:15, house ~3.4 kW heating 13:00\u201314:00 (eased to ~0.7\u20131.1 kW since 14:00), PV ~0.2\u20130.5 kW, projected ~25% by 16:00\n\ud83d\udd0b started 14:20\u201316:00 cap 75% to catch up before the peak\n\ud83c\udf19 overnight 02:00\u201304:30 @95% kept; no Power Down found in Gmail\n\u26a0\ufe0f Power Down 17:30\u201318:30 tonight found (Laura AOL 13:05); opt-in pending, Octopus sign-in needed",
-  "updated": "2026-11-03T14:20:25+00:00",
+  "updated": "2026-11-03T15:48:19+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -411,7 +411,7 @@
     "from": "17:30",
     "to": "18:30",
     "points_per_kwh": 90,
-    "opted_in": false,
+    "opted_in": true,
     "source": "Laura AOL email 13:05"
   },
   "peak_topup": null,
