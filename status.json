@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-03T08:17:57+00:00",
+  "updated_at": "2026-11-03T14:18:10+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 78,
-  "solar_w": 89,
-  "house_w": 314,
-  "battery_w": -290,
-  "grid_w": -5,
+  "soc_percent": 33,
+  "solar_w": 211,
+  "house_w": 1067,
+  "battery_w": -916,
+  "grid_w": 16,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-03T08:16:22Z",
+  "sample_time_utc": "2026-11-03T14:15:41Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 check: overnight 02:00\u201304:30 @95%/6 kW ran as planned: 4\u219295% by ~04:23, ~14.2 kWh cheap-rate in (plan ~13.5); ~7 min at cap, trivial\n\ud83d\udd0b SOC 78% house ~314 W solar ~89 W grid ~-5 W; no Power Up today, 14:00 check decides any top-up to 75% by 16:00\n\u26a0\ufe0f Mon evening hit 4% EPS ~21:08 after 75% top-up (heavy 1.1\u20132.5 kW 17:00\u201321:00); house on grid 21:08\u201302:00\n\u2600\ufe0f Solcast \u00d70.65: Mon 2 actual 5.2 vs 4.4 derated (118%); 14-day implied \u00d70.64; early PV ~90 W, too early to judge",
-  "updated": "2026-11-03T08:17:57+00:00",
+  "last_action": "\u26a1 14:00 top-up: SOC 33% at 14:15, house ~3.4 kW heating 13:00\u201314:00 (eased to ~0.7\u20131.1 kW since 14:00), PV ~0.2\u20130.5 kW, projected ~25% by 16:00\n\ud83d\udd0b started 14:20\u201316:00 cap 75% to catch up before the peak\n\ud83c\udf19 overnight 02:00\u201304:30 @95% kept; no Power Down found in Gmail",
+  "updated": "2026-11-03T14:18:10+00:00",
   "peak_window": {
     "from": "15:00",
     "to": "16:00",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-30T02:02:27+00:00",
-      "w": 5679
-    },
     {
       "t": "2026-10-30T02:32:49+00:00",
       "w": 5675
@@ -280,13 +276,13 @@
     {
       "t": "2026-11-03T08:16:22+00:00",
       "w": -290
+    },
+    {
+      "t": "2026-11-03T14:15:41+00:00",
+      "w": -916
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-01T08:01:29+00:00",
-      "soc": 15
-    },
     {
       "t": "2026-11-01T08:06:33+00:00",
       "soc": 15
@@ -402,6 +398,10 @@
     {
       "t": "2026-11-03T08:16:22+00:00",
       "soc": 78
+    },
+    {
+      "t": "2026-11-03T14:15:41+00:00",
+      "soc": 33
     }
   ],
   "booked_power_up": null,
