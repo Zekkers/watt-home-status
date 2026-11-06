@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-06T14:33:22+00:00",
+  "updated_at": "2026-11-06T16:05:25.225712+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 43,
-  "solar_w": 171,
-  "house_w": 880,
-  "battery_w": -783,
-  "grid_w": -24,
+  "soc_percent": 75,
+  "solar_w": 0,
+  "house_w": 582,
+  "battery_w": 672,
+  "grid_w": 12,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-06T14:22:49Z",
+  "sample_time_utc": "2026-11-06T16:04:02Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 top-up: SOC 43% at 14:22, house ~0.8 kW avg last hour (live 880 W, not heating; brief ~3 kW spike ~13:27), PV ~0.3 kW, projected ~37% by 16:00\n\ud83d\udd0b scheduled 14:50\u201316:00 @6 kW cap 75%\n\ud83c\udf19 overnight 02:00\u201304:30 @95% kept; no Power Down today (zeksie Gmail none; Laura AOL newest Tue 3 Nov PD 17:30\u201318:30)",
-  "updated": "2026-11-06T14:33:22+00:00",
+  "last_action": "\u2705 16:00 Saving Session: QUIET_NOOP \u2014 no Power Down / late Power Up / HH slot for Fri 6 or weekend 7\u20138 Nov\n\ud83d\udcec Gmail empty Octopus 5d; Laura AOL webmail newest still Tue 3 Nov PD 17:30\u201318:30 (IMAP SSLEOF)\n\ud83d\udd0b SOC 75% house ~582 W solar ~0 W batt ~672 W grid ~12 W\n\ud83c\udf19 overnight left as previously set; no opt-in / inverter write",
+  "updated": "2026-11-06T16:05:25.225712+00:00",
   "peak_window": {
     "from": "14:50",
     "to": "16:00",
@@ -50,10 +50,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-02T01:24:03+00:00",
-      "w": -298
-    },
     {
       "t": "2026-11-02T01:34:10+00:00",
       "w": -296
@@ -289,6 +285,10 @@
     {
       "t": "2026-11-06T14:22:49+00:00",
       "w": -783
+    },
+    {
+      "t": "2026-11-06T16:05:25.225712+00:00",
+      "w": 672
     }
   ],
   "soc_series": [
@@ -411,6 +411,10 @@
     {
       "t": "2026-11-06T14:22:49+00:00",
       "soc": 43
+    },
+    {
+      "t": "2026-11-06T16:05:25.225712+00:00",
+      "soc": 75
     }
   ],
   "booked_power_up": null,
