@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-05T17:24:19+00:00",
+  "updated_at": "2026-11-06T01:37:53+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 62,
+  "soc_percent": 4,
   "solar_w": 0,
-  "house_w": 866,
-  "battery_w": 996,
-  "grid_w": -1,
+  "house_w": 138,
+  "battery_w": 0,
+  "grid_w": -229,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-05T17:22:38Z",
+  "sample_time_utc": "2026-11-06T01:33:33Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -16,28 +16,28 @@
     "percent_limit": 95,
     "kw": 6,
     "cleared": false,
-    "kwh": 13.5,
+    "kwh": 12.3,
     "mins": 150,
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 17:30 Power Up catch: QUIET \u2014 no Power Up/Happy Hour/Power Down today in zeksie Gmail (from:hello@octopus.energy / octopus.energy empty) or Laura AOL webmail (IMAP SSLEOF; search from:hello@octopus.energy \u2014 newest is Tue 3 Nov Power Down 17:30\u201318:30). SOC 62% at 17:24 Europe/London (house ~866 W, PV 0 W); overnight 02:00\u201304:30 @95% kept (below cap). next_power_up null; no Typeform/inverter write.",
-  "updated": "2026-11-05T17:24:19+00:00",
+  "last_action": "\ud83c\udf19 01:30 overnight Fri 6 Nov: no free window\n\ud83d\udd0b SOC 4% house ~138 W (near EPS)\n\u2601\ufe0f Solcast \u00d70.65: ~1.526 kWh day, ~0.463 kWh noon\n\u26a1 Set 02:00\u201304:30 @ 95% / 6 kW (~12.3 kWh), peak slot cleared\n\ud83d\udce7 Gmail: no late Power Up; AOL: newest Octopus Tue 3 Nov Power Down",
+  "updated": "2026-11-06T01:37:53+00:00",
   "peak_window": {
-    "from": "14:50",
-    "to": "16:00",
-    "target_percent": 75,
-    "applied": true,
-    "reason": "projected_below_75_late_start"
+    "from": null,
+    "to": null,
+    "target_percent": null,
+    "applied": false,
+    "reason": "cleared_no_free_window_overnight"
   },
   "weather_tomorrow": {
     "code": "cloud",
     "source": "Solcast Garage+Home \u00d70.65",
-    "noon_pv_kwh_derated": 0.581,
-    "day_pv_kwh_derated": 1.817,
+    "noon_pv_kwh_derated": 0.463,
+    "day_pv_kwh_derated": 1.526,
     "derate": 0.65,
-    "note": "Solcast Garage+Home raw noon 0.894 / day 2.795; x0.65 applied. No free window Thu 5 Nov; overnight near-EPS recovery cap 95% / floor 20%.",
-    "label": "Thu Solcast Garage+Home x0.65; noon~0.6 kWh derated; day~1.8 kWh. No free window; 95% overnight cap / 20% floor. Overnight 02:00-04:30 @95% from 4%."
+    "note": "Solcast Garage+Home raw noon 0.712 / day 2.348; \u00d70.65 applied. No free window Fri 6 Nov; overnight near-EPS recovery cap 95% / floor 20%.",
+    "label": "Fri Solcast Garage+Home \u00d70.65; noon~0.463 kWh derated; day~1.526 kWh. No free window; 95% overnight cap / 20% floor. Overnight 02:00-04:30 @95% from 4%."
   },
   "last_savings": {
     "gbp": 36.95,
@@ -49,10 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-10-31T14:03:29+00:00",
-      "w": -2535
-    },
     {
       "t": "2026-10-31T17:20:52+00:00",
       "w": -1175
@@ -288,21 +284,13 @@
     {
       "t": "2026-11-05T17:22:38+00:00",
       "w": 996
+    },
+    {
+      "t": "2026-11-06T01:33:33+00:00",
+      "w": 0
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-03T01:01:07+00:00",
-      "soc": 4
-    },
-    {
-      "t": "2026-11-03T02:11:58+00:00",
-      "soc": 11
-    },
-    {
-      "t": "2026-11-03T02:47:24+00:00",
-      "soc": 33
-    },
     {
       "t": "2026-11-03T03:32:57+00:00",
       "soc": 61
@@ -418,6 +406,10 @@
     {
       "t": "2026-11-05T17:22:38+00:00",
       "soc": 62
+    },
+    {
+      "t": "2026-11-06T01:33:33+00:00",
+      "soc": 4
     }
   ],
   "booked_power_up": null,
@@ -431,7 +423,7 @@
     "reason": "SOC 37% house ~0.3 kW light, projected ~35% by 16:00; late start"
   },
   "free_window_in_progress": false,
-  "weather_note": "Solcast Garage+Home x0.65: Thu 5 Nov ~1.8 kWh day, ~0.6 kWh 12:00-14:00",
+  "weather_note": "Solcast Garage+Home \u00d70.65: Fri 6 Nov ~1.526 kWh day, ~0.463 kWh 12:00\u201314:00",
   "afternoon_topup": {
     "from": "14:50",
     "to": "16:00",
