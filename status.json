@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-06T08:35:49+00:00",
+  "updated_at": "2026-11-06T14:28:08+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 76,
-  "solar_w": 79,
-  "house_w": 213,
-  "battery_w": -219,
-  "grid_w": 13,
+  "soc_percent": 43,
+  "solar_w": 171,
+  "house_w": 880,
+  "battery_w": -783,
+  "grid_w": -24,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-06T08:28:33Z",
+  "sample_time_utc": "2026-11-06T14:22:49Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,14 +21,15 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 check: overnight 02:00\u201304:30 @95%/6 kW ON_PLAN \u2014 4\u219295% by ~04:25, ~14.1 kWh AC (plan ~13.5); ~5 min at cap then discharge (no idle-on-grid after slot)\n\ud83d\udd0b SOC 76% house ~213 W solar ~79 W grid ~13 W; no Power Up today, 20% floor to 16:00 (leftover +56 pp intentional low-SOC recovery)\n\u26a0\ufe0f Thu evening drained 75%\u21924% by ~23:00; sat at 4% EPS on grid ~23:00\u201302:00\n\u2600\ufe0f Solcast \u00d70.65: Thu 5 actual 1.2 vs 1.82 derated (66%); 14-day implied \u00d70.72; today forecast ~1.53 kWh derated; early PV ~79 W vs Solcast ~121 W",
-  "updated": "2026-11-06T08:35:49+00:00",
+  "last_action": "\u26a1 14:00 top-up: SOC 43% at 14:22, house ~0.8 kW avg last hour (live 880 W, not heating; brief ~3 kW spike ~13:27), PV ~0.3 kW, projected ~37% by 16:00\n\ud83d\udd0b scheduled 14:50\u201316:00 @6 kW cap 75%\n\ud83c\udf19 overnight 02:00\u201304:30 @95% kept; no Power Down in zeksie Gmail (Laura AOL check in progress)",
+  "updated": "2026-11-06T14:28:08+00:00",
   "peak_window": {
-    "from": null,
-    "to": null,
-    "target_percent": null,
-    "applied": false,
-    "reason": "cleared_no_free_window_overnight"
+    "from": "14:50",
+    "to": "16:00",
+    "target_percent": 75,
+    "applied": true,
+    "kw": 6,
+    "reason": "soc_43_proj_37_lt_75_late_start_house_~0.8kW_not_heating"
   },
   "weather_tomorrow": {
     "code": "cloud",
@@ -49,10 +50,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-01T17:23:16+00:00",
-      "w": -3817
-    },
     {
       "t": "2026-11-02T01:24:03+00:00",
       "w": -298
@@ -288,13 +285,13 @@
     {
       "t": "2026-11-06T08:28:33+00:00",
       "w": -219
+    },
+    {
+      "t": "2026-11-06T14:22:49+00:00",
+      "w": -783
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-04T01:03:29+00:00",
-      "soc": 4
-    },
     {
       "t": "2026-11-04T02:09:17+00:00",
       "soc": 9
@@ -410,6 +407,10 @@
     {
       "t": "2026-11-06T08:28:33+00:00",
       "soc": 76
+    },
+    {
+      "t": "2026-11-06T14:22:49+00:00",
+      "soc": 43
     }
   ],
   "booked_power_up": null,
