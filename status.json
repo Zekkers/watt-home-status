@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-06T14:28:08+00:00",
+  "updated_at": "2026-11-06T14:33:22+00:00",
   "timezone": "Europe/London",
   "soc_percent": 43,
   "solar_w": 171,
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 top-up: SOC 43% at 14:22, house ~0.8 kW avg last hour (live 880 W, not heating; brief ~3 kW spike ~13:27), PV ~0.3 kW, projected ~37% by 16:00\n\ud83d\udd0b scheduled 14:50\u201316:00 @6 kW cap 75%\n\ud83c\udf19 overnight 02:00\u201304:30 @95% kept; no Power Down in zeksie Gmail (Laura AOL check in progress)",
-  "updated": "2026-11-06T14:28:08+00:00",
+  "last_action": "\u26a1 14:00 top-up: SOC 43% at 14:22, house ~0.8 kW avg last hour (live 880 W, not heating; brief ~3 kW spike ~13:27), PV ~0.3 kW, projected ~37% by 16:00\n\ud83d\udd0b scheduled 14:50\u201316:00 @6 kW cap 75%\n\ud83c\udf19 overnight 02:00\u201304:30 @95% kept; no Power Down today (zeksie Gmail none; Laura AOL newest Tue 3 Nov PD 17:30\u201318:30)",
+  "updated": "2026-11-06T14:33:22+00:00",
   "peak_window": {
     "from": "14:50",
     "to": "16:00",
