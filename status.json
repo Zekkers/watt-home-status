@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-06T16:05:25.225712+00:00",
+  "updated_at": "2026-11-06T17:21:42+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 75,
+  "soc_percent": 67,
   "solar_w": 0,
-  "house_w": 582,
-  "battery_w": 672,
-  "grid_w": 12,
+  "house_w": 1054,
+  "battery_w": -1111,
+  "grid_w": 9,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-06T16:04:02Z",
+  "sample_time_utc": "2026-11-06T17:19:57Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 16:00 Saving Session: QUIET_NOOP \u2014 no Power Down / late Power Up / HH slot for Fri 6 or weekend 7\u20138 Nov\n\ud83d\udcec Gmail empty Octopus 5d; Laura AOL webmail newest still Tue 3 Nov PD 17:30\u201318:30 (IMAP SSLEOF)\n\ud83d\udd0b SOC 75% house ~582 W solar ~0 W batt ~672 W grid ~12 W\n\ud83c\udf19 overnight left as previously set; no opt-in / inverter write",
-  "updated": "2026-11-06T16:05:25.225712+00:00",
+  "last_action": "\ud83d\udcec 17:30: no Power Up / Typeform today (Gmail empty; Kraken latest PU still mid-Sep)\n\ud83c\udf89 AOL Happy Hour FYI: Sun 8 Nov needs 2 tokens \u2014 slots 08:00\u201309:00, 09:00\u201310:00, 10:00\u201311:00, 11:00\u201312:00 (not booked; told Ian)\n\ud83d\udd0b SOC 67% house ~1054 W solar ~0 W batt ~-1111 W grid ~9 W\n\ud83c\udf19 Overnight 02:00\u201304:30 @95% kept (SOC below cap); 01:30 does final sizing",
+  "updated": "2026-11-06T17:21:42+00:00",
   "peak_window": {
     "from": "14:50",
     "to": "16:00",
@@ -50,10 +50,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-02T01:34:10+00:00",
-      "w": -296
-    },
     {
       "t": "2026-11-02T02:04:32+00:00",
       "w": 5684
@@ -289,17 +285,13 @@
     {
       "t": "2026-11-06T16:05:25.225712+00:00",
       "w": 672
+    },
+    {
+      "t": "2026-11-06T17:19:57+00:00",
+      "w": -1111
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-04T02:09:17+00:00",
-      "soc": 9
-    },
-    {
-      "t": "2026-11-04T02:49:46+00:00",
-      "soc": 33
-    },
     {
       "t": "2026-11-04T03:30:15+00:00",
       "soc": 59
@@ -415,6 +407,10 @@
     {
       "t": "2026-11-06T16:05:25.225712+00:00",
       "soc": 75
+    },
+    {
+      "t": "2026-11-06T17:19:57+00:00",
+      "soc": 67
     }
   ],
   "booked_power_up": null,
