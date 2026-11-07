@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-07T14:15:19+00:00",
+  "updated_at": "2026-11-07T16:03:13.965959+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 72,
-  "solar_w": 314,
-  "house_w": 1094,
-  "battery_w": -926,
-  "grid_w": -97,
+  "soc_percent": 75,
+  "solar_w": 53,
+  "house_w": 2989,
+  "battery_w": 0,
+  "grid_w": -3020,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-07T14:10:01Z",
+  "sample_time_utc": "2026-11-07T15:51:14Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 top-up: SOC 72% at 14:10, house ~2.3 kW avg last hour (heating cycling ~3.5\u20134 kW, ~1.3 kW last 30 min), PV ~0.3\u20130.6 kW, projected ~60% by 16:00\n\ud83d\udd0b started now 14:20\u201316:00 @6 kW cap 75%\n\ud83c\udf19 overnight 02:00\u201304:30 @95% kept; no Power Down today (Gmail + Laura AOL checked)",
-  "updated": "2026-11-07T14:15:19+00:00",
+  "last_action": "\u2705 16:00 Saving Session: QUIET_NOOP \u2014 no Power Down / late Power Up today\n\ud83d\udcec Gmail no actionable Octopus; AOL IMAP SSLEOF, webmail newest Fri 6 Nov HH FYI (Sun 8 Nov) already told Fri \u2014 no Sat 7 Octopus mail\n\ud83d\udd0b SOC 75% solar ~53 W house ~2989 W batt ~0 W grid ~-3020 W\n\ud83c\udf19 Overnight kept 02:00\u201304:30 @95%; peak slot 14:20\u201316:00 @75% (from 14:00 run)",
+  "updated": "2026-11-07T16:03:13.965959+00:00",
   "peak_window": {
     "from": null,
     "to": null,
