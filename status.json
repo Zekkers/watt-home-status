@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-07T16:03:13.965959+00:00",
+  "updated_at": "2026-11-07T17:24:34.872914+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 75,
-  "solar_w": 53,
-  "house_w": 2989,
-  "battery_w": 0,
-  "grid_w": -3020,
+  "soc_percent": 57,
+  "solar_w": 0,
+  "house_w": 4800,
+  "battery_w": 5056,
+  "grid_w": -5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-07T15:51:14Z",
+  "sample_time_utc": "2026-11-07T17:17:16Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,14 +21,14 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 16:00 Saving Session: QUIET_NOOP \u2014 no Power Down / late Power Up today\n\ud83d\udcec Gmail no actionable Octopus; AOL IMAP SSLEOF, webmail newest Fri 6 Nov HH FYI (Sun 8 Nov) already told Fri \u2014 no Sat 7 Octopus mail\n\ud83d\udd0b SOC 75% solar ~53 W house ~2989 W batt ~0 W grid ~-3020 W\n\ud83c\udf19 Overnight kept 02:00\u201304:30 @95%; peak slot 14:20\u201316:00 @75% (from 14:00 run)",
-  "updated": "2026-11-07T16:03:13.965959+00:00",
+  "last_action": "\u2705 17:30 Power Up catch: QUIET_NOOP \u2014 no Power Up / Typeform / new Happy Hour / Power Down today\n\ud83d\udcec Gmail (zeksie) no Octopus from hello@; AOL IMAP SSLEOF, webmail newest Fri 6 Nov HH FYI (Sun 8 Nov slots) already told Fri \u2014 no Sat 7 Octopus mail\n\ud83d\udd0c Kraken power_ups_ukpn latest still mid-Sep; saving-sessions 0\n\ud83d\udd0b SOC 57% solar ~0 W house ~4800 W batt ~5056 W grid ~-5 W\n\ud83c\udf19 Overnight kept 02:00\u201304:30 @95%/6 kW (SOC 57% < cap 95%); 01:30 owns final sizing; peak 14:20\u201316:00 left",
+  "updated": "2026-11-07T17:24:34.872914+00:00",
   "peak_window": {
     "from": null,
     "to": null,
     "target_percent": 75,
     "applied": false,
-    "reason": "cleared_no_free_window_overnight_only"
+    "reason": "afternoon_slot_ended_left_for_0130"
   },
   "weather_tomorrow": {
     "code": "cloud",
@@ -49,10 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-03T01:01:07+00:00",
-      "w": 0
-    },
     {
       "t": "2026-11-03T02:11:58+00:00",
       "w": 5682
@@ -288,6 +284,10 @@
     {
       "t": "2026-11-07T14:10:01+00:00",
       "w": -926
+    },
+    {
+      "t": "2026-11-07T17:24:34.872914+00:00",
+      "w": 5056
     }
   ],
   "soc_series": [
@@ -410,6 +410,10 @@
     {
       "t": "2026-11-07T14:10:01+00:00",
       "soc": 72
+    },
+    {
+      "t": "2026-11-07T17:24:34.872914+00:00",
+      "soc": 57
     }
   ],
   "booked_power_up": null,
