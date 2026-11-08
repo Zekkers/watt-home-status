@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-11-07T17:25:21.933766+00:00",
+  "updated_at": "2026-11-08T01:29:32+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 54,
+  "soc_percent": 4,
   "solar_w": 0,
-  "house_w": 4760,
-  "battery_w": 5025,
-  "grid_w": 18,
+  "house_w": 227,
+  "battery_w": 0,
+  "grid_w": -316,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-07T17:22:20Z",
+  "sample_time_utc": "2026-11-08T01:28:11Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
     "from": "02:00",
-    "to": "04:30",
-    "percent_limit": 95,
+    "to": "04:40",
+    "percent_limit": 98,
     "kw": 6,
     "cleared": false,
-    "kwh": 12.02,
-    "mins": 150,
+    "kwh": 12.69,
+    "mins": 160,
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 17:30 Power Up catch: QUIET_NOOP \u2014 no Power Up / Typeform / new Happy Hour / Power Down today\n\ud83d\udcec Gmail (zeksie) no Octopus from hello@; AOL IMAP SSLEOF, webmail newest Fri 6 Nov HH FYI (Sun 8 Nov) already told Fri \u2014 no Sat 7 Octopus mail\n\ud83d\udd0c Kraken power_ups_ukpn latest still mid-Sep; saving-sessions 0\n\ud83d\udd0b SOC 54% solar ~0 W house ~4760 W batt ~5025 W grid ~18 W\n\ud83c\udf19 Overnight kept 02:00\u201304:30 @95%/6 kW (SOC 54% < cap 95%); 01:30 owns final sizing; peak 14:20\u201316:00 left",
-  "updated": "2026-11-07T17:25:21.933766+00:00",
+  "last_action": "\ud83c\udf19 01:30 overnight: no free window Sun 8 Nov (Happy Hour not booked)\n\ud83d\udd0b SOC 4% house ~227 W \n\u2601\ufe0f Solcast \u00d70.65: ~2.1 kWh day, ~0.7 kWh noon\n\u26a1 Set 02:00\u201304:40 @ 98% / 6 kW (~12.7 kWh), extra slots cleared",
+  "updated": "2026-11-08T01:29:32+00:00",
   "peak_window": {
     "from": null,
     "to": null,
@@ -49,10 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-03T02:11:58+00:00",
-      "w": 5682
-    },
     {
       "t": "2026-11-03T02:47:24+00:00",
       "w": 5674
@@ -288,17 +284,13 @@
     {
       "t": "2026-11-07T17:25:21.933766+00:00",
       "w": 5025
+    },
+    {
+      "t": "2026-11-08T01:28:11+00:00",
+      "w": 0
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-05T17:22:38+00:00",
-      "soc": 62
-    },
-    {
-      "t": "2026-11-06T01:33:33+00:00",
-      "soc": 4
-    },
     {
       "t": "2026-11-06T01:03:11+00:00",
       "soc": 4
@@ -414,6 +406,10 @@
     {
       "t": "2026-11-07T17:25:21.933766+00:00",
       "soc": 54
+    },
+    {
+      "t": "2026-11-08T01:28:11+00:00",
+      "soc": 4
     }
   ],
   "booked_power_up": null,
@@ -427,7 +423,7 @@
     "reason": "SOC 37% house ~0.3 kW light, projected ~35% by 16:00; late start"
   },
   "free_window_in_progress": false,
-  "weather_note": "Solcast Garage+Home \u00d70.65: Fri 6 Nov ~1.526 kWh day, ~0.463 kWh 12:00\u201314:00",
+  "weather_note": "Solcast Garage+Home x0.65: Sun 8 Nov ~2.1 kWh day, ~0.7 kWh 12:00-14:00 (raw 3.19 / 1.09); cloudy + immersion, near-EPS recovery",
   "afternoon_topup": {
     "from": "14:50",
     "to": "16:00",
