@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-09T14:25:00+00:00",
+  "updated_at": "2026-11-09T15:57:51+00:00",
   "timezone": "Europe/London",
   "soc_percent": 4,
   "solar_w": 115,
@@ -414,7 +414,15 @@
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": null,
+  "booked_power_down": {
+    "date": "2026-11-09",
+    "start": "17:00",
+    "end": "18:00",
+    "opted_in": true,
+    "session_id": "810b1beb-ed5f-4173-9fec-ffc2f3e6d257",
+    "source": "Laura AOL ACTION 13:20",
+    "opted_in_at": "2026-11-09T15:57:00Z"
+  },
   "peak_topup": {
     "from": "14:22",
     "to": "16:00",
