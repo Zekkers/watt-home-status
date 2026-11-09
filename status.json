@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-09T01:34:13+00:00",
+  "updated_at": "2026-11-09T08:23:22+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 21,
-  "solar_w": 0,
-  "house_w": 163,
-  "battery_w": -238,
-  "grid_w": -3,
+  "soc_percent": 84,
+  "solar_w": 104,
+  "house_w": 153,
+  "battery_w": -127,
+  "grid_w": 2,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-09T01:30:33Z",
+  "sample_time_utc": "2026-11-09T08:20:29Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\ud83c\udf19 01:30 overnight: no free window Mon 9 Nov (Happy Hour not booked)\n\ud83d\udd0b SOC 21% house ~163 W \n\u2601\ufe0f Solcast \u00d70.65: ~1.8 kWh day, ~0.6 kWh noon\n\u26a1 Set 02:00\u201304:40 @ 98% / 6 kW (~10.4 kWh), extra slots cleared",
-  "updated": "2026-11-09T01:34:13+00:00",
+  "last_action": "\u2705 08:00 charge check: ON_PLAN\n\ud83c\udf19 Overnight 02:00\u201304:40 @98%/6 kW: 20%->98% by ~04:00 (11.5 kWh AC charge / 12.2 kWh import vs plan ~10.4); ~40 min idle at cap on grid (~280 W, trivial); min SOC 20%, no EPS\n\ud83d\udd0b SOC 84% house ~153 W solar ~104 W grid ~2 W\n\u2600\ufe0f Solcast x0.65 early PV tracking slightly ahead; Sun 8 Nov actual 1.8 vs 2.07 derated (87%)",
+  "updated": "2026-11-09T08:23:22+00:00",
   "peak_window": {
     "from": null,
     "to": null,
@@ -49,10 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-04T01:28:47+00:00",
-      "w": 0
-    },
     {
       "t": "2026-11-04T01:03:29+00:00",
       "w": 0
@@ -288,13 +284,13 @@
     {
       "t": "2026-11-09T01:30:33+00:00",
       "w": -238
+    },
+    {
+      "t": "2026-11-09T08:20:29+00:00",
+      "w": -127
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-06T08:28:33+00:00",
-      "soc": 76
-    },
     {
       "t": "2026-11-06T14:22:49+00:00",
       "soc": 43
@@ -410,6 +406,10 @@
     {
       "t": "2026-11-09T01:30:33+00:00",
       "soc": 21
+    },
+    {
+      "t": "2026-11-09T08:20:29+00:00",
+      "soc": 84
     }
   ],
   "booked_power_up": null,
