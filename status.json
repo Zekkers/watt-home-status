@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-09T17:23:14+00:00",
+  "updated_at": "2026-11-09T20:12:35+00:00",
   "timezone": "Europe/London",
   "soc_percent": 42,
   "solar_w": 0,
@@ -11,8 +11,8 @@
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
-    "from": "02:00",
-    "to": "04:40",
+    "from": "02:20",
+    "to": "05:00",
     "percent_limit": 98,
     "kw": 6,
     "cleared": false,
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 17:30 Power Up check: QUIET_NOOP, nothing new today (Power Down 5-6pm already opted in 15:57); SOC 42% house ~2.1 kW discharging; overnight 02:00\u201304:40 @98% kept for 01:30 run",
-  "updated": "2026-11-09T17:23:14+00:00",
+  "last_action": "\u2705 20:12 overnight end moved to 05:00 GMT per Ian: slot now 02:20\u201305:00 @98% / 6 kW (same 2h40m); afternoon 14:22\u201316:00 @75% untouched",
+  "updated": "2026-11-09T20:12:35+00:00",
   "peak_window": {
     "from": "14:22",
     "to": "16:00",
