@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-10T08:15:36+00:00",
+  "updated_at": "2026-11-10T14:16:41+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 75,
-  "solar_w": 0,
-  "house_w": 164,
-  "battery_w": -172,
-  "grid_w": -2,
+  "soc_percent": 81,
+  "solar_w": 427,
+  "house_w": 360,
+  "battery_w": -7,
+  "grid_w": -1,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-10T08:12:44Z",
+  "sample_time_utc": "2026-11-10T14:12:04Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 check: overnight 02:35\u201305:00 @98%/6 kW ran as planned: 5\u219298% by 05:00, ~12.9 kWh AC charge (plan ~12.5), ~17.1 kWh import incl. 03:00\u201305:00 immersion; slot ended at 05:00, no idle at cap\n\ud83d\udd0b SOC 75% house ~164 W solar ~0 W grid ~-2 W; no Power Up today, 20% floor at 16:00 covered\n\u26a0\ufe0f Mon evening drained to 4% by ~00:00; sat at 4% EPS on grid until ~02:35\n\u2600\ufe0f Solcast \u00d70.65: Mon 9 actual 1.4 vs 1.76 derated (80%); 14-day implied ~\u00d70.69 of raw",
-  "updated": "2026-11-10T08:15:36+00:00",
+  "last_action": "14:15 GMT Tue 10 Nov: SOC 81%, house ~0.36 kW, PV ~0.43 kW, projected 16:00 SOC >=75%; no write, overnight slot kept",
+  "updated": "2026-11-10T14:16:41+00:00",
   "peak_window": {
     "from": "14:22",
     "to": "16:00",
@@ -49,10 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-04T04:30:59+00:00",
-      "w": 0
-    },
     {
       "t": "2026-11-04T05:01:21+00:00",
       "w": -193
@@ -288,13 +284,13 @@
     {
       "t": "2026-11-10T08:12:44+00:00",
       "w": -172
+    },
+    {
+      "t": "2026-11-10T14:12:04+00:00",
+      "w": -7
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-07T02:01:14+00:00",
-      "soc": 5
-    },
     {
       "t": "2026-11-07T02:41:43+00:00",
       "soc": 31
@@ -410,19 +406,15 @@
     {
       "t": "2026-11-10T08:12:44+00:00",
       "soc": 75
+    },
+    {
+      "t": "2026-11-10T14:12:04+00:00",
+      "soc": 81
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": {
-    "date": "2026-11-09",
-    "start": "17:00",
-    "end": "18:00",
-    "opted_in": true,
-    "session_id": "810b1beb-ed5f-4173-9fec-ffc2f3e6d257",
-    "source": "Laura AOL ACTION 13:20",
-    "opted_in_at": "2026-11-09T15:57:00Z"
-  },
+  "booked_power_down": null,
   "peak_topup": {
     "from": "14:22",
     "to": "16:00",
