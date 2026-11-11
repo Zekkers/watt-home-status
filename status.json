@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-11T14:16:32+00:00",
+  "updated_at": "2026-11-11T16:26:43+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 94,
-  "solar_w": 362,
-  "house_w": 130,
-  "battery_w": 148,
-  "grid_w": -1,
+  "soc_percent": 93,
+  "solar_w": 0,
+  "house_w": 385,
+  "battery_w": -486,
+  "grid_w": 0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-11T14:09:22Z",
+  "sample_time_utc": "2026-11-11T16:20:57Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_solcast_derate_low_soc_recovery"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 check: SOC 94%, house ~0.13 kW, PV ~0.36 kW, projected \u226575% at 16:00 \u2014 no top-up; no Power Down today (Gmail + Laura AOL newest Octopus 9 Nov); overnight slot kept",
-  "updated": "2026-11-11T14:16:32+00:00",
+  "last_action": "\u2705 Power Down tonight 16:30\u201317:30 GMT \u2014 Laura opting in (Ian confirmed). SOC 93%, house ~0.39 kW from pack, no charge slot overlaps; overnight stays 02:30\u201305:00 @98%.",
+  "updated": "2026-11-11T16:26:43+00:00",
   "peak_window": {
     "from": "14:22",
     "to": "16:00",
@@ -414,7 +414,19 @@
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": null,
+  "booked_power_down": {
+    "date": "2026-11-11",
+    "from": "16:30",
+    "to": "17:30",
+    "opted_in": true,
+    "since": "2026-11-11T16:26:43+00:00",
+    "label": "Power Down",
+    "kind": "power_down",
+    "source": "ian_laura_opting_in",
+    "account_id": "A-5314B4CC",
+    "timezone": "Europe/London",
+    "pack_adequate": true
+  },
   "peak_topup": {
     "from": "14:22",
     "to": "16:00",
