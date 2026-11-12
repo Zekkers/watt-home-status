@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-12T14:12:46+00:00",
+  "updated_at": "2026-11-12T16:05:01+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 51,
-  "solar_w": 269,
-  "house_w": 212,
-  "battery_w": -10,
-  "grid_w": -8,
+  "soc_percent": 75,
+  "solar_w": 0,
+  "house_w": 791,
+  "battery_w": -863,
+  "grid_w": 5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-12T14:11:45Z",
+  "sample_time_utc": "2026-11-12T16:03:05Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_sunny_solcast_small_topup"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 check: SOC 51%, house ~0.2 kW, PV ~0.27 kW, projected ~50% at 16:00 \u2192 wrote 15:10\u201316:00 cap 75% (6 kW); no Power Down found (Gmail empty; AOL not checked, browser offline-routed); overnight slot kept",
-  "updated": "2026-11-12T14:12:46+00:00",
+  "last_action": "\u2705 Power Down tonight 17:00\u201318:00 GMT \u2014 Laura opted in (Ian confirmed), 72 Octopoints/kWh. SOC 75%, house ~0.79 kW from pack, no charge slot overlaps; overnight stays 04:25\u201305:00 @65%.",
+  "updated": "2026-11-12T16:05:01+00:00",
   "peak_window": {
     "from": "14:22",
     "to": "16:00",
@@ -49,10 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-04T17:20:15+00:00",
-      "w": -975
-    },
     {
       "t": "2026-11-05T01:36:14+00:00",
       "w": 0
@@ -288,13 +284,13 @@
     {
       "t": "2026-11-12T14:11:45+00:00",
       "w": -10
+    },
+    {
+      "t": "2026-11-12T16:03:05+00:00",
+      "w": -863
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-07T07:04:53+00:00",
-      "soc": 82
-    },
     {
       "t": "2026-11-07T08:05:37+00:00",
       "soc": 77
@@ -410,11 +406,28 @@
     {
       "t": "2026-11-12T14:11:45+00:00",
       "soc": 51
+    },
+    {
+      "t": "2026-11-12T16:03:05+00:00",
+      "soc": 75
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": null,
+  "booked_power_down": {
+    "date": "2026-11-12",
+    "from": "17:00",
+    "to": "18:00",
+    "opted_in": true,
+    "since": "2026-11-12T16:05:01+00:00",
+    "label": "Power Down",
+    "kind": "power_down",
+    "source": "ian_laura_opted_in",
+    "account_id": "A-5314B4CC",
+    "timezone": "Europe/London",
+    "pack_adequate": true,
+    "octopoints_per_kwh": 72
+  },
   "peak_topup": {
     "from": "14:22",
     "to": "16:00",
