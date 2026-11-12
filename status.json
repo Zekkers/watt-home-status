@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-12T08:23:56+00:00",
+  "updated_at": "2026-11-12T14:12:46+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 13,
-  "solar_w": 210,
-  "house_w": 144,
-  "battery_w": -1,
-  "grid_w": -1,
+  "soc_percent": 51,
+  "solar_w": 269,
+  "house_w": 212,
+  "battery_w": -10,
+  "grid_w": -8,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-12T08:22:32Z",
+  "sample_time_utc": "2026-11-12T14:11:45Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "no_free_sunny_solcast_small_topup"
   },
   "next_power_up": null,
-  "last_action": "\ud83d\udcca 08:00 check Thu 12 Nov: overnight 04:25\u201305:00 @65% only added 12%\u219233%; immersion 03:00\u201304:25 ran off battery (~3.4 kW, SOC 57%\u219212%).\n\ud83d\udd0b SOC 13% house ~144 W solar ~210 W\n\u2600\ufe0f Solcast today raw 12.5 kWh (\u00d70.65 ~8.1); Wed actual 4.0 vs 1.29 derated",
-  "updated": "2026-11-12T08:23:56+00:00",
+  "last_action": "\u26a1 14:00 check: SOC 51%, house ~0.2 kW, PV ~0.27 kW, projected ~50% at 16:00 \u2192 wrote 15:10\u201316:00 cap 75% (6 kW); no Power Down found (Gmail empty; AOL not checked, browser offline-routed); overnight slot kept",
+  "updated": "2026-11-12T14:12:46+00:00",
   "peak_window": {
     "from": "14:22",
     "to": "16:00",
@@ -49,10 +49,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-04T14:13:00+00:00",
-      "w": 0
-    },
     {
       "t": "2026-11-04T17:20:15+00:00",
       "w": -975
@@ -288,13 +284,13 @@
     {
       "t": "2026-11-12T08:22:32+00:00",
       "w": -1
+    },
+    {
+      "t": "2026-11-12T14:11:45+00:00",
+      "w": -10
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-07T06:04:09+00:00",
-      "soc": 91
-    },
     {
       "t": "2026-11-07T07:04:53+00:00",
       "soc": 82
@@ -410,23 +406,15 @@
     {
       "t": "2026-11-12T08:22:32+00:00",
       "soc": 13
+    },
+    {
+      "t": "2026-11-12T14:11:45+00:00",
+      "soc": 51
     }
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": {
-    "date": "2026-11-11",
-    "from": "16:30",
-    "to": "17:30",
-    "opted_in": true,
-    "since": "2026-11-11T16:26:43+00:00",
-    "label": "Power Down",
-    "kind": "power_down",
-    "source": "ian_laura_opting_in",
-    "account_id": "A-5314B4CC",
-    "timezone": "Europe/London",
-    "pack_adequate": true
-  },
+  "booked_power_down": null,
   "peak_topup": {
     "from": "14:22",
     "to": "16:00",
