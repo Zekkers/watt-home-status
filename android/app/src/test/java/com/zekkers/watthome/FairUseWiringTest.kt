@@ -67,6 +67,13 @@ class FairUseWiringTest {
     }
 
     @Test
+    fun latestOnlyPollKeepsCurvesFromTheCacheNotTheFirstPaintSnapshot() {
+        val repo = readMain("data/StatusRepository.kt")
+        assertTrue(repo.contains("cachedStatus()?.let { LiveStatus.keepingToday(it) }"))
+        assertFalse(repo.contains("previous?.let { LiveStatus.keepingToday(it) }"))
+    }
+
+    @Test
     fun versionIsAheadOfThe1222Sideload() {
         val gradle = File("build.gradle.kts").readText()
         assertTrue(gradle.contains("versionCode = 35"))

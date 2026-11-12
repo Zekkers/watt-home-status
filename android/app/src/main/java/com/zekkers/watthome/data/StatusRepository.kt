@@ -199,7 +199,7 @@ class StatusRepository private constructor(context: Context) {
                 val seriesFrom = if (includeSeries && live.seriesFetched) {
                     null
                 } else {
-                    previous?.let { LiveStatus.keepingToday(it) } ?: HomeStatus()
+                    cachedStatus()?.let { LiveStatus.keepingToday(it) } ?: HomeStatus()
                 }
                 val status = LiveStatus.merge(publicStatus, live, seriesFrom)
                 if (includeSeries && live.seriesFetched) recordHistorySuccess(nowMs)
