@@ -9,15 +9,13 @@ import com.zekkers.watthome.data.BatterySample
 import com.zekkers.watthome.data.GraphSeriesSelection
 import com.zekkers.watthome.data.GraphSeriesStyle
 import com.zekkers.watthome.data.HomeStatus
-import com.zekkers.watthome.data.StatusFormatter
+import com.zekkers.watthome.data.TodayEnergyProbe
 import com.zekkers.watthome.data.WidgetPlotLayout
-import kotlin.math.abs
 
 object SparklineRenderer {
     private const val Background = 0xFF1B3A24.toInt()
     private const val Grid = 0x4481C784
     private const val ZeroLabelColor = 0xFFE8F5E9.toInt()
-    private const val MinutesInDay = 24 * 60.0
 
     fun renderToday(
         status: HomeStatus?,
@@ -40,21 +38,22 @@ object SparklineRenderer {
             drawGrid(canvas, plot.top, plot.width(), plot.height(), plot.left)
             return bitmap
         }
-        val solar = wattSamples(status.solarWSeries, series.solar)
-        val battery = wattSamples(status.batteryWSeries, series.battery)
-        val house = wattSamples(status.houseWSeries, series.house)
-        val grid = wattSamples(status.gridWSeries, series.grid)
-        val soc = if (series.soc) {
-            status.socSeries.filter { it.t != null && it.soc != null }
-        } else {
-            emptyList()
-        }
+        val solar = TodayEnergyProbe.wattSamples(status.solarWSeries, series.solar)
+        val battery = TodayEnergyProbe.wattSamples(status.batteryWSeries, series.battery)
+        val house = TodayEnergyProbe.wattSamples(status.houseWSeries, series.house)
+        val grid = TodayEnergyProbe.wattSamples(status.gridWSeries, series.grid)
+        val soc = TodayEnergyProbe.socSamples(status.socSeries, series.soc)
         val hasPower = solar.size >= 2 || battery.size >= 2 || house.size >= 2 || grid.size >= 2
         val hasSoc = soc.size >= 2
         val legendH = WidgetPlotLayout.legendHeightPx(plotBox.height, showLegend, series.any())
-        val labelPaint = zeroLabelPaint(plotBox.height - legendH)
-        val gutter = WidgetPlotLayout.zeroGutterPx(hasPower, labelPaint.measureText(WidgetPlotLayout.ZeroLabel))
-        val chartBox = WidgetPlotLayout.chartBounds(plotBox, legendH, gutter)
+        val chartBox = TodayEnergyProbe.layout(
+            bitmapW = bitmap.width.toFloat(),
+            bitmapH = bitmap.height.toFloat(),
+            fillSlot = fillSlot,
+            showLegend = showLegend,
+            seriesAny = series.any(),
+            hasPower = hasPower
+        ).chart
         val chart = chartBox.toRect()
         if (!hasPower && !hasSoc) {
             drawGrid(canvas, chart.top, chart.width(), chart.height(), chart.left)
@@ -63,15 +62,9 @@ object SparklineRenderer {
         }
         drawGrid(canvas, chart.top, chart.width(), chart.height(), chart.left)
         if (hasPower) {
-            val values = buildList {
-                addAll(solar.map { it.w!! })
-                addAll(battery.map { it.w!! })
-                addAll(house.map { it.w!! })
-                addAll(grid.map { it.w!! })
-            }
-            val maxAbs = values.maxOf { abs(it) }.coerceAtLeast(1.0)
+            val maxAbs = TodayEnergyProbe.powerMaxAbs(solar, battery, house, grid)
             drawZeroLine(canvas, chart)
-            drawZeroLabel(canvas, plot.left, chartBox.midY, labelPaint)
+            drawZeroLabel(canvas, plot.left, chartBox.midY, zeroLabelPaint(chartBox.height))
             if (solar.size >= 2) drawPowerLine(canvas, solar, chart, maxAbs, GraphSeriesStyle.SOLAR.toInt())
             if (house.size >= 2) drawPowerLine(canvas, house, chart, maxAbs, GraphSeriesStyle.HOUSE.toInt())
             if (grid.size >= 2) drawPowerLine(canvas, grid, chart, maxAbs, GraphSeriesStyle.GRID.toInt())
@@ -82,11 +75,6 @@ object SparklineRenderer {
         }
         if (legendH > 0f) drawLegend(canvas, plot, series, legendH)
         return bitmap
-    }
-
-    private fun wattSamples(samples: List<BatterySample>, enabled: Boolean): List<BatterySample> {
-        if (!enabled) return emptyList()
-        return samples.filter { it.t != null && it.w != null }
     }
 
     private fun WidgetPlotLayout.FloatBox.toRect(): RectF = RectF(left, top, right, bottom)
@@ -102,13 +90,10 @@ object SparklineRenderer {
     }
 
     private fun drawSocOverlay(canvas: Canvas, samples: List<BatterySample>, chart: RectF) {
-        val pad = chart.height() * 0.08f
-        val usable = (chart.height() - 2 * pad).coerceAtLeast(1f)
-        val xs = xPositions(samples, chart.left, chart.width())
+        val xs = TodayEnergyProbe.xPositions(samples, chart.left, chart.width())
         val path = Path()
         samples.forEachIndexed { index, sample ->
-            val soc = sample.soc!!.coerceIn(0.0, 100.0)
-            val y = chart.top + pad + ((100.0 - soc) / 100.0).toFloat() * usable
+            val y = TodayEnergyProbe.yForSoc(sample.soc!!, chart.top, chart.height())
             if (index == 0) path.moveTo(xs[index], y) else path.lineTo(xs[index], y)
         }
         canvas.drawPath(path, linePaint(GraphSeriesStyle.SOC_PLOT.toInt(), 2.8f))
@@ -121,10 +106,10 @@ object SparklineRenderer {
         maxAbs: Double,
         color: Int
     ) {
-        val xs = xPositions(samples, chart.left, chart.width())
+        val xs = TodayEnergyProbe.xPositions(samples, chart.left, chart.width())
         val path = Path()
         samples.forEachIndexed { index, sample ->
-            val y = yForWatts(sample.w!!, chart, maxAbs)
+            val y = TodayEnergyProbe.yForWatts(sample.w!!, chart.top, chart.height(), maxAbs)
             if (index == 0) path.moveTo(xs[index], y) else path.lineTo(xs[index], y)
         }
         canvas.drawPath(path, linePaint(color, 2.5f))
@@ -136,7 +121,7 @@ object SparklineRenderer {
         chart: RectF,
         maxAbs: Double
     ) {
-        val xs = xPositions(samples, chart.left, chart.width())
+        val xs = TodayEnergyProbe.xPositions(samples, chart.left, chart.width())
         val points = samples.map { it.w!! }
         val charge = linePaint(GraphSeriesStyle.BATTERY_CHARGE.toInt(), 2.6f)
         val discharge = linePaint(GraphSeriesStyle.BATTERY_DISCHARGE.toInt(), 2.6f)
@@ -144,19 +129,12 @@ object SparklineRenderer {
             val paint = if (points[i] >= 0 && points[i - 1] >= 0) charge else discharge
             canvas.drawLine(
                 xs[i - 1],
-                yForWatts(points[i - 1], chart, maxAbs),
+                TodayEnergyProbe.yForWatts(points[i - 1], chart.top, chart.height(), maxAbs),
                 xs[i],
-                yForWatts(points[i], chart, maxAbs),
+                TodayEnergyProbe.yForWatts(points[i], chart.top, chart.height(), maxAbs),
                 paint
             )
         }
-    }
-
-    private fun yForWatts(value: Double, chart: RectF, maxAbs: Double): Float {
-        val pad = chart.height() * 0.08f
-        val midY = chart.top + chart.height() / 2f
-        val usable = ((chart.height() - 2 * pad) / 2f).coerceAtLeast(1f)
-        return midY - (value / maxAbs).toFloat() * usable
     }
 
     private fun drawZeroLine(canvas: Canvas, chart: RectF) {
@@ -166,22 +144,6 @@ object SparklineRenderer {
             strokeWidth = 2f
         }
         canvas.drawLine(chart.left, midY, chart.right, midY, paint)
-    }
-
-    private fun xPositions(samples: List<BatterySample>, left: Float, width: Float): List<Float> {
-        val minutes = samples.map { minutesFromMidnight(it.t) }
-        if (minutes.all { it != null }) {
-            return minutes.map { (left + (it!! / MinutesInDay) * (width - 1)).toFloat() }
-        }
-        val last = samples.lastIndex.coerceAtLeast(1)
-        return samples.indices.map { left + it * (width - 1) / last }
-    }
-
-    private fun minutesFromMidnight(raw: String?): Double? {
-        if (raw.isNullOrBlank()) return null
-        val stamp = StatusFormatter.parseTimestamp(raw) ?: return null
-        val local = stamp.atZoneSameInstant(StatusFormatter.london).toLocalTime()
-        return local.hour * 60.0 + local.minute + local.second / 60.0
     }
 
     private fun drawLegend(
