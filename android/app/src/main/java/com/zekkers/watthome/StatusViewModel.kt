@@ -5,11 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.zekkers.watthome.data.GraphSeriesPrefs
 import com.zekkers.watthome.data.GraphSeriesSelection
+import com.zekkers.watthome.data.HistoryFetchPolicy
 import com.zekkers.watthome.data.RefreshErrors
 import com.zekkers.watthome.data.StatusRepository
 import com.zekkers.watthome.data.TokenRejectedException
 import com.zekkers.watthome.widget.WidgetUpdater
-import com.zekkers.watthome.worker.StatusRefreshScheduler
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,27 +48,30 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
             if (!repository.hasToken() && !repository.seenTokenScreen()) {
                 _showTokenScreen.value = true
             }
-            refreshInternal()
+            refreshInternal(HistoryFetchPolicy.Trigger.APP_OPEN)
+        }
+    }
+
+    /** MainActivity resume. Widget updates do not come through here. */
+    fun onAppForeground() {
+        viewModelScope.launch(Dispatchers.IO) {
+            refreshInternal(HistoryFetchPolicy.Trigger.APP_OPEN)
         }
     }
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            refreshInternal()
+            refreshInternal(HistoryFetchPolicy.Trigger.PULL_TO_REFRESH)
         }
     }
 
-    private suspend fun refreshInternal() {
-        val previousSoc = repository.uiState.value.status?.socPercent
+    private suspend fun refreshInternal(
+        trigger: HistoryFetchPolicy.Trigger,
+        forceHistory: Boolean = false
+    ) {
         try {
-            val status = repository.refresh(includeSeries = true)
+            repository.refresh(trigger, forceHistory = forceHistory)
             WidgetUpdater.updateAll(getApplication())
-            StatusRefreshScheduler.scheduleAfterSuccess(
-                context = getApplication(),
-                status = status,
-                previousSocPercent = previousSoc,
-                liveOk = repository.uiState.value.liveOk
-            )
         } catch (error: CancellationException) {
             WidgetUpdater.updateAll(getApplication())
             if (RefreshErrors.isStructuredCancellation(error)) throw error
@@ -94,17 +97,13 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
             try {
                 repository.saveToken(raw)
                 _tokenFeedback.value = "Token saved"
-                val previousSoc = repository.uiState.value.status?.socPercent
-                val status = runCatching { repository.refresh(includeSeries = true) }.getOrNull()
-                WidgetUpdater.updateAll(getApplication())
-                status?.let {
-                    StatusRefreshScheduler.scheduleAfterSuccess(
-                        context = getApplication(),
-                        status = it,
-                        previousSocPercent = previousSoc,
-                        liveOk = repository.uiState.value.liveOk
+                runCatching {
+                    repository.refresh(
+                        HistoryFetchPolicy.Trigger.APP_OPEN,
+                        forceHistory = true
                     )
                 }
+                WidgetUpdater.updateAll(getApplication())
                 withContext(Dispatchers.Main) {
                     _openedFromSettings.value = false
                     _showTokenScreen.value = false
@@ -141,9 +140,8 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
     fun removeToken() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.clearToken()
-            StatusRefreshScheduler.cancelFollowUp(getApplication())
             _tokenFeedback.value = "Token removed"
-            runCatching { repository.refresh() }
+            runCatching { repository.refresh(HistoryFetchPolicy.Trigger.BACKGROUND) }
             WidgetUpdater.updateAll(getApplication())
         }
     }

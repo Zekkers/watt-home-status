@@ -25,6 +25,13 @@ private val Context.statusDataStore: DataStore<Preferences> by preferencesDataSt
 class StatusRepository private constructor(context: Context) {
     private val appContext = context.applicationContext
     private val snapshotPrefs = appContext.getSharedPreferences(SNAPSHOT_PREFS, Context.MODE_PRIVATE)
+
+    @Volatile
+    private var historySuccessAtMs: Long = snapshotPrefs.getLong(KEY_LAST_HISTORY_SUCCESS, 0L)
+
+    @Volatile
+    private var historyAttemptAtMs: Long = snapshotPrefs.getLong(KEY_LAST_HISTORY_ATTEMPT, 0L)
+
     private val tokenStore by lazy { TokenStore.get(appContext) }
     private val givEnergy by lazy { GivEnergyClient() }
     private val client by lazy {
@@ -112,12 +119,24 @@ class StatusRepository private constructor(context: Context) {
         return "Live battery OK"
     }
 
-    suspend fun refresh(includeSeries: Boolean = true): HomeStatus {
+    suspend fun refresh(
+        trigger: HistoryFetchPolicy.Trigger = HistoryFetchPolicy.Trigger.BACKGROUND,
+        nowMs: Long = System.currentTimeMillis(),
+        forceHistory: Boolean = false
+    ): HomeStatus {
         return refreshMutex.withLock {
-            val now = System.currentTimeMillis()
             val current = _uiState.value
+            val decision = HistoryFetchPolicy.plan(
+                trigger = trigger,
+                lastHistorySuccessAtMs = positiveOrNull(historySuccessAtMs),
+                nowMs = nowMs,
+                lastAnySuccessAtMs = positiveOrNull(lastSuccessAtMs),
+                lastHistoryAttemptAtMs = positiveOrNull(historyAttemptAtMs)
+            )
+            val includeSeries = forceHistory || decision == HistoryFetchPolicy.Poll.LATEST_AND_HISTORY
             if (
-                now - lastSuccessAtMs in 1 until RefreshPolicy.COALESCE_SUCCESS_MS &&
+                !includeSeries &&
+                decision == HistoryFetchPolicy.Poll.COALESCED &&
                 current.status != null &&
                 !current.showingLastKnown &&
                 current.error == null
@@ -129,13 +148,7 @@ class StatusRepository private constructor(context: Context) {
             _uiState.value = current.copy(isLoading = true, hasToken = hasToken)
             try {
                 val status = RefreshPolicy.runBounded {
-                    if (!includeSeries) {
-                        val token = tokenStore.readToken()
-                        if (previous != null && token != null) {
-                            return@runBounded refreshLiveLatest(previous, token)
-                        }
-                    }
-                    refreshFull()
+                    refreshFull(previous, includeSeries, nowMs)
                 }
                 lastSuccessAtMs = System.currentTimeMillis()
                 status
@@ -162,7 +175,11 @@ class StatusRepository private constructor(context: Context) {
         )
     }
 
-    private suspend fun refreshFull(): HomeStatus {
+    private suspend fun refreshFull(
+        previous: HomeStatus?,
+        includeSeries: Boolean,
+        nowMs: Long
+    ): HomeStatus {
         val publicStatus = decode(fetchPublicJson())
         val token = tokenStore.readToken()
         return if (token == null) {
@@ -177,8 +194,15 @@ class StatusRepository private constructor(context: Context) {
             publicStatus
         } else {
             try {
-                val live = givEnergy.fetchLive(token, includeSeries = true)
-                val status = LiveStatus.merge(publicStatus, live)
+                if (includeSeries) recordHistoryAttempt(nowMs)
+                val live = givEnergy.fetchLive(token, includeSeries = includeSeries)
+                val seriesFrom = if (includeSeries && live.seriesFetched) {
+                    null
+                } else {
+                    cachedStatus()?.let { LiveStatus.keepingToday(it) } ?: HomeStatus()
+                }
+                val status = LiveStatus.merge(publicStatus, live, seriesFrom)
+                if (includeSeries && live.seriesFetched) recordHistorySuccess(nowMs)
                 persist(HomeStatusJson.encode(status), status, hasToken = true, liveOk = true)
                 _uiState.value = StatusUiState(
                     status = status,
@@ -189,9 +213,12 @@ class StatusRepository private constructor(context: Context) {
                 )
                 status
             } catch (rejected: TokenRejectedException) {
-                persist(HomeStatusJson.encode(publicStatus), publicStatus, hasToken = true, liveOk = false)
+                val shown = previous ?: publicStatus
+                if (previous == null) {
+                    persist(HomeStatusJson.encode(publicStatus), publicStatus, hasToken = true, liveOk = false)
+                }
                 _uiState.value = StatusUiState(
-                    status = publicStatus,
+                    status = shown,
                     isLoading = false,
                     error = rejected.message,
                     hasToken = true,
@@ -200,51 +227,47 @@ class StatusRepository private constructor(context: Context) {
                 )
                 throw rejected
             } catch (liveError: CancellationException) {
-                persist(HomeStatusJson.encode(publicStatus), publicStatus, hasToken = true, liveOk = false)
+                val shown = previous ?: publicStatus
+                if (previous == null) {
+                    persist(HomeStatusJson.encode(publicStatus), publicStatus, hasToken = true, liveOk = false)
+                }
                 if (RefreshErrors.isStructuredCancellation(liveError)) {
                     _uiState.value = _uiState.value.copy(
-                        status = publicStatus,
+                        status = shown,
                         isLoading = false,
                         error = null,
                         hasToken = true,
                         liveOk = false
                     )
                 } else {
-                    finishQuietFailure(publicStatus, hasToken = true)
+                    finishQuietFailure(shown, hasToken = true)
                 }
                 throw liveError
             } catch (liveError: Exception) {
-                persist(HomeStatusJson.encode(publicStatus), publicStatus, hasToken = true, liveOk = false)
-                finishQuietFailure(publicStatus, hasToken = true)
+                val shown = previous ?: publicStatus
+                if (previous == null) {
+                    persist(HomeStatusJson.encode(publicStatus), publicStatus, hasToken = true, liveOk = false)
+                }
+                finishQuietFailure(shown, hasToken = true)
                 throw liveError
             }
         }
     }
 
-    private suspend fun refreshLiveLatest(cached: HomeStatus, token: String): HomeStatus {
-        return try {
-            val live = givEnergy.fetchLive(token, includeSeries = false)
-            val status = LiveStatus.merge(cached, live)
-            persist(HomeStatusJson.encode(status), status, hasToken = true, liveOk = true)
-            _uiState.value = StatusUiState(
-                status = status,
-                isLoading = false,
-                hasToken = true,
-                liveOk = true,
-                showingLastKnown = false
-            )
-            status
-        } catch (rejected: TokenRejectedException) {
-            _uiState.value = _uiState.value.copy(
-                isLoading = false,
-                error = rejected.message,
-                hasToken = true,
-                liveOk = false,
-                status = cached,
-                showingLastKnown = true
-            )
-            throw rejected
-        }
+    private fun positiveOrNull(ms: Long): Long? = ms.takeIf { it > 0L }
+
+    private fun recordHistoryAttempt(nowMs: Long) {
+        historyAttemptAtMs = nowMs
+        snapshotPrefs.edit().putLong(KEY_LAST_HISTORY_ATTEMPT, nowMs).apply()
+    }
+
+    private fun recordHistorySuccess(nowMs: Long) {
+        historySuccessAtMs = nowMs
+        historyAttemptAtMs = nowMs
+        snapshotPrefs.edit()
+            .putLong(KEY_LAST_HISTORY_SUCCESS, nowMs)
+            .putLong(KEY_LAST_HISTORY_ATTEMPT, nowMs)
+            .apply()
     }
 
     private fun fetchPublicJson(): String {
@@ -293,7 +316,7 @@ class StatusRepository private constructor(context: Context) {
         const val STATUS_URL =
             "https://raw.githubusercontent.com/Zekkers/watt-home-status/main/status.json"
         private const val USER_AGENT =
-            "WattHomeStatus/1.2.9 (home-energy widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.23 (home-energy widget; +https://github.com/Zekkers/watt-home-status)"
         private val KEY_JSON = stringPreferencesKey("status_json")
         private const val SETUP_PREFS = "watt_home_setup"
         private const val SNAPSHOT_PREFS = "watt_home_first_paint"
@@ -301,6 +324,8 @@ class StatusRepository private constructor(context: Context) {
         private const val KEY_SNAPSHOT = "first_paint_json"
         private const val KEY_HAS_TOKEN = "has_token"
         private const val KEY_LIVE_OK = "live_ok"
+        private const val KEY_LAST_HISTORY_SUCCESS = "last_history_success_ms"
+        private const val KEY_LAST_HISTORY_ATTEMPT = "last_history_attempt_ms"
 
         @Volatile
         private var instance: StatusRepository? = null

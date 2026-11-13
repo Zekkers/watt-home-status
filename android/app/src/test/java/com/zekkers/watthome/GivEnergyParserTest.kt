@@ -1,13 +1,16 @@
 package com.zekkers.watthome
 
+import com.zekkers.watthome.data.BatterySample
 import com.zekkers.watthome.data.GivEnergy
 import com.zekkers.watthome.data.GivEnergyParser
+import com.zekkers.watthome.data.HomeStatus
 import com.zekkers.watthome.data.HomeStatusJson
 import com.zekkers.watthome.data.HomeStatusParser
 import com.zekkers.watthome.data.LiveStatus
 import com.zekkers.watthome.data.TokenRejectedException
 import com.zekkers.watthome.data.TokenStore
 import org.junit.Assert.assertEquals
+import java.time.LocalDate
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -232,6 +235,27 @@ class GivEnergyParserTest {
         assertEquals(55, merged.target1600Percent)
         assertEquals(36.95, merged.lastSavings?.gbp)
         assertEquals("Partly cloudy", merged.weatherTomorrow?.label)
+        val cachedCurve = HomeStatus(
+            socSeries = listOf(
+                BatterySample(t = "2026-08-23T22:00:00Z", soc = 12.0),
+                BatterySample(t = "2026-08-24T10:00:00Z", soc = 40.0)
+            ),
+            batteryWSeries = listOf(BatterySample(t = "2026-08-24T10:00:00Z", w = -100.0)),
+            solarWSeries = listOf(BatterySample(t = "2026-08-24T10:00:00Z", w = 50.0))
+        )
+        val todayCurve = LiveStatus.keepingToday(cachedCurve, LocalDate.parse("2026-08-24"))
+        assertEquals(1, todayCurve.socSeries.size)
+        val tipped = LiveStatus.merge(
+            publicStatus,
+            live.copy(socSeries = emptyList(), batteryWSeries = emptyList(), solarWSeries = emptyList()),
+            seriesFrom = todayCurve
+        )
+        assertEquals(40.0, tipped.socSeries.first().soc!!, 0.01)
+        assertEquals(63.0, tipped.socSeries.last().soc!!, 0.01)
+        assertEquals(-100.0, tipped.batteryWSeries.first().w!!, 0.01)
+        assertEquals(-1250.0, tipped.batteryWSeries.last().w!!, 0.01)
+        assertEquals(50.0, tipped.solarWSeries.first().w!!, 0.01)
+        assertEquals("12:00", tipped.nextPowerUp?.from)
         val encoded = HomeStatusJson.encode(merged)
         assertFalse(encoded.contains("Bearer"))
         assertFalse(encoded.contains("token"))

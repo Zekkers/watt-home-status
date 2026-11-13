@@ -9,25 +9,27 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.zekkers.watthome.data.HomeStatus
-import com.zekkers.watthome.data.RefreshCadence
+import com.zekkers.watthome.data.HistoryFetchPolicy
 import java.util.concurrent.TimeUnit
 
 object StatusRefreshScheduler {
     private const val PERIODIC_WORK = "watt-home-status-periodic"
     private const val ONCE_WORK = "watt-home-status-once"
-    private const val FOLLOW_UP_WORK = "watt-home-status-followup"
+
+    /** Pre-1.2.23 one-shot ~90s follow-up. Cancelled so an upgrade cannot keep polling. */
+    private const val LEGACY_FAST_POLL_WORK = "watt-home-status-followup"
 
     private val networkConstraints: Constraints = Constraints.Builder()
         .setRequiredNetworkType(NetworkType.CONNECTED)
         .build()
 
     fun enqueuePeriodic(context: Context) {
+        cancelLegacyFastPoll(context)
         val request = PeriodicWorkRequestBuilder<StatusRefreshWorker>(
-            RefreshCadence.IDLE_PERIOD_MINUTES,
+            HistoryFetchPolicy.BACKGROUND_PERIOD_MINUTES,
             TimeUnit.MINUTES
         )
-            .setInputData(workDataOf(RefreshCadence.KEY_INCLUDE_SERIES to true))
+            .setInputData(backgroundTrigger())
             .setConstraints(networkConstraints)
             .build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
@@ -37,9 +39,10 @@ object StatusRefreshScheduler {
         )
     }
 
-    fun enqueueNow(context: Context, includeSeries: Boolean = true) {
+    /** Widget add, widget update, or process start. Not an app open. */
+    fun enqueueNow(context: Context) {
         val request = OneTimeWorkRequestBuilder<StatusRefreshWorker>()
-            .setInputData(workDataOf(RefreshCadence.KEY_INCLUDE_SERIES to includeSeries))
+            .setInputData(backgroundTrigger())
             .setConstraints(networkConstraints)
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(
@@ -49,38 +52,11 @@ object StatusRefreshScheduler {
         )
     }
 
-    fun scheduleAfterSuccess(
-        context: Context,
-        status: HomeStatus,
-        previousSocPercent: Int?,
-        liveOk: Boolean
-    ) {
-        if (liveOk && RefreshCadence.needsFastPoll(status, previousSocPercent)) {
-            enqueueFollowUp(context)
-        } else {
-            cancelFollowUp(context)
-        }
-    }
+    private fun backgroundTrigger() = workDataOf(
+        HistoryFetchPolicy.KEY_TRIGGER to HistoryFetchPolicy.Trigger.BACKGROUND.wire()
+    )
 
-    /**
-     * One-shot follow-up ~90s later. Not expedited: WorkManager forbids
-     * setExpedited + setInitialDelay, and expedited work needs a foreground
-     * notification on API 26–30. Delayed one-time work is enough while charging.
-     */
-    fun enqueueFollowUp(context: Context) {
-        val request = OneTimeWorkRequestBuilder<StatusRefreshWorker>()
-            .setInitialDelay(RefreshCadence.FOLLOW_UP_SECONDS, TimeUnit.SECONDS)
-            .setInputData(workDataOf(RefreshCadence.KEY_INCLUDE_SERIES to false))
-            .setConstraints(networkConstraints)
-            .build()
-        WorkManager.getInstance(context).enqueueUniqueWork(
-            FOLLOW_UP_WORK,
-            ExistingWorkPolicy.REPLACE,
-            request
-        )
-    }
-
-    fun cancelFollowUp(context: Context) {
-        WorkManager.getInstance(context).cancelUniqueWork(FOLLOW_UP_WORK)
+    private fun cancelLegacyFastPoll(context: Context) {
+        WorkManager.getInstance(context).cancelUniqueWork(LEGACY_FAST_POLL_WORK)
     }
 }

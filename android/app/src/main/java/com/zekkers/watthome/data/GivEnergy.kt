@@ -1,5 +1,7 @@
 package com.zekkers.watthome.data
 
+import java.time.LocalDate
+
 class TokenRejectedException : Exception("token rejected, re-enter")
 
 data class LiveInverterSnapshot(
@@ -13,7 +15,9 @@ data class LiveInverterSnapshot(
     val batteryWSeries: List<BatterySample> = emptyList(),
     val solarWSeries: List<BatterySample> = emptyList(),
     val houseWSeries: List<BatterySample> = emptyList(),
-    val gridWSeries: List<BatterySample> = emptyList()
+    val gridWSeries: List<BatterySample> = emptyList(),
+    /** True only when today's data-points pages were fetched without error. */
+    val seriesFetched: Boolean = false
 )
 
 object GivEnergy {
@@ -40,13 +44,22 @@ object GivEnergy {
 }
 
 object LiveStatus {
-    fun merge(publicStatus: HomeStatus, live: LiveInverterSnapshot?): HomeStatus {
+    /**
+     * @param seriesFrom when set, its curves are kept (even if empty) instead of
+     * the public feed's series. Latest-only polls pass today's cached curve so a
+     * quiet poll does not replace it. Null uses the live series, then the public one.
+     */
+    fun merge(
+        publicStatus: HomeStatus,
+        live: LiveInverterSnapshot?,
+        seriesFrom: HomeStatus? = null
+    ): HomeStatus {
         if (live == null) return publicStatus
-        val socSeries = live.socSeries.ifEmpty { publicStatus.socSeries }
-        val batteryWSeries = live.batteryWSeries.ifEmpty { publicStatus.batteryWSeries }
-        val solarWSeries = live.solarWSeries.ifEmpty { publicStatus.solarWSeries }
-        val houseWSeries = live.houseWSeries.ifEmpty { publicStatus.houseWSeries }
-        val gridWSeries = live.gridWSeries.ifEmpty { publicStatus.gridWSeries }
+        val socSeries = seriesFrom?.socSeries ?: live.socSeries.ifEmpty { publicStatus.socSeries }
+        val batteryWSeries = seriesFrom?.batteryWSeries ?: live.batteryWSeries.ifEmpty { publicStatus.batteryWSeries }
+        val solarWSeries = seriesFrom?.solarWSeries ?: live.solarWSeries.ifEmpty { publicStatus.solarWSeries }
+        val houseWSeries = seriesFrom?.houseWSeries ?: live.houseWSeries.ifEmpty { publicStatus.houseWSeries }
+        val gridWSeries = seriesFrom?.gridWSeries ?: live.gridWSeries.ifEmpty { publicStatus.gridWSeries }
         return appendLiveTip(
             publicStatus.copy(
                 updated = live.updated ?: publicStatus.updated,
@@ -79,6 +92,26 @@ object LiveStatus {
             houseWSeries = appendSample(status.houseWSeries, houseTip) { it.w != null },
             gridWSeries = appendSample(status.gridWSeries, gridTip) { it.w != null }
         )
+    }
+
+    /** Drops samples from other London days so yesterday's curve does not share today's x-axis. */
+    fun keepingToday(
+        status: HomeStatus,
+        today: LocalDate = LocalDate.now(StatusFormatter.london)
+    ): HomeStatus {
+        return status.copy(
+            socSeries = status.socSeries.filter { sampleOn(it.t, today) },
+            batteryWSeries = status.batteryWSeries.filter { sampleOn(it.t, today) },
+            solarWSeries = status.solarWSeries.filter { sampleOn(it.t, today) },
+            houseWSeries = status.houseWSeries.filter { sampleOn(it.t, today) },
+            gridWSeries = status.gridWSeries.filter { sampleOn(it.t, today) }
+        )
+    }
+
+    private fun sampleOn(raw: String?, today: LocalDate): Boolean {
+        if (raw.isNullOrBlank()) return false
+        val stamp = StatusFormatter.parseTimestamp(raw) ?: return false
+        return stamp.atZoneSameInstant(StatusFormatter.london).toLocalDate() == today
     }
 
     private fun appendSample(
