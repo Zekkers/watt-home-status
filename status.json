@@ -413,7 +413,18 @@
     }
   ],
   "booked_power_up": null,
-  "booked_happy_hour": null,
+  "booked_happy_hour": {
+    "date": "2026-11-15",
+    "from": "11:00",
+    "to": "12:00",
+    "opted_in": true,
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour",
+    "source": "ian_laura_booked",
+    "account_id": "A-5314B4CC",
+    "timezone": "Europe/London",
+    "since": "2026-11-14T14:03:00+00:00"
+  },
   "booked_power_down": null,
   "peak_topup": {
     "from": "14:22",
