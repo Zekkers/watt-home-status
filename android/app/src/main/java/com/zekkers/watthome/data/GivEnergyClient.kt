@@ -72,6 +72,6 @@ class GivEnergyClient(
 
     companion object {
         private const val USER_AGENT =
-            "WattHomeStatus/1.2.23 (home-energy widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.24 (home-energy widget; +https://github.com/Zekkers/watt-home-status)"
     }
 }

@@ -76,8 +76,8 @@ class FairUseWiringTest {
     @Test
     fun versionIsAheadOfThe1222Sideload() {
         val gradle = File("build.gradle.kts").readText()
-        assertTrue(gradle.contains("versionCode = 35"))
-        assertTrue(gradle.contains("versionName = \"1.2.23\""))
+        assertTrue(gradle.contains("versionCode = 36"))
+        assertTrue(gradle.contains("versionName = \"1.2.24\""))
     }
 
     private fun mainSources(): Sequence<File> {

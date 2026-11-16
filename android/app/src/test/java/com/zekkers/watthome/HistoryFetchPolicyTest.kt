@@ -12,6 +12,80 @@ class HistoryFetchPolicyTest {
     private val openedAt = 1_700_000_000_000L
 
     @Test
+    fun foregroundOpenOrRefreshMakesNoCallUntilFiveMinutesHavePassed() {
+        assertEquals(
+            Poll.LATEST_AND_HISTORY,
+            HistoryFetchPolicy.plan(
+                trigger = Trigger.APP_OPEN,
+                lastHistorySuccessAtMs = null,
+                nowMs = openedAt
+            )
+        )
+
+        val fiveSecondsLater = openedAt + 5_000L
+        assertEquals(
+            "open 5 seconds later makes no GivEnergy call",
+            Poll.COALESCED,
+            HistoryFetchPolicy.plan(
+                trigger = Trigger.APP_OPEN,
+                lastHistorySuccessAtMs = openedAt,
+                nowMs = fiveSecondsLater,
+                lastAnySuccessAtMs = openedAt
+            )
+        )
+        assertEquals(
+            "refresh 5 seconds later also makes no call",
+            Poll.COALESCED,
+            HistoryFetchPolicy.plan(
+                trigger = Trigger.PULL_TO_REFRESH,
+                lastHistorySuccessAtMs = openedAt,
+                nowMs = fiveSecondsLater,
+                lastAnySuccessAtMs = openedAt
+            )
+        )
+
+        val fourMinutesLater = openedAt + 4 * 60 * 1000L
+        assertEquals(
+            Poll.COALESCED,
+            HistoryFetchPolicy.plan(
+                trigger = Trigger.APP_OPEN,
+                lastHistorySuccessAtMs = openedAt,
+                nowMs = fourMinutesLater,
+                lastAnySuccessAtMs = openedAt
+            )
+        )
+        assertEquals(
+            Poll.COALESCED,
+            HistoryFetchPolicy.plan(
+                trigger = Trigger.PULL_TO_REFRESH,
+                lastHistorySuccessAtMs = openedAt,
+                nowMs = fourMinutesLater,
+                lastAnySuccessAtMs = openedAt
+            )
+        )
+
+        val fiveMinutesLater = openedAt + HistoryFetchPolicy.FOREGROUND_MIN_MS
+        assertEquals(
+            Poll.LATEST_AND_HISTORY,
+            HistoryFetchPolicy.plan(
+                trigger = Trigger.APP_OPEN,
+                lastHistorySuccessAtMs = openedAt,
+                nowMs = fiveMinutesLater,
+                lastAnySuccessAtMs = openedAt
+            )
+        )
+        assertEquals(
+            Poll.LATEST_AND_HISTORY,
+            HistoryFetchPolicy.plan(
+                trigger = Trigger.PULL_TO_REFRESH,
+                lastHistorySuccessAtMs = openedAt,
+                nowMs = fiveMinutesLater,
+                lastAnySuccessAtMs = openedAt
+            )
+        )
+    }
+
+    @Test
     fun appOpenFetchesHistoryThenDebouncesForFiveMinutes() {
         assertTrue(
             "first app open fetches history",
@@ -36,7 +110,7 @@ class HistoryFetchPolicyTest {
             )
         )
         assertEquals(
-            Poll.LATEST_ONLY,
+            Poll.COALESCED,
             HistoryFetchPolicy.plan(
                 trigger = Trigger.APP_OPEN,
                 lastHistorySuccessAtMs = openedAt,
@@ -96,7 +170,7 @@ class HistoryFetchPolicyTest {
             )
         )
         assertEquals(
-            Poll.LATEST_ONLY,
+            Poll.COALESCED,
             HistoryFetchPolicy.plan(
                 trigger = Trigger.PULL_TO_REFRESH,
                 lastHistorySuccessAtMs = openedAt,
@@ -114,12 +188,25 @@ class HistoryFetchPolicyTest {
     }
 
     @Test
-    fun rapidResumeCoalescesButAWidgetSnapshotDoesNotBlockAppOpenHistory() {
+    fun recentHistoryAloneCoalescesForegroundEvenWithoutALatestClock() {
         assertEquals(
             Poll.COALESCED,
             HistoryFetchPolicy.plan(
                 trigger = Trigger.APP_OPEN,
                 lastHistorySuccessAtMs = openedAt,
+                nowMs = openedAt + 2_000L,
+                lastAnySuccessAtMs = null
+            )
+        )
+    }
+
+    @Test
+    fun recentWidgetSnapshotCoalescesForegroundUntilTheFiveMinuteFloor() {
+        assertEquals(
+            Poll.COALESCED,
+            HistoryFetchPolicy.plan(
+                trigger = Trigger.APP_OPEN,
+                lastHistorySuccessAtMs = openedAt - HistoryFetchPolicy.FOREGROUND_MIN_MS,
                 nowMs = openedAt + 2_000L,
                 lastAnySuccessAtMs = openedAt + 500L
             )
@@ -128,9 +215,9 @@ class HistoryFetchPolicyTest {
             Poll.LATEST_AND_HISTORY,
             HistoryFetchPolicy.plan(
                 trigger = Trigger.APP_OPEN,
-                lastHistorySuccessAtMs = openedAt - HistoryFetchPolicy.FOREGROUND_HISTORY_MIN_MS,
-                nowMs = openedAt,
-                lastAnySuccessAtMs = openedAt - 1_000L
+                lastHistorySuccessAtMs = openedAt - HistoryFetchPolicy.FOREGROUND_MIN_MS,
+                nowMs = openedAt + HistoryFetchPolicy.FOREGROUND_MIN_MS,
+                lastAnySuccessAtMs = openedAt
             )
         )
     }
@@ -141,6 +228,7 @@ class HistoryFetchPolicyTest {
         assertTrue(HistoryFetchPolicy.BACKGROUND_PERIOD_MINUTES >= 15L)
         assertEquals(2 * 60 * 60 * 1000L, HistoryFetchPolicy.BACKGROUND_HISTORY_MS)
         assertEquals(5 * 60 * 1000L, HistoryFetchPolicy.FOREGROUND_HISTORY_MIN_MS)
+        assertEquals(HistoryFetchPolicy.FOREGROUND_MIN_MS, HistoryFetchPolicy.FOREGROUND_HISTORY_MIN_MS)
 
         assertTrue(
             HistoryFetchPolicy.shouldFetchHistory(

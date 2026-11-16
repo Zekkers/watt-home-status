@@ -6,11 +6,12 @@ package com.zekkers.watthome.data
  * Background work and home-screen widgets stay on a 15-minute live snapshot
  * (`/system-data/latest` only). Today's `/data-points` history is separate:
  * about every 2 hours from that background work, and when the app is opened or
- * the in-app refresh control is used. Those foreground history pulls are at
- * least 5 minutes apart. Skipping history still allows a live snapshot, unless
- * the short success coalesce applies.
+ * the in-app refresh control is used after the foreground floor has elapsed.
  *
- * There is no sub-15-minute automatic poll.
+ * Foreground opens and refresh taps make no GivEnergy call if any successful
+ * refresh (latest or history) landed less than 5 minutes ago; the cached
+ * snapshot is served instead. After that floor, the app fetches latest plus
+ * today's history. There is no sub-15-minute automatic poll.
  */
 object HistoryFetchPolicy {
     const val KEY_TRIGGER = "refresh_trigger"
@@ -21,8 +22,11 @@ object HistoryFetchPolicy {
     /** Automatic history from background and widget work. */
     const val BACKGROUND_HISTORY_MS = 2 * 60 * 60 * 1000L
 
+    /** Minimum gap between foreground GivEnergy calls (open or refresh). */
+    const val FOREGROUND_MIN_MS = 5 * 60 * 1000L
+
     /** Minimum gap between app-open and explicit-refresh history fetches. */
-    const val FOREGROUND_HISTORY_MIN_MS = 5 * 60 * 1000L
+    const val FOREGROUND_HISTORY_MIN_MS = FOREGROUND_MIN_MS
 
     enum class Trigger {
         /** Periodic work, process start, widget update. Not an app open. */
@@ -50,7 +54,7 @@ object HistoryFetchPolicy {
     }
 
     enum class Poll {
-        /** A successful fetch landed inside the short coalesce window. No GivEnergy call. */
+        /** A successful fetch landed inside the coalesce window. No GivEnergy call. */
         COALESCED,
 
         /** One `/system-data/latest`. Append that tip to the cached series. */
@@ -79,9 +83,12 @@ object HistoryFetchPolicy {
      * What this trigger should do to GivEnergy right now.
      *
      * [lastAnySuccessAtMs] is the last successful refresh of any kind (latest or
-     * history) and only drives the few-second coalesce. History timing uses the
-     * history clocks, so a widget snapshot a second ago does not suppress an
-     * app-open history fetch.
+     * history). For [Trigger.APP_OPEN] and [Trigger.PULL_TO_REFRESH] it shares
+     * the 5-minute foreground floor with the history clock: if either is recent,
+     * this returns [Poll.COALESCED] and the cached snapshot is served. Token
+     * save still forces a history fetch via `forceHistory` in the repository.
+     * Background and widget work keep the short success coalesce and may still
+     * take a live snapshot when history is not due.
      */
     fun plan(
         trigger: Trigger,
@@ -97,10 +104,22 @@ object HistoryFetchPolicy {
             nowMs = nowMs,
             lastHistoryAttemptAtMs = lastHistoryAttemptAtMs
         )
+        if (trigger == Trigger.APP_OPEN || trigger == Trigger.PULL_TO_REFRESH) {
+            val sinceForeground = minAgeMillis(lastAnySuccessAtMs, lastHistorySuccessAtMs, nowMs)
+            if (sinceForeground != null && sinceForeground < FOREGROUND_MIN_MS) {
+                return Poll.COALESCED
+            }
+            return Poll.LATEST_AND_HISTORY
+        }
         if (fetchHistory) return Poll.LATEST_AND_HISTORY
         val sinceAny = ageMillis(lastAnySuccessAtMs, nowMs)
         if (sinceAny != null && sinceAny in 1 until coalesceWindowMs) return Poll.COALESCED
         return Poll.LATEST_ONLY
+    }
+
+    private fun minAgeMillis(firstMs: Long?, secondMs: Long?, nowMs: Long): Long? {
+        val ages = listOfNotNull(ageMillis(firstMs, nowMs), ageMillis(secondMs, nowMs))
+        return ages.minOrNull()
     }
 
     private fun ageMillis(lastMs: Long?, nowMs: Long): Long? {
