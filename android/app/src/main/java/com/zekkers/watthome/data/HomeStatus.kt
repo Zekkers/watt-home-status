@@ -7,7 +7,7 @@ data class HomeStatus(
     val houseW: Int? = null,
     val target1600Percent: Int? = null,
     val overnight: Overnight? = null,
-    val peakWindow: String? = null,
+    val peakWindow: PeakWindow? = null,
     val nextPowerUp: PowerUp? = null,
     val lastAction: String? = null,
     val weatherTomorrow: WeatherTomorrow? = null,
@@ -21,10 +21,28 @@ data class HomeStatus(
     val lastSavings: LastSavings? = null
 )
 
+/**
+ * The overnight charge slot. The feed writes `from` / `to` / `percent_limit` / `kw`;
+ * older feeds used `start` / `end` / `cap_percent`, which still parse into the same fields.
+ */
 data class Overnight(
     val start: String? = null,
     val end: String? = null,
-    val capPercent: Int? = null
+    val capPercent: Int? = null,
+    val kw: Double? = null,
+    val cleared: Boolean? = null
+)
+
+/**
+ * The afternoon peak top-up window. [date] is the London day it belongs to: the
+ * feed's own `date` when present, otherwise the day the feed was written.
+ */
+data class PeakWindow(
+    val from: String? = null,
+    val to: String? = null,
+    val targetPercent: Int? = null,
+    val date: String? = null,
+    val label: String? = null
 )
 
 data class PowerUp(

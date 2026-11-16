@@ -141,7 +141,7 @@ private fun OverviewNumbers(
             maxLines = 1
         )
         Text(
-            text = "16:00 ${StatusFormatter.percent(status?.target1600Percent)}  ·  Peak ${StatusFormatter.dash(status?.peakWindow)}",
+            text = "16:00 ${StatusFormatter.percent(status?.target1600Percent)}  ·  Peak ${StatusFormatter.peakWindow(status?.peakWindow)}",
             style = TextStyle(color = ColorProvider(Cream, Cream), fontSize = 12.sp),
             maxLines = 1
         )

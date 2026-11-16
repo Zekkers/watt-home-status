@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -141,7 +142,7 @@ class StatusRepository private constructor(context: Context) {
                 !current.showingLastKnown &&
                 current.error == null
             ) {
-                return@withLock current.status
+                return@withLock refreshPublicExtras(current.status, current)
             }
             val previous = current.status ?: cachedStatus()
             val hasToken = currentHasToken()
@@ -162,6 +163,28 @@ class StatusRepository private constructor(context: Context) {
                 throw error
             }
         }
+    }
+
+    /**
+     * Inside the GivEnergy foreground floor: no GivEnergy call, but the family
+     * status file is not fair-use limited, so re-read it and lay its plan fields
+     * (overnight slot, peak window, Power Up, last action, tomorrow) over the
+     * cached live numbers. A failed read keeps what is already shown.
+     */
+    private suspend fun refreshPublicExtras(cached: HomeStatus, current: StatusUiState): HomeStatus {
+        val publicStatus = try {
+            RefreshPolicy.runBounded { decode(fetchPublicJson()) }
+        } catch (_: TimeoutCancellationException) {
+            return cached
+        } catch (error: CancellationException) {
+            throw error
+        } catch (_: Exception) {
+            return cached
+        }
+        val status = LiveStatus.withPublicExtras(cached, publicStatus)
+        persist(HomeStatusJson.encode(status), status, hasToken = current.hasToken, liveOk = current.liveOk)
+        _uiState.value = _uiState.value.copy(status = status)
+        return status
     }
 
     private fun finishQuietFailure(previous: HomeStatus?, hasToken: Boolean) {
@@ -316,7 +339,7 @@ class StatusRepository private constructor(context: Context) {
         const val STATUS_URL =
             "https://raw.githubusercontent.com/Zekkers/watt-home-status/main/status.json"
         private const val USER_AGENT =
-            "WattHomeStatus/1.2.24 (home-energy widget; +https://github.com/Zekkers/watt-home-status)"
+            "WattHomeStatus/1.2.25 (home-energy widget; +https://github.com/Zekkers/watt-home-status)"
         private val KEY_JSON = stringPreferencesKey("status_json")
         private const val SETUP_PREFS = "watt_home_setup"
         private const val SNAPSHOT_PREFS = "watt_home_first_paint"

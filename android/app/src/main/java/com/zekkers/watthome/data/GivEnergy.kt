@@ -78,6 +78,21 @@ object LiveStatus {
         )
     }
 
+    /**
+     * Plan fields come only from the family status file; live numbers and curves
+     * stay as cached. Used when the GivEnergy foreground floor skips the live call.
+     */
+    fun withPublicExtras(cached: HomeStatus, publicStatus: HomeStatus): HomeStatus =
+        cached.copy(
+            target1600Percent = publicStatus.target1600Percent,
+            overnight = publicStatus.overnight,
+            peakWindow = publicStatus.peakWindow,
+            nextPowerUp = publicStatus.nextPowerUp,
+            lastAction = publicStatus.lastAction,
+            weatherTomorrow = publicStatus.weatherTomorrow,
+            lastSavings = publicStatus.lastSavings
+        )
+
     fun appendLiveTip(status: HomeStatus, live: LiveInverterSnapshot): HomeStatus {
         val stamp = live.updated ?: return status
         val socTip = live.socPercent?.toDouble()?.let { BatterySample(t = stamp, soc = it) }
