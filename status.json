@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T14:11:59+00:00",
+  "updated_at": "2026-11-16T14:20:52+00:00",
   "timezone": "Europe/London",
   "soc_percent": 97,
   "solar_w": 407,
@@ -21,30 +21,22 @@
     "path": "cold_sunny_cap88"
   },
   "next_power_up": null,
-  "last_action": "14:11 Mon 16 Nov check: SOC 97%, house ~0.6 kW, PV 0.4 kW, projected \u226575% at 16:00; no write, overnight 02:40-05:00 @88% kept",
-  "updated": "2026-11-16T14:11:59+00:00",
-  "peak_window": {
-    "from": "14:22",
-    "to": "16:00",
-    "target_percent": 75,
-    "applied": true,
-    "reason": "started_now_high_draw"
-  },
+  "last_action": "14:11 Mon 16 Nov check: SOC 97%, house ~0.6 kW, PV 0.4 kW, projected ≥75% at 16:00; no write, overnight 02:40-05:00 @88% kept",
+  "updated": "2026-11-16T14:20:52+00:00",
+  "peak_window": null,
   "weather_tomorrow": {
-    "code": "cloud",
-    "source": "Solcast Garage+Home \u00d70.65",
-    "noon_pv_kwh_derated": 0.786,
-    "day_pv_kwh_derated": 2.176,
-    "derate": 0.65,
-    "note": "Solcast Garage+Home raw noon 1.209 / day 3.348; \u00d70.65 applied. No free window Sat 7 Nov; overnight near-EPS recovery cap 95% / floor 20%.",
-    "label": "Sat Solcast Garage+Home \u00d70.65; noon~0.786 kWh derated; day~2.176 kWh. No free window; 95% overnight cap / 20% floor. Overnight 02:00-04:30 @95% from 6%."
+    "code": "sun",
+    "label": "Mon 16 Nov: sunny but cold, max 6°C, ~8.9 kWh solar (Solcast ×0.65)",
+    "source": "Solcast Garage+Home ×0.65",
+    "day_pv_kwh_derated": 8.9,
+    "derate": 0.65
   },
   "last_savings": {
     "gbp": 36.95,
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
@@ -415,21 +407,7 @@
   "booked_power_up": null,
   "booked_happy_hour": null,
   "booked_power_down": null,
-  "peak_topup": {
-    "from": "14:22",
-    "to": "16:00",
-    "percent_limit": 75,
-    "kw": 6,
-    "reason": "SOC 4%, heating ~3.3 kW; started now"
-  },
   "free_window_in_progress": false,
   "weather_note": "Max 6.4C cold-day rule, sunny exception cap 88%; Solcast Garage+Home x0.65 ~8.9 kWh; Sun 15 actual 2.5 vs 1.38 derated (181%); last-14-day actual/derated 116%",
-  "afternoon_topup": {
-    "from": "14:22",
-    "to": "16:00",
-    "percent_limit": 75,
-    "kw": 6,
-    "reason": "SOC 4%, heating ~3.3 kW; started now"
-  },
   "inverter_clock_offset_note": null
 }
