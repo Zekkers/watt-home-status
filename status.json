@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T13:38:01+00:00",
+  "updated_at": "2026-11-18T15:52:00+00:00",
   "timezone": "Europe/London",
   "soc_percent": 84,
   "solar_w": 642,
@@ -21,7 +21,7 @@
     "path": "cold_100"
   },
   "next_power_up": null,
-  "last_action": "\u2705 14:00 peak check: SOC 84% house ~333 W (light, ~0.33 kW last hour), solar ~642 W; projected 16:00 SOC ~79% (\u2265 75%), no top-up written\n\ud83d\udd0b Overnight 02:30\u201305:00 @100% kept; no Power Down found in Gmail (AOL IMAP SSLEOF, not checked this run)",
+  "last_action": "16:00 check: opted in to Power Down 16:00-17:00 (79 pts/kWh); SOC 80%, no inverter write",
   "updated": "2026-11-18T13:38:01+00:00",
   "peak_window": null,
   "weather_tomorrow": {
@@ -406,7 +406,20 @@
   ],
   "booked_power_up": null,
   "booked_happy_hour": null,
-  "booked_power_down": null,
+  "booked_power_down": {
+    "date": "2026-11-18",
+    "from": "16:00",
+    "to": "17:00",
+    "opted_in": true,
+    "since": "2026-11-18T15:51:00+00:00",
+    "label": "Power Down",
+    "kind": "power_down",
+    "source": "aol_email_yes_link",
+    "account_id": "A-5314B4CC",
+    "timezone": "Europe/London",
+    "pack_adequate": true,
+    "octopoints_per_kwh": 79
+  },
   "free_window_in_progress": false,
   "weather_note": "Cold-day rule (<12C): charge to 100%; Solcast Garage+Home x0.65 forecast; Tue 17 actual 4.7 vs 3.21 derated (146%); last-14-day actual/derated 114%",
   "inverter_clock_offset_note": null
