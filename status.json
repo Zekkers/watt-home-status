@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-19T14:13:43+00:00",
+  "updated_at": "2026-11-19T16:00:00+00:00",
   "timezone": "Europe/London",
   "soc_percent": 73,
   "solar_w": 0,
@@ -21,8 +21,8 @@
     "path": "cold_100"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 peak check: SOC 73% house ~335 W (light, no heating), solar ~0 W; projected 16:00 ~68%, wrote 15:40\u201316:00 cap 75% @6 kW\n\ud83d\udd0b Overnight 02:30\u201305:00 @100% kept; no Power Down found in Gmail (AOL not checked this run)",
-  "updated": "2026-11-19T14:13:43+00:00",
+  "last_action": "⚡ 16:00 check: Power Down today 17:00–18:00 @90 Octopoints/kWh — opted in (A-5314B4CC). SOC 75%, house ~1.2 kW; pack adequate, no inverter write\n⚡ 14:00 peak check: SOC 73% house ~335 W (light, no heating), solar ~0 W; projected 16:00 ~68%, wrote 15:40–16:00 cap 75% @6 kW\n🔋 Overnight 02:30–05:00 @100% kept; no Power Down found in Gmail (AOL not checked this run)",
+  "updated": "2026-11-19T16:00:00+00:00",
   "peak_window": {
     "date": "2026-11-19",
     "from": "15:40",
@@ -33,8 +33,8 @@
   },
   "weather_tomorrow": {
     "code": "rain",
-    "label": "Thu 19 Nov: rain, max 8.7\u00b0C, ~1.7 kWh solar (Solcast \u00d70.65)",
-    "source": "Solcast Garage+Home \u00d70.65",
+    "label": "Thu 19 Nov: rain, max 8.7°C, ~1.7 kWh solar (Solcast ×0.65)",
+    "source": "Solcast Garage+Home ×0.65",
     "day_pv_kwh_derated": 1.7,
     "derate": 0.65
   },
@@ -43,7 +43,7 @@
     "kwh_extra": null,
     "percent_extra": null,
     "kind": "power_up",
-    "window_label": "21 Jul\u20131 Aug 2026 (9 sessions)",
+    "window_label": "21 Jul–1 Aug 2026 (9 sessions)",
     "source": "results_email",
     "at": "2026-08-13T15:33:56+01:00"
   },
@@ -414,18 +414,19 @@
   "booked_power_up": null,
   "booked_happy_hour": null,
   "booked_power_down": {
-    "date": "2026-11-18",
-    "from": "16:00",
-    "to": "17:00",
+    "date": "2026-11-19",
+    "from": "17:00",
+    "to": "18:00",
     "opted_in": true,
-    "since": "2026-11-18T15:51:00+00:00",
+    "since": "2026-11-19T16:00:00+00:00",
     "label": "Power Down",
     "kind": "power_down",
     "source": "aol_email_yes_link",
     "account_id": "A-5314B4CC",
+    "session_id": "0a0030cc-ae23-4317-804d-eec879551c43",
     "timezone": "Europe/London",
     "pack_adequate": true,
-    "octopoints_per_kwh": 79
+    "octopoints_per_kwh": 90
   },
   "free_window_in_progress": false,
   "weather_note": "Cold-day rule (<12C): charge to 100%; Solcast Garage+Home x0.65; Wed 18 actual 2.8 vs 1.96 derated (143%); last-14-day actual/derated 118%",
