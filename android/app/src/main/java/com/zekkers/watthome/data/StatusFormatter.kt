@@ -224,4 +224,21 @@ object StatusFormatter {
         val minute = hm.groupValues[2].toInt()
         return String.format(Locale.UK, "%02d:%02d", hour, minute)
     }
+
+    /**
+     * Clock for a graph point. 24-hour by default. Pass the phone's 12/24-hour
+     * setting when it is 12-hour; minutes are always shown so the point stays exact.
+     */
+    fun probeClock(raw: String?, use24Hour: Boolean = true): String? {
+        val clock = displayClock(raw) ?: return null
+        if (use24Hour) return clock
+        val hour24 = clock.substringBefore(":").toIntOrNull() ?: return clock
+        val minute = clock.substringAfter(":", missingDelimiterValue = "0").toIntOrNull() ?: 0
+        val suffix = if (hour24 < 12) "am" else "pm"
+        val hour12 = when (val hour = hour24 % 12) {
+            0 -> 12
+            else -> hour
+        }
+        return String.format(Locale.UK, "%d:%02d%s", hour12, minute, suffix)
+    }
 }
