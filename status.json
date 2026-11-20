@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-20T01:34:35+00:00",
+  "updated_at": "2026-11-20T07:51:43+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 4,
+  "soc_percent": 81,
   "solar_w": 0,
-  "house_w": 178,
-  "battery_w": 0,
-  "grid_w": -260,
+  "house_w": 552,
+  "battery_w": -651,
+  "grid_w": 1,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-20T01:31:19Z",
+  "sample_time_utc": "2026-11-20T07:50:54Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -16,13 +16,13 @@
     "percent_limit": 100,
     "kw": 6,
     "cleared": false,
-    "kwh": 13.0,
+    "kwh": 13,
     "mins": 150,
-    "path": "cold_cloudy_full"
+    "path": "cold_100"
   },
   "next_power_up": null,
-  "last_action": "\ud83c\udf19 01:30 overnight: no free window today\n\ud83d\udd0b SOC 4% house ~178 W\n\u2601\ufe0f Cold 8.1C, drizzle, Solcast x0.65 ~1.2 kWh\n\u26a1 Kept 02:30-05:00 @100% / 6 kW, cleared 15:40-16:00",
-  "updated": "2026-11-20T01:34:35+00:00",
+  "last_action": "\u2705 08:00 check: overnight 02:30\u201305:00 @100%/6 kW ran as planned: SOC 4% to 99% by ~05:00 (~13 kWh), no hold-at-cap idle\n\ud83d\udd0b SOC 81% house ~552 W solar ~0 W grid ~1 W; above 20% floor, no inverter write\n\u26a0\ufe0f Pack sat at 4% EPS floor 00:00\u201302:30 (touched, none below); immersion 03:00\u201305:00 ran on grid alongside the charge\n\u2600\ufe0f Solcast x0.65: Thu 19 actual 1.9 vs 1.71 derated (111%); last-14-day 143%",
+  "updated": "2026-11-20T07:51:43+00:00",
   "peak_window": null,
   "weather_tomorrow": {
     "code": "rain",
@@ -41,22 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-08T06:01:29+00:00",
-      "w": -609
-    },
-    {
-      "t": "2026-11-08T07:02:12+00:00",
-      "w": -708
-    },
-    {
-      "t": "2026-11-08T08:18:07+00:00",
-      "w": -88
-    },
-    {
-      "t": "2026-11-08T14:12:23+00:00",
-      "w": -388
-    },
     {
       "t": "2026-11-08T15:53:36Z",
       "w": 0
@@ -280,25 +264,25 @@
     {
       "t": "2026-11-20T01:31:19+00:00",
       "w": 0
+    },
+    {
+      "t": "2026-11-20T04:58:49+00:00",
+      "w": 1087
+    },
+    {
+      "t": "2026-11-20T06:04:37+00:00",
+      "w": -646
+    },
+    {
+      "t": "2026-11-20T07:00:17+00:00",
+      "w": -1144
+    },
+    {
+      "t": "2026-11-20T07:50:54+00:00",
+      "w": -651
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-15T13:58:37+00:00",
-      "soc": 85
-    },
-    {
-      "t": "2026-11-16T01:26:54+00:00",
-      "soc": 4
-    },
-    {
-      "t": "2026-11-16T07:51:32+00:00",
-      "soc": 64
-    },
-    {
-      "t": "2026-11-16T07:51:32+00:00",
-      "soc": 64
-    },
     {
       "t": "2026-11-16T14:11:07+00:00",
       "soc": 97
@@ -402,6 +386,22 @@
     {
       "t": "2026-11-20T01:31:19+00:00",
       "soc": 4
+    },
+    {
+      "t": "2026-11-20T04:58:49+00:00",
+      "soc": 99
+    },
+    {
+      "t": "2026-11-20T06:04:37+00:00",
+      "soc": 96
+    },
+    {
+      "t": "2026-11-20T07:00:17+00:00",
+      "soc": 88
+    },
+    {
+      "t": "2026-11-20T07:50:54+00:00",
+      "soc": 81
     }
   ],
   "booked_power_up": null,
@@ -422,6 +422,6 @@
     "octopoints_per_kwh": 90
   },
   "free_window_in_progress": false,
-  "weather_note": "Max 8.1C (<12C) cold-day rule, no free window today; PV Solcast x0.65 ~1.2 kWh (raw 1.9) < 8 so no sunny cap: 100% 02:30-05:00 kept, stale 15:40-16:00 slot cleared (SOC 4% at 01:31)",
+  "weather_note": "Cold-day rule (<12C): charge to 100%; Solcast Garage+Home x0.65; Thu 19 actual 1.9 vs 1.71 derated (111%); last-14-day actual/derated 143%",
   "inverter_clock_offset_note": null
 }
