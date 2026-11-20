@@ -17,13 +17,26 @@ object HomeStatusJson {
             put(
                 "overnight",
                 buildJsonObject {
-                    overnight.start?.let { put("start", JsonPrimitive(it)) }
-                    overnight.end?.let { put("end", JsonPrimitive(it)) }
-                    overnight.capPercent?.let { put("cap_percent", JsonPrimitive(it)) }
+                    overnight.start?.let { put("from", JsonPrimitive(it)) }
+                    overnight.end?.let { put("to", JsonPrimitive(it)) }
+                    overnight.capPercent?.let { put("percent_limit", JsonPrimitive(it)) }
+                    overnight.kw?.let { put("kw", JsonPrimitive(it)) }
+                    overnight.cleared?.let { put("cleared", JsonPrimitive(it)) }
                 }
             )
         }
-        status.peakWindow?.let { put("peak_window", JsonPrimitive(it)) }
+        status.peakWindow?.let { window ->
+            put(
+                "peak_window",
+                buildJsonObject {
+                    window.from?.let { put("from", JsonPrimitive(it)) }
+                    window.to?.let { put("to", JsonPrimitive(it)) }
+                    window.targetPercent?.let { put("target_percent", JsonPrimitive(it)) }
+                    window.date?.let { put("date", JsonPrimitive(it)) }
+                    window.label?.let { put("label", JsonPrimitive(it)) }
+                }
+            )
+        }
         status.nextPowerUp?.let { powerUp ->
             put(
                 "next_power_up",

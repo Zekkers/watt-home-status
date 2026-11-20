@@ -37,16 +37,51 @@ object StatusFormatter {
 
     fun overnight(overnight: Overnight?): String {
         if (overnight == null) return "—"
-        val start = overnight.start?.takeIf { it.isNotBlank() }
-        val end = overnight.end?.takeIf { it.isNotBlank() }
+        if (overnight.cleared == true) return "None set"
+        val start = displayClock(overnight.start)
+        val end = displayClock(overnight.end)
         val window = when {
             start != null && end != null -> "$start–$end"
             start != null -> start
             end != null -> end
             else -> null
         }
-        val cap = overnight.capPercent?.let { "cap $it%" }
-        return listOfNotNull(window, cap).joinToString(" · ").ifBlank { "—" }
+        val cap = overnight.capPercent?.let { "$it%" }
+        val kw = overnight.kw?.let { kilowatts(it) }
+        return listOfNotNull(window, cap, kw).joinToString(" · ").ifBlank { "—" }
+    }
+
+    private fun kilowatts(value: Double): String {
+        val text = if (value % 1.0 == 0.0) value.toLong().toString() else String.format(Locale.UK, "%.1f", value)
+        return "$text kW"
+    }
+
+    /**
+     * Today's peak top-up window while it is still to come or running, e.g.
+     * "14:22–16:00 · 75%". A window from another day, or one that has ended, is a dash.
+     */
+    fun peakWindow(window: PeakWindow?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
+        peakWindowOrNull(window, now) ?: "—"
+
+    fun peakWindowOrNull(window: PeakWindow?, now: ZonedDateTime = ZonedDateTime.now(london)): String? {
+        if (window == null) return null
+        val today = now.withZoneSameInstant(london)
+        val day = window.date?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
+        if (day != null && day != today.toLocalDate()) return null
+        val from = displayClock(window.from)
+        val to = displayClock(window.to)
+        if (to != null) {
+            val end = runCatching { LocalTime.parse(to) }.getOrNull()
+            if (end != null && !today.toLocalTime().isBefore(end)) return null
+        }
+        val clocks = when {
+            from != null && to != null -> "$from–$to"
+            from != null -> from
+            to != null -> to
+            else -> window.label?.takeIf { it.isNotBlank() }
+        } ?: return null
+        val target = window.targetPercent?.let { "$it%" }
+        return listOfNotNull(clocks, target).joinToString(" · ")
     }
 
     fun powerUpWindow(powerUp: PowerUp?, now: ZonedDateTime = ZonedDateTime.now(london)): String =
