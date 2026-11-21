@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21T01:32:13+00:00",
+  "updated_at": "2026-11-21T01:32:19+00:00",
   "timezone": "Europe/London",
   "soc_percent": 4,
   "solar_w": 0,
@@ -21,8 +21,8 @@
     "path": "cold_cloudy_full"
   },
   "next_power_up": null,
-  "last_action": "\ud83c\udf19 01:30 overnight: no free window today\n\ud83d\udd0b SOC 4% house ~514 W\n\u2601\ufe0f Cold 8.1C, cloudy, Solcast x0.65 ~1.2 kWh\n\u26a1 Kept 02:30-05:00 @100% / 6 kW, cleared 15:30-16:00",
-  "updated": "2026-11-21T01:32:13+00:00",
+  "last_action": "\ud83c\udf19 01:30 overnight: no free window today\n\ud83d\udd0b SOC 4% house ~514 W\n\u2601\ufe0f Cold 7.7C, cloudy, Solcast x0.65 ~7.6 kWh\n\u26a1 Kept 02:30-05:00 @100% / 6 kW, cleared 15:30-16:00",
+  "updated": "2026-11-21T01:32:19+00:00",
   "peak_window": null,
   "weather_tomorrow": {
     "code": "cloud",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-09T01:30:33+00:00",
-      "w": -238
-    },
     {
       "t": "2026-11-09T08:20:29+00:00",
       "w": -127
@@ -280,13 +276,13 @@
     {
       "t": "2026-11-21T01:28:38+00:00",
       "w": 0
+    },
+    {
+      "t": "2026-11-21T01:28:38+00:00",
+      "w": 0
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-17T01:03:58+00:00",
-      "soc": 4
-    },
     {
       "t": "2026-11-17T02:04:42+00:00",
       "soc": 4
@@ -398,6 +394,10 @@
     {
       "t": "2026-11-20T14:10:28+00:00",
       "soc": 72
+    },
+    {
+      "t": "2026-11-21T01:28:38+00:00",
+      "soc": 4
     },
     {
       "t": "2026-11-21T01:28:38+00:00",
