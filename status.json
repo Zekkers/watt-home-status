@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-22T07:53:42+00:00",
+  "updated_at": "2026-11-22T14:04:24+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 63,
-  "solar_w": 0,
-  "house_w": 547,
-  "battery_w": -619,
-  "grid_w": -6,
+  "soc_percent": 87,
+  "solar_w": 227,
+  "house_w": 2292,
+  "battery_w": -2198,
+  "grid_w": 9,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-22T07:50:35Z",
+  "sample_time_utc": "2026-11-22T14:00:02Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -20,16 +20,17 @@
     "mins": 120,
     "path": "cold_free_window_cap85"
   },
-  "next_power_up": {
+  "next_power_up": null,
+  "last_action": "\u26a1 14:00 peak check: SOC 87% house ~2292 W (heavy, ~2.2 kW), solar ~227 W; projected 16:00 ~57%, wrote 14:10\u201316:00 cap 75% @6 kW\n\ud83d\udd0b Overnight 03:00\u201305:00 @85% kept; spent 12\u201313 Happy Hour slot cleared; no Power Down found in Gmail (AOL not checked)",
+  "updated": "2026-11-22T14:04:24+00:00",
+  "peak_window": {
     "date": "2026-11-22",
-    "from": "12:00",
-    "to": "13:00",
-    "label": "Happy Hour",
-    "kind": "weekend_happy_hour"
+    "from": "14:10",
+    "to": "16:00",
+    "target_percent": 75,
+    "applied": true,
+    "reason": "14:00 check: SOC 87% but house ~2.2 kW heavy draw, projected 16:00 ~57%; slot 14:10-16:00 cap 75%"
   },
-  "last_action": "\u2705 08:00 check: overnight 03:00\u201305:00 @85%/6 kW ran as planned: SOC 7% to 85% by 05:03 (~10.3 kWh), no hold-at-cap idle\n\ud83d\udd0b SOC 63% house ~547 W solar ~0 W grid ~-6 W; above 20% floor, no inverter write\n\u26a0\ufe0f Min SOC 7% (above 4% EPS floor)\n\u2600\ufe0f Solcast x0.65: Sat 21 no forecast record (actual 7.4 kWh); last-14-day 121%\n\ud83d\udcc5 Sun 22 Nov Happy Hour 12:00\u201313:00 booked, slot 12:00-13:00 @100% in place",
-  "updated": "2026-11-22T07:53:42+00:00",
-  "peak_window": null,
   "weather_tomorrow": {
     "code": "cloud",
     "label": "Sun 22 Nov: cloudy, max 8.3\u00b0C, ~2.6 kWh solar (Solcast \u00d70.65)",
@@ -47,10 +48,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-12T01:32:36+00:00",
-      "w": -726
-    },
     {
       "t": "2026-11-12T08:22:32+00:00",
       "w": -1
@@ -286,13 +283,13 @@
     {
       "t": "2026-11-22T07:50:35+00:00",
       "w": -619
+    },
+    {
+      "t": "2026-11-22T14:00:02+00:00",
+      "w": -2198
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-18T07:05:40+00:00",
-      "soc": 86
-    },
     {
       "t": "2026-11-18T07:51:13+00:00",
       "soc": 81
@@ -408,6 +405,10 @@
     {
       "t": "2026-11-22T07:50:35+00:00",
       "soc": 63
+    },
+    {
+      "t": "2026-11-22T14:00:02+00:00",
+      "soc": 87
     }
   ],
   "booked_power_up": null,
