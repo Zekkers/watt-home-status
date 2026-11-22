@@ -1,41 +1,40 @@
 {
-  "updated_at": "2026-11-21T14:13:15+00:00",
+  "updated_at": "2026-11-22T01:34:41+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 86,
-  "solar_w": 238,
-  "house_w": 2400,
-  "battery_w": -2294,
-  "grid_w": 24,
+  "soc_percent": 9,
+  "solar_w": 0,
+  "house_w": 235,
+  "battery_w": -320,
+  "grid_w": 0,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-21T14:07:47Z",
+  "sample_time_utc": "2026-11-22T01:31:01Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
-    "from": "02:30",
+    "from": "03:00",
     "to": "05:00",
-    "percent_limit": 100,
+    "percent_limit": 85,
     "kw": 6,
     "cleared": false,
-    "kwh": 13,
-    "mins": 150,
-    "path": "cold_100"
+    "kwh": 10.3,
+    "mins": 120,
+    "path": "cold_free_window_cap85"
   },
-  "next_power_up": null,
-  "last_action": "\u26a1 14:00 peak check: SOC 86% house ~2400 W (heavy, ~2.4 kW), solar ~238 W; projected 16:00 ~53%, wrote 14:15\u201316:00 cap 75% @6 kW\n\ud83d\udd0b Overnight 02:30\u201305:00 @100% kept; Sun 22 Nov Happy Hour 12\u201313 booked; no Power Down found in Gmail (AOL not checked)",
-  "updated": "2026-11-21T14:13:15+00:00",
-  "peak_window": {
-    "date": "2026-11-21",
-    "from": "14:15",
-    "to": "16:00",
-    "target_percent": 75,
-    "applied": true,
-    "reason": "14:00 check: SOC 86% but house ~2.4 kW heavy draw, projected 16:00 ~53%; slot 14:15-16:00 cap 75%"
+  "next_power_up": {
+    "date": "2026-11-22",
+    "from": "12:00",
+    "to": "13:00",
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour"
   },
+  "last_action": "\ud83c\udf19 01:30 overnight: Happy Hour 12:00-13:00 today\n\ud83d\udd0b SOC 9% house ~235 W\n\u2601\ufe0f Cold 8.3C, Solcast x0.65 ~2.6 kWh\n\u26a1 03:00-05:00 @85% strict cap, then 12:00-13:00 @100%; cleared 14:15-16:00",
+  "updated": "2026-11-22T01:34:41+00:00",
+  "peak_window": null,
   "weather_tomorrow": {
     "code": "cloud",
-    "label": "Sat 21 Nov: cloudy, max 7.7\u00b0C, ~7.6 kWh solar (Solcast \u00d70.65)",
+    "label": "Sun 22 Nov: cloudy, max 8.3\u00b0C, ~2.6 kWh solar (Solcast \u00d70.65)",
     "source": "Solcast Garage+Home \u00d70.65",
-    "day_pv_kwh_derated": 7.6,
+    "day_pv_kwh_derated": 2.6,
     "derate": 0.65
   },
   "last_savings": {
@@ -48,10 +47,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-10T14:12:04+00:00",
-      "w": -7
-    },
     {
       "t": "2026-11-11T01:30:14+00:00",
       "w": 0
@@ -287,13 +282,13 @@
     {
       "t": "2026-11-21T14:07:47+00:00",
       "w": -2294
+    },
+    {
+      "t": "2026-11-22T01:31:01+00:00",
+      "w": -320
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-17T13:58:18+00:00",
-      "soc": 79
-    },
     {
       "t": "2026-11-18T01:26:35+00:00",
       "soc": 4
@@ -409,6 +404,10 @@
     {
       "t": "2026-11-21T14:07:47+00:00",
       "soc": 86
+    },
+    {
+      "t": "2026-11-22T01:31:01+00:00",
+      "soc": 9
     }
   ],
   "booked_power_up": null,
@@ -429,6 +428,6 @@
     "octopoints_per_kwh": 90
   },
   "free_window_in_progress": false,
-  "weather_note": "Cold-day rule (<12C): charge to 100%; Solcast Garage+Home x0.65; Fri 20 actual 2.7 vs 1.25 derated (216%); last-14-day actual/derated 121%",
+  "weather_note": "Max 8.3C (<12C) cold-day rule branch (b) free-window day (Happy Hour 12-13 booked); Solcast x0.65 ~2.6 kWh (raw 4.0); strict cap 85% 03:00-05:00 (SOC 9% at 01:31; est ~6 kWh drain 05:00-12:00 + 5.7 kWh free hour), then 12:00-13:00 @100%; stale 14:15-16:00 slot cleared",
   "inverter_clock_offset_note": null
 }
