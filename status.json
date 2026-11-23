@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-23T07:50:35+00:00",
+  "updated_at": "2026-11-23T14:06:23+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 62,
-  "solar_w": 0,
-  "house_w": 599,
-  "battery_w": -688,
-  "grid_w": -5,
+  "soc_percent": 52,
+  "solar_w": 403,
+  "house_w": 862,
+  "battery_w": -575,
+  "grid_w": -33,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-23T07:47:53Z",
+  "sample_time_utc": "2026-11-23T13:57:21Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,9 +21,16 @@
     "path": "cold_day_100"
   },
   "next_power_up": null,
-  "last_action": "\u2705 08:00 check: overnight 03:00\u201305:00 @100%/6 kW ran as planned: SOC 4% to 80% by 05:00 (~10.3 kWh), never reached cap so no hold-at-cap idle\n\ud83d\udd0b SOC 62% house ~599 W solar ~0 W grid ~-5 W; above 20% floor, no inverter write\n\u26a0\ufe0f Min SOC 4% (at EPS floor 00:00-03:00, not below)\n\u2600\ufe0f Solcast x0.65: Sun 22 no forecast record (actual 4.0 kWh); last-14-day 121%",
-  "updated": "2026-11-23T07:50:35+00:00",
-  "peak_window": null,
+  "last_action": "\u26a1 14:00 peak check: SOC 52% house ~862 W (heavy, ~2.4 kW), solar ~403 W; projected 16:00 ~53%, wrote 14:15\u201316:00 cap 75% @6 kW\n\ud83d\udd0b Overnight 02:30\u201305:00 @100% kept; Sun 22 Nov Happy Hour 12\u201313 booked; no Power Down found in Gmail (AOL not checked)",
+  "updated": "2026-11-23T14:06:23+00:00",
+  "peak_window": {
+    "date": "2026-11-23",
+    "from": "15:00",
+    "to": "16:00",
+    "target_percent": 75,
+    "applied": true,
+    "reason": "14:00 check: SOC 86% but house ~2.4 kW heavy draw, projected 16:00 ~53%; slot 14:15-16:00 cap 75%"
+  },
   "weather_tomorrow": {
     "code": "rain",
     "label": "Mon 23 Nov: drizzle, max 6\u00b0C, ~6.1 kWh solar (Solcast \u00d70.65)",
@@ -41,10 +48,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-13T01:24:51+00:00",
-      "w": 0
-    },
     {
       "t": "2026-11-13T08:09:43+00:00",
       "w": 204
@@ -280,13 +283,13 @@
     {
       "t": "2026-11-23T07:47:53+00:00",
       "w": -688
+    },
+    {
+      "t": "2026-11-23T13:57:21+00:00",
+      "w": -575
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-19T01:03:39+00:00",
-      "soc": 4
-    },
     {
       "t": "2026-11-19T02:04:23+00:00",
       "soc": 4
@@ -402,6 +405,10 @@
     {
       "t": "2026-11-23T07:47:53+00:00",
       "soc": 62
+    },
+    {
+      "t": "2026-11-23T13:57:21+00:00",
+      "soc": 52
     }
   ],
   "booked_power_up": null,
