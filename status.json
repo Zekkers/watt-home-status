@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-25T14:09:14+00:00",
+  "updated_at": "2026-11-25T17:36:22+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 81,
-  "solar_w": 389,
-  "house_w": 567,
-  "battery_w": -241,
-  "grid_w": -20,
+  "soc_percent": 44,
+  "solar_w": 0,
+  "house_w": 1315,
+  "battery_w": -1447,
+  "grid_w": -11,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-25T14:02:06Z",
+  "sample_time_utc": "2026-11-25T17:29:36Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -21,8 +21,8 @@
     "path": "cold_day_100_soc_start"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 peak check: SOC 81% house ~0.6\u20130.8 kW (no heating spike); projected 16:00 ~77% \u2265 75%, no top-up written\n\ud83d\udd0c Power Down today 16:00\u201317:00 (86 pts/kWh) opted in 14:08; pack ample (~1 kWh needed)\n\ud83d\udd0b Overnight 02:15\u201305:00 @100% kept",
-  "updated": "2026-11-25T14:09:14+00:00",
+  "last_action": "\u26a1 17:30 Power Up check: no new Octopus mail (Gmail + Laura AOL); today's 16:00\u201317:00 Power Down done\n\ud83d\udd0b SOC 44%, overnight 02:15\u201305:00 @100% kept (midnight sizes it)",
+  "updated": "2026-11-25T17:36:22+00:00",
   "peak_window": null,
   "weather_tomorrow": {
     "code": "cloud",
@@ -41,10 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-17T13:58:18+00:00",
-      "w": -65
-    },
     {
       "t": "2026-11-18T01:26:35+00:00",
       "w": 0
@@ -280,13 +276,13 @@
     {
       "t": "2026-11-25T14:02:06+00:00",
       "w": -241
+    },
+    {
+      "t": "2026-11-25T17:29:36+00:00",
+      "w": -1447
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-22T01:31:01+00:00",
-      "soc": 9
-    },
     {
       "t": "2026-11-22T04:58:30+00:00",
       "soc": 84
@@ -402,6 +398,10 @@
     {
       "t": "2026-11-25T14:02:06+00:00",
       "soc": 81
+    },
+    {
+      "t": "2026-11-25T17:29:36+00:00",
+      "soc": 44
     }
   ],
   "booked_power_up": null,
