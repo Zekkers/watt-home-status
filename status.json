@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-25T14:06:27+00:00",
+  "updated_at": "2026-11-25T14:09:14+00:00",
   "timezone": "Europe/London",
   "soc_percent": 81,
   "solar_w": 389,
@@ -21,8 +21,8 @@
     "path": "cold_day_100_soc_start"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 peak check: SOC 81% house ~0.6\u20130.8 kW (no heating spike), solar ~389 W; projected 16:00 ~77% \u2265 75%, no top-up written\n\ud83d\udd0b Overnight 02:15\u201305:00 @100% kept; no Power Down in Gmail (Laura AOL being checked)",
-  "updated": "2026-11-25T14:06:27+00:00",
+  "last_action": "\u26a1 14:00 peak check: SOC 81% house ~0.6\u20130.8 kW (no heating spike); projected 16:00 ~77% \u2265 75%, no top-up written\n\ud83d\udd0c Power Down today 16:00\u201317:00 (86 pts/kWh) opted in 14:08; pack ample (~1 kWh needed)\n\ud83d\udd0b Overnight 02:15\u201305:00 @100% kept",
+  "updated": "2026-11-25T14:09:14+00:00",
   "peak_window": null,
   "weather_tomorrow": {
     "code": "cloud",
@@ -407,12 +407,12 @@
   "booked_power_up": null,
   "booked_happy_hour": null,
   "booked_power_down": {
-    "date": "2026-11-24",
-    "from": "17:00",
-    "to": "18:00",
-    "octopoints_per_kwh": 104,
+    "date": "2026-11-25",
+    "from": "16:00",
+    "to": "17:00",
+    "octopoints_per_kwh": 86,
     "opted_in": true,
-    "session_id": "27520688-34b2-4ff6-a904-077a52a90b22"
+    "session_id": "932f46af-2b28-4401-adf0-19806166af2c"
   },
   "free_window_in_progress": false,
   "weather_note": "Max 6C cold day, no free window: 100% 02:15-05:00 from 5% reached 100% at 05:00; Solcast Garage+Home x0.65 ~2.7 kWh; last-14-day actual/derated 116%",
