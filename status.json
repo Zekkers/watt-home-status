@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-26T01:27:03+00:00",
+  "updated_at": "2026-11-26T07:47:52+00:00",
   "timezone": "Europe/London",
-  "soc_percent": 4,
+  "soc_percent": 79,
   "solar_w": 0,
-  "house_w": 156,
-  "battery_w": 0,
-  "grid_w": -222,
+  "house_w": 648,
+  "battery_w": -746,
+  "grid_w": -5,
   "inverter_status": "Normal",
-  "sample_time_utc": "2026-11-26T01:25:20Z",
+  "sample_time_utc": "2026-11-26T07:44:54Z",
   "inverter": "CH2414G328",
   "target_1600_percent": 75,
   "overnight": {
@@ -16,13 +16,13 @@
     "percent_limit": 100,
     "kw": 6,
     "cleared": false,
-    "kwh": 13.1,
+    "kwh": 15.0,
     "mins": 165,
     "path": "cold_day_100_soc_start"
   },
   "next_power_up": null,
-  "last_action": "\ud83c\udf19 01:30 overnight: no free window today\n\ud83d\udd0b SOC 4% house ~156 W\n\u2601\ufe0f Cold 5.0C, Solcast x0.70 ~1.9 kWh\n\u26a1 02:15-05:00 @100% kept",
-  "updated": "2026-11-26T01:27:03+00:00",
+  "last_action": "\u2705 08:00 check ON PLAN: overnight 02:15\u201305:00 @100%/6 kW went 4%\u219299% (~15 kWh), full ~04:52, no hold-at-cap\n\ud83d\udd0b SOC 79% house ~648 W solar ~0 W; well above 20% floor (cold-day full charge), no inverter write\n\u26a0\ufe0f Min SOC 4% (at EPS floor 00:00\u201302:15, not below)\n\u2600\ufe0f Solcast: Wed 25 actual 6.2 vs 2.73 derated = 227%; last-14-day 123%",
+  "updated": "2026-11-26T07:47:52+00:00",
   "peak_window": null,
   "weather_tomorrow": {
     "code": "cloud",
@@ -41,38 +41,6 @@
     "at": "2026-08-13T15:33:56+01:00"
   },
   "battery_w_series": [
-    {
-      "t": "2026-11-18T04:59:08+00:00",
-      "w": 1087
-    },
-    {
-      "t": "2026-11-18T06:04:56+00:00",
-      "w": -644
-    },
-    {
-      "t": "2026-11-18T07:05:40+00:00",
-      "w": -1190
-    },
-    {
-      "t": "2026-11-18T07:51:13+00:00",
-      "w": -577
-    },
-    {
-      "t": "2026-11-18T13:30:18+00:00",
-      "w": 244
-    },
-    {
-      "t": "2026-11-19T01:23:53+00:00",
-      "w": 0
-    },
-    {
-      "t": "2026-11-19T01:03:39+00:00",
-      "w": 0
-    },
-    {
-      "t": "2026-11-19T02:04:23+00:00",
-      "w": 0
-    },
     {
       "t": "2026-11-19T04:00:47+00:00",
       "w": 5670
@@ -280,41 +248,41 @@
     {
       "t": "2026-11-26T01:25:20+00:00",
       "w": 0
+    },
+    {
+      "t": "2026-11-26T01:00:02+00:00",
+      "w": 0
+    },
+    {
+      "t": "2026-11-26T02:15:57+00:00",
+      "w": 5679
+    },
+    {
+      "t": "2026-11-26T03:06:33+00:00",
+      "w": 5676
+    },
+    {
+      "t": "2026-11-26T04:02:13+00:00",
+      "w": 5673
+    },
+    {
+      "t": "2026-11-26T05:02:57+00:00",
+      "w": -200
+    },
+    {
+      "t": "2026-11-26T06:03:41+00:00",
+      "w": -920
+    },
+    {
+      "t": "2026-11-26T07:04:25+00:00",
+      "w": -1444
+    },
+    {
+      "t": "2026-11-26T07:44:54+00:00",
+      "w": -746
     }
   ],
   "soc_series": [
-    {
-      "t": "2026-11-22T06:04:18+00:00",
-      "soc": 81
-    },
-    {
-      "t": "2026-11-22T07:50:35+00:00",
-      "soc": 63
-    },
-    {
-      "t": "2026-11-22T14:00:02+00:00",
-      "soc": 87
-    },
-    {
-      "t": "2026-11-23T01:28:19+00:00",
-      "soc": 4
-    },
-    {
-      "t": "2026-11-23T01:03:01+00:00",
-      "soc": 4
-    },
-    {
-      "t": "2026-11-23T07:47:53+00:00",
-      "soc": 62
-    },
-    {
-      "t": "2026-11-23T13:57:21+00:00",
-      "soc": 52
-    },
-    {
-      "t": "2026-11-23T13:57:21+00:00",
-      "soc": 52
-    },
     {
       "t": "2026-11-24T01:25:38+00:00",
       "soc": 4
@@ -402,6 +370,38 @@
     {
       "t": "2026-11-26T01:25:20+00:00",
       "soc": 4
+    },
+    {
+      "t": "2026-11-26T01:00:02+00:00",
+      "soc": 4
+    },
+    {
+      "t": "2026-11-26T02:15:57+00:00",
+      "soc": 5
+    },
+    {
+      "t": "2026-11-26T03:06:33+00:00",
+      "soc": 35
+    },
+    {
+      "t": "2026-11-26T04:02:13+00:00",
+      "soc": 70
+    },
+    {
+      "t": "2026-11-26T05:02:57+00:00",
+      "soc": 99
+    },
+    {
+      "t": "2026-11-26T06:03:41+00:00",
+      "soc": 96
+    },
+    {
+      "t": "2026-11-26T07:04:25+00:00",
+      "soc": 85
+    },
+    {
+      "t": "2026-11-26T07:44:54+00:00",
+      "soc": 79
     }
   ],
   "booked_power_up": null,
@@ -415,6 +415,6 @@
     "session_id": "932f46af-2b28-4401-adf0-19806166af2c"
   },
   "free_window_in_progress": false,
-  "weather_note": "Max 5.0C (<12C, Open-Meteo) cold-day rule, branch plain 100% (no free window today; derated PV 1.91 kWh <8, raw 2.73); cap 100%; start sized from SOC 4%: ~13.1 kWh at 5.15 kW +taper = 02:15-05:00 (slot already set, no write needed); Solcast Garage+Home x0.70",
+  "weather_note": "Max 5C cold day, no free window: 100% 02:15-05:00 from 4% reached 99% at ~04:52; immersion ~2.9 kW ran 03:00-05:00 on cheap rate; Solcast Garage+Home x0.70 ~1.9 kWh today; last-14-day actual/derated 123%",
   "inverter_clock_offset_note": null
 }
