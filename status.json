@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T14:13:09+00:00",
+  "updated_at": "2026-11-27T16:02:17+00:00",
   "timezone": "Europe/London",
   "soc_percent": 18,
   "solar_w": 146,
@@ -21,8 +21,8 @@
     "path": "cold_day_100_soc_start"
   },
   "next_power_up": null,
-  "last_action": "\u26a1 14:00 peak check: SOC 19%, house ~1.4 kW heating since 12:00, solar ~200 W; projected 16:00 ~1% \u2192 started top-up 14:10\u201314:55 (ends before Power Down) cap 75% @6 kW\n\ud83d\udd0b Overnight 02:15\u201305:00 @100% kept; \u2b07\ufe0f Power Down today 15:00\u201316:00 @136 pts/kWh, opted in (Laura email YES); pack ~45\u201350% going in",
-  "updated": "2026-11-27T14:13:09+00:00",
+  "last_action": "\u26a1 Happy Hour booked: Sun 29 Nov 12:00\u201313:00 GMT (2 tokens, Octopus confirmed)\n\ud83c\udf19 Sun 01:30 run will cap overnight as a strict ceiling + charge 12\u201313\n\u2b07\ufe0f Today's Power Down 15:00\u201316:00 opted in; top-up 14:10\u201314:55 done",
+  "updated": "2026-11-27T16:02:17+00:00",
   "peak_window": {
     "date": "2026-11-27",
     "from": "14:10",
@@ -412,7 +412,20 @@
     }
   ],
   "booked_power_up": null,
-  "booked_happy_hour": null,
+  "booked_happy_hour": {
+    "date": "2026-11-29",
+    "from": "12:00",
+    "to": "13:00",
+    "label": "Happy Hour",
+    "kind": "weekend_happy_hour",
+    "opted_in": true,
+    "booked": true,
+    "account_id": "A-5314B4CC",
+    "session_id": "c4120534-ba78-440a-bf5b-30e3bebbefc1",
+    "tokens": 2,
+    "timezone": "Europe/London",
+    "note": "Ian chose 12-13 on 27 Nov ~15:58 (heating comes on ~midday); Octopus confirmed 'You've chosen this Happy Hour'. Inverter slot set by Sun 01:30 run."
+  },
   "booked_power_down": {
     "date": "2026-11-27",
     "from": "15:00",
