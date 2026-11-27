@@ -32,7 +32,7 @@ object HomeStatusParser {
             houseW = obj.int("house_w"),
             target1600Percent = obj.int("target_1600_percent"),
             overnight = parseOvernight(obj["overnight"]),
-            peakWindow = obj.string("peak_window"),
+            peakWindow = parsePeakWindow(obj["peak_window"], feedDate(obj)),
             nextPowerUp = parsePowerUp(obj["next_power_up"]),
             lastAction = obj.string("last_action"),
             weatherTomorrow = parseWeather(obj["weather_tomorrow"]),
@@ -69,11 +69,61 @@ object HomeStatusParser {
 
     private fun parseOvernight(element: JsonElement?): Overnight? {
         val nested = element as? JsonObject ?: return null
-        return Overnight(
-            start = nested.string("start"),
-            end = nested.string("end"),
-            capPercent = nested.int("cap_percent")
+        val overnight = Overnight(
+            start = nested.string("from") ?: nested.string("start"),
+            end = nested.string("to") ?: nested.string("end"),
+            capPercent = nested.int("percent_limit") ?: nested.int("cap_percent"),
+            kw = nested.double("kw"),
+            cleared = nested.boolean("cleared")
         )
+        return if (
+            overnight.start == null &&
+            overnight.end == null &&
+            overnight.capPercent == null &&
+            overnight.kw == null &&
+            overnight.cleared == null
+        ) {
+            null
+        } else {
+            overnight
+        }
+    }
+
+    private fun parsePeakWindow(element: JsonElement?, feedDate: String?): PeakWindow? {
+        return when (element) {
+            null, is JsonNull -> null
+            is JsonPrimitive -> {
+                val text = element.contentOrNull?.takeIf { it.isNotBlank() && it != "null" }
+                    ?: return null
+                val clocks = clockWindow.find(text)
+                PeakWindow(
+                    from = clocks?.groupValues?.get(1),
+                    to = clocks?.groupValues?.get(2),
+                    date = feedDate,
+                    label = text
+                )
+            }
+            is JsonObject -> {
+                val window = PeakWindow(
+                    from = element.string("from"),
+                    to = element.string("to"),
+                    targetPercent = element.int("target_percent") ?: element.int("percent_limit"),
+                    date = element.string("date") ?: feedDate,
+                    label = element.string("label")
+                )
+                if (window.from == null && window.to == null && window.label == null) null else window
+            }
+            else -> null
+        }
+    }
+
+    /** London calendar day the feed was written, from `updated_at` or `updated`. */
+    private fun feedDate(obj: JsonObject): String? {
+        val raw = obj.string("updated_at") ?: obj.string("updated") ?: return null
+        return History.timestamp(raw)
+            ?.atZoneSameInstant(StatusFormatter.london)
+            ?.toLocalDate()
+            ?.toString()
     }
 
     private fun parsePowerUp(element: JsonElement?): PowerUp? {
